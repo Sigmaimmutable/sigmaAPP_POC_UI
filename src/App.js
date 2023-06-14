@@ -4,6 +4,7 @@ import './asserts/fonts/fonts.css';
 import './App.scss';
 import SignIn from './Components/SignIn';
 import SignUp from './Components/SignUp';
+import Google from './Components/Google';
 import ResetPassword from './Components/resetPassword';
 import SignInwithEnterpriseSSO from './Components/SignInwithEnterpriseSSO';
 import Dashboard from './Components/Dashboard';
@@ -35,6 +36,7 @@ function App() {
         <Route path="/sign-up" element={ <SignUp/> } />
         <Route path="/reset-password" element={ <ResetPassword /> } />
         <Route path="/sign-in-with-enterprise-sso" element={ <SignInwithEnterpriseSSO /> } />
+        <Route path="/google" element={ <Google /> } />
         <Route path="/account" element={ <Profile /> } />
         <Route path="/" element={ <Dashboard /> } />
         <Route path="/document-details" element={<Document />}>

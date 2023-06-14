@@ -1,10 +1,16 @@
-import { Card, Col, Row } from "react-bootstrap";
+
 import Layout from "./Snippets/Layout";
 import IconDU from '../asserts/images/card-icon-du.svg'
 import { PieChart } from "./Snippets/PieChart";
 import { BarChart } from "./Snippets/BarChart";
-import { useState,useEffect } from "react";
+import { useState,useEffect , useContext} from "react";
 import {OrgAdminmailcheckget} from "../apifunction";
+import { Link,useNavigate,Redirect, useLocation } from "react-router-dom";
+import AuthContext from "./AuthContext";
+import useIdle from "./useIdleTimeout";
+
+import { Container, Modal } from "react-bootstrap";
+import { Col, Row,Button,Alert,Card} from "react-bootstrap";
 
 function Dashboard() {
     const [theme, setThemeColor] = useState('');
@@ -14,6 +20,37 @@ function Dashboard() {
   
     const setTheme = (e) => {
       setThemeColor(e);
+    }
+    const history = useNavigate()
+    const [openModal, setOpenModal] = useState(false)
+        
+    const { logout } = useContext(AuthContext);
+        
+    const handleIdle = () => {
+        setOpenModal(true);
+    }
+    const { idleTimer } = useIdle({ onIdle: handleIdle, idleTime: 5 })
+    
+    const stay = () => {
+        setOpenModal(false)
+        idleTimer.reset()
+    }
+    
+    const handleLogout = () => {
+        logout()
+        setOpenModal(false)
+    } 
+    const logout3=async()=> {                
+        try {
+            localStorage.setItem("Login",false)
+            //await auth.signOut()            
+            history("/sign-up")
+            window.location.reload(false)
+          } catch(e){
+            console.log("Error",e)
+            //setError("Failed to log out")
+          }
+        
     }
   
     // useEffect(() => {
@@ -119,6 +156,23 @@ function Dashboard() {
                         </Card>
                     </Col>
                 </Row>
+                <Modal show={openModal} onHide={stay}>
+        <Modal.Header closeButton>
+          <Modal.Title>Your session is about to expire</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Your session is about to expire. You'll be automatically signed out.</p>
+          <p>Do you want to stay signed in?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={logout3}>
+            Sign out now
+          </Button>
+          <Button variant="primary" onClick={stay}>
+            Stay signed in
+          </Button>
+        </Modal.Footer>
+      </Modal>
             </div>
         </Layout>
      );
