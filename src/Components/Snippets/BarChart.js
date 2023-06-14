@@ -21,7 +21,7 @@ ChartJS.register(
 
 const labels = ['Empty', 'Jan 2023', 'Feb 2023', 'Mar 2023', 'Apr 2023', 'May 2023'];
 
-export function BarChart({theme}) {
+export function BarChart({theme,monthlyData}) {
   
   const getChartBackgroundColor1 = () => {
     if (theme === 'dark') {
@@ -39,37 +39,42 @@ export function BarChart({theme}) {
     }
   };
 
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Documents',
-        data: [180, 320, 210, 75, 140, 245],
-        backgroundColor: getChartBackgroundColor1(),
-      },
-      {
-        label: 'NFTs',
-        data: [50, 150, 80, 30, 50, 92],
-        backgroundColor: getChartBackgroundColor2(),
-      },
-    ],
-  };
-
-  const [chartData, setChartData] = useState(data);
-  const [labelColor, setlabelColor] = useState('#333');
-
-  // Generate random data for the chart
-  const generateChartData = () => {
-    return data;
-  };
+  const [chartData, setChartData] = useState({});
+  const [labelColor, setLabelColor] = useState('#333');
 
   useEffect(() => {
-    // Generate chart data on component mount
-    setChartData(generateChartData());
-    setlabelColor(theme === 'dark' ? 'rgba(255,255,255,0.9)' : '#333')
-  }, [theme]);
+    const generateChartData = () => {
+      if (monthlyData) {
+        const labels = monthlyData.map(record => record.monthYear);
+        const rawDocsData = monthlyData.map(record => record.rawDocs);
+        const iRecDocsData = monthlyData.map(record => record.iRecDocs);
 
-  return <Bar options={{
+        return {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Documents',
+              data: rawDocsData,
+              backgroundColor: getChartBackgroundColor1(),
+            },
+            {
+              label: 'NFTs',
+              data: iRecDocsData,
+              backgroundColor: getChartBackgroundColor2(),
+            },
+          ],
+        };
+      }
+      return {};
+    };
+
+    setChartData(generateChartData());
+    setLabelColor(theme === 'dark' ? 'rgba(255,255,255,0.9)' : '#333');
+  }, [theme, monthlyData]);
+
+
+  return chartData.labels ? (
+  <Bar options={{
     responsive: true,
     plugins: {
       legend: {
@@ -82,10 +87,13 @@ export function BarChart({theme}) {
         x: {
             ticks: {
                 color: '#000'
-            }
-        }
+            },
+        },
       },
       title: false
     },
-  }} data={chartData} />
+  }} data={chartData} 
+  />
+  
+  ) : null;
 }

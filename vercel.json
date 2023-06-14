@@ -1,0 +1,68 @@
+{
+    "rewrites": [
+        {
+            "source": "/platform/v1/userinfo",
+            "destination": "https://testapi.stasisonline.in/platform/v1/userinfo"            
+        },
+        {
+            "source": "/platform/v1/visitinfo",
+            "destination": "https://testapi.stasisonline.in/platform/v1/visitinfo"            
+        },
+        {
+            "source": "/platform/v1/userexists",
+            "destination": "https://testapi.stasisonline.in/platform/v1/userexists"            
+        },
+        {
+            "source": "/platform/v1/templateusage",
+            "destination": "https://testapi.stasisonline.in/platform/v1/templateusage"
+        },
+        {
+            "source": "/platform/v1/uservisitrecord",
+            "destination": "https://testapi.stasisonline.in/platform/v1/uservisitrecord"
+        },
+        {
+            "source": "/platform/v1/payment",
+            "destination": "https://testapi.stasisonline.in/platform/v1/payment"
+        },
+        {
+            "source": "/platform/v1/invoice",
+            "destination": "https://testapi.stasisonline.in/platform/v1/invoice"
+        },
+        {
+            "source": "/platform/v1/generateinvoice",
+            "destination": "https://testapi.stasisonline.in/platform/v1/generateinvoice"
+        },
+        {
+            "source": "/platform/v1/network",
+            "destination": "https://testapi.stasisonline.in/platform/v1/network"
+        },
+        {
+            "source": "/platform/v1/org",
+            "destination": "https://testapi.stasisonline.in/platform/v1/org"
+        },
+        {
+            "source": "/platform/v1/userdetail",
+            "destination": "https://testapi.stasisonline.in/platform/v1/userdetail"
+        },
+        {
+            "source": "/platform/v1/userdetailsid",
+            "destination": "https://testapi.stasisonline.in/platform/v1/userdetailsid"
+        },
+        {
+            "source": "/platform/v1/sigmadocsummary/:id*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/sigmadocsummary/:id*"
+        },
+        {
+            "source": "/platform/v1/sigmadocsummary",
+            "destination": "https://testapi.stasisonline.in/platform/v1/sigmadocsummary"
+        },
+        {
+            "source": "/platform/v1/userdetail/:path*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/userdetail/:path*"
+        },
+        {
+        "source": "/api/v1/consortia/:status*/environments/:type*/services",
+        "destination": "https://console.kaleido.io/api/v1/consortia/:status*/environments/:type*/services"
+        }
+    ]
+}

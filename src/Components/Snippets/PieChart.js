@@ -4,7 +4,7 @@ import { Pie } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export function PieChart({theme}) {
+export function PieChart({theme,data}) {
 
   const getChartBackgroundColor = () => {
     if (theme === 'dark') {
@@ -22,32 +22,43 @@ export function PieChart({theme}) {
     }
   };
   
-  const data = {
-    labels: ['301681', '5935'],
-    datasets: [
-      {
-        label: '# of Votes',
-        data: [301681, 5935],
-        backgroundColor: getChartBackgroundColor(),
-        borderColor: getChartBorderColor(),
-        borderWidth: 4
-      },
-    ],
-  };
+  // const data = {
+  //   labels: ['301681', '5935'],
+  //   datasets: [
+  //     {
+  //       label: '# of Votes',
+  //       data: [301681, 5935],
+  //       backgroundColor: getChartBackgroundColor(),
+  //       borderColor: getChartBorderColor(),
+  //       borderWidth: 4
+  //     },
+  //   ],
+  // };
 
-  const [chartData, setChartData] = useState(data);
-  const [labelColor, setlabelColor] = useState('#333');
-
-  // Generate random data for the chart
   const generateChartData = () => {
-    return data;
+    const labels = data.map(record => record.label);
+    const values = data.map(record => record.value);
+
+    return {
+      labels: labels,
+      datasets: [
+        {
+          data: values,
+          backgroundColor: getChartBackgroundColor(),
+          borderColor: getChartBorderColor(),
+          borderWidth: 4
+        }
+      ]
+    };
   };
+
+  const [chartData, setChartData] = useState(generateChartData());
+  const [labelColor, setLabelColor] = useState('#333');
 
   useEffect(() => {
-    // Generate chart data on component mount
     setChartData(generateChartData());
-    setlabelColor(theme === 'dark' ? 'rgba(255,255,255,0.9)' : '#333')
-  }, [theme]);
+    setLabelColor(theme === 'dark' ? 'rgba(255,255,255,0.9)' : '#333');
+  }, [theme, data]);
 
   return <Pie 
       data={chartData} 
