@@ -1,10 +1,47 @@
 import { Button, Col, Dropdown, Form, InputGroup, Row, Table } from "react-bootstrap";
 import Eye from '../asserts/images/eye-icon.svg'
-import { Link } from "react-router-dom";
+
+import { Link,useNavigate,Redirect, useLocation } from "react-router-dom";
 import { useState } from "react";
+import AuthContext from "./AuthContext";
+import useIdle from "./useIdleTimeout";
+import { useContext } from "react"
+import { Container, Modal } from "react-bootstrap";
+
 
 function DocumentDetails() {
+    const history = useNavigate()
     const [search, setSearch] = useState(false);
+    const [openModal, setOpenModal] = useState(false)
+        
+    const { logout } = useContext(AuthContext);
+        
+    const handleIdle = () => {
+        setOpenModal(true);
+    }
+    const { idleTimer } = useIdle({ onIdle: handleIdle, idleTime: 5 })
+    
+    const stay = () => {
+        setOpenModal(false)
+        idleTimer.reset()
+    }
+    
+    const handleLogout = () => {
+        logout()
+        setOpenModal(false)
+    } 
+    const logout4=async()=> {                
+        try {
+            localStorage.setItem("Login",false)
+            //await auth.signOut()            
+            history("/sign-up")
+            window.location.reload(false)
+          } catch(e){
+            console.log("Error",e)
+            //setError("Failed to log out")
+          }
+        
+    }
     return ( 
         <div>
             <Row className="mb-20">
@@ -347,6 +384,23 @@ function DocumentDetails() {
                 </Table>
             </div>
             {/* /.mb-20 */}
+            <Modal show={openModal} onHide={stay}>
+        <Modal.Header closeButton>
+          <Modal.Title>Your session is about to expire</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Your session is about to expire. You'll be automatically signed out.</p>
+          <p>Do you want to stay signed in?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={logout4}>
+            Sign out now
+          </Button>
+          <Button variant="primary" onClick={stay}>
+            Stay signed in
+          </Button>
+        </Modal.Footer>
+      </Modal>
         </div>
      );
 }

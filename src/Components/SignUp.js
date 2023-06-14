@@ -1,10 +1,13 @@
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { Button, Col, Form, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import Logo from '../asserts/images/logo.svg'
 import Google from '../asserts/images/google-icon.svg'
 import SSO from '../asserts/images/sso-icon.svg'
+import { Link,useNavigate,Redirect, useLocation } from "react-router-dom";
 
 function SignUp() {
+    const history = useNavigate()
+
     return ( 
         <div className="vh-100 d-flex w-100">
             <div className="container py-md-4 py-2 my-auto">
@@ -44,7 +47,11 @@ function SignUp() {
                     <div className='divider d-flex align-items-center'><span className='mx-auto'>Or</span></div>
 
                     <div className='mb-50'>
-                        <Button className='btn-access w-100 mb-2'><img src={Google} alt="Google icon" /> Sign in with Google</Button>
+                        {/* <Button className='btn-access w-100 mb-2'><img src={Google} alt="Google icon" /> Sign in with Google</Button> */}
+                        <Button className='btn-access w-100 mb-2' onClick={() => history('/google')}>
+  <img src={Google} alt="Google icon" /> Sign in with Google
+</Button>
+
                         <Link to="/sign-in-with-enterprise-sso"><Button className='btn-access w-100'><img src={SSO} alt="SSO icon" /> Sign in with Enterprise SSO</Button></Link>
                     </div>
 
