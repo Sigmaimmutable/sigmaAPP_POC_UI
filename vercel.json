@@ -63,6 +63,14 @@
         {
         "source": "/api/v1/consortia/:status*/environments/:type*/services",
         "destination": "https://console.kaleido.io/api/v1/consortia/:status*/environments/:type*/services"
+        },
+        {
+            "source": "/platform/v1/session",
+            "destination": "https://testapi.stasisonline.in/platform/v1/session"
+        },
+        {
+            "source": "/platform/v1/session/:path*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/session/:path*"
         }
     ]
 }

@@ -1,18 +1,47 @@
 import { Button, Col, Dropdown, Form, InputGroup, Row, Tab, Tabs } from "react-bootstrap";
 import Avatar from "../../asserts/images/avartar.png"
-import { Link } from "react-router-dom";
+import { Link,useHistory,useNavigate,Redirect,Navigate} from 'react-router-dom';
+// import { Link } from "react-router-dom";
 import LogoutIcon from "../../asserts/images/logout-icon.svg"
 import { useEffect, useState } from "react";
-
-function Header() {
+import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget,Sessionstatusupdate} from '../../apifunction';
+const Header = () => {
     const [search, setSearch] = useState(false);
     const [menu, setMenu] = useState(false);
-    
+    const [loginstatus, setLoginstatus] = useState("")
+    const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
+    const [Logtime, setLogtime] = useState("")
+    const [logout, setLogout] = useState("")
+    const navigate = useNavigate()
     if(menu){
         document.getElementsByTagName('body')[0].classList.add('submenu');
         setMenu(!menu)
     }
-
+    const Logout = async () =>
+    {  
+        console.log("Logtime12",currentDateTime);
+        let email=localStorage.getItem('UserID')
+        console.log("emailid",email)
+        let [checklogin,loginstauscheck] = await  Sessionstatusget(email);
+       setLoginstatus(loginstauscheck);
+       console.log("logincheck",loginstatus);
+       let sessionlogin= await Sessionstatusupdate("1222","1999","Logout",email);
+       console.log("sessionstatus",sessionlogin);
+       localStorage.setItem("Login",false)
+       localStorage.removeItem('Login');
+       localStorage.setItem("UserID"," ");
+       localStorage.removeItem('UserID')
+           
+       if ( localStorage.getItem('rememberMe')=== true) {
+        localStorage.removeItem('rememberMe');
+      } else {
+        localStorage.removeItem('rememberMe');
+      }
+      navigate('/sign-in');
+       
+      
+       
+    }
     return ( 
         <header className="app-header">
             <div className="container-fluid">
@@ -139,7 +168,7 @@ function Header() {
                                 </div>
                                 <div className="py-2 d-flex align-items-center justify-content-between">
                                     <Link to="/account" className="btn-link">My Account</Link>
-                                    <Button variant="logout"><img src={LogoutIcon} alt="LogoutIcon" /> Sign Out</Button>
+                                    <Button variant="logout" onClick={()=>{Logout()}} ><img src={LogoutIcon} alt="LogoutIcon"/> Sign Out</Button>
                                 </div>
                             </Dropdown.Menu>
                         </Dropdown>
