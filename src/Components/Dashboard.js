@@ -4,7 +4,7 @@ import IconDU from '../asserts/images/card-icon-du.svg'
 import { PieChart } from "./Snippets/PieChart";
 import { BarChart } from "./Snippets/BarChart";
 import { useState,useEffect , useContext} from "react";
-import {OrgAdminmailcheckget} from "../apifunction";
+import {OrgAdminmailcheckget,Userprofileupdate,userprofileget} from "../apifunction";
 import { Link,useNavigate,Redirect, useLocation } from "react-router-dom";
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
@@ -17,7 +17,9 @@ function Dashboard() {
     const [documentsUploadedCount, setDocumentsUploadedCount] = useState(0); // State for documents uploaded
     const [nftsCreatedCount, setNftsCreatedCount] = useState(0); // State for NFTs created
     const [monthlyData, setMonthlyData] = useState([]); // State for monthly data
-  
+    const [UserName,setUserName] = useState("");
+    const [lastname,setlastname] = useState("");
+    const[getIProfile,setgetIProfile]=useState("");  
     const setTheme = (e) => {
       setThemeColor(e);
     }
@@ -52,7 +54,13 @@ function Dashboard() {
           }
         
     }
-  
+    const getprofiledetails = async() =>{
+      let [data,userprofiledetail]=await userprofileget(localStorage.getItem("UserID"));
+      setgetIProfile(userprofiledetail);
+      console.log("userdetail1",userprofiledetail,userprofiledetail.emailId);
+      console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);
+     }
+     useEffect(()=>{getprofiledetails()})
     // useEffect(() => {
     //   // Fetch the raw data records
     //   fetchRawData('543609ec-58ba-4f50-9757-aaf149e5f187');
@@ -105,7 +113,7 @@ function Dashboard() {
             <div className="container-fluid">
                 <Row className="mb-3">
                     <Col md={6} xl={4} xxl={3}>
-                        <h2 className="font-bold">Hi, Asha Latha!</h2>
+                        <h2 className="font-bold">Hi, {getIProfile.firstName}!</h2>
                         <p>Welcome to Sigma! We always appreciate you to stay connected and stay updated on Sigma.</p>
                     </Col>
                 </Row>

@@ -1,5 +1,5 @@
 // import { Link } from 'react-router-dom';
-import { Button, Col, Form, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import { Button, Col, Form, OverlayTrigger, Row, Tooltip ,Alert} from 'react-bootstrap';
 import Logo from '../asserts/images/logo.svg'
 import Google from '../asserts/images/google-icon.svg'
 import SSO from '../asserts/images/sso-icon.svg'
@@ -15,16 +15,68 @@ import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 // import { Container, Modal } from "react-bootstrap";
 // import { Col, Row,Button,Alert} from "react-bootstrap";
+import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 
-import {CreateOrganizationPost,CreateOrguserrolepost,OrgAdminmailcheckget1,Orgadminsignup} from '../apifunction';
+import {CreateOrganizationPost,CreateOrguserrolepost,OrgAdminmailcheckget1,Orgadminsignup,OrgAdminmailcheckget,Userprofileupload,Orguserlogincheck} from '../apifunction';
 
 
 
 function SignUp() {
-    const history = useNavigate()
-
+    const navigate = useNavigate()
+    const [pass, setPass] = useState(true);
+    const [error, setError] = useState("")
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordconfirm, setPasswordconfirm] = useState("");
+    const [firstName, setfirstName] = useState(true);
+    const [lastname, setlastName] = useState(true);
+    const submit = async () =>
+    {       
+      
+     
+         let [emailvalid,data2] = await OrgAdminmailcheckget1(email);
+         console.log("emailvalid1",emailvalid,data2.password);
+        
+         if(emailvalid===true)
+         {
+          if(data2.password===""||data2.password===null||data2.password===undefined||data2.password==="undefined"){
+              if (password!== passwordconfirm) {
+                  //       return setError("Passwords do not match")
+                 
+                  setError("Password mismatch!");
+                   }
+             else{
+              let signupuser=await Orgadminsignup(email,password);
+              console.log("checksignup",signupuser);
+              if(signupuser===true){
+                 let userprofileuploding1 = await Userprofileupload(firstName,lastname,email);
+                  toast.success("Account created Successfully");
+                  navigate('/sign-in');
+                
+                  console.log("Account created Successfully");
+              }
+              else{
+               
+                  setError("Account Already Exists!");
+               
+              }
+          }
+          }
+         else{
+          setError("Account Already Exists");
+       
+         }        
+  
+         }
+         else{
+          setError("InValidUser");
+       
+         }
+    }
     return ( 
         <div className="vh-100 d-flex w-100">
+    <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
+
             <div className="container py-md-4 py-2 my-auto">
                 <div className="user-card overflow-hidden">
                     <div className="user-card-logo text-center"><img className='img-fluid' src={Logo} alt="logo" /></div>
@@ -34,30 +86,35 @@ function SignUp() {
                     </div>
                     {/* mb-4 */}
                     <Row>
+                    {error && <Alert variant="danger">{error}</Alert>}
                         <Col className="mb-2" sm={6} xs={12}>
                             <Form.Group controlId="form.ControlInput1">
                                 <Form.Label className='text-muted'>First Name</Form.Label>
-                                <Form.Control type="text" placeholder="Enter your First Name" />
+                                <Form.Control type="text" onChange={event => setfirstName( event.target.value)} placeholder="Enter your First Name" />
                             </Form.Group>
                         </Col>
                         <Col className="mb-2" sm={6} xs={12}>
                             <Form.Group controlId="form.ControlInput2">
                                 <Form.Label className='text-muted'>Last Name</Form.Label>
-                                <Form.Control type="text" placeholder="Enter your Last Name" />
+                                <Form.Control type="text" onChange={event => setlastName( event.target.value)}placeholder="Enter your Last Name" />
                             </Form.Group>
                         </Col>
                     </Row>
                     <Form.Group className="mb-2" controlId="form.ControlInput3">
                         <Form.Label className='text-muted'>Email</Form.Label>
-                        <Form.Control type="email" placeholder="Enter your email" />
+                        <Form.Control type="email" onChange={event => setEmail( event.target.value)}  placeholder="Enter your email" />
                     </Form.Group>
                     {/* mb-2 */}
                     <Form.Group className="mb-4" controlId="form.ControlInput4">
                         <Form.Label className='text-muted'>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Choose a password (min 10 characters)" />
+                        <Form.Control type="password"  onChange={event => setPassword( event.target.value)} placeholder="Choose a password (min 10 characters)" />
+                    </Form.Group>
+                    <Form.Group className="mb-4" controlId="form.ControlInput4">
+                        <Form.Label className='text-muted'>Confirm Password</Form.Label>
+                        <Form.Control type="password"  onChange={event => setPasswordconfirm( event.target.value)} placeholder="Enter your repeat password" />
                     </Form.Group>
                     {/* mb-2 */}
-                    <Button className='btn-button w-100' variant="dark">Sign in</Button>
+                    <Button className='btn-button w-100' variant="dark"onClick={()=>{submit()}}>Sign in</Button>
 
                     <div className='divider d-flex align-items-center'><span className='mx-auto'>Or</span></div>
 
@@ -83,7 +140,7 @@ function SignUp() {
         console.log("emailvalid1", emailvalid);
         
         if (emailvalid === true) {
-          history("/");
+          navigate("/");
         }
       } catch (error) {
         console.error(error);
