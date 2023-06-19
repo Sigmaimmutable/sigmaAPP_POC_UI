@@ -408,3 +408,122 @@ axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
  
   return userlogincheck;
 }
+export const Userprofileupload = async (Firstname,lastname,emailid) =>
+{       
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  // let userID = localStorage.getItem('UserID');
+  // let connectAddress = localStorage.getItem("walletAddress");
+  let profilepicofuserdefault = "https://gateway.pinata.cloud/ipfs/Qma6vhaA98FmVUMyMUJLvdxVsT2wJJWH5key2gtKr3jftZ?_gl=1*j61wws";
+  
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    //console.log("done1",response.data);
+      // console.log("date",date);
+      const options2 = {
+        method: 'POST',
+        url: '/platform/v1/userprofile',
+        headers: {
+          'x-api-key': `${key}`    
+        },
+        data: {
+          'firstName':`${Firstname}`,
+          'lastName':`${lastname}`,
+          'mobileNumber':"",
+          'profilePic':`${profilepicofuserdefault}`,
+          'gender':"",
+          'state':"",
+          'country':"",
+          'launguage':"",
+          'timeZone':"",
+          'emailId': `${emailid}`,
+           
+           
+        }
+      };
+
+     let userlogincheck ="";
+      try {
+     let response = await axios.request(options2);
+     userlogincheck= await response.data;
+     console.log("response",userlogincheck);
+      }catch(error){
+        console.error("done2",error);
+      }
+    
+     
+      return userlogincheck;
+    
+}
+
+export const Userprofileupdate = async (Firstname,lastname,mobno,Img,gender,state,selectedCountry,launguage,timezone,emailid) =>
+{       
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  // let userID = localStorage.getItem('UserID');
+  // let connectAddress = localStorage.getItem("walletAddress");
+  let profilepicofuserdefault = "https://gateway.pinata.cloud/ipfs/Qma6vhaA98FmVUMyMUJLvdxVsT2wJJWH5key2gtKr3jftZ?_gl=1*j61wws";
+  
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    //console.log("done1",response.data);
+      // console.log("date",date);
+      const options2 = {
+        method: 'PUT',
+        url: '/platform/v1/userprofile',
+        headers: {
+          'x-api-key': `${key}`    
+        },
+        data: {
+          'firstName':`${Firstname}`,
+          'lastName':`${lastname}`,
+          'mobileNumber':`${mobno}`,
+          'profilePic':`${Img}`,
+          'gender':`${gender}`,
+          'state':`${state}`,
+          'country':`${selectedCountry}`,
+          'launguage':`${launguage}`,
+          'timeZone':`${timezone}`,
+          'emailId': `${emailid}`
+           
+           
+        }
+      };
+
+     let userlogincheck ="";
+      try {
+     let response = await axios.request(options2);
+     userlogincheck= await response.data;
+     console.log("response",userlogincheck);
+      }catch(error){
+        console.error("done2",error);
+      }
+    
+     
+      return userlogincheck;
+    
+}
+
+export const userprofileget = async(email) =>{
+   
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+    //Get method start
+    try{
+      let response2 = await fetch(`/platform/v1/userprofile/${email}`, 
+      {
+          headers: {
+              'x-api-key': `${key}`    
+            },
+        }
+        )
+      //console.log(response2);
+      // let response = await axios.request(options2);
+      // tentidresponse= await response.data;
+      // console.log("response",tentidresponse)
+        
+      const data2 = await response2.json();
+      console.log("Api inside", data2)
+      // return {data2};
+      return [true,data2];
+    }catch(err){
+      console.log("vercelerrro",err)
+      return [false,""];
+    }
+     
+}
