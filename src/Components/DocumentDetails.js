@@ -1,18 +1,22 @@
 import { Button, Col, Dropdown, Form, InputGroup, Row, Table } from "react-bootstrap";
 import Eye from '../asserts/images/eye-icon.svg'
-
+import React, { useState, useEffect } from 'react';
 import { Link,useNavigate,Redirect, useLocation } from "react-router-dom";
-import { useState } from "react";
+
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
 import { useContext } from "react"
 import { Container, Modal } from "react-bootstrap";
-
+import { fetchSigmadocByTid,fetchSigmadocdetails } from '../apifunction';
 
 function DocumentDetails() {
     const history = useNavigate()
     const [search, setSearch] = useState(false);
     const [openModal, setOpenModal] = useState(false)
+    const [postDetails, setPostDetails] = useState([]);
+    const [limit, setLimit] = useState(10); // Default limit is 100
+    const [documentDetails, setDocumentDetails] = useState(null);
+    const [sigmaId, setSigmaId] = useState(''); // State variable for sigmaId
         
     const { logout } = useContext(AuthContext);
         
@@ -42,7 +46,28 @@ function DocumentDetails() {
           }
         
     }
-    return ( 
+
+
+    useEffect(() => {
+        const start = '0'; // Provide the desired value for start
+        const tenantId = '543609ec-58ba-4f50-9757-aaf149e5f187'; // Provide the desired value for tenantId
+    
+        fetchSigmadocByTid(start, limit, tenantId)
+          .then(response => {
+            console.log("err", response);
+            // Assuming the response contains the POST method details in the 'data' field
+            setPostDetails(response);
+          })
+          .catch(error => {
+            console.error('Error fetching POST method details:', error);
+          });
+      }, [limit]);
+      console.log("err",postDetails);
+
+      const handleLimitChange = (newLimit) => {
+        setLimit(newLimit);
+      };
+      return ( 
         <div>
             <Row className="mb-20">
                 <Col md={6} xl={4} xxl={3}>
@@ -69,9 +94,9 @@ function DocumentDetails() {
                             Select Rows
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="dropdown-filter">
-                            <Dropdown.Item href="#/action-1">100 Rows</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">500 Rows</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">1000 Rows</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleLimitChange(100)}>100 Rows</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleLimitChange(500)}>500 Rows</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleLimitChange(1000)}>1000 Rows</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Col>
@@ -180,227 +205,52 @@ function DocumentDetails() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td width="84">
-                            <div className="d-flex justify-content-end">
-                                <Form.Check
-                                    className="mb-0 check-single"
-                                    type='checkbox'
-                                    id={`default-9`}
-                                />
-                            </div>
-                        </td>
-                        <td className="text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                            </svg>
-                        </td>
-                        <td className="text-center">17323</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td className="text-center">Approved</td>
-                    </tr>
-                    <tr>
-                        <td width="84">
-                            <div className="d-flex justify-content-end">
-                                <Form.Check
-                                    className="mb-0 check-single"
-                                    type='checkbox'
-                                    id={`default-9`}
-                                />
-                            </div>
-                        </td>
-                        <td className="text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                            </svg>
-                        </td>
-                        <td className="text-center">17323</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td className="text-center"><Link to="/document-details/single">Approved</Link></td>
-                    </tr>
-                    <tr>
-                        <td width="84">
-                            <div className="d-flex justify-content-end">
-                                <Form.Check
-                                    className="mb-0 check-single"
-                                    type='checkbox'
-                                    id={`default-9`}
-                                />
-                            </div>
-                        </td>
-                        <td className="text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                            </svg>
-                        </td>
-                        <td className="text-center">17323</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td className="text-center">Approved</td>
-                    </tr>
-                    <tr>
-                        <td width="84">
-                            <div className="d-flex justify-content-end">
-                                <Form.Check
-                                    className="mb-0 check-single"
-                                    type='checkbox'
-                                    id={`default-9`}
-                                />
-                            </div>
-                        </td>
-                        <td className="text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                            </svg>
-                        </td>
-                        <td className="text-center">17323</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td className="text-center">Approved</td>
-                    </tr>
-                    <tr>
-                        <td width="84">
-                            <div className="d-flex justify-content-end">
-                                <Form.Check
-                                    className="mb-0 check-single"
-                                    type='checkbox'
-                                    id={`default-9`}
-                                />
-                            </div>
-                        </td>
-                        <td className="text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                            </svg>
-                        </td>
-                        <td className="text-center">17323</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td className="text-center">Approved</td>
-                    </tr>
-                    <tr>
-                        <td width="84">
-                            <div className="d-flex justify-content-end">
-                                <Form.Check
-                                    className="mb-0 check-single"
-                                    type='checkbox'
-                                    id={`default-9`}
-                                />
-                            </div>
-                        </td>
-                        <td className="text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                            </svg>
-                        </td>
-                        <td className="text-center">17323</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td className="text-center">Approved</td>
-                    </tr>
-                    <tr>
-                        <td width="84">
-                            <div className="d-flex justify-content-end">
-                                <Form.Check
-                                    className="mb-0 check-single"
-                                    type='checkbox'
-                                    id={`default-9`}
-                                />
-                            </div>
-                        </td>
-                        <td className="text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                            </svg>
-                        </td>
-                        <td className="text-center">17323</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td className="text-center">Approved</td>
-                    </tr>
-                    <tr>
-                        <td width="84">
-                            <div className="d-flex justify-content-end">
-                                <Form.Check
-                                    className="mb-0 check-single"
-                                    type='checkbox'
-                                    id={`default-9`}
-                                />
-                            </div>
-                        </td>
-                        <td className="text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                            </svg>
-                        </td>
-                        <td className="text-center">17323</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td className="text-center">Approved</td>
-                    </tr>
-                    <tr>
-                        <td width="84">
-                            <div className="d-flex justify-content-end">
-                                <Form.Check
-                                    className="mb-0 check-single"
-                                    type='checkbox'
-                                    id={`default-9`}
-                                />
-                            </div>
-                        </td>
-                        <td className="text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                            </svg>
-                        </td>
-                        <td className="text-center">17323</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td className="text-center">Approved</td>
-                    </tr>
-                    <tr>
-                        <td width="84">
-                            <div className="d-flex justify-content-end">
-                                <Form.Check
-                                    className="mb-0 check-single"
-                                    type='checkbox'
-                                    id={`default-9`}
-                                />
-                            </div>
-                        </td>
-                        <td className="text-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                            </svg>
-                        </td>
-                        <td className="text-center">17323</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
-                        <td className="text-center">Approved</td>
-                    </tr>
+                    {postDetails[0]===null||postDetails[0]===""||postDetails[0]===undefined?(<></>):(<>                
+                    {postDetails.map((postt, index) => {
+  if (index < limit) {
+    return (
+      <tr key={index}>
+        <td width="84">
+          <div className="d-flex justify-content-end">
+            <Form.Check
+              className="mb-0 check-single"
+              type='checkbox'
+              id={`default-${index}`}
+            />
+          </div>
+        </td>
+        <td className="text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+          </svg>
+        </td>
+        <td className="text-center">{postt.sigmaId ? postt.sigmaId : ""}</td>
+        <td>{postt.filename__v ? postt.filename__v : ""}</td>
+        <td>{postt.name__v ? postt.name__v : ""}</td>
+        <td className="text-center">
+        {/* <DocumentDetailsSingle x={postt.sigmaId}/> */}
+          {/* <Link to="/document-details/single">{postt.status__v ? postt.status__v : ""}</Link> */}
+          {/* <Link to={`/document-details/single/${postt.sigmaId}`}>
+               {postt.status__v ? postt.status__v : ""}
+              </Link> */}
+              <Link to={{pathname: "/document-details/single",search:`?id=${postt.sigmaId}`}}>{postt.status__v ? postt.status__v : ""}</Link>
+              {/* <Link to="/about?id=123">Go to About</Link> */}
+               {/* return( 
+                                    <DocumentDetailsSingle x={postt.sigmaId}/>) */}
+              {/* <Link to={{ pathname: "/document-details/single", state: { allData: postt.sigmaid } }}><Button variant="blue" className='w-100'> {postt.status__v ? postt.status__v : ""}</Button></Link> */}
+        </td>
+      </tr>
+    );
+  }
+  return null; // Skip rendering for items after the first 10
+})}
+</>)}
+                  
+
                 </tbody>
                 </Table>
             </div>
             {/* /.mb-20 */}
-            <Modal show={openModal} onHide={stay}>
-        <Modal.Header closeButton>
-          <Modal.Title>Your session is about to expire</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Your session is about to expire. You'll be automatically signed out.</p>
-          <p>Do you want to stay signed in?</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={logout4}>
-            Sign out now
-          </Button>
-          <Button variant="primary" onClick={stay}>
-            Stay signed in
-          </Button>
-        </Modal.Footer>
-      </Modal>
         </div>
      );
 }
