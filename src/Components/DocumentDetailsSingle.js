@@ -143,19 +143,19 @@ const DocumentDetailsSingle= (props)=>{
   </tr>
   <tr>
     <th>Document Date</th>
-    <td>{documentDetails?.createdDate}</td>
+    <td>{new Date((documentDetails?.createdDate)/1).toLocaleString()}</td>
   </tr>
   <tr>
     <th>File Modified Date</th>
-    <td>{documentDetails?.createdDate}</td>
+    <td>{new Date((documentDetails?.createdDate)/1).toLocaleString()}</td>
   </tr>
   <tr>
     <th>File Created Date</th>
-    <td>{documentDetails?.createdDate}</td>
+    <td>{new Date((documentDetails?.createdDate)/1).toLocaleString()}</td>
   </tr>
   <tr>
     <th>Document Creation Date</th>
-    <td>{documentDetails?.createdDate}</td>
+    <td>{new Date((documentDetails?.createdDate)/1).toLocaleString()}</td>
   </tr>
   <tr>
     <th>NFT Creation Status</th>
