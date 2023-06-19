@@ -96,6 +96,16 @@
         {
             "source": "/platform/v1/userprofile/:path*",
             "destination": "https://testapi.stasisonline.in/platform/v1/userprofile/:path*"
+        },
+        {
+            "source": "/platform/v1/job",
+            "destination": "https://testapi.stasisonline.in/platform/v1/job"
+        },
+		 
+       
+        {
+            "source": "/platform/v1/finalisedocs",
+            "destination": "https://testapi.stasisonline.in/platform/v1/finalisedocs"
         }
     ]
 }
