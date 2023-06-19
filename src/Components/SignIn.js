@@ -45,7 +45,7 @@ function SignIn() {
             
             localStorage.setItem("Login",true)
             localStorage.setItem("UserID",emailRef);
-          
+            await getprofiledetails(emailRef)
             let [check,rolecheck] = await  OrgAdminmailcheckget1(emailRef);
             console.log("datacheckvalue",rolecheck)
             console.log("Logtime",currentDateTime);
@@ -60,7 +60,7 @@ function SignIn() {
               } else {
                 localStorage.removeItem('rememberMe');
               }
-             await getprofiledetails(emailRef)
+          
             // home
             // history.push("/dashboarduserdetails")
         //   history.push("/home")
