@@ -304,3 +304,52 @@ export const Sessionstatusupdate = async (logintime,logouttime,logstatus,email) 
       return userlogincheck;
     
 }
+export const fetchSigmadocByTid = async (start, limit, tenantId) => {
+  const url = '/platform/v1/sigmadocbytid';
+  const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
+  
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
+  const options = {
+    method: 'POST',
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key
+    },
+    data: {
+      start: start,
+      limit: limit,
+      tenantId: tenantId
+    }
+  };
+
+  try {
+    const response = await axios(options);
+    const sigmadocData = response.data;
+    console.log('Response:', sigmadocData);
+    return sigmadocData;
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+};
+export const fetchSigmadocdetails = async (sigmaId) => {
+  console.log("id", sigmaId);
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  try {
+    const response3 = await fetch(`/platform/v1/sigmadoc/${sigmaId}`, {
+      headers: {
+        'x-api-key': `${key}`
+      },
+    });
+    console.log("response", response3);
+
+    const data = await response3.json();
+    console.log("Api inside", data);
+    return [true, data];
+  } catch (err) {
+    console.log("Error fetching document details:", err);
+    return [false, ""];
+  }
+};
