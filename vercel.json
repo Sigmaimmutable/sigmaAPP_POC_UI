@@ -83,6 +83,10 @@
         {
             "source": "/platform/v1/session/:path*",
             "destination": "https://testapi.stasisonline.in/platform/v1/session/:path*"
+        },
+        {
+            "source": "/platform/v1/resetpassword/:path*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/resetpassword/:path*"
         }
     ]
 }
