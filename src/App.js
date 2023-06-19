@@ -28,6 +28,7 @@ import HelpSupport from './Components/HelpSupport';
 import ImmutableRecordJobs from './Components/ImmutableRecordJobs';
 import UserManagement from './Components/UserManagement';
 import AddUser from './Components/AddUser';
+import User from './Components/User';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/reset-password" element={ <ResetPassword /> } />
         <Route path="/reset-submission" element={ <ResetPasswordSubmit /> } />
         <Route path="/sign-in-with-enterprise-sso" element={ <SignInwithEnterpriseSSO /> } />
+        <Route path="/user" element={ <User /> } /> 
         {/* <Route path="/google" element={ <Google /> } /> */}
         <Route path="/account" element={ <Profile /> } />
         <Route path="/" element={ <Dashboard /> } />
