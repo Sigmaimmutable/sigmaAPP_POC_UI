@@ -25,6 +25,7 @@ const Header = () => {
         setgetIProfile(userprofiledetail);
         console.log("userdetail1",userprofiledetail,userprofiledetail.emailId);
         console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);
+        // localStorage.setItem("UserName",userprofiledetail.firstName);
        }
        useEffect(()=>{getprofiledetails()})
     const Logout = async () =>
@@ -40,8 +41,8 @@ const Header = () => {
        localStorage.setItem("Login",false)
        localStorage.removeItem('Login');
        localStorage.setItem("UserID"," ");
-       localStorage.removeItem('UserID')
-           
+       localStorage.removeItem('UserID');
+       localStorage.removeItem('UserName');
        if ( localStorage.getItem('rememberMe')=== true) {
         localStorage.removeItem('rememberMe');
       } else {
@@ -163,7 +164,7 @@ const Header = () => {
 
                         <Dropdown align={"end"} autoClose="outside">
                             <Dropdown.Toggle variant="ava" className="avatar p-0 border-0 d-flex align-items-center" id="dropdown-basic">
-                                <strong className="d-none d-md-block">{getIProfile.firstName}</strong>
+                                <strong className="d-none d-md-block">{localStorage.getItem("UserName")===""||localStorage.getItem("UserName")===null||localStorage.getItem("UserName")===undefined || !localStorage.getItem("UserName")? "User":localStorage.getItem("UserName")}</strong>
                                 <img src={Avatar} className="shadow" alt="Avatar" />
                             </Dropdown.Toggle>
 
@@ -172,8 +173,8 @@ const Header = () => {
                                     <img src={Avatar} alt="Avatar" />
 
                                     <div className="d-flex flex-column justify-content-between">
-                                        <h6>{getIProfile.firstName}</h6>
-                                        <p>{getIProfile.emailId}</p>
+                                        <h6>{localStorage.getItem("UserName")===""||localStorage.getItem("UserName")===null||localStorage.getItem("UserName")===undefined || !localStorage.getItem("UserName")? "User":localStorage.getItem("UserName")}</h6>
+                                        <p>{localStorage.getItem("UserID")}</p>
                                     </div>
                                 </div>
                                 <div className="py-2 d-flex align-items-center justify-content-between">
