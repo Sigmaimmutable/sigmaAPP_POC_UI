@@ -45,7 +45,9 @@ function SignIn() {
             
             localStorage.setItem("Login",true)
             localStorage.setItem("UserID",emailRef);
-            await getprofiledetails(emailRef)
+            let [data,userprofiledetail]=await userprofileget(emailRef);
+           
+            localStorage.setItem("UserName",userprofiledetail.firstName);
             let [check,rolecheck] = await  OrgAdminmailcheckget1(emailRef);
             console.log("datacheckvalue",rolecheck)
             console.log("Logtime",currentDateTime);
