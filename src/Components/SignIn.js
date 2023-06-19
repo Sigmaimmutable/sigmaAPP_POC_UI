@@ -4,7 +4,7 @@ import { Button, Form, OverlayTrigger, Tooltip,Alert } from 'react-bootstrap';
 import Logo from '../asserts/images/logo.svg'
 import Google from '../asserts/images/google-icon.svg'
 import SSO from '../asserts/images/sso-icon.svg'
-import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget} from '../apifunction';
+import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget,userprofileget} from '../apifunction';
 function SignIn() {
     const [pass, setPass] = useState(true);
     const [Logged, setLogged] = useState(false);
@@ -60,6 +60,7 @@ function SignIn() {
               } else {
                 localStorage.removeItem('rememberMe');
               }
+             await getprofiledetails(emailRef)
             // home
             // history.push("/dashboarduserdetails")
         //   history.push("/home")
@@ -81,6 +82,14 @@ function SignIn() {
           }
        
     }
+    const getprofiledetails = async(email) =>{
+        let [data,userprofiledetail]=await userprofileget(email);
+        // setgetIProfile(userprofiledetail);
+        // console.log("userdetail1",userprofiledetail,userprofiledetail.emailId);
+        // console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);
+        localStorage.setItem("UserName",userprofiledetail.firstName);
+       }
+      
     useEffect(()=>{
         const LoggedNot=async()=>{
             
@@ -88,6 +97,8 @@ function SignIn() {
         }
         LoggedNot()
     },[])
+
+    
     if(loginstatus.activity  === false || loginstatus.activity  === null || loginstatus.activity  === undefined || loginstatus.activity  === "" || loginstatus.activity  === "Logout"){
         return ( 
             <div className="vh-100 d-flex py-md-4 py-2 w-100">

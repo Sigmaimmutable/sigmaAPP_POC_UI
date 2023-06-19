@@ -113,7 +113,7 @@ function Dashboard() {
             <div className="container-fluid">
                 <Row className="mb-3">
                     <Col md={6} xl={4} xxl={3}>
-                        <h2 className="font-bold">Hi, {getIProfile.firstName}!</h2>
+                        <h2 className="font-bold">Hi, {localStorage.getItem("UserName")===""||localStorage.getItem("UserName")===null||localStorage.getItem("UserName")===undefined || !localStorage.getItem("UserName")? "User":localStorage.getItem("UserName")}!</h2>
                         <p>Welcome to Sigma! We always appreciate you to stay connected and stay updated on Sigma.</p>
                     </Col>
                 </Row>
