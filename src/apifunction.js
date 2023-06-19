@@ -304,3 +304,59 @@ export const Sessionstatusupdate = async (logintime,logouttime,logstatus,email) 
       return userlogincheck;
     
 }
+
+export const forgetPasswordMailVerification = async(email) =>{
+
+      axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+      //console.log("done1",response.data);
+        // console.log("date",date);
+        const options2 = {
+          method: 'POST',
+          url: `platform/v1/resetpassword/${email}`,
+        };
+        let MailVerify = false;
+        await axios.request(options2).then(function (response2) {
+         console.log("response",response2);
+         MailVerify = true;
+        //  window.location.reload();
+        }).catch(function (error) {
+            console.error("done2",error);
+            MailVerify = false;
+        });
+     return MailVerify;
+}
+
+export const resetPasswordSubmit = async (email, password, otp) =>
+{       
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  // let userID = localStorage.getItem('UserID');
+  // let connectAddress = localStorage.getItem("walletAddress");
+  // let profilepicofuserdefault = "https://gateway.pinata.cloud/ipfs/Qma6vhaA98FmVUMyMUJLvdxVsT2wJJWH5key2gtKr3jftZ?_gl=1*j61wws";
+  
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    //console.log("done1",response.data);
+      // console.log("date",date);
+      const options2 = {
+        method: 'PUT',
+        url: `platform/v1/resetpassword/${email}`,
+        headers: {
+          'x-api-key': `${key}`    
+        },
+        data: {
+          'emailId':`${email}`,
+          'password':`${password}`,
+          'otp':`${otp}`
+        }
+      };
+
+     let userlogincheck ="";
+      try {
+     let response = await axios.request(options2);
+     userlogincheck= await response.data;
+     console.log("response",userlogincheck);
+      }catch(error){
+        console.error("done2",error);
+      }
+     
+      return userlogincheck;
+}

@@ -1,10 +1,24 @@
+import React, {useState} from 'react';
 import { Button, Form } from 'react-bootstrap';
-import Logo from '../asserts/images/logo.svg'
+import Logo from '../asserts/images/logo.svg';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { forgetPasswordMailVerification } from "../apifunction";
+import { useNavigate } from 'react-router-dom';
 
 function ResetPassword() {
+    const [email, setEmail] = useState();
+
+    const navigate = useNavigate()
     function onChange(value) {
         console.log("Captcha value:", value);
+    }
+    const verifyMail = async() =>
+    {
+        let result = await forgetPasswordMailVerification(email);
+        console.log("result", result);
+        if(result === true);
+            
+        else;
     }
     return ( 
         <div className="vh-100 d-flex py-md-4 py-2 w-100">
@@ -18,17 +32,17 @@ function ResetPassword() {
                     {/* mb-4 */}
                     <Form.Group className="mb-3" controlId="form.ControlInput1">
                         <Form.Label className='text-muted'>Email</Form.Label>
-                        <Form.Control type="email" placeholder="example@me.com" />
+                        <Form.Control type="email" placeholder="Enter your Email-id" onChange={event => setEmail(event.target.value)}/>
                     </Form.Group>
                     {/* mb-3 */}
                     <div className='d-flex mb-4 justify-content-center'>
                         <ReCAPTCHA
-                            sitekey="Your client site key"
+                            sitekey="6LdQ6q0mAAAAACT7MyMX6Cl_wZn1AVL4goqxF-oO"
                             onChange={onChange}
                         />
                     </div>
                     {/* mb-4 */}
-                    <Button className='btn-button w-100' variant="dark">Continue</Button>
+                    <Button className='btn-button w-100' variant="dark" onClick={() => verifyMail()}>Continue</Button>
                 </div>
             </div>
         </div>

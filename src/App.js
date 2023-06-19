@@ -6,7 +6,8 @@ import SignIn from './Components/SignIn';
 import SignUp from './Components/SignUp';
 // import Google from './Components/Google';
 import ResetPassword from './Components/resetPassword';
-import SignInwithEnterpriseSSO from './Components/SignInwithEnterpriseSSO';
+import ResetPasswordSubmit from './Components/resetPasswordSubmit';
+import SignInwithEnterpriseSSO from './Components/SignInwithEnterpriseSSO'; 
 import Dashboard from './Components/Dashboard';
 import Profile from './Components/Profile';
 import DocumentDetails from './Components/DocumentDetails';
@@ -35,6 +36,7 @@ function App() {
         <Route path="/sign-in" element={ <SignIn/> } />
         <Route path="/sign-up" element={ <SignUp/> } />
         <Route path="/reset-password" element={ <ResetPassword /> } />
+        <Route path="/reset-submission" element={ <ResetPasswordSubmit /> } />
         <Route path="/sign-in-with-enterprise-sso" element={ <SignInwithEnterpriseSSO /> } />
         {/* <Route path="/google" element={ <Google /> } /> */}
         <Route path="/account" element={ <Profile /> } />
