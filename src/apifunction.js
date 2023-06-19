@@ -527,3 +527,153 @@ export const userprofileget = async(email) =>{
     }
      
 }
+
+export const getSigmafieldConfig = async (tennatid) =>
+{       
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  // let userID = localStorage.getItem('UserID');
+  // let connectAddress = localStorage.getItem("walletAddress");
+  // let network = "AB";
+  
+  try{
+    let response2 = await fetch(`/platform/v1/sigmafieldconf/${tennatid}`, 
+    {
+        headers: {
+            'x-api-key': `${key}`    
+          },
+      }
+      )
+    //console.log(response2);
+    // let response = await axios.request(options2);
+    // tentidresponse= await response.data;
+    // console.log("response",tentidresponse)
+      
+    const data2 = await response2.json();
+    // console.log("Api inside", data2)
+    // return {data2};
+    return [true,data2];
+  }catch(err){
+    console.log("vercelerrro",err)
+    return [false,""];
+  }
+    
+}
+
+export const getJobList = async (tennatid,start,limit) =>
+{       
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  // let userID = localStorage.getItem('UserID');
+  // let connectAddress = localStorage.getItem("walletAddress");
+  // let network = "AB";
+  
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    //console.log("done1",response.data);
+      // console.log("date",date);
+      const options2 = {
+        method: 'POST',
+        url: '/platform/v1/job',
+        headers: {
+          'x-api-key': `${key}`    
+        },
+        data: {
+          tenantId:tennatid,
+          limit:limit,
+          start:start
+           
+        }
+      };
+
+     let jobsList =[];
+      try {
+        const response = await axios(options2);
+         jobsList = response.data;
+        // console.log('Response:', jobsList);
+      }catch(error){
+        console.error("done2",error);
+      }
+    
+     
+      return jobsList;
+    
+}
+
+export const getJobListImmutable = async (tennatid,start,limit) =>
+{       
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  // let userID = localStorage.getItem('UserID');
+  // let connectAddress = localStorage.getItem("walletAddress");
+  // let network = "AB";
+  
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    //console.log("done1",response.data);
+      // console.log("date",date);
+      const options2 = {
+        method: 'POST',
+        url: '/platform/v1/job',
+        headers: {
+          'x-api-key': `${key}`    
+        },
+        data: {
+          tenantId:tennatid,
+          limit:limit,
+          start:start
+           
+        }
+      };
+
+     let jobsList =[];
+      try {
+        const response = await axios(options2);
+         let jobsLists = response.data;
+         jobsLists.map((r,i)=>{
+          if(r.jobName === "MAKE_IREC"){
+            jobsList.push(r);
+          }
+          console.log("datasr",jobsList)
+         })
+        // console.log('Response:', jobsList);
+      }catch(error){
+        console.error("done2",error);
+      }
+    
+     
+      return jobsList;
+    
+}
+
+export const executeJobListImmutable = async () =>
+{       
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  // let userID = localStorage.getItem('UserID');
+  // let connectAddress = localStorage.getItem("walletAddress");
+  // let network = "AB";
+  
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    //console.log("done1",response.data);
+      // console.log("date",date);
+      const options2 = {
+        method: 'POST',
+        url: '/platform/v1/finalisedocs',
+        headers: {
+          'x-api-key': `${key}`    
+        },
+        data: {
+          
+           
+        }
+      };
+
+     let jobsList ;
+      try {
+        const response = await axios(options2);
+        jobsList = response.data;
+         
+        console.log('Response:', jobsList);
+      }catch(error){
+        console.error("done2",error);
+      }
+    
+     
+      return jobsList;
+    
+}

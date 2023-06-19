@@ -2,7 +2,8 @@ import { Button, Col, Dropdown, Form, InputGroup, Modal, Row, Table } from "reac
 import Eye from '../asserts/images/eye-icon.svg'
 import Question from '../asserts/images/question-icon.svg'
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {  executeJobListImmutable, getJobListImmutable } from "../apifunction";
 
 function ImmutableRecordJobs() {
     const [search, setSearch] = useState(false);
@@ -10,6 +11,39 @@ function ImmutableRecordJobs() {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [selectedColumns, setSelectedColumns] = useState([]);
+    const [jobLists, setjobList] = useState([]);
+    const [StartValue, setStartValue] = useState(0);
+    const [limit, setlimit] = useState(100);
+
+
+    useEffect(() =>{
+        const jobfetch = async() =>{
+            await getJobListImmutable('543609ec-58ba-4f50-9757-aaf149e5f187',StartValue,limit).then((response)=>
+            // console.log("response",response)
+            setjobList(response)
+
+            );
+        }
+        jobfetch();
+    }, [])
+
+    const runJob = async() =>{
+        await executeJobListImmutable();
+        handleClose();
+        window.location.reload();
+    }
+
+    const paginationProcess = async(start) =>{
+        await getJobListImmutable('543609ec-58ba-4f50-9757-aaf149e5f187',start,limit).then((response)=>
+        // console.log("response",response)
+        setjobList(response)
+        
+        )
+        setStartValue(start);
+    }
+
     return ( 
         <div>
             <Row className="mb-20">
@@ -64,7 +98,7 @@ function ImmutableRecordJobs() {
                     <h6>Are you sure you want to execute this action?</h6>
 
                     <div className="d-flex pt-4 align-items-center justify-content-center">
-                        <Button type="submit" variant="dark" className="btn-button btn-sm" onClick={handleClose}>Yes</Button>
+                        <Button type="submit" variant="dark" className="btn-button btn-sm" onClick={()=>runJob()}>Yes</Button>
                         <Button type="reset" variant="outline-dark" className="btn-button btn-sm ms-3" onClick={handleClose}>No</Button>
                     </div>
                 </Modal.Body>
@@ -157,7 +191,12 @@ function ImmutableRecordJobs() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        {jobLists[0] === null || jobLists[0] === "" || jobLists[0] === undefined ?
+                        (<></>):(<>
+                        {jobLists.map((r,i) =>{
+                            return(
+                                <>
+                                 <tr>
                             <td width="84">
                                 <div className="d-flex justify-content-end">
                                     <Form.Check
@@ -167,104 +206,20 @@ function ImmutableRecordJobs() {
                                     />
                                 </div>
                             </td>
-                            <td className="text-center">17323</td>
+                            <td className="text-center">{r.id}</td>
                             <td className="text-center">Resource persist job</td>
-                            <td className="text-center">Queen_Admin</td>
-                            <td className="text-center">King</td>
-                            <td className="text-center">2023-03-28</td>
-                            <td className="text-center">2023-03-28</td>
-                            <td className="text-center">Completed</td>
+                            <td className="text-center">{r.jobRunByUser}</td>
+                            <td className="text-center">{r.companyCode}</td>
+                            <td className="text-center">{r.runStartTime}</td>
+                            <td className="text-center">{r.runCompletionTime}</td>
+                            <td className="text-center">Pending</td>
                         </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-9`}
-                                    />
-                                </div>
-                            </td>
-                            <td className="text-center">17323</td>
-                            <td className="text-center">Resource persist job</td>
-                            <td className="text-center">Queen_Admin</td>
-                            <td className="text-center">King</td>
-                            <td className="text-center">2023-03-28</td>
-                            <td className="text-center">2023-03-28</td>
-                            <td className="text-center">Completed</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-9`}
-                                    />
-                                </div>
-                            </td>
-                            <td className="text-center">17323</td>
-                            <td className="text-center">Resource persist job</td>
-                            <td className="text-center">Queen_Admin</td>
-                            <td className="text-center">King</td>
-                            <td className="text-center">2023-03-28</td>
-                            <td className="text-center">2023-03-28</td>
-                            <td className="text-center">Completed</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-9`}
-                                    />
-                                </div>
-                            </td>
-                            <td className="text-center">17323</td>
-                            <td className="text-center">Resource persist job</td>
-                            <td className="text-center">Queen_Admin</td>
-                            <td className="text-center">King</td>
-                            <td className="text-center">2023-03-28</td>
-                            <td className="text-center">2023-03-28</td>
-                            <td className="text-center">Completed</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-9`}
-                                    />
-                                </div>
-                            </td>
-                            <td className="text-center">17323</td>
-                            <td className="text-center">Resource persist job</td>
-                            <td className="text-center">Queen_Admin</td>
-                            <td className="text-center">King</td>
-                            <td className="text-center">2023-03-28</td>
-                            <td className="text-center">2023-03-28</td>
-                            <td className="text-center">Completed</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-9`}
-                                    />
-                                </div>
-                            </td>
-                            <td className="text-center">17323</td>
-                            <td className="text-center">Resource persist job</td>
-                            <td className="text-center">Queen_Admin</td>
-                            <td className="text-center">King</td>
-                            <td className="text-center">2023-03-28</td>
-                            <td className="text-center">2023-03-28</td>
-                            <td className="text-center">Completed</td>
-                        </tr>
+                                </>
+                            )
+                        })}
+                        </>)}
+                       
+                      
                     </tbody>
                 </Table>
 
@@ -290,14 +245,14 @@ function ImmutableRecordJobs() {
                                     </svg>
                                 </Link>
                             </li>
-                            <li><Link className="active" to="/">1</Link></li>
-                            <li><Link to="/">2</Link></li>
-                            <li><Link to="/">3</Link></li>
-                            <li><Link to="/">4</Link></li>
-                            <li><Link to="/">5</Link></li>
-                            <li><Link to="/">6</Link></li>
+                            <li><Link className={StartValue === 0 ? 'active' : ''} onClick={()=>paginationProcess(0)}>1</Link></li>
+                            <li><Link className={StartValue === 101 ? 'active' : ''}  onClick={()=>paginationProcess(101)}>2</Link></li>
+                            <li><Link className={StartValue === 201 ? 'active' : ''}  onClick={()=>paginationProcess(201)}>3</Link></li>
+                            <li><Link className={StartValue === 301 ? 'active' : ''} onClick={()=>paginationProcess(301)}>4</Link></li>
+                            <li><Link className={StartValue === 401 ? 'active' : ''} onClick={()=>paginationProcess(401)}>5</Link></li>
+                            <li><Link className={StartValue === 501 ? 'active' : ''} onClick={()=>paginationProcess(501)}>6</Link></li>
                             <li>
-                                <Link to="/" className="next">
+                                <Link onClick={()=>paginationProcess(StartValue+100)} className="next">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                         <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                     </svg>
