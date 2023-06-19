@@ -57,6 +57,18 @@
             "destination": "https://testapi.stasisonline.in/platform/v1/sigmadocsummary"
         },
         {
+            "source": "/platform/v1/sigmadocbytid",
+            "destination": "https://testapi.stasisonline.in/platform/v1/sigmadocbytid"
+        },
+        {
+            "source": "/platform/v1/sigmadoc/:sigmaId*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/sigmadoc/:sigmaId*"
+        },
+        {
+            "source": "/platform/v1/sigmadoc",
+            "destination": "https://testapi.stasisonline.in/platform/v1/sigmadoc"
+        },
+        {
             "source": "/platform/v1/userdetail/:path*",
             "destination": "https://testapi.stasisonline.in/platform/v1/userdetail/:path*"
         },
