@@ -4,6 +4,9 @@ import { Button, Form, OverlayTrigger, Tooltip,Alert } from 'react-bootstrap';
 import Logo from '../asserts/images/logo.svg'
 import Google from '../asserts/images/google-icon.svg'
 import SSO from '../asserts/images/sso-icon.svg'
+
+import { GoogleLoginButton } from "react-social-login-buttons";
+import { LoginSocialGoogle } from "reactjs-social-login";
 import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget,userprofileget} from '../apifunction';
 function SignIn() {
     const [pass, setPass] = useState(true);
@@ -143,8 +146,33 @@ function SignIn() {
                         <div className='divider d-flex align-items-center'><span className='mx-auto'>Or</span></div>
     
                         <div className='mb-50'>
-                            <Button className='btn-access w-100 mb-2'><img src={Google} alt="Google icon" /> Sign in with Google</Button>
-                            <Button className='btn-access w-100'><img src={SSO} alt="SSO icon" /> Sign in with Enterprise SSO</Button>
+                        <Button className='btn-access w-100 mb-2'>
+  <LoginSocialGoogle
+    client_id="308436375718-6q7sm9h4gmcm6l5901uv1s523ppoidvi.apps.googleusercontent.com"
+    scope="openid profile email"
+    discoveryDocs="claims_supported"
+    access_type="offline"
+    onResolve={async ({ provider, data }) => {
+      console.log("provider", provider, data.email);
+      try {
+        let [emailvalid, data2] = await OrgAdminmailcheckget1(data.email);
+        console.log("emailvalid1", emailvalid);
+        
+        if (emailvalid === true) {
+          navigate("/");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }}
+    onReject={(err) => {
+      console.log(err);
+    }}
+  >
+    <img src={Google} alt="Google icon" /> Sign in with Google
+  </LoginSocialGoogle>
+</Button>  <Link to="/sign-in-with-enterprise-sso"><Button className='btn-access w-100'><img src={SSO} alt="SSO icon" /> Sign in with Enterprise SSO</Button></Link>
+                            {/* <Button className='btn-access w-100'><img src={SSO} alt="SSO icon" /> Sign in with Enterprise SSO</Button> */}
                         </div>
     
                         <div className='d-flex user-card-footer align-items-center justify-content-center'>
