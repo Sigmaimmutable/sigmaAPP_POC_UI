@@ -4,7 +4,8 @@ import Check from '../asserts/images/check_icon.svg'
 import Wallet from '../asserts/images/wallet-icon.svg'
 import RestAPI from '../asserts/images/rest_api.svg'
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { OrgAdminmailcheckget2 } from "../apifunction";
 
 function Admin() {
     const [showA, setShowA] = useState(false);
@@ -14,8 +15,27 @@ function Admin() {
         setShowA(false)
     }, 1200)
 
+    const data = async()=>
+{
+  
+    let id = "543609ec-58ba-4f50-9757-aaf149e5f187";
+    let [check, data2] = await OrgAdminmailcheckget2(id);
+    console.log("valid2", check);
+  
+    // console.log("hlo1", data2[0].status)
+    
+
+    // console.log("hlo2", data2[0].id)
+    // console.log("hlo3", data2[0].smartContractDefaultWalletAddress)
+     
+    
+
+}
+useEffect(( )=>{data()},[])
+
     return ( 
         <div>
+              
             <ToastContainer 
                 position={"bottom-end"}
                 className="p-3 position-fixed"
@@ -56,6 +76,7 @@ function Admin() {
                     <Card>
                         <Table hover responsive>
                             <tbody>
+                           
                                 <tr>
                                     <td>Name</td>
                                     <td>peAPI1</td>
@@ -83,7 +104,9 @@ function Admin() {
                                     </td>
                                 </tr>
                                 <tr>
+                                
                                     <td>Status</td>
+                                   
                                     <td><Badge pill bg="success"><img src={Check} alt="Check" /> Started</Badge></td>
                                     <td>
                                     </td>
