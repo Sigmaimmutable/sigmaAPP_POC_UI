@@ -89,7 +89,7 @@ const oktaAuth = new OktaAuth({
             <Form.Group className="mb-5" controlId="form.ControlInput1">
               <Form.Control
                 type="password"
-                placeholder="1234"
+                placeholder="Enter a Password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
               />
