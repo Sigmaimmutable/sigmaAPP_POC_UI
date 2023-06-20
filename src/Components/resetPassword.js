@@ -4,6 +4,8 @@ import Logo from '../asserts/images/logo.svg';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { forgetPasswordMailVerification } from "../apifunction";
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 function ResetPassword() {
     const [email, setEmail] = useState();
@@ -15,13 +17,15 @@ function ResetPassword() {
     const verifyMail = async() =>
     {
         let result = await forgetPasswordMailVerification(email);
-        console.log("result", result);
-        if(result === true);
-            
-        else;
+        // console.log("result", result);
+        if(result === true)
+            toast.success("Please check your E-mail");
+        else
+            toast.error("This E-mail does not have an account, Please create an account");
     }
     return ( 
         <div className="vh-100 d-flex py-md-4 py-2 w-100">
+            <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
             <div className="container my-auto">
                 <div className="user-card overflow-hidden">
                     <div className="user-card-logo text-center"><img className='img-fluid' src={Logo} alt="logo" /></div>
@@ -43,6 +47,7 @@ function ResetPassword() {
                     </div>
                     {/* mb-4 */}
                     <Button className='btn-button w-100' variant="dark" onClick={() => verifyMail()}>Continue</Button>
+                    <br/><center><Link to="/sign-in">Go to sign-in</Link></center>
                 </div>
             </div>
         </div>

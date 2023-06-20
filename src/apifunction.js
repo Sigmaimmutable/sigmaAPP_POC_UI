@@ -353,6 +353,7 @@ export const fetchSigmadocdetails = async (sigmaId) => {
     return [false, ""];
   }
 };
+
 export const forgetPasswordMailVerification = async(email) =>{
 
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
@@ -363,9 +364,10 @@ export const forgetPasswordMailVerification = async(email) =>{
       url: `platform/v1/resetpassword/${email}`,
     };
     let MailVerify = false;
-    await axios.request(options2).then(function (response2) {
+    await axios.request(options2).then(async function (response2) {
      console.log("response",response2);
-     MailVerify = true;
+     let present = await userDetailWithEmail(email)
+     MailVerify = present[0];
     //  window.location.reload();
     }).catch(function (error) {
         console.error("done2",error);
@@ -397,16 +399,17 @@ axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
     }
   };
 
- let userlogincheck ="";
+  let MailVerify = false;
   try {
- let response = await axios.request(options2);
- userlogincheck= await response.data;
- console.log("response",userlogincheck);
+    let response = await axios.request(options2);
+    MailVerify = true;
+    console.log("response",response);
   }catch(error){
     console.error("done2",error);
+    MailVerify = false;
   }
  
-  return userlogincheck;
+  return MailVerify;
 }
 export const Userprofileupload = async (Firstname,lastname,emailid) =>
 {       
@@ -675,5 +678,25 @@ export const executeJobListImmutable = async () =>
     
      
       return jobsList;
+    
+}
+
+export const userDetailWithEmail = async (emailid) =>
+{       
+  try{
+    let response2 = await fetch(`/platform/v1/userdetail/${emailid}`)
+    //console.log(response2);
+    // let response = await axios.request(options2);
+    // tentidresponse= await response.data;
+    // console.log("response",tentidresponse)
+      
+    const data2 = await response2.json();
+    // console.log("Api inside", data2)
+    // return {data2};
+    return [true, data2];
+  }catch(err){
+    console.log("vercelerrro",err)
+    return [false, ""];
+  }
     
 }
