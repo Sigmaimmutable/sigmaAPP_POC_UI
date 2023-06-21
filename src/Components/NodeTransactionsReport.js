@@ -1,10 +1,62 @@
 import { Button, Col, Dropdown, Form, InputGroup, Row, Table } from "react-bootstrap";
 import Eye from '../asserts/images/eye-icon.svg'
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getTransaction } from "../apifunction";
 
 function NodeTransactionsReport() {
     const [search, setSearch] = useState(false);
+
+    const [StartValue, setStartValue] = useState(0);
+    const [limit, setlimit] = useState(10);
+    const [txh, setTxh] = useState([]);
+
+    const getTransc = async() =>{
+        if(limit == 10){
+            let tx = await getTransaction(StartValue,limit,"543609ec-58ba-4f50-9757-aaf149e5f187");
+            // console.log("txhistory",tx)
+            setTxh(tx);
+        }
+        
+    }
+    useEffect(() =>{getTransc()},[])
+
+
+    const formatTime = (time) =>{
+        let date = new Date(time);
+
+        // Format the date and time using the toLocaleString method
+        let formatted = date.toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        timeZoneName: "short"
+        });
+
+        // Display the formatted date and time
+        // console.log(formatted);
+        return formatted;
+    }
+
+    const pagination = async(value) =>{
+        setStartValue(value);
+        let tx = await getTransaction(value,limit,"543609ec-58ba-4f50-9757-aaf149e5f187");
+        // console.log("txhistory",tx)
+        setTxh(tx);
+    }
+
+    // const selectrow = async(value) =>{
+    //     let tx = await getTransaction(StartValue,value,"543609ec-58ba-4f50-9757-aaf149e5f187");
+    //     // console.log("txhistory",tx)
+    //     setTxh(tx);
+    //     // setlimit(value);
+    //     selectrow(true);
+
+    // }
+
     return ( 
         <div>
             <Row className="mb-20">
@@ -125,7 +177,7 @@ function NodeTransactionsReport() {
                                 </div>
                             </th>
                             <th className="text-center">Address</th>
-                            <th className="text-center">Topics</th>
+                            <th className="text-center">Time</th>
                             <th className="text-center">Data</th>
                             <th className="text-center">Block Number</th>
                             <th className="text-center">Transaction Hash</th>
@@ -134,7 +186,12 @@ function NodeTransactionsReport() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        {txh[0] === null || txh[0] === "" || txh[0] === undefined || txh[0] === "undefined" ?
+                        (<></>) :
+                        (<>
+                        {txh.map((r,i)=>{
+                            return(<>
+                            <tr>
                             <td width="84">
                                 <div className="d-flex justify-content-end">
                                     <Form.Check
@@ -144,158 +201,19 @@ function NodeTransactionsReport() {
                                     />
                                 </div>
                             </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-center">308875</td>
-                            <td className="text-center"></td>
-                            <td className="text-center"></td>
-                            <td className="text-center text-truncate">0x3b505569f1ec7bfcsfkjfbcsjbvhjsvbjhsnjx vhjsdbvhjsbvhjsbjhvbshjVbf44</td>
+                            <td>{(r.from).substring(0, 5)}...{(r.from).substring((r.from).length - 5)}</td>
+                            <td>{formatTime(r.timestamp)}</td>
+                            <td>{r.logs[0].data}</td>
+                            <td className="text-center">{r.blockNumber}</td>
+                            <td className="text-center">{(r.hash).substring(0, 5)}...{(r.hash).substring((r.hash).length - 5)}</td>
+                            <td className="text-center">{r.index}</td>
+                            <td className="text-center text-truncate"> {(r.blockHash).substring(0, 5)}...{(r.blockHash).substring((r.blockHash).length - 5)}</td>
                         </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-10`}
-                                    />
-                                </div>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-center">308875</td>
-                            <td className="text-center"></td>
-                            <td className="text-center"></td>
-                            <td className="text-center text-truncate">0x3b505569f1ec7bfcsfkjfbcsjbvhjsvbjhsnjx vhjsdbvhjsbvhjsbjhvbshjVbf44</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-11`}
-                                    />
-                                </div>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-center">308875</td>
-                            <td className="text-center"></td>
-                            <td className="text-center"></td>
-                            <td className="text-center text-truncate">0x3b505569f1ec7bfcsfkjfbcsjbvhjsvbjhsnjx vhjsdbvhjsbvhjsbjhvbshjVbf44</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-12`}
-                                    />
-                                </div>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-center">308875</td>
-                            <td className="text-center"></td>
-                            <td className="text-center"></td>
-                            <td className="text-center text-truncate">0x3b505569f1ec7bfcsfkjfbcsjbvhjsvbjhsnjx vhjsdbvhjsbvhjsbjhvbshjVbf44</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-13`}
-                                    />
-                                </div>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-center">308875</td>
-                            <td className="text-center"></td>
-                            <td className="text-center"></td>
-                            <td className="text-center text-truncate">0x3b505569f1ec7bfcsfkjfbcsjbvhjsvbjhsnjx vhjsdbvhjsbvhjsbjhvbshjVbf44</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-14`}
-                                    />
-                                </div>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-center">308875</td>
-                            <td className="text-center"></td>
-                            <td className="text-center"></td>
-                            <td className="text-center text-truncate">0x3b505569f1ec7bfcsfkjfbcsjbvhjsvbjhsnjx vhjsdbvhjsbvhjsbjhvbshjVbf44</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-15`}
-                                    />
-                                </div>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-center">308875</td>
-                            <td className="text-center"></td>
-                            <td className="text-center"></td>
-                            <td className="text-center text-truncate">0x3b505569f1ec7bfcsfkjfbcsjbvhjsvbjhsnjx vhjsdbvhjsbvhjsbjhvbshjVbf44</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-16`}
-                                    />
-                                </div>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-center">308875</td>
-                            <td className="text-center"></td>
-                            <td className="text-center"></td>
-                            <td className="text-center text-truncate">0x3b505569f1ec7bfcsfkjfbcsjbvhjsvbjhsnjx vhjsdbvhjsbvhjsbjhvbshjVbf44</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-17`}
-                                    />
-                                </div>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-center">308875</td>
-                            <td className="text-center"></td>
-                            <td className="text-center"></td>
-                            <td className="text-center text-truncate">0x3b505569f1ec7bfcsfkjfbcsjbvhjsvbjhsnjx vhjsdbvhjsbvhjsbjhvbshjVbf44</td>
-                        </tr>
+                            </>)
+                        })}
+                        </>)}
+                        
+                        
                     </tbody>
                 </Table>
 
@@ -306,11 +224,11 @@ function NodeTransactionsReport() {
                             <Dropdown.Toggle variant="gray" id="dropdown-basic">
                                 Select Rows
                             </Dropdown.Toggle>
-                            <Dropdown.Menu className="dropdown-filter">
-                                <Dropdown.Item href="#/action-1">100 Rows</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">500 Rows</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">1000 Rows</Dropdown.Item>
-                            </Dropdown.Menu>
+                            {/* <Dropdown.Menu className="dropdown-filter">
+                                <Dropdown.Item onClick={()=>selectrow(25)}>25 Rows</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>selectrow(50)}>50 Rows</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>selectrow(100)}>100 Rows</Dropdown.Item>
+                            </Dropdown.Menu> */}
                         </Dropdown>
                     </Col>
                     <Col md={8} className="d-flex justify-content-md-end justify-content-center">
@@ -322,14 +240,14 @@ function NodeTransactionsReport() {
                                     </svg>
                                 </Link>
                             </li>
-                            <li><Link className="active" to="/">1</Link></li>
-                            <li><Link to="/">2</Link></li>
-                            <li><Link to="/">3</Link></li>
-                            <li><Link to="/">4</Link></li>
-                            <li><Link to="/">5</Link></li>
-                            <li><Link to="/">6</Link></li>
+                            <li><Link className="active" onClick={()=>pagination(0)}>1</Link></li>
+                            <li><Link onClick={()=>pagination(11)}>2</Link></li>
+                            <li><Link onClick={()=>pagination(21)}>3</Link></li>
+                            <li><Link onClick={()=>pagination(31)}>4</Link></li>
+                            <li><Link onClick={()=>pagination(41)}>5</Link></li>
+                            <li><Link onClick={()=>pagination(51)}>6</Link></li>
                             <li>
-                                <Link to="/" className="next">
+                                <Link onClick={()=>pagination(StartValue+10)} className="next">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                         <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                     </svg>

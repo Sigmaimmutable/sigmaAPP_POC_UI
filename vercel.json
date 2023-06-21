@@ -116,5 +116,14 @@
             "source": "/platform/v1/userdetailsid/:path*",
             "destination": "https://testapi.stasisonline.in/platform/v1/userdetailsid/:path*"
         }
+        ,
+        {
+            "source": "/platform/v1/sigmanodesummary/:path*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/sigmanodesummary/:path*"
+        },
+        {
+            "source": "/platform/v1/tx",
+            "destination": "https://testapi.stasisonline.in/platform/v1/tx"
+        }
     ]
 }

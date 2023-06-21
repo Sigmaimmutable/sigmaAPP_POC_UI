@@ -50,33 +50,87 @@ console.log("Selectedcolm",Selectedcolm)
     // const data = ['Filename_ _v', 'Version_id', 'Status_ _v', 'Column 4', 'Column 5', 'Column 6', 'Column 7', 'Column 8', 'Column 9', 'Column 10', 'Column 11', 'Column 12'];
 
 
-    const handlefatch = () => {
-        console.log("selecetd",selectedValues)
-        setSelectedColumns(selectedValues)
+    const handlefatch = (selvalues) => {
+        console.log("selecetd",selvalues)
+        setSelectedColumns(selvalues)
         setShow(false);
         
         let s = [];
         
             jobLists.map((r,i) =>{                
                 let k =[];
-                if(r.jobName === "DOC_FETCH"){
+                // if(r.jobName === "DOC_FETCH"){
 
-                    selectedValues.map((x,y)=>{ 
-                        if(r[x]){ 
+                selvalues.map((x,y)=>{ 
+                        
                             if(r[x] === "DOC_FETCH") {
                                 k.push("Resource persist job")
                             }else if(r[x] === "Y"){
                                 k.push("Completed")
+                            }else if(r[x] === "null" || r[x] === "" || r[x] === null || r[x] === undefined){
+                                k.push("0");
+                            }
+                            else if(r[x] === "MAKE_IREC") {
+                                k.push("Immutable record job")
+                            }else if(r[x] === "P"){
+                                k.push("InProgress")
                             }
                             else{
                                 k.push(r[x])
                             }
                             
-                        }}               
+                       
+                    }  
+                                   
                         ) 
                         console.log("kvalue",k)
                     s.push(k);  
+                // }
+                  
                 }
+                )
+                console.log("svalue",s)
+                setSelectedcolm(s);
+
+        // navigate('/job/immutable-record-jobs')
+    }
+
+    const handlefatchforPagination = (selvalues,jobListing) => {
+        console.log("selecetd",selvalues)
+        setSelectedColumns(selvalues)
+        setShow(false);
+        
+        let s = [];
+        
+        jobListing.map((r,i) =>{                
+                let k =[];
+                // if(r.jobName === "DOC_FETCH"){
+
+                selvalues.map((x,y)=>{ 
+                        
+                            if(r[x] === "DOC_FETCH") {
+                                k.push("Resource persist job")
+                            }else if(r[x] === "Y"){
+                                k.push("Completed")
+                            }else if(r[x] === "null" || r[x] === "" || r[x] === null || r[x] === undefined){
+                                k.push("0");
+                            }
+                            else if(r[x] === "MAKE_IREC") {
+                                k.push("Immutable record job")
+                            }else if(r[x] === "P"){
+                                k.push("InProgress")
+                            }
+                            else{
+                                k.push(r[x])
+                            }
+                            
+                       
+                    }  
+                                   
+                        ) 
+                        console.log("kvalue",k)
+                    s.push(k);  
+                // }
                   
                 }
                 )
@@ -114,18 +168,19 @@ console.log("Selectedcolm",Selectedcolm)
 
 
     const paginationProcess = async(start,limit) =>{
+        setStartValue(start);
+        if(selectedValues[0]){
+            let joblisted = await getJobList('543609ec-58ba-4f50-9757-aaf149e5f187',start,limit);
+            await handlefatchforPagination(selectedValues,joblisted);
+       }
         await getJobList('543609ec-58ba-4f50-9757-aaf149e5f187',start,limit).then((response)=>
         // console.log("response",response)
         setjobList(response)
         )
-        if(selectedValues[0]){
-             handlefatch();
-              
-        console.log("pagination",StartValue)
-        }
         
-        console.log("pagination",StartValue)
-        setStartValue(start);
+        
+        // console.log("pagination",StartValue)
+       
         setlimit(limit);
         
         
@@ -150,10 +205,10 @@ console.log("Selectedcolm",Selectedcolm)
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="dropdown-filter">
                             <Dropdown.Item  onClick={handleShow} href="#/action-1">Tesla v1</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Tesla v2</Dropdown.Item>
+                            {/* <Dropdown.Item href="#/action-2">Tesla v2</Dropdown.Item>
                             <Dropdown.Item href="#/action-3">Tesla v3</Dropdown.Item>
                             <Dropdown.Item href="#/action-3">Tesla v4</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Tesla v5</Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">Tesla v5</Dropdown.Item> */}
                         </Dropdown.Menu>
                     </Dropdown>
                     <Button variant="gray" className="btn-gray-black rounded-pill">Submit</Button>
@@ -334,7 +389,7 @@ console.log("Selectedcolm",Selectedcolm)
                         </>):
                         (<>
                         {jobLists.map((r,i) =>{
-                            if(r.jobName === "DOC_FETCH"){
+                          
                                 return(
                                     <tr>
                                     <td width="84">
@@ -352,10 +407,10 @@ console.log("Selectedcolm",Selectedcolm)
                                     <td className="text-center">{r.companyCode}</td>
                                     <td className="text-center">{r.runStartTime}</td>
                                     <td className="text-center">{r.runCompletionTime}</td>
-                                    <td className="text-center">{r.status === "Y" ? "Completed" : "Running"}</td>
+                                    <td className="text-center">{r.status === "Y" ? "Completed" : "InProgress"}</td>
                                 </tr>
                                 )
-                            }
+                       
                            
                         })}
                         </>)}
@@ -384,7 +439,7 @@ console.log("Selectedcolm",Selectedcolm)
                     <Col md={8} className="d-flex justify-content-md-end justify-content-center">
                         <ul className="d-flex pagination list-unstyled">
                             <li>
-                                <Link to="/" className="prev disabled">
+                                <Link  className="prev disabled" onClick={()=>paginationProcess(0,10)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
                                         <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
                                     </svg>
@@ -470,7 +525,7 @@ console.log("Selectedcolm",Selectedcolm)
                         <Col md={6}>
                             <Row>
                                 <Col xs={6}>
-                                    <Button type="submit" variant="dark" className="w-100 btn-button" onClick={handlefatch}>Fetch</Button>
+                                    <Button type="submit" variant="dark" className="w-100 btn-button" onClick={()=>handlefatch(selectedValues)}>Fetch</Button>
                                 </Col>
                                 <Col xs={6}>
                                     <Button type="reset" onClick={()=>setSelectedValues([])} variant="outline-dark" className="w-100 btn-button">Reset</Button>
