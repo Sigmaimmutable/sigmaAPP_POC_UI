@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Routes, Route } from "react-router-dom"
 import './asserts/fonts/fonts.css';
 import './App.scss';
@@ -29,8 +29,11 @@ import ImmutableRecordJobs from './Components/ImmutableRecordJobs';
 import UserManagement from './Components/UserManagement';
 import AddUser from './Components/AddUser';
 import User from './Components/User';
+import { userDetailWithEmail } from "./apifunction";
 
 function App() {
+  const [roleType, setRoleType] = useState();
+
   return (
     <div className="App">
       <Routes>

@@ -2,17 +2,103 @@ import { Button, Col, Dropdown, Form, InputGroup, Modal, Row, Table } from "reac
 import Eye from '../asserts/images/eye-icon.svg'
 import Question from '../asserts/images/question-icon.svg'
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { OrgAdminmailcheckget, OrgTenentcheckget, DeleteOrgUser } from "../apifunction";
+import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 
 function UserManagement() {
     const [disabled, setDisabled] = useState(true);
     const [search, setSearch] = useState(false);
     const [show, setShow] = useState(false);
+    const [showButton, setShowButton] = useState(false);
+    const [memberlistTable, setmemberlistTable] = useState([]);
+    const [deleteEmail, setDeleteEmail] = useState();
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const[pageBLSize,setPageBLSize]=useState(8);     
+
+    const decrementBLSize=()=>{
+      if(pageBLSize >= 4){
+      setPageBLSize(pageBLSize-2)
+      }        
+    }
+ 
+    const Deleteorguser = async (emailid) => {
+        try{
+            let orguserdelete=await DeleteOrgUser(emailid);            
+            console.log("deleteOrguser",orguserdelete);
+            toast.success("Deleted user successfully");
+            await memberTableFetch();
+            setShowButton(!showButton);
+        }catch(err){
+            toast.error(err);
+        }
+        }
+
+    const memberTableFetch=async()=>{            
+        if(localStorage.getItem("UserID")  === null || localStorage.getItem("UserID")  === "" || localStorage.getItem("UserID")  === " " || localStorage.getItem("UserID") === undefined || localStorage.getItem("UserID") === ''){
+        }
+        else{
+          let r=[];
+          let countlist=0;
+      try {          
+        let [check, tenentid] = await OrgAdminmailcheckget(localStorage.getItem('UserID'));
+      
+        // settenentid(tenentid.tenantId);
+        console.log("tenetidnew",tenentid);
+          let [checking, data] = await OrgTenentcheckget(tenentid.tennantId);
+        
+          console.log("Length", data);     
+          if (data) {  
+              try{
+              let datavar=data;
+              console.log("datascheck13",datavar);
+             
+              Object.keys(datavar).map((m)=>{
+                console.log("datascheck15",datavar[m]);
+                countlist=countlist + 1;
+               if(datavar[m].roleType !== "Admin")
+                    r.push({
+                       userName:datavar[m].userName,
+                        emailId:datavar[m].emailId,
+                        roleType:datavar[m].roleType,
+                        // networkName:datavar[m].networkName,
+                    })    
+                
+                
+                             
+              })  
+          }   catch(e){                      
+          } 
+        //   r.reverse();
+        setmemberlistTable(r);                
+          }
+          else{
+            setmemberlistTable([""]);  
+          }
+          console.log("Data", data);
+          //setpagesCountlist(countlist);        
+      } catch (error) {            
+      }                
+      
+    }
+      }
+
+useEffect(() => {
+    memberTableFetch();
+},[memberlistTable])
+
+const checkedDeleteButton = (email) =>
+{
+    setDeleteEmail(email);
+    setShowButton(!showButton);
+}
+
     return ( 
         <div>
+            <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
             <Row className="mb-20">
                 <Col md={6} xl={4} xxl={3}>
                     <h4 className="page-title mb-0">User Details</h4>
@@ -22,7 +108,7 @@ function UserManagement() {
             <Row className="mb-20" style={{minHeight: '40px'}}>
                 <Col xs={6} className="ms-md-0 d-flex align-items-center justify-content-end ms-auto order-md-1">
                     <Link to="/admin-manager/add-user" className="btn-gray-black btn btn-gray rounded-pill me-2">Add user</Link>
-                    <Button variant="outline-gray" className={`me-2 btn-outline-gray-black ${disabled && 'disabled'}`}>
+                    <Button variant="outline-gray" className={`me-2 btn-outline-gray-black ${!showButton && 'disabled'}`} onClick={() => Deleteorguser(deleteEmail)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="d-block" viewBox="0 0 16 16">
                             <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                         </svg>
@@ -148,14 +234,39 @@ function UserManagement() {
                                     />
                                 </div>
                             </th>
+                            <th className="text-center">Sl no</th>
                             <th className="text-center">User name</th>
                             <th className="text-center">Email Id</th>
-                            <th className="text-center">Contact no</th>
                             <th className="text-center">Role Type</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                    {memberlistTable.map((x,y)=>{
+                              if(y < pageBLSize)
+                              return(
+                                  <tr>
+                                  <td width="84">
+                                      <div className="d-flex justify-content-end">
+                                          <Form.Check
+                                              className="mb-0 check-single"
+                                              type='checkbox'
+                                              id= "checked"
+                                              onClick={() => checkedDeleteButton(x.emailId)}
+                                          />
+                                      </div>
+                                  </td>
+                                  <td className="text-center">{y+1}</td>
+                                  <td className="text-center">{x.userName}</td>
+                                  <td className="text-center">{x.emailId}</td>
+                                  <td className="text-center">{x.roleType}</td>
+                                  {/* <td>  <ButtonLoad loading={loader} className='w-100 btn-blue mb-3' onClick={()=>{Deleteorguser(x.emailId)}}>Delete user</ButtonLoad> </td>       */}
+
+                                  {/* <td>{x.networkName}</td> */}
+                                  </tr>
+                              )
+                              })
+                              }
+                        {/* <tr>
                             <td width="84">
                                 <div className="d-flex justify-content-end">
                                     <Form.Check
@@ -169,82 +280,7 @@ function UserManagement() {
                             <td className="text-center">Resource persist job</td>
                             <td className="text-center">Queen_Admin</td>
                             <td className="text-center">King</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-9`}
-                                    />
-                                </div>
-                            </td>
-                            <td className="text-center">17323</td>
-                            <td className="text-center">Resource persist job</td>
-                            <td className="text-center">Queen_Admin</td>
-                            <td className="text-center">King</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-9`}
-                                    />
-                                </div>
-                            </td>
-                            <td className="text-center">17323</td>
-                            <td className="text-center">Resource persist job</td>
-                            <td className="text-center">Queen_Admin</td>
-                            <td className="text-center">King</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-9`}
-                                    />
-                                </div>
-                            </td>
-                            <td className="text-center">17323</td>
-                            <td className="text-center">Resource persist job</td>
-                            <td className="text-center">Queen_Admin</td>
-                            <td className="text-center">King</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-9`}
-                                    />
-                                </div>
-                            </td>
-                            <td className="text-center">17323</td>
-                            <td className="text-center">Resource persist job</td>
-                            <td className="text-center">Queen_Admin</td>
-                            <td className="text-center">King</td>
-                        </tr>
-                        <tr>
-                            <td width="84">
-                                <div className="d-flex justify-content-end">
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-9`}
-                                    />
-                                </div>
-                            </td>
-                            <td className="text-center">17323</td>
-                            <td className="text-center">Resource persist job</td>
-                            <td className="text-center">Queen_Admin</td>
-                            <td className="text-center">King</td>
-                        </tr>
+                        </tr> */}
                     </tbody>
                 </Table>
 
@@ -264,20 +300,20 @@ function UserManagement() {
                     <Col md={8} className="d-flex justify-content-md-end justify-content-center">
                         <ul className="d-flex pagination list-unstyled">
                             <li>
-                                <Link to="/" className="prev disabled">
+                                <Link className="prev" onClick={()=>{decrementBLSize()}}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
                                         <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
                                     </svg>
                                 </Link>
                             </li>
-                            <li><Link className="active" to="/">1</Link></li>
+                            {/* <li><Link className="active" to="/">1</Link></li>
                             <li><Link to="/">2</Link></li>
                             <li><Link to="/">3</Link></li>
                             <li><Link to="/">4</Link></li>
                             <li><Link to="/">5</Link></li>
-                            <li><Link to="/">6</Link></li>
+                            <li><Link to="/">6</Link></li> */}
                             <li>
-                                <Link to="/" className="next">
+                                <Link className="next" onClick={()=>{setPageBLSize(pageBLSize+2)}}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                         <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                     </svg>

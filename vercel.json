@@ -111,6 +111,10 @@
         {
             "source": "/platform/v1/networkbytennatid",
             "destination": "https://testapi.stasisonline.in/platform/v1/networkbytennatid "
+        },
+        {
+            "source": "/platform/v1/userdetailsid/:path*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/userdetailsid/:path*"
         }
     ]
 }

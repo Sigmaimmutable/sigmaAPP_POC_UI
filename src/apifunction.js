@@ -725,5 +725,62 @@ export const userDetailWithEmail = async (emailid) =>
     console.log("vercelerrro",err)
     return [false, ""];
   }
-    
+}
+
+export const OrgTenentcheckget = async(tenentId) =>{
+   
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+    //Get method start
+    try{
+      let response2 = await fetch(`/platform/v1/userdetailsid/${tenentId}`, 
+      {
+          headers: {
+              'x-api-key': `${key}`    
+            },
+        }
+        )
+      //console.log(response2);
+      // let response = await axios.request(options2);
+      // tentidresponse= await response.data;
+      // console.log("response",tentidresponse)
+        
+      const data2 = await response2.json();
+      console.log("Api inside", data2)
+      // return {data2};
+      return [true,data2];
+    }catch(err){
+      console.log("vercelerrro",err)
+      return [false,""];
+    }
+     
+}
+
+export const DeleteOrgUser = async (emailid) =>
+{       
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  // let userID = localStorage.getItem('UserID');
+  // let connectAddress = localStorage.getItem("walletAddress");
+  // let network = "AB";
+  
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    //console.log("done1",response.data);
+      // console.log("date",date);
+      const options2 = {
+        method: 'DELETE',
+        url: `/platform/v1/userdetail/${emailid}`,
+        headers: {
+          'x-api-key': `${key}`    
+        },
+        data: {
+            
+        }
+      };
+      
+      axios.request(options2).then(function (response2) {
+       console.log("response",response2);
+       return response2;
+      //  window.location.reload();
+      }).catch(function (error) {
+          console.error("done2",error);
+      });
 }
