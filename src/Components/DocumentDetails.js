@@ -7,7 +7,7 @@ import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
 import { useContext } from "react"
 import { Container, Modal } from "react-bootstrap";
-import { fetchSigmadocByTid,fetchSigmadocdetails } from '../apifunction';
+import { fetchSigmadocByTid,fetchSigmadocdetails,addToFavorites,deleteFavorite } from '../apifunction';
 
 function DocumentDetails() {
     const history = useNavigate()
@@ -47,6 +47,33 @@ function DocumentDetails() {
         
     }
 
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    const handleFavoriteToggle = async (sigmaId, name__v, filename__v, status__v) => {
+      try {
+        const emailId = localStorage.getItem("UserID");
+  
+        if (!isFavorite) {
+          // Add to favorites
+          const added = await addToFavorites(emailId, sigmaId, name__v, filename__v, status__v);
+  
+          if (added) {
+            setIsFavorite(true);
+          }
+        } else {
+          // Remove from favorites
+          const deleted = await deleteFavorite(emailId, sigmaId);
+  
+          if (deleted) {
+            setIsFavorite(false);
+            setPostDetails(postDetails.filter((post) => post.sigmaId !== sigmaId));
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        // Handle the error here, e.g., show an error message to the user
+      }
+    };
 
     useEffect(() => {
         const start = '0'; // Provide the desired value for start
@@ -208,6 +235,7 @@ function DocumentDetails() {
                     {postDetails[0]===null||postDetails[0]===""||postDetails[0]===undefined?(<></>):(<>                
                     {postDetails.map((postt, index) => {
   if (index < limit) {
+    
     return (
       <tr key={index}>
         <td width="84">
@@ -220,8 +248,15 @@ function DocumentDetails() {
           </div>
         </td>
         <td className="text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill={isFavorite ? 'currentColor' : 'none'} viewBox="0 0 16 16"
+          style={{ cursor: 'pointer', transition: 'fill 0.3s' }}
+          onClick={() => {
+            // if (postt.docId && postt.docName && postt.fileName && postt.docStatus) {
+              handleFavoriteToggle(postt.sigmaId,postt.name__v,postt.filename__v,postt.status__v)
+            // }
+          }} >
+            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+            className={`star-icon ${isFavorite ? 'favorited' : ''}`}/>
           </svg>
         </td>
         <td className="text-center">{postt.sigmaId ? postt.sigmaId : ""}</td>
