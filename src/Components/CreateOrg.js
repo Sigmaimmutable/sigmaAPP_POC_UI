@@ -115,26 +115,24 @@ const CreateOrg = () => {
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
-                            <Form.Label column sm="3">EmailId</Form.Label>
+                            <Form.Label column sm="3">E-mail ID</Form.Label>
                             <Col sm="9">
                                 <Form.Control type="text" placeholder="" onChange={event => setEmail( event.target.value)} value={emailid} />
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
-                            <Form.Label column sm="3">RoleType <sup>*</sup></Form.Label>
+                            <Form.Label column sm="3">Role <sup>*</sup></Form.Label>
                             <Col sm="9">
                                 <Form.Select className="form-control" aria-label="Default select example"  value={role}   onChange={(event)=>{handleSelect(event.target.value)} }                           
                                 >
                           
                                     <option value="">Select</option>
-                                    {/* <option value="1">Admin</option> */}
                                     <option value="System Admin">System Admin</option>
                                     <option value="Business Admin">Business Admin</option>
                                     <option value="FDA Auditor">FDA Auditor</option>
                                     <option value="Vault Owner">Vault Owner</option>
                                     <option value="Full User">Full User</option>
                                     <option value="Viewer">Viewer</option>
-                                 
                                 </Form.Select>
                             </Col>
                         </Form.Group>

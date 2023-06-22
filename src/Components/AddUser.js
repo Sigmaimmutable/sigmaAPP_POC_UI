@@ -1,23 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row, Dropdown} from "react-bootstrap";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
-import { OrgAdminmailcheckget, CreateOrguserrolepost } from "../apifunction";
+import { OrgAdminmailcheckget1, CreateOrguserrolepost } from "../apifunction";
 import { Link } from "react-router-dom";
 
 function AddUser() {
     const[name,setname]=useState("");
     const[emailid,setEmail]=useState("");
     const[role,setRole]=useState("");
-    const [selectValue,setSelectValue] = useState("");
-    // console.log("selected",selectValue);
+    const [roleId,setRoleId] = useState("");
+    console.log("selected",roleId);
     const handleChange = (e) => {
-        setRole(e.target.value)
+        setRole(e)
     }
+
+    const roleFetch = async () => {
+        try{
+            let [check, tenentid] = await OrgAdminmailcheckget1(localStorage.getItem('UserID'));
+            console.log("tenetid",tenentid.roleType);
+            setRoleId(tenentid.roleType);
+        }catch(err){
+            console.error(err);
+        }
+    }
+
+    useEffect(() => {
+        roleFetch();
+    }, [roleId])
 
     const Addusertoorganization = async () => {
         try{
-            let [check, tenentid] = await OrgAdminmailcheckget(localStorage.getItem('UserID'));
-            // settenentid(tenentid.tenantId);
+            let [check, tenentid] = await OrgAdminmailcheckget1(localStorage.getItem('UserID'));
+            // setRoleId(tenentid.roleType);
             console.log("tenetid",tenentid);
             let orguser = await CreateOrguserrolepost(emailid, name, role, tenentid.tennantId);            
             console.log("Orguser",orguser);
@@ -25,10 +39,6 @@ function AddUser() {
         }catch(err){
             toast.error(err);
         }
-    }
-
-    const roleSetter = (rolename) => {
-            setRole(rolename);
     }
 
     const resetFields = () => {
@@ -68,13 +78,23 @@ function AddUser() {
                             </Col>
                         </Form.Group>
                         <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
-                            <Form.Label column sm="3">Role</Form.Label>
+                            <Form.Label column sm="3">Role <sup>*</sup></Form.Label>
                             <Col sm="9">
-                            <select name="cars" id="cars" className="form-control dropdown" defaultValue={role} onChange={(e) => handleChange(e)}>
-                                <option className="form-control form-control-reset">Admin</option>
-                                <option className="form-control form-control-reset">Auditor</option>
-                                <option className="form-control form-control-reset">Member</option>
-                            </select>
+                                <Form.Select className="form-control" aria-label="Default select example"  value={role}   onChange={(event)=>{handleChange(event.target.value)} }                           
+                                >
+                          
+                                    <option value="">Select</option>
+                                    {roleId === "Super User" ? <>
+                                        <option value="Super User">Super user</option>
+                                        <option value="System Admin">System Admin</option>                                    
+                                    </> : <></>}
+                                    <option value="Business Admin">Business Admin</option>
+                                    <option value="FDA Auditor">FDA Auditor</option>
+                                    <option value="Vault Owner">Vault Owner</option>
+                                    <option value="Full User">Full User</option>
+                                    <option value="Viewer">Viewer</option>
+                                 
+                                </Form.Select>
                             </Col>
                         </Form.Group>
                         <Row className="justify-content-end">

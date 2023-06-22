@@ -26,10 +26,23 @@ import SubIconAct2 from '../../asserts/images/subnav-icon-active-2.svg';
 import SubIconAct3 from '../../asserts/images/subnav-icon-active-3.svg';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { userDetailWithEmail } from "../../apifunction";
 
 function Sidebar({getTheme, getMenuOpt}) {
     const [theme, setTheme] = useState('light');
     const [menu, setMenu] = useState(false);
+
+    const [roleType, setRoleType] = useState();
+
+    const fetchRole = async () => {
+      let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
+      // console.log("userDetail", data.roleType);
+      setRoleType(data.roleType);
+    }
+  
+    useEffect(() => {
+      fetchRole();
+    }, [roleType]);
     
     if(menu){
         document.getElementsByTagName('body')[0].classList.remove('submenu');
@@ -64,11 +77,602 @@ function Sidebar({getTheme, getMenuOpt}) {
                     </svg>
                 </Button>
             </div>
-
+            {roleType === "System Admin" ? <>
             <div className='sidebar-nav mb-auto'>
                 <ul className='list-unstyled p-0 m-0 d-flex flex-column align-items-md-center'>
                     <li>
-                        <NavLink to="/">
+                        <NavLink to="/home">
+                            <img src={NavIcon1} alt='NavIcon1' />
+                            <img src={NavIconAct1} alt='NavIcon1' />
+
+                            <span>Dashboard</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/document-details">
+                            <img src={NavIcon2} alt='NavIcon2' />
+                            <img src={NavIconAct2} alt='NavIcon2' />
+
+                            <span>Documents</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/job">
+                            <img src={NavIcon3} alt='NavIcon3' />
+                            <img src={NavIconAct3} alt='NavIcon3' />
+
+                            <span>Jobs</span>
+                        </NavLink>
+
+                        <div className='sidebar-subnav'>
+                            <div className='sidebar-subnav-inner'>
+                                <h4>Jobs</h4>
+                                <ul className='p-0 m-0 list-unstyled'>
+                                    <li>
+                                        <Link to="/job">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            Resource Persist Job
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/job/job-details">
+                                            <span>
+                                                <img src={SubIcon2} alt='SubIcon2' />
+                                                <img src={SubIconAct2} alt='SubIconAct2' />
+                                            </span>
+                                            List Jobs
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/job/immutable-record-jobs">
+                                            <span>
+                                                <img src={SubIcon3} alt='SubIcon3' />
+                                                <img src={SubIconAct3} alt='SubIconAct3' />
+                                            </span>
+                                            Immutable Record Jobs
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <NavLink to="/favourite-documents">
+                            <img src={NavIcon4} alt='NavIcon4' />
+                            <img src={NavIconAct4} alt='NavIcon4' />
+
+                            <span>Favourite</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/admin-manager">
+                            <img src={NavIcon6} alt='NavIcon6' />
+                            <img src={NavIconAct6} alt='NavIcon6' />
+
+                            <span>Admin Manager</span>
+                        </NavLink>
+
+                        <div className='sidebar-subnav'>
+                            <div className='sidebar-subnav-inner'>
+                                <h4>Admin Manager</h4>
+                                <ul className='p-0 m-0 list-unstyled'>
+                                    <li>
+                                        <Link to="/admin-manager/user-management">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            User Management
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    {/* <li>
+                        <NavLink to="/environment">
+                            <img src={NavIcon7} alt='NavIcon7' />
+                            <img src={NavIconAct7} alt='NavIcon7' />
+                        </NavLink>
+                    </li> */}
+                </ul>
+            </div>
+            <div className='sidebar-nav mt-3'>
+                <ul className='list-unstyled p-0 m-0 d-flex flex-column align-items-md-center'>
+                    <li>
+                        <NavLink to="/help-support">
+                            <img src={NavIcon8} alt='NavIcon8' />
+                            <img src={NavIconAct8} alt='NavIcon8' />
+
+                            <span>Help & Support</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <Link className={theme === 'dark' && 'active-icon'} onClick={toggleTheme}>
+                            <img src={NavIcon9} alt='NavIcon9' />
+                            <img src={NavIconAct9} alt='NavIcon9' />
+
+                            <span>Dark Theme</span>
+                        </Link>
+                    </li>
+                </ul>
+            </div>            
+            </> : <>
+            {roleType === "Vault Owner" ? <>
+            <div className='sidebar-nav mb-auto'>
+                <ul className='list-unstyled p-0 m-0 d-flex flex-column align-items-md-center'>
+                    <li>
+                        <NavLink to="/home">
+                            <img src={NavIcon1} alt='NavIcon1' />
+                            <img src={NavIconAct1} alt='NavIcon1' />
+                                
+                            <span>Dashboard</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/document-details">
+                            <img src={NavIcon2} alt='NavIcon2' />
+                            <img src={NavIconAct2} alt='NavIcon2' />
+                                
+                            <span>Documents</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/job">
+                            <img src={NavIcon3} alt='NavIcon3' />
+                            <img src={NavIconAct3} alt='NavIcon3' />
+                                
+                            <span>Jobs</span>
+                        </NavLink>
+                                
+                        <div className='sidebar-subnav'>
+                            <div className='sidebar-subnav-inner'>
+                                <h4>Jobs</h4>
+                                <ul className='p-0 m-0 list-unstyled'>
+                                    <li>
+                                        <Link to="/job">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            Resource Persist Job
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/job/job-details">
+                                            <span>
+                                                <img src={SubIcon2} alt='SubIcon2' />
+                                                <img src={SubIconAct2} alt='SubIconAct2' />
+                                            </span>
+                                            List Jobs
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/job/immutable-record-jobs">
+                                            <span>
+                                                <img src={SubIcon3} alt='SubIcon3' />
+                                                <img src={SubIconAct3} alt='SubIconAct3' />
+                                            </span>
+                                            Immutable Record Jobs
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <NavLink to="/favourite-documents">
+                            <img src={NavIcon4} alt='NavIcon4' />
+                            <img src={NavIconAct4} alt='NavIcon4' />
+                                
+                            <span>Favourite</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/admin">
+                            <img src={NavIcon5} alt='NavIcon5' />
+                            <img src={NavIconAct5} alt='NavIcon5' />
+                                
+                            <span>Admin</span>
+                        </NavLink>
+                        <div className='sidebar-subnav'>
+                            <div className='sidebar-subnav-inner'>
+                                <h4>Admin</h4>
+                                <ul className='p-0 m-0 list-unstyled'>
+                                    <li>
+                                        <Link to="/admin/node-transactions-report">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            Node Transactions Report
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <NavLink to="/admin-manager">
+                            <img src={NavIcon6} alt='NavIcon6' />
+                            <img src={NavIconAct6} alt='NavIcon6' />
+                                
+                            <span>Admin Manager</span>
+                        </NavLink>
+                                
+                        <div className='sidebar-subnav'>
+                            <div className='sidebar-subnav-inner'>
+                                <h4>Admin Manager</h4>
+                                <ul className='p-0 m-0 list-unstyled'>
+                                    <li>
+                                        <Link to="/admin-manager">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            API Logs
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/admin-manager/create-org">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            Create Org
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/admin-manager/environment">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            Create Env
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/admin-manager/user-management">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            User Management
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    {/* <li>
+                        <NavLink to="/environment">
+                            <img src={NavIcon7} alt='NavIcon7' />
+                            <img src={NavIconAct7} alt='NavIcon7' />
+                        </NavLink>
+                    </li> */}
+                </ul>
+                </div>
+                <div className='sidebar-nav mt-3'>
+                <ul className='list-unstyled p-0 m-0 d-flex flex-column align-items-md-center'>
+                    <li>
+                        <NavLink to="/help-support">
+                            <img src={NavIcon8} alt='NavIcon8' />
+                            <img src={NavIconAct8} alt='NavIcon8' />
+                
+                            <span>Help & Support</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <Link className={theme === 'dark' && 'active-icon'} onClick={toggleTheme}>
+                            <img src={NavIcon9} alt='NavIcon9' />
+                            <img src={NavIconAct9} alt='NavIcon9' />
+                
+                            <span>Dark Theme</span>
+                        </Link>
+                    </li>
+                </ul>
+                </div>            
+            </> : <>
+            {roleType === "FDA Auditor" ? <>
+            <div className='sidebar-nav mb-auto'>
+                <ul className='list-unstyled p-0 m-0 d-flex flex-column align-items-md-center'>
+                    <li>
+                        <NavLink to="/home">
+                            <img src={NavIcon1} alt='NavIcon1' />
+                            <img src={NavIconAct1} alt='NavIcon1' />
+
+                            <span>Dashboard</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/document-details">
+                            <img src={NavIcon2} alt='NavIcon2' />
+                            <img src={NavIconAct2} alt='NavIcon2' />
+
+                            <span>Documents</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/favourite-documents">
+                            <img src={NavIcon4} alt='NavIcon4' />
+                            <img src={NavIconAct4} alt='NavIcon4' />
+
+                            <span>Favourite</span>
+                        </NavLink>
+                    </li>
+                    {/* <li>
+                        <NavLink to="/environment">
+                            <img src={NavIcon7} alt='NavIcon7' />
+                            <img src={NavIconAct7} alt='NavIcon7' />
+                        </NavLink>
+                    </li> */}
+                </ul>
+            </div>
+            <div className='sidebar-nav mt-3'>
+                <ul className='list-unstyled p-0 m-0 d-flex flex-column align-items-md-center'>
+                    <li>
+                        <NavLink to="/help-support">
+                            <img src={NavIcon8} alt='NavIcon8' />
+                            <img src={NavIconAct8} alt='NavIcon8' />
+
+                            <span>Help & Support</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <Link className={theme === 'dark' && 'active-icon'} onClick={toggleTheme}>
+                            <img src={NavIcon9} alt='NavIcon9' />
+                            <img src={NavIconAct9} alt='NavIcon9' />
+
+                            <span>Dark Theme</span>
+                        </Link>
+                    </li>
+                </ul>
+            </div>            
+            </> : <>
+            {roleType === "Business Admin" ? <>
+            <div className='sidebar-nav mb-auto'>
+                <ul className='list-unstyled p-0 m-0 d-flex flex-column align-items-md-center'>
+                    <li>
+                        <NavLink to="/home">
+                            <img src={NavIcon1} alt='NavIcon1' />
+                            <img src={NavIconAct1} alt='NavIcon1' />
+
+                            <span>Dashboard</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/document-details">
+                            <img src={NavIcon2} alt='NavIcon2' />
+                            <img src={NavIconAct2} alt='NavIcon2' />
+
+                            <span>Documents</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/job">
+                            <img src={NavIcon3} alt='NavIcon3' />
+                            <img src={NavIconAct3} alt='NavIcon3' />
+
+                            <span>Jobs</span>
+                        </NavLink>
+
+                        <div className='sidebar-subnav'>
+                            <div className='sidebar-subnav-inner'>
+                                <h4>Jobs</h4>
+                                <ul className='p-0 m-0 list-unstyled'>
+                                    <li>
+                                        <Link to="/job">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            Resource Persist Job
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/job/job-details">
+                                            <span>
+                                                <img src={SubIcon2} alt='SubIcon2' />
+                                                <img src={SubIconAct2} alt='SubIconAct2' />
+                                            </span>
+                                            List Jobs
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/job/immutable-record-jobs">
+                                            <span>
+                                                <img src={SubIcon3} alt='SubIcon3' />
+                                                <img src={SubIconAct3} alt='SubIconAct3' />
+                                            </span>
+                                            Immutable Record Jobs
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <NavLink to="/favourite-documents">
+                            <img src={NavIcon4} alt='NavIcon4' />
+                            <img src={NavIconAct4} alt='NavIcon4' />
+
+                            <span>Favourite</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/admin-manager">
+                            <img src={NavIcon6} alt='NavIcon6' />
+                            <img src={NavIconAct6} alt='NavIcon6' />
+
+                            <span>Admin Manager</span>
+                        </NavLink>
+
+                        <div className='sidebar-subnav'>
+                            <div className='sidebar-subnav-inner'>
+                                <h4>Admin Manager</h4>
+                                <ul className='p-0 m-0 list-unstyled'>
+                                    <li>
+                                        <Link to="/admin-manager/user-management">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            User Management
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    {/* <li>
+                        <NavLink to="/environment">
+                            <img src={NavIcon7} alt='NavIcon7' />
+                            <img src={NavIconAct7} alt='NavIcon7' />
+                        </NavLink>
+                    </li> */}
+                </ul>
+            </div>
+            <div className='sidebar-nav mt-3'>
+                <ul className='list-unstyled p-0 m-0 d-flex flex-column align-items-md-center'>
+                    <li>
+                        <NavLink to="/help-support">
+                            <img src={NavIcon8} alt='NavIcon8' />
+                            <img src={NavIconAct8} alt='NavIcon8' />
+
+                            <span>Help & Support</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <Link className={theme === 'dark' && 'active-icon'} onClick={toggleTheme}>
+                            <img src={NavIcon9} alt='NavIcon9' />
+                            <img src={NavIconAct9} alt='NavIcon9' />
+
+                            <span>Dark Theme</span>
+                        </Link>
+                    </li>
+                </ul>
+            </div>            
+            </> : <>
+            {roleType === "Full User" ? <>
+            <div className='sidebar-nav mb-auto'>
+                <ul className='list-unstyled p-0 m-0 d-flex flex-column align-items-md-center'>
+                    <li>
+                        <NavLink to="/home">
+                            <img src={NavIcon1} alt='NavIcon1' />
+                            <img src={NavIconAct1} alt='NavIcon1' />
+
+                            <span>Dashboard</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/document-details">
+                            <img src={NavIcon2} alt='NavIcon2' />
+                            <img src={NavIconAct2} alt='NavIcon2' />
+
+                            <span>Documents</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/favourite-documents">
+                            <img src={NavIcon4} alt='NavIcon4' />
+                            <img src={NavIconAct4} alt='NavIcon4' />
+
+                            <span>Favourite</span>
+                        </NavLink>
+                    </li>
+                    {/* <li>
+                        <NavLink to="/environment">
+                            <img src={NavIcon7} alt='NavIcon7' />
+                            <img src={NavIconAct7} alt='NavIcon7' />
+                        </NavLink>
+                    </li> */}
+                </ul>
+            </div>
+            <div className='sidebar-nav mt-3'>
+                <ul className='list-unstyled p-0 m-0 d-flex flex-column align-items-md-center'>
+                    <li>
+                        <NavLink to="/help-support">
+                            <img src={NavIcon8} alt='NavIcon8' />
+                            <img src={NavIconAct8} alt='NavIcon8' />
+
+                            <span>Help & Support</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <Link className={theme === 'dark' && 'active-icon'} onClick={toggleTheme}>
+                            <img src={NavIcon9} alt='NavIcon9' />
+                            <img src={NavIconAct9} alt='NavIcon9' />
+
+                            <span>Dark Theme</span>
+                        </Link>
+                    </li>
+                </ul>
+            </div>            
+            </> : <>
+            {roleType === "Viewer" ? <>
+            <div className='sidebar-nav mb-auto'>
+                <ul className='list-unstyled p-0 m-0 d-flex flex-column align-items-md-center'>
+                    <li>
+                        <NavLink to="/home">
+                            <img src={NavIcon1} alt='NavIcon1' />
+                            <img src={NavIconAct1} alt='NavIcon1' />
+
+                            <span>Dashboard</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/document-details">
+                            <img src={NavIcon2} alt='NavIcon2' />
+                            <img src={NavIconAct2} alt='NavIcon2' />
+
+                            <span>Documents</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/favourite-documents">
+                            <img src={NavIcon4} alt='NavIcon4' />
+                            <img src={NavIconAct4} alt='NavIcon4' />
+
+                            <span>Favourite</span>
+                        </NavLink>
+                    </li>
+                    {/* <li>
+                        <NavLink to="/environment">
+                            <img src={NavIcon7} alt='NavIcon7' />
+                            <img src={NavIconAct7} alt='NavIcon7' />
+                        </NavLink>
+                    </li> */}
+                </ul>
+            </div>
+            <div className='sidebar-nav mt-3'>
+                <ul className='list-unstyled p-0 m-0 d-flex flex-column align-items-md-center'>
+                    <li>
+                        <NavLink to="/help-support">
+                            <img src={NavIcon8} alt='NavIcon8' />
+                            <img src={NavIconAct8} alt='NavIcon8' />
+
+                            <span>Help & Support</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <Link className={theme === 'dark' && 'active-icon'} onClick={toggleTheme}>
+                            <img src={NavIcon9} alt='NavIcon9' />
+                            <img src={NavIconAct9} alt='NavIcon9' />
+
+                            <span>Dark Theme</span>
+                        </Link>
+                    </li>
+                </ul>
+            </div>             
+            </> : <>
+            {roleType === "Super User" ? <>
+                <div className='sidebar-nav mb-auto'>
+                <ul className='list-unstyled p-0 m-0 d-flex flex-column align-items-md-center'>
+                    <li>
+                        <NavLink to="/home">
                             <img src={NavIcon1} alt='NavIcon1' />
                             <img src={NavIconAct1} alt='NavIcon1' />
 
@@ -217,14 +821,14 @@ function Sidebar({getTheme, getMenuOpt}) {
                         </NavLink>
                     </li> */}
                 </ul>
-            </div>
-            <div className='sidebar-nav mt-3'>
+                </div>
+                <div className='sidebar-nav mt-3'>
                 <ul className='list-unstyled p-0 m-0 d-flex flex-column align-items-md-center'>
                     <li>
                         <NavLink to="/help-support">
                             <img src={NavIcon8} alt='NavIcon8' />
                             <img src={NavIconAct8} alt='NavIcon8' />
-
+                
                             <span>Help & Support</span>
                         </NavLink>
                     </li>
@@ -232,14 +836,24 @@ function Sidebar({getTheme, getMenuOpt}) {
                         <Link className={theme === 'dark' && 'active-icon'} onClick={toggleTheme}>
                             <img src={NavIcon9} alt='NavIcon9' />
                             <img src={NavIconAct9} alt='NavIcon9' />
-
+                
                             <span>Dark Theme</span>
                         </Link>
                     </li>
                 </ul>
-            </div>
+                </div>
+            </> : <>
+
+            </>} 
+            </>}  
+            </>}            
+            </>}            
+            </>}
+            </>}
+            </>}
         </div>
      );
 }
 
 export default Sidebar;
+
