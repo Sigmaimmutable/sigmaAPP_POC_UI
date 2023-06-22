@@ -165,13 +165,26 @@ const Header = () => {
                         <Dropdown align={"end"} autoClose="outside">
                             <Dropdown.Toggle variant="ava" className="avatar p-0 border-0 d-flex align-items-center" id="dropdown-basic">
                                 <strong className="d-none d-md-block">{localStorage.getItem("UserName")===""||localStorage.getItem("UserName")===null||localStorage.getItem("UserName")===undefined || !localStorage.getItem("UserName")? "User":localStorage.getItem("UserName")}</strong>
-                                <img src={Avatar} className="shadow" alt="Avatar" />
+                                {/* <img src={Avatar} className="shadow" alt="Avatar" /> */}
+                                {getIProfile.profilePic === null || getIProfile.profilePic === "" || getIProfile.profilePic === undefined ?(<>
+                                    <img src={Avatar} className="shadow" alt="Avatar" />
+                                
+                                </>):(<>
+                                
+                                    <img src={getIProfile.profilePic} className="shadow" alt="Avatar" />
+                                </>)}
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu className="dropdown-avatar px-3">
                                 <div className="d-flex py-3 border-bottom">
-                                    <img src={Avatar} alt="Avatar" />
-
+                                    {/* <img src={Avatar} alt="Avatar" /> */}
+                                    {getIProfile.profilePic === null || getIProfile.profilePic === "" || getIProfile.profilePic === undefined ?(<>
+                                    <img src={Avatar}  alt="Avatar" />
+                                
+                                </>):(<>
+                                
+                                    <img src={getIProfile.profilePic} className="shadow" alt="Avatar" />
+                                </>)}
                                     <div className="d-flex flex-column justify-content-between">
                                         <h6>{localStorage.getItem("UserName")===""||localStorage.getItem("UserName")===null||localStorage.getItem("UserName")===undefined || !localStorage.getItem("UserName")? "User":localStorage.getItem("UserName")}</h6>
                                         <p>{localStorage.getItem("UserID")}</p>
