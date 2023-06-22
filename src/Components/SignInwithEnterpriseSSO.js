@@ -58,7 +58,7 @@ function SignInwithEnterpriseSSO() {
         
            
           </Button>
-          <p>No organization alias? <Link to="/sign-in" className='btn-link'>Login here</Link></p>
+          <p>No organization alias? <Link to="/" className='btn-link'>Login here</Link></p>
 
          
         </div>

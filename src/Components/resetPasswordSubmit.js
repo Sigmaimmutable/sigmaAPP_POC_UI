@@ -28,7 +28,7 @@ function ResetPasswordSubmit() {
             {
                 toast.success("Password updated. Redirecting to sign-in");
                 await sleep(5000);
-                navigate("/sign-in")
+                navigate("/")
             }
             else
                 toast.error("Please check Email or OTP");
