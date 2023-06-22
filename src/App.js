@@ -35,9 +35,12 @@ function App () {
   const [roleType, setRoleType] = useState();
 
   const fetchRole = async () => {
+    if(localStorage.getItem("UserID"))
+    {
     let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
     // console.log("userDetail", data.roleType);
     setRoleType(data.roleType);
+    }
   }
 
   useEffect(() => {
@@ -242,7 +245,14 @@ function App () {
               <Route path="contact" element={ <Contact/> } /> */}
             </Routes>
             </> : <>
-
+            <Routes>
+              <Route path="/" element={ <SignIn/> } />
+              <Route path="/sign-up" element={ <SignUp/> } />
+              <Route path="/reset-password" element={ <ResetPassword /> } />
+              <Route path="/reset-submission" element={ <ResetPasswordSubmit /> } />
+              <Route path="/sign-in-with-enterprise-sso" element={ <SignInwithEnterpriseSSO /> } />
+              <Route path="/user" element={ <User /> } />
+            </Routes>
             </>} 
             </>}  
             </>}            

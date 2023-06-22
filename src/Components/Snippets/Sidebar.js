@@ -35,9 +35,12 @@ function Sidebar({getTheme, getMenuOpt}) {
     const [roleType, setRoleType] = useState();
 
     const fetchRole = async () => {
-      let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
-      // console.log("userDetail", data.roleType);
-      setRoleType(data.roleType);
+        if(localStorage.getItem("UserID"))
+        {
+        let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
+        // console.log("userDetail", data.roleType);
+        setRoleType(data.roleType);
+        }
     }
   
     useEffect(() => {

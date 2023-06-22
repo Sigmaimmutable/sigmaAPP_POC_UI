@@ -47,7 +47,7 @@ function ResetPassword() {
                     </div>
                     {/* mb-4 */}
                     <Button className='btn-button w-100' variant="dark" onClick={() => verifyMail()}>Continue</Button>
-                    <br/><center><Link to="/sign-in">Go to sign-in</Link></center>
+                    <br/><center><Link to="/">Go to sign-in</Link></center>
                 </div>
             </div>
         </div>
