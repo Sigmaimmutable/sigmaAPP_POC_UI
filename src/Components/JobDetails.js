@@ -23,6 +23,7 @@ function JobDetails() {
     const [limit, setlimit] = useState(10);
     const [active, setActive] = useState("notActive");
     const [Selectedcolm, setSelectedcolm] = useState("");
+    const[SeValue,setSeValue] = useState(false)
 
 
 
@@ -187,6 +188,11 @@ console.log("Selectedcolm",Selectedcolm)
         setActive("active")
     }
 
+    const resetColumn = async(value) =>{
+        handleShow();
+        setSelectedValues([])
+        setSeValue(value);
+    }
 
     return ( 
         <div>
@@ -201,20 +207,20 @@ console.log("Selectedcolm",Selectedcolm)
                     <h6 className="me-3 mb-0 text-muted">Links:</h6>
                     <Dropdown size="sm" className="me-2">
                         <Dropdown.Toggle variant="gray" className="rounded-pill" id="dropdown-basic">
-                            Select
+                        {SeValue?SeValue : 'Tesla v1'}
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="dropdown-filter">
-                            <Dropdown.Item  onClick={handleShow} href="#/action-1">Tesla v1</Dropdown.Item>
-                            {/* <Dropdown.Item href="#/action-2">Tesla v2</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Tesla v3</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Tesla v4</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Tesla v5</Dropdown.Item> */}
+                        <Dropdown.Item onClick={()=>resetColumn("Tesla v1")} >Tesla v1</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>resetColumn("Tesla v2")} >Tesla v2</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>resetColumn("Tesla v3")} >Tesla v3</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>resetColumn("Tesla v4")} >Tesla v4</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>resetColumn("Tesla v5")} >Tesla v5</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
-                    <Button variant="gray" className="btn-gray-black rounded-pill">Submit</Button>
+                    {/* <Button variant="gray" className="btn-gray-black rounded-pill">Submit</Button> */}
                 </Col>
                 <Col xs={'auto'} className="ms-md-0 ms-auto order-md-1">
-                    <Button variant="outline-gray" className="me-0" onClick={() => setSearch(!search)}>
+                    {/* <Button variant="outline-gray" className="me-0" onClick={() => setSearch(!search)}>
                         {search ? (
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="d-block" viewBox="0 0 16 16">
                                 <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
@@ -224,7 +230,7 @@ console.log("Selectedcolm",Selectedcolm)
                                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                             </svg>
                         )}
-                    </Button>
+                    </Button> */}
                 </Col>
                 <Col md={4} lg={3} className="ms-auto mt-md-0 mt-2 mb-md-0 mb-3">
                     {search && (
@@ -439,18 +445,18 @@ console.log("Selectedcolm",Selectedcolm)
                     <Col md={8} className="d-flex justify-content-md-end justify-content-center">
                         <ul className="d-flex pagination list-unstyled">
                             <li>
-                                <Link  className="prev disabled" onClick={()=>paginationProcess(0,10)}>
+                                <Link   className={StartValue !== 0 ? 'next' : StartValue === 0 ? 'prev disabled' : ''} onClick={()=>paginationProcess(StartValue-10,10)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
                                         <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
                                     </svg>
                                 </Link>
                             </li>
                             <li><Link className={StartValue === 0 ? 'active' : ''}  onClick={()=>paginationProcess(0,10)} >1</Link></li>
-                            <li><Link className={StartValue === 11 ? 'active' : ''} onClick={()=>paginationProcess(11,10)}>2</Link></li>
-                            <li><Link className={StartValue === 21? 'active' : ''} onClick={()=>paginationProcess(21,10)}>3</Link></li>
-                            <li><Link className={StartValue === 31? 'active' : ''} onClick={()=>paginationProcess(31,10)}>4</Link></li>
-                            <li><Link className={StartValue === 41? 'active' : ''} onClick={()=>paginationProcess(41,10)}>5</Link></li>
-                            <li><Link className={StartValue === 51 ? 'active' : ''} onClick={()=>paginationProcess(51,10)}>6</Link></li>
+                            <li><Link className={StartValue === 10 ? 'active' : ''} onClick={()=>paginationProcess(10,10)}>2</Link></li>
+                            <li><Link className={StartValue === 20? 'active' : ''} onClick={()=>paginationProcess(20,10)}>3</Link></li>
+                            <li><Link className={StartValue === 30? 'active' : ''} onClick={()=>paginationProcess(30,10)}>4</Link></li>
+                            <li><Link className={StartValue === 40? 'active' : ''} onClick={()=>paginationProcess(40,10)}>5</Link></li>
+                            <li><Link className={StartValue === 50 ? 'active' : ''} onClick={()=>paginationProcess(50,10)}>6</Link></li>
                             <li>
                                 <Link onClick={()=>paginationProcess(StartValue+10,10)} className="next">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
