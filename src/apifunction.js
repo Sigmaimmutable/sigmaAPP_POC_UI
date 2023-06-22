@@ -381,6 +381,91 @@ export const fetchSigmadocdetails = async (sigmaId) => {
   }
 };
 
+export const addToFavorites = async (emailId, sigmaId, name__v, filename__v, status__v) => {
+  const url = '/platform/v1/favourite';
+  const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
+
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
+  const options = {
+    method: 'POST',
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key
+    },
+    data: {
+      emailId,
+      docId: sigmaId,
+      docName: name__v,
+      fileName: filename__v,
+      docStatus: status__v
+    }
+  };
+
+  console.log("docId", sigmaId);
+  
+  try {
+    const response = await axios(options);
+    const result = response.data;
+    console.log('Response:', result);
+    return result;
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+};
+
+export const fetchFavoriteDetails = async (emailId) => {
+  console.log("mail",emailId)
+  const url = `/platform/v1/favourite/${emailId}`;
+  const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
+
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        'x-api-key': key
+      }
+    });
+    
+    console.log('Response:', response);
+
+    // Assuming the response data is in the 'data' field
+    const data = response.data;
+    console.log('API data:', data);
+
+    return [true, data];
+  } catch (error) {
+    console.error('Error fetching favorite details:', error);
+    return [false, null];
+  }
+};
+
+export const deleteFavorite = async (emailId, sigmaId) => {
+  const url = `/platform/v1/favourite/${emailId}/${sigmaId}`;
+  const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
+
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
+  const options = {
+    method: 'DELETE',
+    url,
+    headers: {
+      'x-api-key': key
+    },
+    data: {}
+  };
+
+  try {
+    const responsed = await axios(options);
+    console.log('Responsed:', responsed);
+    return responsed;
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+};
+
 export const forgetPasswordMailVerification = async(email) =>{
 
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
