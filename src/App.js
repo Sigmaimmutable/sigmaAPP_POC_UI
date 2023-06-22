@@ -31,13 +31,23 @@ import AddUser from './Components/AddUser';
 import User from './Components/User';
 import { userDetailWithEmail } from "./apifunction";
 
-function App() {
+function App () {
   const [roleType, setRoleType] = useState();
 
+  const fetchRole = async () => {
+    let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
+    // console.log("userDetail", data.roleType);
+    setRoleType(data.roleType);
+  }
+
+  useEffect(() => {
+    fetchRole();
+  }, [roleType]);
   return (
     <div className="App">
+      {roleType === "Admin" ? <>
       <Routes>
-        <Route path="/sign-in" element={ <SignIn/> } />
+        <Route path="/" element={ <SignIn/> } />
         <Route path="/sign-up" element={ <SignUp/> } />
         <Route path="/reset-password" element={ <ResetPassword /> } />
         <Route path="/reset-submission" element={ <ResetPasswordSubmit /> } />
@@ -45,7 +55,7 @@ function App() {
         <Route path="/user" element={ <User /> } /> 
         {/* <Route path="/google" element={ <Google /> } /> */}
         <Route path="/account" element={ <Profile /> } />
-        <Route path="/" element={ <Dashboard /> } />
+        <Route path="/home" element={ <Dashboard /> } />
         <Route path="/document-details" element={<Document />}>
           <Route index element={ <DocumentDetails /> } />
           <Route path=":slug" element={ <DocumentDetailsSingle /> } />
@@ -71,6 +81,43 @@ function App() {
         {/* <Route path="about" element={ <About/> } />
         <Route path="contact" element={ <Contact/> } /> */}
       </Routes>
+      </> :
+      <Routes>
+      <Route path="/" element={ <SignIn/> } />
+      <Route path="/sign-up" element={ <SignUp/> } />
+      <Route path="/reset-password" element={ <ResetPassword /> } />
+      <Route path="/reset-submission" element={ <ResetPasswordSubmit /> } />
+      <Route path="/sign-in-with-enterprise-sso" element={ <SignInwithEnterpriseSSO /> } />
+      <Route path="/user" element={ <User /> } /> 
+      {/* <Route path="/google" element={ <Google /> } /> */}
+      <Route path="/account" element={ <Profile /> } />
+      <Route path="/home" element={ <Dashboard /> } />
+      <Route path="/document-details" element={<Document />}>
+        <Route index element={ <DocumentDetails /> } />
+        <Route path=":slug" element={ <DocumentDetailsSingle /> } />
+      </Route>
+      <Route path="/job" element={<Job />}>
+        <Route index element={ <ResourcePersistJob /> } />
+        <Route path="/job/job-details" element={ <JobDetails /> } />
+        <Route path="/job/immutable-record-jobs" element={ <ImmutableRecordJobs /> } />
+      </Route>
+      <Route path="/favourite-documents" element={ <FavouriteDocuments /> } />
+      <Route path="/admin" element={ <AdminMain /> }>
+        <Route index element={ <Admin /> } />
+        <Route path=":node" element={ <NodeTransactionsReport /> } />
+      </Route>
+      <Route path="/admin-manager" element={ <AdminManager /> }>
+        <Route index element={ <APILogs /> } />
+        <Route path="/admin-manager/create-org" element={ <CreateOrg /> } />
+        <Route path="/admin-manager/environment" element={ <Environment/> } />
+        <Route path="/admin-manager/user-management" element={ <UserManagement/> } />
+        <Route path="/admin-manager/add-user" element={ <AddUser/> } />
+      </Route>
+      <Route path="/help-support" element={ <HelpSupport/> } />
+      {/* <Route path="about" element={ <About/> } />
+      <Route path="contact" element={ <Contact/> } /> */}
+    </Routes>
+      }
     </div>
   );
 }

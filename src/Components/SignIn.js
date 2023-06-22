@@ -104,7 +104,10 @@ function SignIn() {
     },[])
 
     
-    if(loginstatus.activity  === false || loginstatus.activity  === null || loginstatus.activity  === undefined || loginstatus.activity  === "" || loginstatus.activity  === "Logout"){
+    if(localStorage.getItem('Login') === true || localStorage.getItem('Login') || localStorage.getItem('Login') ==="true" ){    
+        return <>{navigate("/home")}</>;
+  }
+  else{
         return ( 
             <div className="vh-100 d-flex py-md-4 py-2 w-100">
                 <div className="container my-auto">
@@ -198,11 +201,7 @@ function SignIn() {
             </div>
          );
     
-    }
-    else{
-        return( <Navigate to="/" replace={true} />); 
-    }
-  
+    }  
 }
 
 export default SignIn;

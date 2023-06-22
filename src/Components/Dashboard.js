@@ -5,7 +5,7 @@ import { PieChart } from "./Snippets/PieChart";
 import { BarChart } from "./Snippets/BarChart";
 import { useState,useEffect , useContext} from "react";
 import {OrgAdminmailcheckget,Userprofileupdate,userprofileget} from "../apifunction";
-import { Link,useNavigate,Redirect, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
 
@@ -23,7 +23,7 @@ function Dashboard() {
     const setTheme = (e) => {
       setThemeColor(e);
     }
-    const history = useNavigate()
+    const history = useNavigate();
     const [openModal, setOpenModal] = useState(false)
         
     const { logout } = useContext(AuthContext);
@@ -108,6 +108,9 @@ function Dashboard() {
           console.error(error);
         }
       };
+      if(localStorage.getItem('Login') === false || localStorage.getItem('Login') === null || localStorage.getItem('Login') === undefined || localStorage.getItem('Login') === "" || localStorage.getItem('Login') === "false"){            
+        return <>{history("/")}</>;
+      } else  { 
     return ( 
         <Layout getThemeMode={(e) => setTheme(e)}>
             <div className="container-fluid">
@@ -184,6 +187,7 @@ function Dashboard() {
             </div>
         </Layout>
      );
+    }
 }
 
 export default Dashboard;

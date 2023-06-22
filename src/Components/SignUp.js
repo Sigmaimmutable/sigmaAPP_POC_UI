@@ -51,7 +51,7 @@ function SignUp() {
               if(signupuser===true){
                  let userprofileuploding1 = await Userprofileupload(firstName,lastname,email);
                   toast.success("Account created Successfully");
-                  navigate('/sign-in');
+                  navigate('/');
                 
                   console.log("Account created Successfully");
               }
@@ -82,7 +82,7 @@ function SignUp() {
                     <div className="user-card-logo text-center"><img className='img-fluid' src={Logo} alt="logo" /></div>
                     <div className='mb-3'>
                         <h2 className='mb-1'>Get Started</h2>
-                        <p>Already have an account? <Link className='btn-link' to="/sign-in">Sign In</Link></p>
+                        <p>Already have an account? <Link className='btn-link' to="/">Sign In</Link></p>
                     </div>
                     {/* mb-4 */}
                     <Row>

@@ -48,7 +48,7 @@ const Header = () => {
       } else {
         localStorage.removeItem('rememberMe');
       }
-      navigate('/sign-in');
+      navigate('/');
        
       
        
