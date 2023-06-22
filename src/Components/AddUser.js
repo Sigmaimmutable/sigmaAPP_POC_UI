@@ -7,11 +7,11 @@ import { Link } from "react-router-dom";
 function AddUser() {
     const[name,setname]=useState("");
     const[emailid,setEmail]=useState("");
-    const[role,setRole]=useState("Vault owner");
+    const[role,setRole]=useState("");
     const [roleId,setRoleId] = useState("");
     console.log("selected",roleId);
     const handleChange = (e) => {
-        setRole(e.target.value)
+        setRole(e)
     }
 
     const roleFetch = async () => {

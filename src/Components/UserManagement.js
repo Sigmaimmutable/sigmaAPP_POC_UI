@@ -3,7 +3,7 @@ import Eye from '../asserts/images/eye-icon.svg'
 import Question from '../asserts/images/question-icon.svg'
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { OrgAdminmailcheckget, OrgTenentcheckget, DeleteOrgUser } from "../apifunction";
+import { OrgAdminmailcheckget1, OrgTenentcheckget, DeleteOrgUser } from "../apifunction";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 
 function UserManagement() {
@@ -44,7 +44,7 @@ function UserManagement() {
           let r=[];
           let countlist=0;
       try {          
-        let [check, tenentid] = await OrgAdminmailcheckget(localStorage.getItem('UserID'));
+        let [check, tenentid] = await OrgAdminmailcheckget1(localStorage.getItem('UserID'));
       
         // settenentid(tenentid.tenantId);
         console.log("tenetidnew",tenentid);
@@ -59,7 +59,7 @@ function UserManagement() {
               Object.keys(datavar).map((m)=>{
                 console.log("datascheck15",datavar[m]);
                 countlist=countlist + 1;
-               if(datavar[m].roleType !== "Admin")
+               if(datavar[m].tennantId === tenentid.tennantId && datavar[m].roleType != "Super User" && datavar[m].roleType != "System Admin" && datavar[m].roleType != "Business Admin")
                     r.push({
                        userName:datavar[m].userName,
                         emailId:datavar[m].emailId,

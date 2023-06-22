@@ -728,7 +728,7 @@ export const userDetailWithEmail = async (emailid) =>
 }
 
 export const OrgTenentcheckget = async(tenentId) =>{
-   
+   console.log("orgTenant", tenentId);
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
     try{
