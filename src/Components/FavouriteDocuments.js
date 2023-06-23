@@ -3,7 +3,7 @@ import Eye from '../asserts/images/eye-icon.svg'
 import { Link,useLocation,useParams } from "react-router-dom";
 import { useState,useEffect } from "react";
 import Layout from "./Snippets/Layout";
-import { fetchFavoriteDetails,deleteFavorite,fetchSigmadocdetails } from "../apifunction";
+import { fetchFavoriteDetails,deleteFavorite,fetchSigmadocdetails,createUserVisits } from "../apifunction";
 const FavouriteDocuments= (props)=>{
 // function FavouriteDocuments() {
     const location = useLocation();
@@ -51,7 +51,22 @@ const FavouriteDocuments= (props)=>{
         console.log("valid2", data);
         setFavoriteData(data);
     };
-    
+    useEffect(() => {
+        userdata();
+      }, []);
+      
+      const userdata = async () => {
+        let algoAddress = localStorage.getItem("UserID");
+        let networkType = "type";
+        let walletType = "Favorite ";
+      
+        try {
+          await createUserVisits(algoAddress, networkType, walletType);
+          console.log("Update successful6");
+        } catch (error) {
+          console.error("Error updating:", error);
+        }
+      };
     const deleteFavorites = async(docId) => {
         const emailId = localStorage.getItem("UserID")
         // Perform the deletion logic here

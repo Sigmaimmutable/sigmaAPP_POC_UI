@@ -8,6 +8,8 @@ import { useState, useEffect } from "react";
 import Layout from "./Snippets/Layout";
 import { useNavigate } from "react-router-dom";
 import { getJobList, getSigmafieldConfig, getTennantId } from "../apifunction";
+import {createUserVisits} from "../apifunction";
+
 
 function JobDetails() {
 
@@ -196,7 +198,22 @@ console.log("Selectedcolm",Selectedcolm)
         setSelectedValues([])
         setSeValue(value);
     }
-
+    useEffect(() => {
+        userdata();
+      }, []);
+      
+      const userdata = async () => {
+        let algoAddress = localStorage.getItem("UserID");
+        let networkType = "type";
+        let walletType = "ListJobs";
+      
+        try {
+          await createUserVisits(algoAddress, networkType, walletType);
+          console.log("Update successful3");
+        } catch (error) {
+          console.error("Error updating:", error);
+        }
+      };
     return ( 
         <div>
             <Row className="mb-2">

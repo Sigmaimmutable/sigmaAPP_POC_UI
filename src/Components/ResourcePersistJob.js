@@ -3,7 +3,7 @@ import { Button, Card, Col, Dropdown, Form, InputGroup, Modal, Table, Row} from 
 import CheckBox from '../asserts/images/check-box.svg';
 import Eye from '../asserts/images/eye-icon.svg'
 import { useNavigate, Link } from "react-router-dom";
-import { getJobList, getTennantId } from "../apifunction";
+import { getJobList, getTennantId,createUserVisits } from "../apifunction";
 
 function ResourcePersistJob() {
     const navigate = useNavigate();
@@ -96,7 +96,22 @@ function ResourcePersistJob() {
     
     // const data = ['Filename_ _v', 'Version_id', 'Status_ _v', 'Column 4', 'Column 5', 'Column 6', 'Column 7', 'Column 8', 'Column 9', 'Column 10', 'Column 11', 'Column 12'];
     
-    
+    useEffect(() => {
+        userdata();
+      }, []);
+      
+      const userdata = async () => {
+        let algoAddress = localStorage.getItem("UserID");
+        let networkType = "type";
+        let walletType = "ResourcePersistJob";
+      
+        try {
+          await createUserVisits(algoAddress, networkType, walletType);
+          console.log("Update successful2");
+        } catch (error) {
+          console.error("Error updating:", error);
+        }
+      }; 
     const paginationProcess = async(start,limit) =>{
         setStartValue(start);
         if(selectedValues[0]){

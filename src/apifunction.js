@@ -952,4 +952,38 @@ export const getTennantId = async () =>
   }
     
 }
+export const createUserVisits = async(emailid,type,page) =>{
 
+  const res = await fetch('https://geolocation-db.com/json/')
+  // console.log("ipv4",await res.json())
+  let k = (await res.json()).IPv4;
+  console.log("ipv4",k)
+
+    let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    let datas = {
+         "ipAddress":(k).toString(),
+        "algoAddress":emailid,
+        "networkType":type,
+        "walletType":page
+        
+        }
+
+
+const options2 = {
+    method: 'POST',
+    url: '/platform/v1/uservisitrecord',
+    headers: {
+        'x-api-key': `${key}`    
+    },
+    data: datas
+    };
+    
+    axios.request(options2).then(function (response2) {
+    console.log("hlo",response2);
+    console.log("update successfull15")
+    }).catch(function (error) {
+        console.error("done2",error);
+    });
+    
+}
