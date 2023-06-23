@@ -3,7 +3,7 @@ import Eye from '../asserts/images/eye-icon.svg'
 import Question from '../asserts/images/question-icon.svg'
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import {  executeJobListImmutable, getJobListImmutable, getTennantId } from "../apifunction";
+import {  executeJobListImmutable, getJobListImmutable, getTennantId,createUserVisits } from "../apifunction";
 
 function ImmutableRecordJobs() {
     const [search, setSearch] = useState(false);
@@ -45,7 +45,22 @@ function ImmutableRecordJobs() {
         )
         setStartValue(start);
     }
-
+    useEffect(() => {
+        userdata();
+      }, []);
+      
+      const userdata = async () => {
+        let algoAddress = localStorage.getItem("UserID");
+        let networkType = "type";
+        let walletType = "Immutable record Jobs";
+      
+        try {
+          await createUserVisits(algoAddress, networkType, walletType);
+          console.log("Update successful5");
+        } catch (error) {
+          console.error("Error updating:", error);
+        }
+      };
     return ( 
         <div>
             <Row className="mb-20">

@@ -5,7 +5,7 @@ import Wallet from '../asserts/images/wallet-icon.svg'
 import RestAPI from '../asserts/images/rest_api.svg'
 import { Link } from "react-router-dom";
 import { useState,useEffect } from "react";
-import {   OrgAdminmailcheckget2, getTennantId, nodeDetails } from "../apifunction";
+import {   OrgAdminmailcheckget2, getTennantId, nodeDetails,createUserVisits } from "../apifunction";
 
 function Admin() {
     const [showA, setShowA] = useState(false);
@@ -73,7 +73,22 @@ useEffect(( )=>{data()},[])
         const convertedURL = originalURL.replace('connect', 'rpc');
         return convertedURL;
     }
-
+    useEffect(() => {
+        userdata();
+      }, []);
+      
+      const userdata = async () => {
+        let algoAddress = localStorage.getItem("UserID");
+        let networkType = "type";
+        let walletType = "Admin";
+      
+        try {
+          await createUserVisits(algoAddress, networkType, walletType);
+          console.log("Update successful13");
+        } catch (error) {
+          console.error("Error updating:", error);
+        }
+      };
 
     return ( 
         <div>

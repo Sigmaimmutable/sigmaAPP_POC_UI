@@ -1,7 +1,7 @@
 import { Badge, Button, Card, Col, ListGroup, Row, Table,Form} from "react-bootstrap";
 import React,{ useEffect ,useState} from "react";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
-import {CreateOrganizationPost,CreateOrguserrolepost} from '../apifunction';
+import {CreateOrganizationPost,CreateOrguserrolepost,createUserVisits} from '../apifunction';
 import '../toast-style-override.css';
 import CopyIcon from '../asserts/images/copy-icon.svg'
 import { logRoles } from "@testing-library/react";
@@ -78,6 +78,22 @@ const CreateOrg = () => {
         // setTimeout(() => {
         //     setShowA(false)
         // }, 5000)
+        useEffect(() => {
+            userdata();
+          }, []);
+          
+          const userdata = async () => {
+            let algoAddress = localStorage.getItem("UserID");
+            let networkType = "type";
+            let walletType = "create-org";
+          
+            try {
+              await createUserVisits(algoAddress, networkType, walletType);
+              console.log("Update successful10");
+            } catch (error) {
+              console.error("Error updating:", error);
+            }
+          };
      
     return ( 
       

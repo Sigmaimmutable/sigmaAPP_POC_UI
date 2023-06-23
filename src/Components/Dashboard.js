@@ -8,7 +8,7 @@ import {OrgAdminmailcheckget,Userprofileupdate,getTennantId,userprofileget} from
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
-
+import {createUserVisits} from "../apifunction";
 import { Container, Modal } from "react-bootstrap";
 import { Col, Row,Button,Alert,Card} from "react-bootstrap";
 
@@ -20,6 +20,7 @@ function Dashboard() {
     const [UserName,setUserName] = useState("");
     const [lastname,setlastname] = useState("");
     const[getIProfile,setgetIProfile]=useState("");  
+   
     const setTheme = (e) => {
       setThemeColor(e);
     }
@@ -54,6 +55,29 @@ function Dashboard() {
           }
         
     }
+    useEffect(() => {
+      userdata();
+    }, []);
+    
+   
+    
+    const userdata = async () => {
+      let algoAddress = localStorage.getItem("UserID");
+      let networkType = "type";
+      let walletType = "home";
+    
+      try {
+        await createUserVisits(algoAddress, networkType, walletType);
+        console.log("Update successful9");
+      } catch (error) {
+        console.error("Error updating:", error);
+      }
+    };
+    
+    
+    
+  
+    
     const getprofiledetails = async() =>{
       let [data,userprofiledetail]=await userprofileget(localStorage.getItem("UserID"));
       setgetIProfile(userprofiledetail);
@@ -91,6 +115,7 @@ function Dashboard() {
     //     { label: 'Documents Uploaded', value: documentsUploadedCount },
     //     { label: 'NFTs Created', value: nftsCreatedCount }
     //   ];
+    
 
     useEffect(() => {
         fetchMonthlyData(); // Fetch the monthly data

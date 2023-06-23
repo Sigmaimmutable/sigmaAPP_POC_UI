@@ -1,7 +1,24 @@
 import { Button, Col, Form, Row} from "react-bootstrap";
+import React,{ useEffect ,useState} from "react";
 import Layout from "./Snippets/Layout";
-
+import {CreateOrganizationPost,CreateOrguserrolepost,createUserVisits} from '../apifunction';
 function Environment() {
+    useEffect(() => {
+        userdata();
+      }, []);
+      
+      const userdata = async () => {
+        let algoAddress = localStorage.getItem("UserID");
+        let networkType = "type";
+        let walletType = "Environment";
+      
+        try {
+          await createUserVisits(algoAddress, networkType, walletType);
+          console.log("Update successful7");
+        } catch (error) {
+          console.error("Error updating:", error);
+        }
+      };
     return ( 
         <div>
             <Row className="mb-40">

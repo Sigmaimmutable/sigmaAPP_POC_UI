@@ -6,8 +6,10 @@ import useIdle from "./useIdleTimeout";
 import { useState,useEffect , useContext} from "react";
 import { Container, Modal } from "react-bootstrap";
 import { Col, Row,Button,Alert,Card} from "react-bootstrap";
+import {createUserVisits} from "../apifunction";
 
 function Job() {
+
     const history = useNavigate()
     const [openModal, setOpenModal] = useState(false)
         
@@ -39,6 +41,24 @@ function Job() {
           }
         
     }
+    useEffect(() => {
+      userdata();
+    }, []);
+    
+   
+    
+    const userdata = async () => {
+      let algoAddress = localStorage.getItem("UserID");
+      let networkType = "type";
+      let walletType = "job";
+    
+      try {
+        await createUserVisits(algoAddress, networkType, walletType);
+        console.log("Update successful4");
+      } catch (error) {
+        console.error("Error updating:", error);
+      }
+    };
     return ( 
         <Layout getThemeMode={() => undefined}>
             <div className="container-fluid">

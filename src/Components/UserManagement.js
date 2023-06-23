@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { OrgAdminmailcheckget1, OrgTenentcheckget, DeleteOrgUser } from "../apifunction";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
+import {CreateOrganizationPost,CreateOrguserrolepost,createUserVisits} from '../apifunction';
 
 function UserManagement() {
     const [disabled, setDisabled] = useState(true);
@@ -85,6 +86,22 @@ function UserManagement() {
       
     }
       }
+      useEffect(() => {
+        userdata();
+      }, []);
+      
+      const userdata = async () => {
+        let algoAddress = localStorage.getItem("UserID");
+        let networkType = "type";
+        let walletType = "User-Management";
+      
+        try {
+          await createUserVisits(algoAddress, networkType, walletType);
+          console.log("Update successful1");
+        } catch (error) {
+          console.error("Error updating:", error);
+        }
+      };
 
 useEffect(() => {
     memberTableFetch();

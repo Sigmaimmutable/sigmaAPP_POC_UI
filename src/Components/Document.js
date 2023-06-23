@@ -1,9 +1,27 @@
 import { Col, Row } from "react-bootstrap";
 import Layout from "./Snippets/Layout";
-import { useState } from "react";
+
 import {  Outlet } from "react-router-dom";
+import {createUserVisits} from "../apifunction"
+import { useState,useEffect , useContext} from "react";
 
 function Document() {
+    useEffect(() => {
+        userdata();
+      }, []);
+      
+      const userdata = async () => {
+        let algoAddress = localStorage.getItem("UserID");
+        let networkType = "type";
+        let walletType = "document-details";
+      
+        try {
+          await createUserVisits(algoAddress, networkType, walletType);
+          console.log("Update successful8");
+        } catch (error) {
+          console.error("Error updating:", error);
+        }
+      };
     return ( 
         <Layout getThemeMode={() => undefined}>
             <div className="container-fluid">
