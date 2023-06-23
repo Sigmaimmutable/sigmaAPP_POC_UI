@@ -22,7 +22,7 @@ function Favourite(sigmaId) {
             //   }
             } else {
               // Remove from favorites
-              const deleted = await deleteFavorite(emailId, sigmaId);
+              const deleted = await deleteFavorite(emailId, sigmaId.sigmaid);
               console.log("deleted")
             //   if (deleted) {
             //     // setIsFavorite(false);

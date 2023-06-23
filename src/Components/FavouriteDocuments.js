@@ -52,14 +52,18 @@ const FavouriteDocuments= (props)=>{
         setFavoriteData(data);
     };
     
-    const deleteFavorite = (docId) => {
+    const deleteFavorites = async(docId) => {
+        const emailId = localStorage.getItem("UserID")
         // Perform the deletion logic here
         // You can use the docId to identify the document to delete
         // Update the favoriteData state to remove the deleted document
-      
+        
         // Example logic:
         const updatedFavorites = favoriteData.filter(item => item.docId !== docId);
         setFavoriteData(updatedFavorites);
+        console.log("docid",docId)
+        const deleted = await deleteFavorite(emailId, docId);
+      
       };
   
     return ( 
@@ -83,8 +87,8 @@ const FavouriteDocuments= (props)=>{
                                 </svg>
                             )}
                         </Button>
-                        <Button variant="outline-gray" className="me-2 px-3">7 Days</Button>
-                        <Button variant="outline-gray" className="me-2 px-3">30 Days</Button>
+                        {/* <Button variant="outline-gray" className="me-2 px-3">7 Days</Button>
+                        <Button variant="outline-gray" className="me-2 px-3">30 Days</Button> */}
                         <Dropdown size="sm">
                             <Dropdown.Toggle variant="gray" id="dropdown-basic">
                                 Select Rows
@@ -197,7 +201,7 @@ const FavouriteDocuments= (props)=>{
                         {favoriteData.map((postt, index) => (
     <tr key={index}>
       <td>
-        <Button variant="link" onClick={() => deleteFavorite(postt.docId)}>
+        <Button variant="link" onClick={() => deleteFavorites(postt.docId)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -260,8 +264,8 @@ const FavouriteDocuments= (props)=>{
 
                     <Row className="mt-4">
                         <Col md={4} className="mb-md-0 mb-3">
-                            <h6 className="me-2 mb-0 text-muted">Showing 10 of 10:</h6>
-                            <Dropdown size="sm">
+                            {/* <h6 className="me-2 mb-0 text-muted">Showing 10 of 10:</h6> */}
+                            {/* <Dropdown size="sm">
                                 <Dropdown.Toggle variant="gray" id="dropdown-basic">
                                     Select Rows
                                 </Dropdown.Toggle>
@@ -270,11 +274,11 @@ const FavouriteDocuments= (props)=>{
                                     <Dropdown.Item href="#/action-2">500 Rows</Dropdown.Item>
                                     <Dropdown.Item href="#/action-3">1000 Rows</Dropdown.Item>
                                 </Dropdown.Menu>
-                            </Dropdown>
+                            </Dropdown> */}
                         </Col>
                         <Col md={8} className="d-flex justify-content-md-end justify-content-center">
                             <ul className="d-flex pagination list-unstyled">
-                                <li>
+                                {/* <li>
                                     <Link to="/" className="prev disabled">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
                                             <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
@@ -293,7 +297,7 @@ const FavouriteDocuments= (props)=>{
                                             <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                         </svg>
                                     </Link>
-                                </li>
+                                </li> */}
                             </ul>
                         </Col>
                     </Row>
