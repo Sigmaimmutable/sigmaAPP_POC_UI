@@ -220,7 +220,7 @@ const FavouriteDocuments= (props)=>{
       <td className="text-center">{postt.docId}</td>
       <td>{postt.fileName}</td>
       <td>{postt.docName}</td>
-      <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.sigmaId}`}}>{postt.docStatus}</Link></td>
+      <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}`}}>{postt.docStatus}</Link></td>
     </tr>
   ))}
                               {/* </>)} */}
