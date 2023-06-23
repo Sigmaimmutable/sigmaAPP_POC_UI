@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchFavoriteDetails,deleteFavorite,fetchSigmadocdetails,createUserVisits } from "../apifunction";
 
-function AdminManager() {
+function AdminManager(props) {
     useEffect(() => {
         userdata();
       }, []);
@@ -21,7 +21,7 @@ function AdminManager() {
         }
       };
     return ( 
-        <Layout getThemeMode={() => undefined}>
+        <Layout getThemeMode={() => undefined} roleType = {props.roleType}>
             <div className="container-fluid">
                 <Outlet />
             </div>

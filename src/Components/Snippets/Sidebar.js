@@ -26,26 +26,10 @@ import SubIconAct2 from '../../asserts/images/subnav-icon-active-2.svg';
 import SubIconAct3 from '../../asserts/images/subnav-icon-active-3.svg';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { userDetailWithEmail } from "../../apifunction";
 
-function Sidebar({getTheme, getMenuOpt}) {
+function Sidebar({getTheme, getMenuOpt, roleType}) {
     const [theme, setTheme] = useState('light');
     const [menu, setMenu] = useState(false);
-
-    const [roleType, setRoleType] = useState();
-
-    const fetchRole = async () => {
-        if(localStorage.getItem("UserID"))
-        {
-        let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
-        // console.log("userDetail", data.roleType);
-        setRoleType(data.roleType);
-        }
-    }
-  
-    useEffect(() => {
-      fetchRole();
-    }, [roleType]);
     
     if(menu){
         document.getElementsByTagName('body')[0].classList.remove('submenu');

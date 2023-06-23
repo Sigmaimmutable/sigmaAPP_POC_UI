@@ -82,7 +82,7 @@ const FavouriteDocuments= (props)=>{
       };
   
     return ( 
-        <Layout getThemeMode={() => undefined}>
+        <Layout getThemeMode={() => undefined} roleType = {props.roleType}>
             <div className="container-fluid">
                 <Row className="mb-20">
                     <Col md={6} xl={4} xxl={3}>

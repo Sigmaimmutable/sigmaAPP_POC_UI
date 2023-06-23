@@ -14,6 +14,7 @@ function UserManagement() {
     const [showButton, setShowButton] = useState(false);
     const [memberlistTable, setmemberlistTable] = useState([]);
     const [deleteEmail, setDeleteEmail] = useState();
+    const [gotValue, setGotValue] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -74,7 +75,11 @@ function UserManagement() {
           }   catch(e){                      
           } 
         //   r.reverse();
-        setmemberlistTable(r);                
+        setmemberlistTable(r);      
+        if(r)
+        {
+            setGotValue(!gotValue)
+        }          
           }
           else{
             setmemberlistTable([""]);  
@@ -86,6 +91,12 @@ function UserManagement() {
       
     }
       }
+
+useEffect(() => {
+    if(gotValue === false)
+    memberTableFetch();
+},[memberlistTable])
+
       useEffect(() => {
         userdata();
       }, []);
@@ -102,10 +113,6 @@ function UserManagement() {
           console.error("Error updating:", error);
         }
       };
-
-useEffect(() => {
-    memberTableFetch();
-},[memberlistTable])
 
 const checkedDeleteButton = (email) =>
 {

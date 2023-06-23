@@ -8,7 +8,7 @@ import { Container, Modal } from "react-bootstrap";
 import { Col, Row,Button,Alert,Card} from "react-bootstrap";
 import {createUserVisits} from "../apifunction";
 
-function Job() {
+function Job(props) {
 
     const history = useNavigate()
     const [openModal, setOpenModal] = useState(false)
@@ -60,7 +60,7 @@ function Job() {
       }
     };
     return ( 
-        <Layout getThemeMode={() => undefined}>
+        <Layout getThemeMode={() => undefined} roleType = {props.roleType}>
             <div className="container-fluid">
                 <Outlet />
             </div>

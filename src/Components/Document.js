@@ -5,7 +5,7 @@ import {  Outlet } from "react-router-dom";
 import {createUserVisits} from "../apifunction"
 import { useState,useEffect , useContext} from "react";
 
-function Document() {
+function Document(props) {
     useEffect(() => {
         userdata();
       }, []);
@@ -23,7 +23,7 @@ function Document() {
         }
       };
     return ( 
-        <Layout getThemeMode={() => undefined}>
+        <Layout getThemeMode={() => undefined} roleType = {props.roleType}>
             <div className="container-fluid">
                 <Outlet />
 
