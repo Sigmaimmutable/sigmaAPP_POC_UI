@@ -139,7 +139,7 @@ const [country, setCountry] = useState('');
         else{
             handleShowLoad()
             toast.dismiss()
-            toast.warning(`Updating profile Inprogress`,{autoClose:3000});  
+            toast.success(`Updating profile Inprogress`,{autoClose:3000});  
             console.log("datapass",getIProfile.firstName,getIProfile.lastName,getIProfile.emailId,"733526357235",gender,country,region,timezoneselected.label
             ,language,Img);
             let Profileupdate= await Userprofileupdate(getIProfile.firstName,getIProfile.lastName,"733526357235",Img,gender,region,country,"English",timezoneselected.label
