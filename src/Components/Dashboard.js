@@ -151,18 +151,26 @@ function Dashboard() {
                 <Row>
                     <Col md={5} xl={4} className="mb-md-0 mb-4">
                         <Card className="shadow border-0 h-100">
-                            <Card.Body className="p-lg-4 p-md-3 p-2 h-100 d-flex align-items-center justify-content-center">
+                            <Card.Body className="p-lg-4 p-md-3 p-2">
+                            <Row className="justify-content-center h-100 align-items-center">
+                                    <Col md={11}>
                             <PieChart theme={theme} data={[
   { label: 'Documents Uploaded', value: documentsUploadedCount },
   { label: 'NFTs Created', value: nftsCreatedCount }
 ]} />
+</Col>
+                                </Row>
                             </Card.Body>
                         </Card>
                     </Col>
                     <Col md={7} xl={8}>
                         <Card className="shadow border-0 h-100">
-                            <Card.Body className="p-lg-4 p-md-3 p-2 h-100 d-flex align-items-center justify-content-center">
+                            <Card.Body className="p-lg-4 p-md-3 p-2">
+                            <Row className="justify-content-center h-100 align-items-center">
+                                    <Col md={10}>
                             <BarChart theme={theme} monthlyData={monthlyData} />
+                            </Col>
+                                </Row>
                             </Card.Body>
                         </Card>
                     </Col>

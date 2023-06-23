@@ -76,6 +76,7 @@ $space: 50px;
 body{
     line-height: 1.4;
     font-weight: 400;
+    overflow-x: hidden;
     font-size: var(--14);
     // font-family: 'TT Norms';
     font-family: 'Rubik', sans-serif;
@@ -92,6 +93,7 @@ body{
         --bs-card-bg:   #414141;
         --black-21: #fff;
         --blue: #2dece4;
+        --bg-E0:rgba(0,0,0, 0.1);
         --gray-F2: rgba(0,0,0, 0.1);
         --bg-02: rgba(255,255,255,0.16);
         --color-opacity-33: rgba(255,255,255, 0.33);
@@ -115,7 +117,12 @@ body{
             --black-1A: #fff;
 
             &-dark{
-                --bs-btn-hover-color: var(--black-1A);
+                color: var(--white);
+                background-color: var(--black);
+
+                &:hover{
+                    color: #fff;
+                }
             }
 
             &-logout{
@@ -130,8 +137,14 @@ body{
             }
         }
 
-        .sidebar-subnav-inner{
+        .sidebar-subnav-inner, .list-icon{
             img{
+                filter: invert(1);
+            }
+        }
+
+        img{
+            &[alt="CopyIcon"]{
                 filter: invert(1);
             }
         }
@@ -663,6 +676,8 @@ h6{
         background-color: var(--white);
 
         &-end{
+            right: 0 !important;
+            inset: 0px 0px auto auto !important;
             transform: translate(0, 40px) !important;
         }
 
@@ -977,7 +992,7 @@ h6{
 
 .sidebar{
     background-color: var(--black-1A);
-    transition: all .35s ease-out;
+    transition: all .25s ease-out;
     padding: 40px 12px;
     position: fixed;
     height: 100%;
@@ -1512,6 +1527,7 @@ sup{
     .sidebar{
         left: 0;
         width: 300px;
+        overflow: auto;
 
         &-nav > ul > li > a {
             width: 100%;
@@ -1567,4 +1583,8 @@ sup{
             }
         }
     }
+}
+
+.pointer{
+    cursor: pointer;
 }

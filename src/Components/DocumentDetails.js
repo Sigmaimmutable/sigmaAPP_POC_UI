@@ -2,6 +2,7 @@ import { Button, Col, Dropdown, Form, InputGroup, Row, Table } from "react-boots
 import Eye from '../asserts/images/eye-icon.svg'
 import React, { useState, useEffect } from 'react';
 import { Link,useNavigate,Redirect, useLocation } from "react-router-dom";
+import Favourite from "./Snippets/Fav";
 
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
@@ -17,6 +18,7 @@ function DocumentDetails() {
     const [limit, setLimit] = useState(10); // Default limit is 100
     const [documentDetails, setDocumentDetails] = useState(null);
     const [sigmaId, setSigmaId] = useState(''); // State variable for sigmaId
+    const [fav, setFav] = useState(false);
         
     const { logout } = useContext(AuthContext);
         
@@ -248,7 +250,10 @@ function DocumentDetails() {
           </div>
         </td>
         <td className="text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill={isFavorite ? 'currentColor' : 'none'} viewBox="0 0 16 16"
+        <Favourite
+        sigmaid= {postt.sigmaId} name__v = {postt.name__v} filename__v ={postt.filename__v} status__v ={postt.status__v}
+        />
+          {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill={isFavorite ? 'currentColor' : 'none'} viewBox="0 0 16 16"
           style={{ cursor: 'pointer', transition: 'fill 0.3s' }}
           onClick={() => {
             // if (postt.docId && postt.docName && postt.fileName && postt.docStatus) {
@@ -257,7 +262,7 @@ function DocumentDetails() {
           }} >
             <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
             className={`star-icon ${isFavorite ? 'favorited' : ''}`}/>
-          </svg>
+          </svg> */}
         </td>
         <td className="text-center">{postt.sigmaId ? postt.sigmaId : ""}</td>
         <td>{postt.filename__v ? postt.filename__v : ""}</td>
