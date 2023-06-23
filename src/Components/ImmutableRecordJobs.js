@@ -3,7 +3,7 @@ import Eye from '../asserts/images/eye-icon.svg'
 import Question from '../asserts/images/question-icon.svg'
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import {  executeJobListImmutable, getJobListImmutable } from "../apifunction";
+import {  executeJobListImmutable, getJobListImmutable, getTennantId } from "../apifunction";
 
 function ImmutableRecordJobs() {
     const [search, setSearch] = useState(false);
@@ -20,7 +20,8 @@ function ImmutableRecordJobs() {
 
     useEffect(() =>{
         const jobfetch = async() =>{
-            await getJobListImmutable('543609ec-58ba-4f50-9757-aaf149e5f187',StartValue,limit).then((response)=>
+            let tnId = await getTennantId();
+            await getJobListImmutable(tnId,StartValue,limit).then((response)=>
             // console.log("response",response)
             setjobList(response)
 
@@ -36,7 +37,8 @@ function ImmutableRecordJobs() {
     }
 
     const paginationProcess = async(start) =>{
-        await getJobListImmutable('543609ec-58ba-4f50-9757-aaf149e5f187',start,limit).then((response)=>
+        let tnId = await getTennantId();
+        await getJobListImmutable(tnId,start,limit).then((response)=>
         // console.log("response",response)
         setjobList(response)
         

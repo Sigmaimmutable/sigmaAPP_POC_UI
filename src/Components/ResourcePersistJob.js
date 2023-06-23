@@ -3,7 +3,7 @@ import { Button, Card, Col, Dropdown, Form, InputGroup, Modal, Table, Row} from 
 import CheckBox from '../asserts/images/check-box.svg';
 import Eye from '../asserts/images/eye-icon.svg'
 import { useNavigate, Link } from "react-router-dom";
-import { getJobList } from "../apifunction";
+import { getJobList, getTennantId } from "../apifunction";
 
 function ResourcePersistJob() {
     const navigate = useNavigate();
@@ -48,8 +48,8 @@ function ResourcePersistJob() {
         console.log("selecetd",selvalues)
         setSelectedColumns(selvalues)
         setShow(false);
-
-        let response = await getJobList('543609ec-58ba-4f50-9757-aaf149e5f187',StartValue,limit);
+        let tnId = await getTennantId();
+        let response = await getJobList(tnId,StartValue,limit);
             // console.log("response",response)
         setjobList(response)
         
@@ -100,10 +100,12 @@ function ResourcePersistJob() {
     const paginationProcess = async(start,limit) =>{
         setStartValue(start);
         if(selectedValues[0]){
-            let joblisted = await getJobList('543609ec-58ba-4f50-9757-aaf149e5f187',start,limit);
+            let tnId = await getTennantId();
+            let joblisted = await getJobList(tnId,start,limit);
             await handlefatchforPagination(selectedValues,joblisted);
        }
-        await getJobList('543609ec-58ba-4f50-9757-aaf149e5f187',start,limit).then((response)=>
+       let tnId = await getTennantId();
+        await getJobList(tnId,start,limit).then((response)=>
         // console.log("response",response)
         setjobList(response)
         )
@@ -165,11 +167,14 @@ function ResourcePersistJob() {
 
     useEffect(() =>{
         const jobfetch = async() =>{
-            await getJobList('543609ec-58ba-4f50-9757-aaf149e5f187',StartValue,limit).then((response)=>
+            let tnId = await getTennantId();
+            await getJobList(tnId,StartValue,limit).then((response)=>
             // console.log("response",response)
             setjobList(response)
 
             );
+            
+            // console.log("tennantId",s)
         }
         jobfetch();
     }, [])
