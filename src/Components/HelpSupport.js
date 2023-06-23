@@ -1,9 +1,9 @@
 import { Button, Col, Form, Row} from "react-bootstrap";
 import Layout from "./Snippets/Layout";
 
-function HelpSupport() {
+function HelpSupport(props) {
     return ( 
-        <Layout getThemeMode={() => undefined}>
+        <Layout getThemeMode={() => undefined} roleType = {props.roleType}>
             <div className="container-fluid">
                 <Row className="mb-40">
                     <Col md={6} xl={4} xxl={3}>

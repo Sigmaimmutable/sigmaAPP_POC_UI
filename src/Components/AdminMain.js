@@ -1,9 +1,12 @@
 import Layout from "./Snippets/Layout";
 import { Outlet } from "react-router-dom";
 
-function AdminMain() {
+function AdminMain(props) {
     return ( 
-        <Layout getThemeMode={() => undefined}>
+        <Layout 
+            getThemeMode={() => undefined}
+            roleType = {props.roleType}
+        >
             <div className="container-fluid">
                 <Outlet />
             </div>

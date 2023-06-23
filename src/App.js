@@ -38,19 +38,23 @@ function App () {
     if(localStorage.getItem("UserID"))
     {
     let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
-    // console.log("userDetail", data.roleType);
+    console.log("app.js role", data.roleType);
     setRoleType(data.roleType);
+
     }
   }
 
   useEffect(() => {
-    fetchRole();
+    if(!roleType && roleType === undefined)
+    {
+      fetchRole();
+    }
   }, [roleType]);
   return (
     <div className="App">
             {roleType === "System Admin" ? <>
             <Routes>
-              <Route path="/" element={ <SignIn/> } />
+              <Route path="/" element={ <SignIn /> } />
               <Route path="/sign-up" element={ <SignUp/> } />
               <Route path="/reset-password" element={ <ResetPassword /> } />
               <Route path="/reset-submission" element={ <ResetPasswordSubmit /> } />
@@ -58,29 +62,29 @@ function App () {
               <Route path="/user" element={ <User /> } /> 
               {/* <Route path="/google" element={ <Google /> } /> */}
               <Route path="/account" element={ <Profile /> } />
-              <Route path="/home" element={ <Dashboard /> } />
-              <Route path="/document-details" element={<Document />}>
+              <Route path="/home" element={ <Dashboard roleType = {roleType}/> } />
+              <Route path="/document-details" element={<Document roleType = {roleType}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
               </Route>
-              <Route path="/job" element={<Job />}>
+              <Route path="/job" element={<Job roleType = {roleType}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
                 <Route path="/job/job-details" element={ <JobDetails /> } />
                 <Route path="/job/immutable-record-jobs" element={ <ImmutableRecordJobs /> } />
               </Route>
-              <Route path="/favourite-documents" element={ <FavouriteDocuments /> } />
-              <Route path="/admin-manager" element={ <AdminManager /> }>
+              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
+              <Route path="/admin-manager" element={ <AdminManager roleType = {roleType}/> }>
                 <Route path="/admin-manager/user-management" element={ <UserManagement/> } />
                 <Route path="/admin-manager/add-user" element={ <AddUser/> } />
               </Route>
-              <Route path="/help-support" element={ <HelpSupport/> } />
+              <Route path="/help-support" element={ <HelpSupport roleType = {roleType}/> } />
               {/* <Route path="about" element={ <About/> } />
               <Route path="contact" element={ <Contact/> } /> */}
             </Routes>          
             </> : <>
             {roleType === "Vault Owner" ? <>
             <Routes>
-              <Route path="/" element={ <SignIn/> } />
+              <Route path="/" element={ <SignIn /> } />
               <Route path="/sign-up" element={ <SignUp/> } />
               <Route path="/reset-password" element={ <ResetPassword /> } />
               <Route path="/reset-submission" element={ <ResetPasswordSubmit /> } />
@@ -88,36 +92,36 @@ function App () {
               <Route path="/user" element={ <User /> } /> 
               {/* <Route path="/google" element={ <Google /> } /> */}
               <Route path="/account" element={ <Profile /> } />
-              <Route path="/home" element={ <Dashboard /> } />
-              <Route path="/document-details" element={<Document />}>
+              <Route path="/home" element={ <Dashboard roleType = {roleType}/> } />
+              <Route path="/document-details" element={<Document roleType = {roleType}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
               </Route>
-              <Route path="/job" element={<Job />}>
+              <Route path="/job" element={<Job roleType = {roleType}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
                 <Route path="/job/job-details" element={ <JobDetails /> } />
                 <Route path="/job/immutable-record-jobs" element={ <ImmutableRecordJobs /> } />
               </Route>
-              <Route path="/favourite-documents" element={ <FavouriteDocuments /> } />
+              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
               <Route path="/admin" element={ <AdminMain /> }>
                 <Route index element={ <Admin /> } />
                 <Route path=":node" element={ <NodeTransactionsReport /> } />
               </Route>
-              <Route path="/admin-manager" element={ <AdminManager /> }>
+              <Route path="/admin-manager" element={ <AdminManager roleType = {roleType}/> }>
                 <Route index element={ <APILogs /> } />
                 <Route path="/admin-manager/create-org" element={ <CreateOrg /> } />
                 <Route path="/admin-manager/environment" element={ <Environment/> } />
                 <Route path="/admin-manager/user-management" element={ <UserManagement/> } />
                 <Route path="/admin-manager/add-user" element={ <AddUser/> } />
               </Route>
-              <Route path="/help-support" element={ <HelpSupport/> } />
+              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType}/> } />
               {/* <Route path="about" element={ <About/> } />
               <Route path="contact" element={ <Contact/> } /> */}
             </Routes>            
             </> : <>
             {roleType === "FDA Auditor" ? <>
             <Routes>
-              <Route path="/" element={ <SignIn/> } />
+              <Route path="/" element={ <SignIn /> } />
               <Route path="/sign-up" element={ <SignUp/> } />
               <Route path="/reset-password" element={ <ResetPassword /> } />
               <Route path="/reset-submission" element={ <ResetPasswordSubmit /> } />
@@ -125,20 +129,20 @@ function App () {
               <Route path="/user" element={ <User /> } /> 
               {/* <Route path="/google" element={ <Google /> } /> */}
               <Route path="/account" element={ <Profile /> } />
-              <Route path="/home" element={ <Dashboard /> } />
-              <Route path="/document-details" element={<Document />}>
+              <Route path="/home" element={ <Dashboard roleType = {roleType}/> } />
+              <Route path="/document-details" element={<Document roleType = {roleType}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
               </Route>
-              <Route path="/favourite-documents" element={ <FavouriteDocuments /> } />
-              <Route path="/help-support" element={ <HelpSupport/> } />
+              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
+              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType}/> } />
               {/* <Route path="about" element={ <About/> } />
               <Route path="contact" element={ <Contact/> } /> */}
             </Routes>            
             </> : <>
             {roleType === "Business Admin" ? <>
             <Routes>
-              <Route path="/" element={ <SignIn/> } />
+              <Route path="/" element={ <SignIn /> } />
               <Route path="/sign-up" element={ <SignUp/> } />
               <Route path="/reset-password" element={ <ResetPassword /> } />
               <Route path="/reset-submission" element={ <ResetPasswordSubmit /> } />
@@ -146,29 +150,29 @@ function App () {
               <Route path="/user" element={ <User /> } /> 
               {/* <Route path="/google" element={ <Google /> } /> */}
               <Route path="/account" element={ <Profile /> } />
-              <Route path="/home" element={ <Dashboard /> } />
-              <Route path="/document-details" element={<Document />}>
+              <Route path="/home" element={ <Dashboard roleType = {roleType}/> } />
+              <Route path="/document-details" element={<Document roleType = {roleType}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
               </Route>
-              <Route path="/job" element={<Job />}>
+              <Route path="/job" element={<Job roleType = {roleType}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
                 <Route path="/job/job-details" element={ <JobDetails /> } />
                 <Route path="/job/immutable-record-jobs" element={ <ImmutableRecordJobs /> } />
               </Route>
-              <Route path="/favourite-documents" element={ <FavouriteDocuments /> } />
-              <Route path="/admin-manager" element={ <AdminManager /> }>
+              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
+              <Route path="/admin-manager" element={ <AdminManager roleType = {roleType}/> }>
                 <Route path="/admin-manager/user-management" element={ <UserManagement/> } />
                 <Route path="/admin-manager/add-user" element={ <AddUser/> } />
               </Route>
-              <Route path="/help-support" element={ <HelpSupport/> } />
+              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType}/> } />
               {/* <Route path="about" element={ <About/> } />
               <Route path="contact" element={ <Contact/> } /> */}
             </Routes>            
             </> : <>
             {roleType === "Full User" ? <>
             <Routes>
-              <Route path="/" element={ <SignIn/> } />
+              <Route path="/" element={ <SignIn /> } />
               <Route path="/sign-up" element={ <SignUp/> } />
               <Route path="/reset-password" element={ <ResetPassword /> } />
               <Route path="/reset-submission" element={ <ResetPasswordSubmit /> } />
@@ -176,20 +180,20 @@ function App () {
               <Route path="/user" element={ <User /> } /> 
               {/* <Route path="/google" element={ <Google /> } /> */}
               <Route path="/account" element={ <Profile /> } />
-              <Route path="/home" element={ <Dashboard /> } />
-              <Route path="/document-details" element={<Document />}>
+              <Route path="/home" element={ <Dashboard roleType = {roleType}/> } />
+              <Route path="/document-details" element={<Document roleType = {roleType}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
               </Route>
-              <Route path="/favourite-documents" element={ <FavouriteDocuments /> } />
-              <Route path="/help-support" element={ <HelpSupport/> } />
+              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
+              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType}/> } />
               {/* <Route path="about" element={ <About/> } />
               <Route path="contact" element={ <Contact/> } /> */}
             </Routes>            
             </> : <>
             {roleType === "Viewer" ? <>
             <Routes>
-              <Route path="/" element={ <SignIn/> } />
+              <Route path="/" element={ <SignIn /> } />
               <Route path="/sign-up" element={ <SignUp/> } />
               <Route path="/reset-password" element={ <ResetPassword /> } />
               <Route path="/reset-submission" element={ <ResetPasswordSubmit /> } />
@@ -197,20 +201,20 @@ function App () {
               <Route path="/user" element={ <User /> } /> 
               {/* <Route path="/google" element={ <Google /> } /> */}
               <Route path="/account" element={ <Profile /> } />
-              <Route path="/home" element={ <Dashboard /> } />
-              <Route path="/document-details" element={<Document />}>
+              <Route path="/home" element={ <Dashboard roleType = {roleType}/> } />
+              <Route path="/document-details" element={<Document roleType = {roleType}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
               </Route>
-              <Route path="/favourite-documents" element={ <FavouriteDocuments /> } />
-              <Route path="/help-support" element={ <HelpSupport/> } />
+              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
+              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType}/> } />
               {/* <Route path="about" element={ <About/> } />
               <Route path="contact" element={ <Contact/> } /> */}
             </Routes>
             </> : <>
             {roleType === "Super User" ? <>
             <Routes>
-              <Route path="/" element={ <SignIn/> } />
+              <Route path="/" element={ <SignIn /> } />
               <Route path="/sign-up" element={ <SignUp/> } />
               <Route path="/reset-password" element={ <ResetPassword /> } />
               <Route path="/reset-submission" element={ <ResetPasswordSubmit /> } />
@@ -218,35 +222,35 @@ function App () {
               <Route path="/user" element={ <User /> } /> 
               {/* <Route path="/google" element={ <Google /> } /> */}
               <Route path="/account" element={ <Profile /> } />
-              <Route path="/home" element={ <Dashboard /> } />
-              <Route path="/document-details" element={<Document />}>
+              <Route path="/home" element={ <Dashboard roleType = {roleType}/> } />
+              <Route path="/document-details" element={<Document roleType = {roleType}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
               </Route>
-              <Route path="/job" element={<Job />}>
+              <Route path="/job" element={<Job roleType = {roleType}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
                 <Route path="/job/job-details" element={ <JobDetails /> } />
                 <Route path="/job/immutable-record-jobs" element={ <ImmutableRecordJobs /> } />
               </Route>
-              <Route path="/favourite-documents" element={ <FavouriteDocuments /> } />
-              <Route path="/admin" element={ <AdminMain /> }>
+              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
+              <Route path="/admin" element={ <AdminMain roleType = {roleType}/> }>
                 <Route index element={ <Admin /> } />
                 <Route path=":node" element={ <NodeTransactionsReport /> } />
               </Route>
-              <Route path="/admin-manager" element={ <AdminManager /> }>
+              <Route path="/admin-manager" element={ <AdminManager roleType = {roleType}/> }>
                 <Route index element={ <APILogs /> } />
                 <Route path="/admin-manager/create-org" element={ <CreateOrg /> } />
                 <Route path="/admin-manager/environment" element={ <Environment/> } />
                 <Route path="/admin-manager/user-management" element={ <UserManagement/> } />
                 <Route path="/admin-manager/add-user" element={ <AddUser/> } />
               </Route>
-              <Route path="/help-support" element={ <HelpSupport/> } />
+              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType}/> } />
               {/* <Route path="about" element={ <About/> } />
               <Route path="contact" element={ <Contact/> } /> */}
             </Routes>
             </> : <>
             <Routes>
-              <Route path="/" element={ <SignIn/> } />
+              <Route path="/" element={ <SignIn /> } />
               <Route path="/sign-up" element={ <SignUp/> } />
               <Route path="/reset-password" element={ <ResetPassword /> } />
               <Route path="/reset-submission" element={ <ResetPasswordSubmit /> } />

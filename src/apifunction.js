@@ -27,6 +27,11 @@ export const OrgAdminmailcheckget1 = async(email) =>{
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
     try{
+      let cancelToken;
+      if(typeof cancelToken != typeof undefined)
+      {
+        cancelToken.cancel("API Call cancelled")
+      }
       let response2 = await fetch(`/platform/v1/userdetail/${email}`, 
       {
           headers: {
@@ -796,6 +801,11 @@ export const executeJobListImmutable = async () =>
 export const userDetailWithEmail = async (emailid) =>
 {       
   try{
+    let cancelToken;
+    if(typeof cancelToken != typeof undefined)
+    {
+      cancelToken.cancel("API Call cancelled")
+    }
     let response2 = await fetch(`/platform/v1/userdetail/${emailid}`)
     //console.log(response2);
     // let response = await axios.request(options2);
@@ -817,6 +827,11 @@ export const OrgTenentcheckget = async(tenentId) =>{
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
     try{
+      let cancelToken;
+      if(typeof cancelToken != typeof undefined)
+      {
+        cancelToken.cancel("API Call cancelled")
+      }
       let response2 = await fetch(`/platform/v1/userdetailsid/${tenentId}`, 
       {
           headers: {

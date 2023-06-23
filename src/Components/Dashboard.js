@@ -12,7 +12,7 @@ import {createUserVisits} from "../apifunction";
 import { Container, Modal } from "react-bootstrap";
 import { Col, Row,Button,Alert,Card} from "react-bootstrap";
 
-function Dashboard() {
+function Dashboard(props) {
     const [theme, setThemeColor] = useState('');
     const [documentsUploadedCount, setDocumentsUploadedCount] = useState(0); // State for documents uploaded
     const [nftsCreatedCount, setNftsCreatedCount] = useState(0); // State for NFTs created
@@ -139,7 +139,7 @@ function Dashboard() {
         return <>{history("/")}</>;
       } else  { 
     return ( 
-        <Layout getThemeMode={(e) => setTheme(e)}>
+        <Layout getThemeMode={(e) => setTheme(e)} roleType = {props.roleType}>
             <div className="container-fluid">
                 <Row className="mb-3">
                     <Col md={6} xl={4} xxl={3}>
