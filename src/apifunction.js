@@ -421,9 +421,9 @@ export const addToFavorites = async (emailId, sigmaId, name__v, filename__v, sta
   }
 };
 
-export const fetchFavoriteDetails = async (emailId) => {
+export const fetchFavoriteDetails = async (emailId,limit) => {
   console.log("mail",emailId)
-  const url = `/platform/v1/favourite/${emailId}`;
+  const url = `/platform/v1/favourite/${emailId}/${limit}`;
   const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
 
   try {
@@ -437,7 +437,7 @@ export const fetchFavoriteDetails = async (emailId) => {
 
     // Assuming the response data is in the 'data' field
     const data = response.data;
-    console.log('API data:', data);
+    console.log('fetchFavoriteDetails:', data);
 
     return [true, data];
   } catch (error) {

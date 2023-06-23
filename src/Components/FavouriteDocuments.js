@@ -8,6 +8,7 @@ const FavouriteDocuments= (props)=>{
 // function FavouriteDocuments() {
     const location = useLocation();
     const [postDetails, setPostDetails] = useState([]);
+    const [limit, setLimit] = useState(0);
   
     const [favoriteData, setFavoriteData] = useState([]);
 
@@ -47,7 +48,7 @@ const FavouriteDocuments= (props)=>{
     }, []);
     const fetchData = async () => {
         const emailId = localStorage.getItem("UserID")
-        const [check1, data] = await fetchFavoriteDetails(emailId);
+        const [check1, data] = await fetchFavoriteDetails(emailId,limit);
         console.log("valid2", data);
         setFavoriteData(data);
     };
@@ -105,14 +106,14 @@ const FavouriteDocuments= (props)=>{
                         {/* <Button variant="outline-gray" className="me-2 px-3">7 Days</Button>
                         <Button variant="outline-gray" className="me-2 px-3">30 Days</Button> */}
                         <Dropdown size="sm">
-                            <Dropdown.Toggle variant="gray" id="dropdown-basic">
+                            {/* <Dropdown.Toggle variant="gray" id="dropdown-basic">
                                 Select Rows
                             </Dropdown.Toggle>
                             <Dropdown.Menu className="dropdown-filter">
                                 <Dropdown.Item href="#/action-1">100 Rows</Dropdown.Item>
                                 <Dropdown.Item href="#/action-2">500 Rows</Dropdown.Item>
                                 <Dropdown.Item href="#/action-3">1000 Rows</Dropdown.Item>
-                            </Dropdown.Menu>
+                            </Dropdown.Menu> */}
                         </Dropdown>
                     </Col>
                     <Col md={6}>
