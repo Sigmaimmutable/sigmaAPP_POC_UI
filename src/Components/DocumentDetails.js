@@ -101,6 +101,46 @@ function DocumentDetails() {
       const handleLimitChange = (newLimit) => {
         setLimit(newLimit);
       };
+      const getLast7DaysData = () => {
+        const currentDate = new Date();
+        const last7Days = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+      
+        const filteredData = postDetails.filter(item => {
+          const createdDate = new Date(parseInt(item.createdDate));
+          return createdDate >= last7Days;
+        });
+      
+        return filteredData;
+      };
+      
+     
+      const last7DaysData = getLast7DaysData();
+      console.log('Last 7 days data:', last7DaysData)
+      const getLast30DaysData = () => {
+        const currentDate = new Date();
+        const last30Days = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000);
+      
+        const filteredData = postDetails.filter(item => {
+          const createdDate = new Date(parseInt(item.createdDate));
+          return createdDate >= last30Days;
+        });
+      
+        return filteredData;
+      };
+      
+     
+      const last30DaysData = getLast30DaysData();
+      console.log('Last 30 days data:', last30DaysData);
+      const handleFilterClick = (filterType) => {
+        if (filterType === '7Days') {
+          const last7DaysData = getLast7DaysData();
+          console.log('Last 7 days data:', last7DaysData);
+        } else if (filterType === '30Days') {
+          const last30DaysData = getLast30DaysData();
+          console.log('Last 30 days data:', last30DaysData);
+        }
+      };
+        
       return ( 
         <div>
             <Row className="mb-20">
@@ -121,8 +161,13 @@ function DocumentDetails() {
                             </svg>
                         )}
                     </Button>
-                    <Button variant="outline-gray" className="me-2 px-3">7 Days</Button>
-                    <Button variant="outline-gray" className="me-2 px-3">30 Days</Button>
+                    {/* <Button variant="outline-gray" className="me-2 px-3">7 Days</Button>
+                    <Button variant="outline-gray" className="me-2 px-3">30 Days</Button> */}
+                     <Button variant="outline-gray" className="me-2 px-3"
+                    onClick={() => handleFilterClick('7Days')}> 7 Days
+                    </Button>
+                    <Button variant="outline-gray" className="me-2 px-3"  onClick={() => handleFilterClick('30Days')}>30 Days</Button>
+                    
                     <Dropdown size="sm">
                         <Dropdown.Toggle variant="gray" id="dropdown-basic">
                             Select Rows
