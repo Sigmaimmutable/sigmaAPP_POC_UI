@@ -36,7 +36,7 @@ const Header = () => {
         let [checklogin,loginstauscheck] = await  Sessionstatusget(email);
        setLoginstatus(loginstauscheck);
        console.log("logincheck",loginstatus);
-       let sessionlogin= await Sessionstatusupdate("1222","1999","Logout",email);
+       let sessionlogin= await Sessionstatusupdate("","","Logout",email);
        console.log("sessionstatus",sessionlogin);
        localStorage.setItem("Login",false)
        localStorage.removeItem('Login');
