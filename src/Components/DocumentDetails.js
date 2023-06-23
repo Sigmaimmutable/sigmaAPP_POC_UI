@@ -19,6 +19,26 @@ function DocumentDetails() {
     const [documentDetails, setDocumentDetails] = useState(null);
     const [sigmaId, setSigmaId] = useState(''); // State variable for sigmaId
     const [fav, setFav] = useState(false);
+    const [searchQuery, setSearchQuery] = useState(false);
+    const [searchDetails, setsearchDetails] = useState([]);
+
+    console.log("search",searchQuery)
+    const handleSearch = (searchQuer) => {
+        if(searchQuer === null || searchQuer === "" || searchQuer === undefined || searchQuer === "null"){
+            setSearchQuery(false)
+        }
+        else{
+            setSearchQuery(true)
+            const filteredJobLists = postDetails.filter((r) =>
+              r.name__v.toLowerCase().includes(searchQuer.toLowerCase())
+            );
+            setsearchDetails(filteredJobLists);
+        }
+        
+        // console.log("search",filteredJobLists)
+        // setFilteredJobLists(filteredJobLists);
+      };
+	  
         
     const { logout } = useContext(AuthContext);
         
@@ -77,23 +97,25 @@ function DocumentDetails() {
       }
     };
 
+   
+      const fetchSigmaDoc = async() =>{
+        const start = '0'; // Provide the desired value for start
+        let tnId = await getTennantId();
+        console.log("tnid",tnId)
+        const tenantId = tnId; // Provide the desired value for tenantId
+    
+       await fetchSigmadocByTid(start, limit, tenantId)
+          .then(response => {
+            console.log("err", response);
+            // Assuming the response contains the POST method details in the 'data' field
+            setPostDetails(response);
+          })
+          .catch(error => {
+            console.error('Error fetching POST method details:', error);
+          });
+    }
     useEffect(() => {
-        const fetchSigmaDoc = async() =>{
-            const start = '0'; // Provide the desired value for start
-            let tnId = await getTennantId();
-            console.log("tnid",tnId)
-            const tenantId = tnId; // Provide the desired value for tenantId
-        
-           await fetchSigmadocByTid(start, limit, tenantId)
-              .then(response => {
-                console.log("err", response);
-                // Assuming the response contains the POST method details in the 'data' field
-                setPostDetails(response);
-              })
-              .catch(error => {
-                console.error('Error fetching POST method details:', error);
-              });
-        }
+       
         fetchSigmaDoc();
       }, [limit]);
       console.log("err",postDetails);
@@ -182,16 +204,18 @@ function DocumentDetails() {
                 <Col md={6}>
                     {search && (
                         <Form>
-                            <InputGroup className="form-search shadow">
-                                <Button variant="reset" id="button-addon1">
+                          
+	                         <InputGroup className="form-search shadow">
+                                <Button variant="reset" id="button-addon1" onClick={()=>fetchSigmaDoc()}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
                                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                                     </svg>
                                 </Button>
                                 <Form.Control
                                     aria-describedby="basic-addon1"
-                                    aria-label="Write something to search"
-                                    placeholder="Write something to search..."
+                                    aria-label="Write a name to files"
+                                    placeholder="Write a name to Search files..."
+                                    onChange={(e) => handleSearch(e.target.value)}
                                 />
                             </InputGroup>
                         </Form>
@@ -284,7 +308,9 @@ function DocumentDetails() {
                     </tr>
                 </thead>
                 <tbody>
-                    {postDetails[0]===null||postDetails[0]===""||postDetails[0]===undefined?(<></>):(<>                
+
+                    {searchQuery === false ? (<>
+                        {postDetails[0]===null||postDetails[0]===""||postDetails[0]===undefined?(<></>):(<>                
                     {postDetails.map((postt, index) => {
   if (index < limit) {
     
@@ -335,6 +361,60 @@ function DocumentDetails() {
   return null; // Skip rendering for items after the first 10
 })}
 </>)}
+                    </>):(<>
+                        {searchDetails[0]===null||searchDetails[0]===""||searchDetails[0]===undefined?(<></>):(<>                
+                    {searchDetails.map((postt, index) => {
+  if (index < limit) {
+    
+    return (
+      <tr key={index}>
+        <td width="84">
+          <div className="d-flex justify-content-end">
+            <Form.Check
+              className="mb-0 check-single"
+              type='checkbox'
+              id={`default-${index}`}
+            />
+          </div>
+        </td>
+        <td className="text-center">
+        <Favourite
+        sigmaid= {postt.sigmaId} name__v = {postt.name__v} filename__v ={postt.filename__v} status__v ={postt.status__v}
+        />
+          {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill={isFavorite ? 'currentColor' : 'none'} viewBox="0 0 16 16"
+          style={{ cursor: 'pointer', transition: 'fill 0.3s' }}
+          onClick={() => {
+            // if (postt.docId && postt.docName && postt.fileName && postt.docStatus) {
+              handleFavoriteToggle(postt.sigmaId,postt.name__v,postt.filename__v,postt.status__v)
+            // }
+          }} >
+            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+            className={`star-icon ${isFavorite ? 'favorited' : ''}`}/>
+          </svg> */}
+        </td>
+        <td className="text-center">{postt.sigmaId ? postt.sigmaId : ""}</td>
+        <td>{postt.filename__v ? postt.filename__v : ""}</td>
+        <td>{postt.name__v ? postt.name__v : ""}</td>
+        <td className="text-center">
+        {/* <DocumentDetailsSingle x={postt.sigmaId}/> */}
+          {/* <Link to="/document-details/single">{postt.status__v ? postt.status__v : ""}</Link> */}
+          {/* <Link to={`/document-details/single/${postt.sigmaId}`}>
+               {postt.status__v ? postt.status__v : ""}
+              </Link> */}
+              <Link to={{pathname: "/document-details/single",search:`?id=${postt.sigmaId}`}}>{postt.status__v ? postt.status__v : ""}</Link>
+              {/* <Link to="/about?id=123">Go to About</Link> */}
+               {/* return( 
+                                    <DocumentDetailsSingle x={postt.sigmaId}/>) */}
+              {/* <Link to={{ pathname: "/document-details/single", state: { allData: postt.sigmaid } }}><Button variant="blue" className='w-100'> {postt.status__v ? postt.status__v : ""}</Button></Link> */}
+        </td>
+      </tr>
+    );
+  }
+  return null; // Skip rendering for items after the first 10
+})}
+</>)}
+                    </>)}
+                  
                   
 
                 </tbody>
