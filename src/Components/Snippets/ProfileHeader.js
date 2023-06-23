@@ -25,7 +25,7 @@ function ProfileHeader() {
            let [checklogin,loginstauscheck] = await  Sessionstatusget(email);
           setLoginstatus(loginstauscheck);
           console.log("logincheck",loginstatus);
-          let sessionlogin= await Sessionstatusupdate(" ","currentDateTime","Logout",email);
+          let sessionlogin= await Sessionstatusupdate("","","Logout",email);
           console.log("sessionstatus",sessionlogin);
           localStorage.setItem("Login",false)
           localStorage.removeItem('Login');
