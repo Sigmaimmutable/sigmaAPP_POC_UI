@@ -77,20 +77,24 @@ function DocumentDetails() {
       }
     };
 
-    useEffect(async() => {
-        const start = '0'; // Provide the desired value for start
-        let tnId = await getTennantId();
-        const tenantId = tnId; // Provide the desired value for tenantId
-    
-        fetchSigmadocByTid(start, limit, tenantId)
-          .then(response => {
-            console.log("err", response);
-            // Assuming the response contains the POST method details in the 'data' field
-            setPostDetails(response);
-          })
-          .catch(error => {
-            console.error('Error fetching POST method details:', error);
-          });
+    useEffect(() => {
+        const fetchSigmaDoc = async() =>{
+            const start = '0'; // Provide the desired value for start
+            let tnId = await getTennantId();
+            console.log("tnid",tnId)
+            const tenantId = tnId; // Provide the desired value for tenantId
+        
+           await fetchSigmadocByTid(start, limit, tenantId)
+              .then(response => {
+                console.log("err", response);
+                // Assuming the response contains the POST method details in the 'data' field
+                setPostDetails(response);
+              })
+              .catch(error => {
+                console.error('Error fetching POST method details:', error);
+              });
+        }
+        fetchSigmaDoc();
       }, [limit]);
       console.log("err",postDetails);
 
