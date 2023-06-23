@@ -395,7 +395,7 @@ export const addToFavorites = async (emailId, sigmaId, name__v, filename__v, sta
       'x-api-key': key
     },
     data: {
-      emailId,
+      emailId:emailId,
       docId: sigmaId,
       docName: name__v,
       fileName: filename__v,

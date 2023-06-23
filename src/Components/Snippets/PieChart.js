@@ -62,7 +62,7 @@ export function PieChart({theme,data}) {
 
   return <Pie 
       data={chartData} 
-      height="260"
+      height="280"
       options={{
         maintainAspectRatio: false,
         responsive: true,
