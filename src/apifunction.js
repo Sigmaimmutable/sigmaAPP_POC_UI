@@ -928,3 +928,28 @@ export const nodeDetails = async (tenantId) =>
   }
     
 }
+
+
+
+export const getTennantId = async () =>
+{       
+  let usermailid = localStorage.getItem("UserID");
+  
+  try{
+    let response2 = await fetch(`/platform/v1/userdetail/${usermailid}`)
+    //console.log(response2);
+    // let response = await axios.request(options2);
+    // tentidresponse= await response.data;
+    // console.log("response",tentidresponse)
+      
+    const data2 = await response2.json();
+    console.log("getTennantId", data2)
+    // return {data2};
+    return  data2.tennantId;
+  }catch(err){
+    console.log("vercelerrro",err)
+    return "";
+  }
+    
+}
+

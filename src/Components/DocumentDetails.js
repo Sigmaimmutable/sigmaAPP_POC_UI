@@ -8,7 +8,7 @@ import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
 import { useContext } from "react"
 import { Container, Modal } from "react-bootstrap";
-import { fetchSigmadocByTid,fetchSigmadocdetails,addToFavorites,deleteFavorite } from '../apifunction';
+import { fetchSigmadocByTid,fetchSigmadocdetails,addToFavorites,deleteFavorite, getTennantId } from '../apifunction';
 
 function DocumentDetails() {
     const history = useNavigate()
@@ -77,9 +77,10 @@ function DocumentDetails() {
       }
     };
 
-    useEffect(() => {
+    useEffect(async() => {
         const start = '0'; // Provide the desired value for start
-        const tenantId = '543609ec-58ba-4f50-9757-aaf149e5f187'; // Provide the desired value for tenantId
+        let tnId = await getTennantId();
+        const tenantId = tnId; // Provide the desired value for tenantId
     
         fetchSigmadocByTid(start, limit, tenantId)
           .then(response => {

@@ -5,7 +5,7 @@ import Wallet from '../asserts/images/wallet-icon.svg'
 import RestAPI from '../asserts/images/rest_api.svg'
 import { Link } from "react-router-dom";
 import { useState,useEffect } from "react";
-import {   OrgAdminmailcheckget2, nodeDetails } from "../apifunction";
+import {   OrgAdminmailcheckget2, getTennantId, nodeDetails } from "../apifunction";
 
 function Admin() {
     const [showA, setShowA] = useState(false);
@@ -23,7 +23,8 @@ function Admin() {
     const data = async()=>
 {
   
-    let id = "543609ec-58ba-4f50-9757-aaf149e5f187";
+    let tnId = await getTennantId();
+    let id = tnId;
     let [check, data2] = await nodeDetails(id);
     console.log("data2", data2);
     setnodeDetail(data2);

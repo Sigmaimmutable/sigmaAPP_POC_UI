@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Layout from "./Snippets/Layout";
 import { useNavigate } from "react-router-dom";
-import { getJobList, getSigmafieldConfig } from "../apifunction";
+import { getJobList, getSigmafieldConfig, getTennantId } from "../apifunction";
 
 function JobDetails() {
 
@@ -143,7 +143,8 @@ console.log("Selectedcolm",Selectedcolm)
 
     useEffect(() =>{
         const jobfetch = async() =>{
-            await getJobList('543609ec-58ba-4f50-9757-aaf149e5f187',StartValue,limit).then((response)=>
+            let tnId = await getTennantId();
+            await getJobList(tnId,StartValue,limit).then((response)=>
             // console.log("response",response)
             setjobList(response)
 
@@ -171,10 +172,12 @@ console.log("Selectedcolm",Selectedcolm)
     const paginationProcess = async(start,limit) =>{
         setStartValue(start);
         if(selectedValues[0]){
-            let joblisted = await getJobList('543609ec-58ba-4f50-9757-aaf149e5f187',start,limit);
+            let tnId = await getTennantId();
+            let joblisted = await getJobList(tnId,start,limit);
             await handlefatchforPagination(selectedValues,joblisted);
        }
-        await getJobList('543609ec-58ba-4f50-9757-aaf149e5f187',start,limit).then((response)=>
+       let tnId = await getTennantId();
+        await getJobList(tnId,start,limit).then((response)=>
         // console.log("response",response)
         setjobList(response)
         )

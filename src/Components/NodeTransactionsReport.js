@@ -2,7 +2,7 @@ import { Button, Col, Dropdown, Form, InputGroup, Row, Table } from "react-boots
 import Eye from '../asserts/images/eye-icon.svg'
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getTransaction } from "../apifunction";
+import { getTennantId, getTransaction } from "../apifunction";
 
 function NodeTransactionsReport() {
     const [search, setSearch] = useState(false);
@@ -13,7 +13,8 @@ function NodeTransactionsReport() {
 
     const getTransc = async() =>{
         if(limit == 10){
-            let tx = await getTransaction(StartValue,limit,"543609ec-58ba-4f50-9757-aaf149e5f187");
+            let tnId = await getTennantId();
+            let tx = await getTransaction(StartValue,limit,tnId);
             // console.log("txhistory",tx)
             setTxh(tx);
         }
@@ -43,7 +44,8 @@ function NodeTransactionsReport() {
 
     const pagination = async(value) =>{
         setStartValue(value);
-        let tx = await getTransaction(value,limit,"543609ec-58ba-4f50-9757-aaf149e5f187");
+        let tnId = await getTennantId();
+        let tx = await getTransaction(value,limit,tnId);
         // console.log("txhistory",tx)
         setTxh(tx);
     }

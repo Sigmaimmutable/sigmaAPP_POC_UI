@@ -4,7 +4,7 @@ import IconDU from '../asserts/images/card-icon-du.svg'
 import { PieChart } from "./Snippets/PieChart";
 import { BarChart } from "./Snippets/BarChart";
 import { useState,useEffect , useContext} from "react";
-import {OrgAdminmailcheckget,Userprofileupdate,userprofileget} from "../apifunction";
+import {OrgAdminmailcheckget,Userprofileupdate,getTennantId,userprofileget} from "../apifunction";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
@@ -71,7 +71,8 @@ function Dashboard() {
     
       const documentsUploaded = async () => {
         try {
-          let id = "543609ec-58ba-4f50-9757-aaf149e5f187";
+          let tnId = await getTennantId();
+          let id = tnId;
           let [check, data2] = await OrgAdminmailcheckget(id);
           console.log("valid1", check);
     
@@ -97,7 +98,8 @@ function Dashboard() {
       
       const fetchMonthlyData = async () => {
         try {
-          const id = "543609ec-58ba-4f50-9757-aaf149e5f187";
+          let tnId = await getTennantId();
+          const id = tnId;
           const [check, data] = await OrgAdminmailcheckget(id);
           console.log("valid1", check);
       
