@@ -528,7 +528,7 @@ export const Userprofileupload = async (Firstname,lastname,emailid) =>
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
   // let connectAddress = localStorage.getItem("walletAddress");
-  let profilepicofuserdefault = "https://gateway.pinata.cloud/ipfs/Qma6vhaA98FmVUMyMUJLvdxVsT2wJJWH5key2gtKr3jftZ?_gl=1*j61wws";
+  // let profilepicofuserdefault = "https://gateway.pinata.cloud/ipfs/Qma6vhaA98FmVUMyMUJLvdxVsT2wJJWH5key2gtKr3jftZ?_gl=1*j61wws";
   
     axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
     //console.log("done1",response.data);
@@ -543,7 +543,7 @@ export const Userprofileupload = async (Firstname,lastname,emailid) =>
           'firstName':`${Firstname}`,
           'lastName':`${lastname}`,
           'mobileNumber':"",
-          'profilePic':`${profilepicofuserdefault}`,
+          'profilePic':"",
           'gender':"",
           'state':"",
           'country':"",
