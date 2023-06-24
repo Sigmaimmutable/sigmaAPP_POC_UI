@@ -358,7 +358,7 @@ const [country, setCountry] = useState('');
                         <Col lg={10} xl={9}>
                             <div className="d-flex mb-80 user-profile">
 
-                          <div className="mb-3">
+                          <div className="me-3">
                                     
                                     <div className='upload-box text-center'>  
 
@@ -549,7 +549,7 @@ defaultOptionLabel= {getIProfile.state}
                         <Col lg={10} xl={9}>
                             <div className="d-flex mb-80 user-profile">
 
-        <div className="mb-3">
+        <div className="me-3">
                                     
                                     <div className='upload-box text-center'>  
 
