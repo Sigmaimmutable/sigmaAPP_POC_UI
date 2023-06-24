@@ -1595,16 +1595,21 @@ sup{
 
 .upload{
     &-box{
-        border: 1px solid var(--border-70);
-        border-radius: 8px;
-        position: relative;
+        label{
+            position: relative;
+
+        }
+        .label-upload{
+            border: 1px solid var(--border-70);
+            border-radius: 8px;
+        }
     }
 }
 
 .btn-closeimg{
     position: absolute;
-    right: -15px;
-    top: -15px;
+    right: -3px;
+    top: -3px;
 
     + img{
         margin-right: 0 !important;
