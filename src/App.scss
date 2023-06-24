@@ -1292,13 +1292,17 @@ h6{
         img{
             width: 130px;
             height: 130px;
+            max-width: 130px;
             margin-right: 22px;
             border-radius: 15px;
+            object-fit: cover;
+            object-position: center;
 
             @media screen and (max-height: 767px){
                 margin-right: 15px;
                 width: 100px;
                 height: 100px;
+                max-width: 100px;
             }
         }
     }
@@ -1587,4 +1591,42 @@ sup{
 
 .pointer{
     cursor: pointer;
+}
+
+.upload{
+    &-box{
+        border: 1px solid var(--border-70);
+        border-radius: 8px;
+        position: relative;
+    }
+}
+
+.btn-closeimg{
+    position: absolute;
+    right: -15px;
+    top: -15px;
+
+    + img{
+        margin-right: 0 !important;
+    }
+}
+
+.time-zone{
+    .css-13cymwt-control{
+        @extend .form-control;
+        @include flexbox();
+        @include align-items(center);
+        padding-top: 6px;
+        padding-bottom: 6px;
+        min-height: 51px;
+
+        .css-1fdsijx-ValueContainer, .css-1xc3v61-indicatorContainer{
+            padding: 0 !important;
+        }
+    }
+
+    .css-1u9des2-indicatorSeparator{
+        display: none !important;
+    }
+
 }

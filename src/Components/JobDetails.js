@@ -276,7 +276,7 @@ console.log("Selectedcolm",Selectedcolm)
                 <Table hover responsive>
                     <thead>
                         <tr>
-                            <th width="84">
+                            {/* <th width="84">
                                 <div className="d-flex align-items-center justify-content-between">
                                     <Dropdown size="sm" className="me-2">
                                         <Dropdown.Toggle variant="reset" id="dropdown-basic">
@@ -348,7 +348,7 @@ console.log("Selectedcolm",Selectedcolm)
                                         id={`default-8`}
                                     />
                                 </div>
-                            </th>
+                            </th> */}
                             {selectedColumns[0] ? 
                             (<>
                             {selectedColumns.map((r,i)=>{
@@ -380,7 +380,7 @@ console.log("Selectedcolm",Selectedcolm)
                                 return(
                                    
                                     <tr>
-                                          <td width="84">
+                                          {/* <td width="84">
                                                 <div className="d-flex justify-content-end">
                                                     <Form.Check
                                                         className="mb-0 check-single"
@@ -388,7 +388,7 @@ console.log("Selectedcolm",Selectedcolm)
                                                         id={`default-9`}
                                                     />
                                                 </div>
-                                            </td>
+                                            </td> */}
                                         {r.map((x,y)=>{
                                             return(<>
                                               
@@ -418,7 +418,7 @@ console.log("Selectedcolm",Selectedcolm)
                           
                                 return(
                                     <tr>
-                                    <td width="84">
+                                    {/* <td width="84">
                                         <div className="d-flex justify-content-end">
                                             <Form.Check
                                                 className="mb-0 check-single"
@@ -426,7 +426,7 @@ console.log("Selectedcolm",Selectedcolm)
                                                 id={`default-9`}
                                             />
                                         </div>
-                                    </td>
+                                    </td> */}
                                     <td className="text-center">{r.id}</td>
                                     <td className="text-center">{r.jobName === "DOC_FETCH" ? "Resource persist job": "Immutable record job"}</td>
                                     <td className="text-center">{r.jobRunByUser}</td>

@@ -321,7 +321,7 @@ function ResourcePersistJob() {
                 <Table hover responsive>
                     <thead>
                         <tr>
-                            <th width="84">
+                            {/* <th width="84">
                                 <div className="d-flex align-items-center justify-content-between">
                                     <Dropdown size="sm" className="me-2">
                                         <Dropdown.Toggle variant="reset" id="dropdown-basic">
@@ -393,7 +393,7 @@ function ResourcePersistJob() {
                                         id={`default-8`}
                                     />
                                 </div>
-                            </th>
+                            </th> */}
                             {selectedColumns[0] ? 
                             (<>
                             {selectedColumns.map((r,i)=>{
@@ -425,7 +425,7 @@ function ResourcePersistJob() {
                                 return(
                                    
                                     <tr>
-                                          <td width="84">
+                                          {/* <td width="84">
                                                 <div className="d-flex justify-content-end">
                                                     <Form.Check
                                                         className="mb-0 check-single"
@@ -433,7 +433,7 @@ function ResourcePersistJob() {
                                                         id={`default-9`}
                                                     />
                                                 </div>
-                                            </td>
+                                            </td> */}
                                         {r.map((x,y)=>{
                                             return(<>
                                               

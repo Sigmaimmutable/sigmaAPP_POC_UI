@@ -125,7 +125,7 @@ function ImmutableRecordJobs() {
                 <Table hover responsive>
                     <thead>
                         <tr>
-                            <th width="84">
+                            {/* <th width="84">
                                 <div className="d-flex align-items-center justify-content-between">
                                     <Dropdown size="sm" className="me-2">
                                         <Dropdown.Toggle variant="reset" id="dropdown-basic">
@@ -197,7 +197,7 @@ function ImmutableRecordJobs() {
                                         id={`default-8`}
                                     />
                                 </div>
-                            </th>
+                            </th> */}
                             <th className="text-center">Job id</th>
                             <th className="text-center">Job name</th>
                             <th className="text-center">Job run by</th>
@@ -214,7 +214,7 @@ function ImmutableRecordJobs() {
                             return(
                                 <>
                                  <tr>
-                            <td width="84">
+                            {/* <td width="84">
                                 <div className="d-flex justify-content-end">
                                     <Form.Check
                                         className="mb-0 check-single"
@@ -222,7 +222,7 @@ function ImmutableRecordJobs() {
                                         id={`default-9`}
                                     />
                                 </div>
-                            </td>
+                            </td> */}
                             <td className="text-center">{r.id}</td>
                             <td className="text-center">Immutable record job</td>
                             <td className="text-center">{r.jobRunByUser}</td>

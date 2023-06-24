@@ -105,7 +105,7 @@ function NodeTransactionsReport() {
                 <Table hover responsive>
                     <thead>
                         <tr>
-                            <th width="84">
+                            {/* <th width="84">
                                 <div className="d-flex align-items-center justify-content-between">
                                     <Dropdown size="sm" className="me-2">
                                         <Dropdown.Toggle variant="reset" id="dropdown-basic">
@@ -177,7 +177,7 @@ function NodeTransactionsReport() {
                                         id={`default-8`}
                                     />
                                 </div>
-                            </th>
+                            </th> */}
                             <th className="text-center">Address</th>
                             <th className="text-center">Time</th>
                             <th className="text-center">Data</th>
@@ -194,7 +194,7 @@ function NodeTransactionsReport() {
                         {txh.map((r,i)=>{
                             return(<>
                             <tr>
-                            <td width="84">
+                            {/* <td width="84">
                                 <div className="d-flex justify-content-end">
                                     <Form.Check
                                         className="mb-0 check-single"
@@ -202,7 +202,7 @@ function NodeTransactionsReport() {
                                         id={`default-9`}
                                     />
                                 </div>
-                            </td>
+                            </td> */}
                             <td>{(r.from).substring(0, 5)}...{(r.from).substring((r.from).length - 5)}</td>
                             <td>{formatTime(r.timestamp)}</td>
                             <td>{r.logs[0].data}</td>

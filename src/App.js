@@ -50,6 +50,7 @@ function App () {
       fetchRole();
     }
   }, [roleType]);
+  
   return (
     <div className="App">
             {roleType === "System Admin" ? <>

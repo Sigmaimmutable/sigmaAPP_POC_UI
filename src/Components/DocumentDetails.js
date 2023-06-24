@@ -227,7 +227,7 @@ function DocumentDetails() {
             <Table hover responsive>
                 <thead>
                     <tr>
-                        <th width="84">
+                        {/* <th width="84">
                             <div className="d-flex align-items-center justify-content-between">
                                 <Dropdown size="sm" className="me-2">
                                     <Dropdown.Toggle variant="reset" id="dropdown-basic">
@@ -299,7 +299,7 @@ function DocumentDetails() {
                                     id={`default-8`}
                                 />
                             </div>
-                        </th>
+                        </th> */}
                         <th className="text-center">Favourite</th>
                         <th className="text-center">ID</th>
                         <th className="text-center">File Name</th>
@@ -316,7 +316,7 @@ function DocumentDetails() {
     
     return (
       <tr key={index}>
-        <td width="84">
+        {/* <td width="84">
           <div className="d-flex justify-content-end">
             <Form.Check
               className="mb-0 check-single"
@@ -324,7 +324,7 @@ function DocumentDetails() {
               id={`default-${index}`}
             />
           </div>
-        </td>
+        </td> */}
         <td className="text-center">
         <Favourite
         sigmaid= {postt.sigmaId} name__v = {postt.name__v} filename__v ={postt.filename__v} status__v ={postt.status__v}
@@ -368,7 +368,7 @@ function DocumentDetails() {
     
     return (
       <tr key={index}>
-        <td width="84">
+        {/* <td width="84">
           <div className="d-flex justify-content-end">
             <Form.Check
               className="mb-0 check-single"
@@ -376,7 +376,7 @@ function DocumentDetails() {
               id={`default-${index}`}
             />
           </div>
-        </td>
+        </td> */}
         <td className="text-center">
         <Favourite
         sigmaid= {postt.sigmaId} name__v = {postt.name__v} filename__v ={postt.filename__v} status__v ={postt.status__v}

@@ -185,7 +185,7 @@ const checkedDeleteButton = (email) =>
                 <Table hover responsive>
                     <thead>
                         <tr>
-                            <th width="84">
+                            {/* <th width="84">
                                 <div className="d-flex align-items-center justify-content-between">
                                     <Dropdown size="sm" className="me-2">
                                         <Dropdown.Toggle variant="reset" id="dropdown-basic">
@@ -257,7 +257,7 @@ const checkedDeleteButton = (email) =>
                                         id={`default-8`}
                                     />
                                 </div>
-                            </th>
+                            </th> */}
                             <th className="text-center">Sl no</th>
                             <th className="text-center">User name</th>
                             <th className="text-center">Email Id</th>
@@ -269,7 +269,7 @@ const checkedDeleteButton = (email) =>
                               if(y < pageBLSize)
                               return(
                                   <tr>
-                                  <td width="84">
+                                  {/* <td width="84">
                                       <div className="d-flex justify-content-end">
                                           <Form.Check
                                               className="mb-0 check-single"
@@ -278,7 +278,7 @@ const checkedDeleteButton = (email) =>
                                               onClick={() => checkedDeleteButton(x.emailId)}
                                           />
                                       </div>
-                                  </td>
+                                  </td> */}
                                   <td className="text-center">{y+1}</td>
                                   <td className="text-center">{x.userName}</td>
                                   <td className="text-center">{x.emailId}</td>
