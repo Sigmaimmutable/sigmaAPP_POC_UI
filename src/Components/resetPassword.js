@@ -9,19 +9,27 @@ import { Link } from 'react-router-dom';
 
 function ResetPassword() {
     const [email, setEmail] = useState();
+    const [captcha, setCaptcha] = useState();
 
     const navigate = useNavigate()
     function onChange(value) {
         console.log("Captcha value:", value);
+        setCaptcha(value);
     }
     const verifyMail = async() =>
     {
+        if(captcha)
+        {
         let result = await forgetPasswordMailVerification(email);
         // console.log("result", result);
         if(result === true)
             toast.success("Please check your E-mail");
         else
             toast.error("This E-mail does not have an account, Please create an account");
+        }
+        else{
+            toast.error("Please verify with captcha");
+        }
     }
     return ( 
         <div className="vh-100 d-flex py-md-4 py-2 w-100">

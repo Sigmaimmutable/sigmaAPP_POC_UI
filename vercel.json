@@ -150,7 +150,7 @@
             "destination": "https://testapi.stasisonline.in/platform/v1/notification/:emailid*/:statuses*"
         },
         {
-            "source": "/platform/v1/notification",
+            "source": "/platform/v1/notificationbyid",
             "destination": "https://testapi.stasisonline.in/platform/v1/notificationbyid"
         }
     ]
