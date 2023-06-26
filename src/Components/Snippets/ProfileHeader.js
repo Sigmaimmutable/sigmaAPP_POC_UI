@@ -4,11 +4,12 @@ import { Link,useHistory,useNavigate,Redirect,Navigate} from 'react-router-dom';
 
 import LogoutIcon from "../../asserts/images/logout-icon.svg"
 import React, { useEffect,useState, useMemo } from 'react'
-import {userprofileget,Sessionstatusget,Sessionstatusupdate} from '../../apifunction';
+import {userprofileget,Sessionstatusget,Sessionstatusupdate, getNotificationById, NotificationSingle, NotificationAll} from '../../apifunction';
 function ProfileHeader() {
     const[getIProfile,setgetIProfile]=useState("");  
     const [loginstatus, setLoginstatus] = useState("")
     const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
+    const [allNotification, setAllNotification] = useState([]);
     const navigate = useNavigate()
     const getprofiledetails = async() =>{
         let [data,userprofiledetail]=await userprofileget(localStorage.getItem("UserID"));
@@ -16,7 +17,10 @@ function ProfileHeader() {
         console.log("userdetail1",userprofiledetail,userprofiledetail.emailId);
         console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);
        }
-       useEffect(()=>{getprofiledetails()})
+       useEffect(()=>{
+        if(!getIProfile)
+        getprofiledetails()
+        })
        const Logout = async () =>
        {  
            console.log("Logtime12",currentDateTime);
@@ -38,10 +42,113 @@ function ProfileHeader() {
            localStorage.removeItem('rememberMe');
          }
          navigate('/');
-          
-         
-          
        }
+
+       const notification = async () => {
+        try{
+        let [value, allNotificationFetch] = await getNotificationById(localStorage.getItem("UserID"));
+        if(value)
+        {
+            let r=[];
+            let countlist = 0;
+            console.log("notification", allNotificationFetch);
+            if (allNotificationFetch) {  
+                try{
+                let datavar = allNotificationFetch;
+                // console.log("datascheck13", datavar);
+               
+                Object.keys(datavar).map((m)=>{
+                  console.log("datascheck15",datavar[m]);
+                  countlist = countlist + 1;
+                //  if(datavar[m].tennantId === tenentid.tennantId && datavar[m].roleType != "Super User" && datavar[m].roleType != "System Admin" && datavar[m].roleType != "Business Admin")
+                      r.push({
+                        id:datavar[m].id,
+                        title:datavar[m].title,
+                        mailId:datavar[m].mailId,
+                        descriptions:datavar[m].descriptions,
+                        epochtime:datavar[m].epochtime,
+                        statuses:datavar[m].statuses,
+                      })    
+                  
+                  
+                               
+                })  
+            }   catch(e){                      
+            } 
+            r.reverse();
+            setAllNotification(r);               
+            }
+            else{
+                setAllNotification([""]);  
+            }
+        }
+        }catch(err){
+            console.error(err);
+        }
+    }
+
+    useEffect(()=>{
+        if(allNotification.length === 0)
+        notification();
+    })
+
+    const singleRead = async (id, mailid, status) => {
+        try{
+            await NotificationSingle(id, mailid, status);
+            await notification();
+        }catch(err){
+            console.error(err);
+        }
+    }
+
+    const allRead = async (mailid) => {
+        try{
+            await NotificationAll(mailid);
+            await notification();
+        }catch(err){
+            console.error(err);
+        }
+    } 
+
+       function getDayAndTime(epoch) {
+        // Convert epoch to milliseconds
+        const timestamp = epoch * 1000;
+      
+        // Create a new Date object using the timestamp
+        const date = new Date(timestamp);
+      
+        // Get the day of the week
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const day = days[date.getDay()];
+      
+        // Get the hours and minutes
+        let hours = date.getHours();
+        const minutes = date.getMinutes();
+      
+        // Convert hours to 12-hour format
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+      
+        // Return the formatted day and time
+        return `${day} ${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+      }
+
+      function getMonthDateYear(epoch) {
+        // Convert epoch to milliseconds
+        const timestamp = epoch * 1000;
+      
+        // Create a new Date object using the timestamp
+        const date = new Date(timestamp);
+      
+        // Get the month, date, and year
+        const month = date.toLocaleString('default', { month: 'long' });
+        const day = date.getDate();
+        const year = date.getFullYear();
+      
+        // Return the formatted month, date, and year
+        return `${month} ${day}, ${year}`;
+      }
+
     return ( 
         <header className="app-header">
             <div className="container-fluid">
@@ -59,7 +166,7 @@ function ProfileHeader() {
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="d-block" viewBox="0 0 16 16">
                                     <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
                                 </svg>
-                            </Dropdown.Toggle>
+                            </Dropdown.Toggle> 
 
                             <Dropdown.Menu className="shadow-md">
                                 <div className="dropdown-bell-body">
@@ -70,80 +177,57 @@ function ProfileHeader() {
                                         id="uncontrolled-tab-example"
                                     >
                                     <Tab eventKey="all" title="All">
-                                        <div className="d-flex notify unread">
-                                            <img src={Avatar} alt="Avatar" />
-                                            <div>
-                                                <h6>Notification Title</h6>
-                                                <p>Notification description will be presented here. You just need to replace the text</p>
-                                                <p className="d-flex justify-content-between"><strong>Friday 03:50am</strong><strong>Sep 20, 2023</strong></p>
-                                            </div>
-                                        </div>
-                                        <div className="d-flex notify">
-                                            <img src={Avatar} alt="Avatar" />
-                                            <div>
-                                                <h6>Notification Title</h6>
-                                                <p>Notification description will be presented here. You just need to replace the text</p>
-                                                <p className="d-flex justify-content-between"><strong>Friday 03:50am</strong><strong>Sep 20, 2023</strong></p>
-                                            </div>
-                                        </div>
-                                        <div className="d-flex notify">
-                                            <img src={Avatar} alt="Avatar" />
-                                            <div>
-                                                <h6>Notification Title</h6>
-                                                <p>Notification description will be presented here. You just need to replace the text</p>
-                                                <p className="d-flex justify-content-between"><strong>Friday 03:50am</strong><strong>Sep 20, 2023</strong></p>
-                                            </div>
-                                        </div>
-                                        <div className="d-flex notify unread">
-                                            <img src={Avatar} alt="Avatar" />
-                                            <div>
-                                                <h6>Notification Title</h6>
-                                                <p>Notification description will be presented here. You just need to replace the text</p>
-                                                <p className="d-flex justify-content-between"><strong>Friday 03:50am</strong><strong>Sep 20, 2023</strong></p>
-                                            </div>
-                                        </div>
+                                            {allNotification.map((x, y)=>{
+                                                return(
+                                                    <>
+                                                        <div onClick={() => singleRead(x.id, x.mailId, x.statuses)} className = {(x.statuses ? 'd-flex notify read' : 'd-flex notify unread notification_unread')}>
+                                                        <img src={Avatar} alt="Avatar" />
+                                                            <div>
+                                                                <bold><h6>{x.title}</h6></bold>
+                                                                <p>{x.descriptions}</p>
+                                                                <p className="d-flex justify-content-between"><strong>{getDayAndTime(x.epochtime)}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{getMonthDateYear(x.epochtime)}</strong></p>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                            )})}
                                     </Tab>
                                     <Tab eventKey="unread" title="Unread">
-                                        <div className="d-flex notify unread">
-                                            <img src={Avatar} alt="Avatar" />
-                                            <div>
-                                                <h6>Notification Title</h6>
-                                                <p>Notification description will be presented here. You just need to replace the text</p>
-                                                <p className="d-flex justify-content-between"><strong>Friday 03:50am</strong><strong>Sep 20, 2023</strong></p>
-                                            </div>
-                                        </div>
-                                        <div className="d-flex notify unread">
-                                            <img src={Avatar} alt="Avatar" />
-                                            <div>
-                                                <h6>Notification Title</h6>
-                                                <p>Notification description will be presented here. You just need to replace the text</p>
-                                                <p className="d-flex justify-content-between"><strong>Friday 03:50am</strong><strong>Sep 20, 2023</strong></p>
-                                            </div>
-                                        </div>
+                                    {allNotification.map((x, y)=>{
+                                        if(x.statuses === false)
+                                                return(
+                                                    <>
+                                                        <div onClick={() => singleRead(x.id, x.mailId, x.statuses)} className = {(x.statuses ? 'd-flex notify read' : 'd-flex notify unread notification_unread')}>
+                                                        <img src={Avatar} alt="Avatar" />
+                                                            <div>
+                                                                <bold><h6>{x.title}</h6></bold>
+                                                                <p>{x.descriptions}</p>
+                                                                <p className="d-flex justify-content-between"><strong>{getDayAndTime(x.epochtime)}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{getMonthDateYear(x.epochtime)}</strong></p>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                            )})}
                                     </Tab>
                                     <Tab eventKey="read" title="Read">
-                                        <div className="d-flex notify">
-                                            <img src={Avatar} alt="Avatar" />
-                                            <div>
-                                                <h6>Notification Title</h6>
-                                                <p>Notification description will be presented here. You just need to replace the text</p>
-                                                <p className="d-flex justify-content-between"><strong>Friday 03:50am</strong><strong>Sep 20, 2023</strong></p>
-                                            </div>
-                                        </div>
-                                        <div className="d-flex notify">
-                                            <img src={Avatar} alt="Avatar" />
-                                            <div>
-                                                <h6>Notification Title</h6>
-                                                <p>Notification description will be presented here. You just need to replace the text</p>
-                                                <p className="d-flex justify-content-between"><strong>Friday 03:50am</strong><strong>Sep 20, 2023</strong></p>
-                                            </div>
-                                        </div>
+                                    {allNotification.map((x, y)=>{
+                                        if(x.statuses === true)
+                                                return(
+                                                    <>
+                                                        <div onClick={() => singleRead(x.id, x.mailId, x.statuses)} className = {(x.statuses ? 'd-flex notify read' : 'd-flex notify unread notification_unread')}>
+                                                        <img src={Avatar} alt="Avatar" />
+                                                            <div>
+                                                                <bold><h6>{x.title}</h6></bold>
+                                                                <p>{x.descriptions}</p>
+                                                                <p className="d-flex justify-content-between"><strong>{getDayAndTime(x.epochtime)}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<strong>{getMonthDateYear(x.epochtime)}</strong></p>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                            )})}
                                     </Tab>
                                     </Tabs>
                                 </div>
                                 <div className="dropdown-bell-footer d-flex align-items-center justify-content-between">
-                                    <Button variant="link" className="p-0">Mark all as read</Button>
-                                    <Button variant="dark" className="btn-button btn-sm">View all notifications</Button>
+                                    <Button onClick={() => allRead(localStorage.getItem("UserID"))} variant="dark" className="btn-button btn-sm">Mark all as read</Button>
+                                    {/* <Button variant="link" className="p-0">View all notifications</Button> */}
                                 </div>
                             </Dropdown.Menu>
                         </Dropdown>

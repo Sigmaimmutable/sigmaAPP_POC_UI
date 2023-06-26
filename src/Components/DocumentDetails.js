@@ -8,7 +8,7 @@ import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
 import { useContext } from "react"
 import { Container, Modal } from "react-bootstrap";
-import { fetchSigmadocByTid,fetchSigmadocdetails,addToFavorites,deleteFavorite, getTennantId,NotificationPost,getNotificationById,getNotificationRead } from '../apifunction';
+import { fetchSigmadocByTid,fetchSigmadocdetails,addToFavorites,deleteFavorite, getTennantId,NotificationPost,getNotificationById } from '../apifunction';
 
 function DocumentDetails() {
     const history = useNavigate()
@@ -21,8 +21,6 @@ function DocumentDetails() {
     const [fav, setFav] = useState(false);
     const [searchQuery, setSearchQuery] = useState(false);
     const [searchDetails, setsearchDetails] = useState([]);
-    const [notifydata, setnotifyData] = useState([]);
-    const [statusdata, setstatusdata] = useState([]);
 
     console.log("search",searchQuery)
     const handleSearch = (searchQuer) => {
@@ -200,26 +198,7 @@ function DocumentDetails() {
           console.error("Error updating:", error);
   }
   };
-  useEffect(() => {
-    getnotify();
-}, []);
-const getnotify = async () => {
-    const emailId = localStorage.getItem("UserID")
-    const [check1, data] = await getNotificationById(emailId);
-    console.log("getdata", data);
-    setnotifyData(data);
-}; 
 
-useEffect(() => {
-  getstatus();
-}, []);
-const getstatus = async () => {
-  const emailId = localStorage.getItem("UserID")
-  const statuses = 0; // Set the desired value for statuses (0 or 1)
-  const [check1, data] = await getNotificationRead(emailId,statuses);
-  console.log("statuscheck", data);
-  setstatusdata(data);
-};
       return ( 
         <div>
             <Row className="mb-20">

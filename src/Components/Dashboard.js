@@ -4,7 +4,7 @@ import IconDU from '../asserts/images/card-icon-du.svg'
 import { PieChart } from "./Snippets/PieChart";
 import { BarChart } from "./Snippets/BarChart";
 import { useState,useEffect , useContext} from "react";
-import {OrgAdminmailcheckget,Userprofileupdate,getTennantId,userprofileget} from "../apifunction";
+import {OrgAdminmailcheckget,Userprofileupdate,getTennantId,userprofileget, userByTenantId} from "../apifunction";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
@@ -17,7 +17,7 @@ function Dashboard(props) {
     const [documentsUploadedCount, setDocumentsUploadedCount] = useState(0); // State for documents uploaded
     const [nftsCreatedCount, setNftsCreatedCount] = useState(0); // State for NFTs created
     const [monthlyData, setMonthlyData] = useState([]); // State for monthly data
-    const [UserName,setUserName] = useState("");
+    const [userCount,setUserCount] = useState(0);
     const [lastname,setlastname] = useState("");
     const[getIProfile,setgetIProfile]=useState("");  
    
@@ -76,12 +76,8 @@ function Dashboard(props) {
       
        
     }
-    useEffect(() => {
-      userdata();
-    }, []);
     
-   
-    
+  
     const userdata = async () => {
       let algoAddress = localStorage.getItem("UserID");
       let networkType = "type";
@@ -95,24 +91,16 @@ function Dashboard(props) {
       }
     };
     
-    
-    
-  
-    
     const getprofiledetails = async() =>{
       let [data,userprofiledetail]=await userprofileget(localStorage.getItem("UserID"));
       setgetIProfile(userprofiledetail);
       console.log("userdetail1",userprofiledetail,userprofiledetail.emailId);
       console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);
      }
-     useEffect(()=>{getprofiledetails()})
     // useEffect(() => {
     //   // Fetch the raw data records
     //   fetchRawData('543609ec-58ba-4f50-9757-aaf149e5f187');
     // }, []);
-    useEffect(() => {
-        documentsUploaded();
-      }, []);
     
       const documentsUploaded = async () => {
         try {
@@ -125,8 +113,8 @@ function Dashboard(props) {
             const totalUploadedCount = data2.reduce((total, record) => total + record.rawDocs, 0);
             setDocumentsUploadedCount(totalUploadedCount);
             
-        const totalNftsCreatedCount = data2.reduce((total, record) => total + record.iRecDocs, 0);
-        setNftsCreatedCount(totalNftsCreatedCount);
+          const totalNftsCreatedCount = data2.reduce((total, record) => total + record.iRecDocs, 0);
+          setNftsCreatedCount(totalNftsCreatedCount);
           }
         } catch (error) {
           console.error(error);
@@ -138,9 +126,7 @@ function Dashboard(props) {
     //   ];
     
 
-    useEffect(() => {
-        fetchMonthlyData(); // Fetch the monthly data
-      }, []);
+
       
       const fetchMonthlyData = async () => {
         try {
@@ -156,6 +142,32 @@ function Dashboard(props) {
           console.error(error);
         }
       };
+
+      const usersInTenantID = async () => {
+        try {
+          let tnId = await getTennantId();
+          let id = tnId;
+          let [check, data2] = await userByTenantId(id);
+          // console.log("valid1", check);
+    
+          if (check) {
+            const users = data2;
+            setUserCount(users);
+            // console.log("userByTenant", users);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      useEffect(() => {
+        fetchMonthlyData(); // Fetch the monthly data
+        documentsUploaded();
+        usersInTenantID();
+        getprofiledetails();
+        userdata();
+      }, []);
+
       if(localStorage.getItem('Login') === false || localStorage.getItem('Login') === null || localStorage.getItem('Login') === undefined || localStorage.getItem('Login') === "" || localStorage.getItem('Login') === "false"){            
         return <>{history("/")}</>;
       } else  { 
@@ -191,7 +203,7 @@ function Dashboard(props) {
                     <Col xs={6} lg={3} className="mb-3">
                         <div className="info-card info-card-4 d-flex flex-column justify-content-between">
                             <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>Total Users</span></h4>
-                            <h3 className="mb-0">04</h3>
+                            <h3 className="mb-0">{userCount}</h3>
                         </div>
                     </Col>
                 </Row>

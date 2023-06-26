@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addToFavorites, deleteFavorite } from "../../apifunction";
+import { addToFavorites, deleteFavorite, getTennantId } from "../../apifunction";
 
 function Favourite(sigmaId) {
     const [fav, setFav] = useState(false);
@@ -9,20 +9,21 @@ function Favourite(sigmaId) {
         setFav(!fav);
         try {
             const emailId = localStorage.getItem("UserID");
-      
+            const tenantId = await getTennantId(emailId);
             if (!fav) {
               // Add to favorites
               console.log("added",sigmaId)
             //   console.log("added1", name__v, filename__v, status__v)
             //   console.log("added1",  filename__v, status__v)
-              const added = await addToFavorites(emailId, sigmaId.sigmaid, sigmaId.name__v, sigmaId.filename__v, sigmaId.status__v);
+              const added = await addToFavorites(emailId, sigmaId.sigmaid, sigmaId.name__v, sigmaId.filename__v, sigmaId.status__v, tenantId);
+
                 console.log("added")
             //   if (added) {
             //     setIsFavorite(true);
             //   }
             } else {
               // Remove from favorites
-              const deleted = await deleteFavorite(emailId, sigmaId.sigmaid);
+              const deleted = await deleteFavorite(emailId, sigmaId.sigmaid, sigmaId.filename__v, tenantId);
               console.log("deleted")
             //   if (deleted) {
             //     // setIsFavorite(false);

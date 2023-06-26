@@ -19,7 +19,8 @@ function UserManagement() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const[pageBLSize,setPageBLSize]=useState(8);     
+    const[pageBLSize,setPageBLSize] = useState(8);  
+    const [rowSize, setRowSize] = useState();   
 
     const decrementBLSize=()=>{
       if(pageBLSize >= 4){
@@ -61,7 +62,7 @@ function UserManagement() {
               Object.keys(datavar).map((m)=>{
                 console.log("datascheck15",datavar[m]);
                 countlist=countlist + 1;
-               if(datavar[m].tennantId === tenentid.tennantId && datavar[m].roleType != "Super User" && datavar[m].roleType != "System Admin" && datavar[m].roleType != "Business Admin")
+            //    if(datavar[m].tennantId === tenentid.tennantId && datavar[m].roleType != "Super User" && datavar[m].roleType != "System Admin" && datavar[m].roleType != "Business Admin")
                     r.push({
                        userName:datavar[m].userName,
                         emailId:datavar[m].emailId,
@@ -258,6 +259,7 @@ const checkedDeleteButton = (email) =>
                                     />
                                 </div>
                             </th> */}
+                            <th className="text-center">Checkbox</th>
                             <th className="text-center">Sl no</th>
                             <th className="text-center">User name</th>
                             <th className="text-center">Email Id</th>
@@ -269,16 +271,29 @@ const checkedDeleteButton = (email) =>
                               if(y < pageBLSize)
                               return(
                                   <tr>
-                                  {/* <td width="84">
-                                      <div className="d-flex justify-content-end">
-                                          <Form.Check
-                                              className="mb-0 check-single"
-                                              type='checkbox'
-                                              id= "checked"
-                                              onClick={() => checkedDeleteButton(x.emailId)}
-                                          />
-                                      </div>
-                                  </td> */}
+                                  {x.roleType === "Super User" || x.roleType === "System Admin" ? <>
+                                  <td width="84">
+                                        <div className="d-flex justify-content-center">
+                                            <Form.Check
+                                                className="mb-0 check-single"
+                                                type='checkbox'
+                                                id= "checked"
+                                                disabled
+                                            />
+                                        </div>
+                                    </td>
+                                  </> : <>
+                                    <td width="84">
+                                        <div className="d-flex justify-content-center">
+                                            <Form.Check
+                                                className="mb-0 check-single"
+                                                type='checkbox'
+                                                id= "checked"
+                                                onClick={() => checkedDeleteButton(x.emailId)}
+                                            />
+                                        </div>
+                                    </td>                                  
+                                  </>}  
                                   <td className="text-center">{y+1}</td>
                                   <td className="text-center">{x.userName}</td>
                                   <td className="text-center">{x.emailId}</td>
