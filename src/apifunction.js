@@ -119,22 +119,14 @@ export const CreateOrganizationPost = async (name, organizationname) =>
      
       return tentidresponse;
 }
-export const CreateOrguserrolepost = async (emailid,name,role,tenentid) =>
-{       
-  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
-  // let userID = localStorage.getItem('UserID');
-  // let connectAddress = localStorage.getItem("walletAddress");
-  // let network = "AB";
-  
+export const CreateOrguserrolepost = async (emailid, name, role, tenentid) =>
+{         
     axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
     //console.log("done1",response.data);
       // console.log("date",date);
       const options2 = {
         method: 'POST',
         url: '/platform/v1/userdetail',
-        headers: {
-          'x-api-key': `${key}`    
-        },
         data: {
             'emailId': `${emailid}`,
             'userName': `${name}`,
@@ -144,14 +136,21 @@ export const CreateOrguserrolepost = async (emailid,name,role,tenentid) =>
             'tennantId':`${tenentid}`
         }
       };
+      try {
+        const response = await axios(options2);
+        const result = response.data;
+        const title = 'User access';
+        const description = `You have successfully added ${emailid} as a role: ${role} and the added user will receive an E-mail for confirmation.`;
+        const tennat_id = tenentid;
+        const statuses = false;
       
-      axios.request(options2).then(function (response2) {
-       console.log("response",response2);
-       return response2;
-      //  window.location.reload();
-      }).catch(function (error) {
-          console.error("done2",error);
-      });
+        await NotificationPost(title, description, localStorage.getItem("UserID"), tennat_id, statuses);
+        console.log('Response:', result);
+        return result;
+      } catch (error) {
+        console.error('Error:', error);
+        return null;
+      }
 }
 export const Orgadminsignup = async (emailid,Pwd) =>
 {       

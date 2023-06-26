@@ -62,7 +62,7 @@ function UserManagement() {
               Object.keys(datavar).map((m)=>{
                 console.log("datascheck15",datavar[m]);
                 countlist=countlist + 1;
-               if(datavar[m].tennantId === tenentid.tennantId && datavar[m].roleType != "Super User" && datavar[m].roleType != "System Admin" && datavar[m].roleType != "Business Admin")
+            //    if(datavar[m].tennantId === tenentid.tennantId && datavar[m].roleType != "Super User" && datavar[m].roleType != "System Admin" && datavar[m].roleType != "Business Admin")
                     r.push({
                        userName:datavar[m].userName,
                         emailId:datavar[m].emailId,
@@ -271,16 +271,29 @@ const checkedDeleteButton = (email) =>
                               if(y < pageBLSize)
                               return(
                                   <tr>
+                                  {x.roleType === "Super User" || x.roleType === "System Admin" ? <>
                                   <td width="84">
-                                      <div className="d-flex justify-content-center">
-                                          <Form.Check
-                                              className="mb-0 check-single"
-                                              type='checkbox'
-                                              id= "checked"
-                                              onClick={() => checkedDeleteButton(x.emailId)}
-                                          />
-                                      </div>
-                                  </td>
+                                        <div className="d-flex justify-content-center">
+                                            <Form.Check
+                                                className="mb-0 check-single"
+                                                type='checkbox'
+                                                id= "checked"
+                                                disabled
+                                            />
+                                        </div>
+                                    </td>
+                                  </> : <>
+                                    <td width="84">
+                                        <div className="d-flex justify-content-center">
+                                            <Form.Check
+                                                className="mb-0 check-single"
+                                                type='checkbox'
+                                                id= "checked"
+                                                onClick={() => checkedDeleteButton(x.emailId)}
+                                            />
+                                        </div>
+                                    </td>                                  
+                                  </>}  
                                   <td className="text-center">{y+1}</td>
                                   <td className="text-center">{x.userName}</td>
                                   <td className="text-center">{x.emailId}</td>

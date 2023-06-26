@@ -9,7 +9,7 @@ function AddUser() {
     const[emailid,setEmail]=useState("");
     const[role,setRole]=useState("");
     const [roleId,setRoleId] = useState("");
-    console.log("selected",roleId);
+    // console.log("selected",roleId);
     const handleChange = (e) => {
         setRole(e)
     }
@@ -34,13 +34,12 @@ function AddUser() {
             // setRoleId(tenentid.roleType);
             console.log("tenetid",tenentid);
             let orguser = await CreateOrguserrolepost(emailid, name, role, tenentid.tennantId);            
-            console.log("Orguser",orguser);
+            // console.log("----------Orguser",emailid, name, role);
             toast.success("User added successfully");
         }catch(err){
             toast.error(err);
         }
     }
-
     const resetFields = () => {
         setEmail("");
         setname("");
