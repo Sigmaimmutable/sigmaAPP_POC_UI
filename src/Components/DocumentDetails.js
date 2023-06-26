@@ -8,7 +8,7 @@ import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
 import { useContext } from "react"
 import { Container, Modal } from "react-bootstrap";
-import { fetchSigmadocByTid,fetchSigmadocdetails,addToFavorites,deleteFavorite, getTennantId } from '../apifunction';
+import { fetchSigmadocByTid,fetchSigmadocdetails,addToFavorites,deleteFavorite, getTennantId,NotificationPost,getNotificationById } from '../apifunction';
 
 function DocumentDetails() {
     const history = useNavigate()
@@ -21,6 +21,7 @@ function DocumentDetails() {
     const [fav, setFav] = useState(false);
     const [searchQuery, setSearchQuery] = useState(false);
     const [searchDetails, setsearchDetails] = useState([]);
+    const [notifydata, setnotifyData] = useState([]);
 
     console.log("search",searchQuery)
     const handleSearch = (searchQuer) => {
@@ -172,7 +173,41 @@ function DocumentDetails() {
           console.log('Last 30 days data:', last30DaysData);
         }
       };
-        
+      useEffect(() => {
+        userdata();
+      }, []);
+      
+     
+      
+      const userdata = async () => {
+        let tnid = await getTennantId();
+        let getCurrentEpochTime =
+          Math.floor(Date.now() / 1000); // Dividing by 1000 to convert milliseconds to seconds
+          console.log("ep",getCurrentEpochTime)
+        console.log("tn",tnid)
+        let title = "Add User";
+        let descriptions = "User Added successful.";
+        let mailId = localStorage.getItem("UserID");
+        let epochtime =getCurrentEpochTime;
+        let tennatId =tnid;
+        let statuses = 0;
+      
+        try {
+          await NotificationPost(title,descriptions,mailId,epochtime,tennatId,statuses );
+          console.log("Update successful9");
+        } catch (error) {
+          console.error("Error updating:", error);
+  }
+  };
+  useEffect(() => {
+    getnotify();
+}, []);
+const getnotify = async () => {
+    const emailId = localStorage.getItem("UserID")
+    const [check1, data] = await getNotificationById(emailId);
+    console.log("getdata", data);
+    setnotifyData(data);
+}; 
       return ( 
         <div>
             <Row className="mb-20">

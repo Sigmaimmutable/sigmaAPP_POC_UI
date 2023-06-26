@@ -136,6 +136,14 @@
         {
             "source": "/platform/v1/favourite/:emailId*/:sigmaId*",
             "destination": "https://testapi.stasisonline.in/platform/v1/favourite/:emailId*/:sigmaId*"
+        },
+        {
+            "source": "/platform/v1/notification",
+            "destination": "https://testapi.stasisonline.in/platform/v1/notification"
+        },
+        {
+            "source": "/platform/v1/notification/:emailid*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/notification/:emailid*"
         }
     ]
 }

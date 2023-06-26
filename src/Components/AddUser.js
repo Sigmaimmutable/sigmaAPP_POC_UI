@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row, Dropdown} from "react-bootstrap";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
-import { OrgAdminmailcheckget1, CreateOrguserrolepost } from "../apifunction";
+import { OrgAdminmailcheckget1, CreateOrguserrolepost,getTennantId,NotificationPost,getNotificationById } from "../apifunction";
 import { Link } from "react-router-dom";
 
 function AddUser() {
     const[name,setname]=useState("");
     const[emailid,setEmail]=useState("");
     const[role,setRole]=useState("");
+    const [notifydata, setnotifyData] = useState([]);
     const [roleId,setRoleId] = useState("");
     console.log("selected",roleId);
     const handleChange = (e) => {
@@ -46,7 +47,41 @@ function AddUser() {
         setname("");
         setRole("");
     }
-
+    useEffect(() => {
+        userdata();
+      }, []);
+      
+     
+      
+      const userdata = async () => {
+        let tnid = await getTennantId();
+        let getCurrentEpochTime =
+          Math.floor(Date.now() / 1000); // Dividing by 1000 to convert milliseconds to seconds
+          console.log("ep",getCurrentEpochTime)
+        console.log("tn",tnid)
+        let title = "Add User";
+        let descriptions = "User Added successful.";
+        let mailId = localStorage.getItem("UserID");
+        let epochtime =getCurrentEpochTime;
+        let tennatId =tnid;
+        let statuses = 0;
+      
+        try {
+          await NotificationPost(title,descriptions,mailId,epochtime,tennatId,statuses );
+          console.log("Update successful9");
+        } catch (error) {
+          console.error("Error updating:", error);
+  }
+  };
+  useEffect(() => {
+    getnotify();
+}, []);
+const getnotify = async () => {
+    const emailId = localStorage.getItem("UserID")
+    const [check1, data] = await getNotificationById(emailId);
+    console.log("getdata", data);
+    setnotifyData(data);
+};
     return ( 
         <div>
             <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
