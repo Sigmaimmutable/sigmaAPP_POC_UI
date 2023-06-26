@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row, Dropdown} from "react-bootstrap";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
-import { OrgAdminmailcheckget1, CreateOrguserrolepost,getTennantId,NotificationPost,getNotificationById } from "../apifunction";
+import { OrgAdminmailcheckget1, CreateOrguserrolepost,getTennantId,NotificationPost,getNotificationById, getNotificationRead } from "../apifunction";
 import { Link } from "react-router-dom";
 
 function AddUser() {
     const[name,setname]=useState("");
     const[emailid,setEmail]=useState("");
+    const [statusdata, setstatusdata] = useState([]);
     const[role,setRole]=useState("");
     const [notifydata, setnotifyData] = useState([]);
     const [roleId,setRoleId] = useState("");
@@ -82,6 +83,17 @@ const getnotify = async () => {
     console.log("getdata", data);
     setnotifyData(data);
 };
+
+useEffect(() => {
+    getstatu();
+}, []);
+const getstatu = async () => {
+    const emailId = localStorage.getItem("UserID")
+    const statuses = 0; // Set the desired value for statuses (0 or 1)
+    const [check1, data] = await getNotificationRead(emailId,statuses);
+    console.log("statuscheck", data);
+    setstatusdata(data);
+};
     return ( 
         <div>
             <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
@@ -137,6 +149,7 @@ const getnotify = async () => {
                                 <Row>
                                     <Col xs={6}>
                                         <Button variant="dark" className="w-100 btn-button" onClick={() => Addusertoorganization()}>Submit</Button>
+                                        
                                     </Col>
                                     <Col xs={6}>
                                         <Button type="reset" variant="outline-dark" className="w-100 btn-button" onClick={() => resetFields()}>Reset</Button>

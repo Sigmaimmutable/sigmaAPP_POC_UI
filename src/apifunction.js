@@ -1070,3 +1070,26 @@ export const getNotificationById = async (emailid) => {
     return [false, 'Error occurred while making the request'];
   }
 };
+export const getNotificationRead = async (emailid, statuses) => {
+  console.log("mailnotify", emailid, statuses);
+  const url = `/platform/v1/notification/${emailid}/${statuses}`;
+  const key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'x-api-key': key,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return [true, data];
+    } else {
+      return [false, 'Error occurred while fetching data'];
+    }
+  } catch (error) {
+    console.log('Error:', error);
+    return [false, 'Error occurred while making the request'];
+  }
+};

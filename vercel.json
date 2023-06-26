@@ -144,6 +144,10 @@
         {
             "source": "/platform/v1/notification/:emailid*",
             "destination": "https://testapi.stasisonline.in/platform/v1/notification/:emailid*"
+        },
+        {
+            "source": "/platform/v1/notification/:emailid*/:statuses*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/notification/:emailid*/:statuses*"
         }
     ]
 }
