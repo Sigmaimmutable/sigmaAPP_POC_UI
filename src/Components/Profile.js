@@ -96,7 +96,10 @@ const [country, setCountry] = useState('');
         console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);
         setSelectedCountry(value);
        }
-       useEffect(()=>{getprofiledetails()})
+       useEffect(()=>{
+        if(!getIProfile)
+        getprofiledetails()
+       })
 
 
     const Save = async() =>{
@@ -634,16 +637,13 @@ defaultOptionLabel= {getIProfile.state}
                                     <Form.Group className="mb-2" controlId="form.ControlInput1">
                                         <Form.Label className='text-muted'>Gender</Form.Label>
 
-    <Form.Select className="form-control" aria-label="Default select example"  value={gender}   onChange={(event)=>{handleSelectgender(event.target.value)} }>
+                                        <Form.Select className="form-control" aria-label="Default select example"  value={gender}   onChange={(event)=>{handleSelectgender(event.target.value)} }>
                                             <option>I would prefer not to say</option>
                                             <option value="Male">Male </option>
                                             <option value="Female">Female</option>
                                             <option value="Transgender">Transgender</option>
                                             <option value="Non-binary/non-conforming">Non-binary/non-conforming</option>
-                                        </Form.Select>
-
-
-                                       
+                                        </Form.Select>             
                                     </Form.Group>
                                 </Col>
 

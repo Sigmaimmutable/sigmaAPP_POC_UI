@@ -3,7 +3,7 @@ import Eye from '../asserts/images/eye-icon.svg'
 import { Link,useLocation,useParams } from "react-router-dom";
 import { useState,useEffect } from "react";
 import Layout from "./Snippets/Layout";
-import { fetchFavoriteDetails,deleteFavorite,fetchSigmadocdetails,createUserVisits ,getNotificationById} from "../apifunction";
+import { fetchFavoriteDetails,deleteFavorite,fetchSigmadocdetails,createUserVisits ,getNotificationById, getTennantId} from "../apifunction";
 const FavouriteDocuments= (props)=>{
 // function FavouriteDocuments() {
     const location = useLocation();
@@ -69,8 +69,9 @@ const FavouriteDocuments= (props)=>{
           console.error("Error updating:", error);
         }
       };
-    const deleteFavorites = async(docId) => {
+    const deleteFavorites = async(docId, filename) => {
         const emailId = localStorage.getItem("UserID")
+        const tenantId = await getTennantId(emailId);
         // Perform the deletion logic here
         // You can use the docId to identify the document to delete
         // Update the favoriteData state to remove the deleted document
@@ -79,7 +80,7 @@ const FavouriteDocuments= (props)=>{
         const updatedFavorites = favoriteData.filter(item => item.docId !== docId);
         setFavoriteData(updatedFavorites);
         console.log("docid",docId)
-        const deleted = await deleteFavorite(emailId, docId);
+        const deleted = await deleteFavorite(emailId, docId, filename, tenantId);
       
       };
       useEffect(() => {
@@ -226,7 +227,7 @@ const FavouriteDocuments= (props)=>{
                         {favoriteData.map((postt, index) => (
     <tr key={index}>
       <td>
-        <Button variant="link" onClick={() => deleteFavorites(postt.docId)}>
+        <Button variant="link" onClick={() => deleteFavorites(postt.docId, postt.fileName)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"

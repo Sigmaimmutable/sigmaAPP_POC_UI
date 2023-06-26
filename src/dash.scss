@@ -22,4 +22,28 @@
       }
   }
 
+  .notification_unread {
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+    
+    &:hover {
+      font-weight: bolder;
+      color: rgb(35, 35, 60);
+      cursor: pointer;
+    }
+  }
+
+  .notification_read {
+    cursor: pointer;
+  }
+
+  .home_menu {    
+    &:hover {
+      font-weight: bolder;
+      color: rgb(35, 35, 60);
+      cursor: pointer;
+    }
+  }
+
  

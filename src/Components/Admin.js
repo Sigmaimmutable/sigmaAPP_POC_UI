@@ -15,7 +15,6 @@ function Admin() {
     const [nodeDetail1, setnodeDetail1] = useState(false);
 
 
-
     setTimeout(() => {
         setShowA(false)
     }, 1200)

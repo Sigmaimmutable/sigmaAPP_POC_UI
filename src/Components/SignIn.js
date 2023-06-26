@@ -7,7 +7,7 @@ import SSO from '../asserts/images/sso-icon.svg'
 
 import { GoogleLoginButton } from "react-social-login-buttons";
 import { LoginSocialGoogle } from "reactjs-social-login";
-import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget,userprofileget,getNotificationById,NotificationPost,getTennantId,getNotificationRead} from '../apifunction';
+import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget,userprofileget,getNotificationById,NotificationPost,getTennantId} from '../apifunction';
 
 function SignIn() {
     const [pass, setPass] = useState(true);
@@ -18,8 +18,6 @@ function SignIn() {
     const [loginstatus, setLoginstatus] = useState("")
     const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
     const [Logtime, setLogtime] = useState("")
-    const [statusdata, setstatusdata] = useState([]);
-    const [notifydata, setnotifyData] = useState([]);
     const [rememberMe, setRememberMe] = useState(false);
     console.log("currentDateTime",currentDateTime);
     
@@ -116,25 +114,7 @@ function SignIn() {
           console.error("Error updating:", error);
   }
   };
-  useEffect(() => {
-    getnotify();
-}, []);
-const getnotify = async () => {
-    const emailId = localStorage.getItem("UserID")
-    const [check1, data] = await getNotificationById(emailId);
-    console.log("getdata", data);
-    setnotifyData(data);
-};
-useEffect(() => {
-    getstatus1();
-}, []);
-const getstatus1 = async () => {
-    const emailId = localStorage.getItem("UserID")
-    const statuses = 0; // Set the desired value for statuses (0 or 1)
-    const [check1, data] = await getNotificationRead(emailId,statuses);
-    console.log("statuscheck", data);
-    setstatusdata(data);
-};
+
     const getprofiledetails = async(email) =>{
         let [data,userprofiledetail]=await userprofileget(email);
         // setgetIProfile(userprofiledetail);

@@ -386,7 +386,7 @@ export const fetchSigmadocdetails = async (sigmaId) => {
   }
 };
 
-export const addToFavorites = async (emailId, sigmaId, name__v, filename__v, status__v) => {
+export const addToFavorites = async (emailId, sigmaId, name__v, filename__v, status__v, tenantId) => {
   const url = '/platform/v1/favourite';
   const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
 
@@ -413,6 +413,12 @@ export const addToFavorites = async (emailId, sigmaId, name__v, filename__v, sta
   try {
     const response = await axios(options);
     const result = response.data;
+    const title = 'Favourites';
+    const description = `${filename__v} is added to favourites.`;
+    const tennat_id = tenantId;
+    const statuses = false;
+  
+    await NotificationPost(title, description, emailId, tennat_id, statuses);
     console.log('Response:', result);
     return result;
   } catch (error) {
@@ -438,14 +444,6 @@ export const fetchFavoriteDetails = async (emailId,limit) => {
     // Assuming the response data is in the 'data' field
     const data = response.data;
     console.log('fetchFavoriteDetails:', data);
-    const Title = 'Add to favourites';
-        const Description = 'Added to favourites succesfully';
-        const currentTime = Date.now();
-        const TennatId = 'Some Tenant ID';
-        const statuse = 'Some Status';
-    
-    await NotificationPost(Title, Description, emailId, currentTime, TennatId, statuse);
-
     return [true, data];
   } catch (error) {
     console.error('Error fetching favorite details:', error);
@@ -453,7 +451,7 @@ export const fetchFavoriteDetails = async (emailId,limit) => {
   }
 };
 
-export const deleteFavorite = async (emailId, sigmaId) => {
+export const deleteFavorite = async (emailId, sigmaId, filename_v, tenantId) => {
   const url = `/platform/v1/favourite/${emailId}/${sigmaId}`;
   const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
 
@@ -471,13 +469,12 @@ export const deleteFavorite = async (emailId, sigmaId) => {
   try {
     const responsed = await axios(options);
     console.log('Responsed:', responsed);
-    const Title = 'delete to favourites';
-    const Description = 'deleted to favourites';
-    const currentTime = Date.now();
-    const TennatId = 'Some Tenant ID';
-    const statuse = 'Some Status';
+    const title = 'Favourites';
+    const description = `${filename_v} is removed from favourites.`;
+    const tennat_id = tenantId;
+    const statuses = false;
   
-  await NotificationPost(Title, Description, emailId, currentTime, TennatId, statuse);
+    await NotificationPost(title, description, emailId, tennat_id, statuses);
     return responsed;
   } catch (error) {
     console.error('Error:', error);
@@ -1016,48 +1013,91 @@ const options2 = {
     });
     
 }
-export const NotificationPost = async(Title,Description,emailid,currentTime,TennatId,statuse) =>{
-  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+export const NotificationPost = async(title, description, email_id, tennat_id, statuses) => {
+
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-  let datas = {
+  let data = {
            
-    "title": Title,
-    "descriptions": Description,
-    "mailId": emailid,
-    "epochtime": currentTime,
-    "tennatId": TennatId,
-    "statuses": statuse
+    "title": title,
+    "descriptions": description,
+    "mailId": email_id,
+    "epochtime": (Date.now())/1000,
+    "tennatId": tennat_id,
+    "statuses": statuses
   }
 
   const options2 = {
   method: 'POST',
   url: '/platform/v1/notification',
-  headers: {
-      'x-api-key': `${key}`    
-  },
-  data: datas
+  data: data
   };
   
   axios.request(options2).then(function (response2) {
-  console.log("notification",response2);
-  
-  // console.log("update successfull15")
+  console.log("notification", response2);
+  return [true, response2];
   }).catch(function (error) {
-      console.error("done2",error);
+      console.error("done2", error);
+      return [false, 'Error occurred while fetching data'];
 });
+}
+
+export const NotificationSingle = async(id, email_id, status) => {
+  console.log("status", status);
+if(status != true)
+{
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+  let data = {
+           
+    "id": id,
+    "mailId": email_id,
+    "statuses": true
+  }
+
+  const options2 = {
+  method: 'PUT',
+  url: '/platform/v1/notificationbyid',
+  data: data
+  };
+  
+  axios.request(options2).then(function (response2) {
+  console.log("notification", response2);
+  return [true, response2];
+  }).catch(function (error) {
+      console.error("done2", error);
+      return [false, 'Error occurred while fetching data'];
+});
+}
+}
+
+export const NotificationAll = async(email_id) => {
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+  let data = {   
+    "mailId": email_id,
+    "statuses": true
+  }
+
+  const options2 = {
+  method: 'PUT',
+  url: '/platform/v1/notification',
+  data: data
+  };
+  
+  axios.request(options2).then(function (response2) {
+  console.log("notification", response2);
+  return [true, response2];
+  }).catch(function (error) {
+      console.error("done2", error);
+      return [false, 'Error occurred while fetching data'];
+});
+
 }
 
 export const getNotificationById = async (emailid) => {
   console.log("mailnotify",emailid)
   const url = `/platform/v1/notification/${emailid}`;
-  const key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
 
   try {
-    const response = await fetch(url, {
-      headers: {
-        'x-api-key': key,
-      },
-    });
+    const response = await fetch(url);
 
     if (response.ok) {
       const data = await response.json();
@@ -1070,26 +1110,19 @@ export const getNotificationById = async (emailid) => {
     return [false, 'Error occurred while making the request'];
   }
 };
-export const getNotificationRead = async (emailid, statuses) => {
-  console.log("mailnotify", emailid, statuses);
-  const url = `/platform/v1/notification/${emailid}/${statuses}`;
-  const key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+
+export const userByTenantId = async (tenantId) => {
+  const url = `platform/v1/userdetailsid/${tenantId}`;
 
   try {
-    const response = await fetch(url, {
-      headers: {
-        'x-api-key': key,
-      },
-    });
+    const response = await fetch(url);
 
-    if (response.ok) {
-      const data = await response.json();
-      return [true, data];
-    } else {
-      return [false, 'Error occurred while fetching data'];
-    }
-  } catch (error) {
-    console.log('Error:', error);
-    return [false, 'Error occurred while making the request'];
+    const data2 = await response.json();
+    console.log("userdetailbytennant", data2)
+    // return {data2};
+    return [true, data2.length];
+  }catch(err){
+    console.log("userdetailbytennant",err)
+    return [false,""];
   }
 };

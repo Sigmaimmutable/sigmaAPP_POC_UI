@@ -19,7 +19,8 @@ function UserManagement() {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const[pageBLSize,setPageBLSize]=useState(8);     
+    const[pageBLSize,setPageBLSize] = useState(8);  
+    const [rowSize, setRowSize] = useState();   
 
     const decrementBLSize=()=>{
       if(pageBLSize >= 4){
@@ -258,6 +259,7 @@ const checkedDeleteButton = (email) =>
                                     />
                                 </div>
                             </th> */}
+                            <th className="text-center">Checkbox</th>
                             <th className="text-center">Sl no</th>
                             <th className="text-center">User name</th>
                             <th className="text-center">Email Id</th>
@@ -269,8 +271,8 @@ const checkedDeleteButton = (email) =>
                               if(y < pageBLSize)
                               return(
                                   <tr>
-                                  {/* <td width="84">
-                                      <div className="d-flex justify-content-end">
+                                  <td width="84">
+                                      <div className="d-flex justify-content-center">
                                           <Form.Check
                                               className="mb-0 check-single"
                                               type='checkbox'
@@ -278,7 +280,7 @@ const checkedDeleteButton = (email) =>
                                               onClick={() => checkedDeleteButton(x.emailId)}
                                           />
                                       </div>
-                                  </td> */}
+                                  </td>
                                   <td className="text-center">{y+1}</td>
                                   <td className="text-center">{x.userName}</td>
                                   <td className="text-center">{x.emailId}</td>
