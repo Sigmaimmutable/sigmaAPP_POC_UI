@@ -438,6 +438,13 @@ export const fetchFavoriteDetails = async (emailId,limit) => {
     // Assuming the response data is in the 'data' field
     const data = response.data;
     console.log('fetchFavoriteDetails:', data);
+    const Title = 'Add to favourites';
+        const Description = 'Added to favourites succesfully';
+        const currentTime = Date.now();
+        const TennatId = 'Some Tenant ID';
+        const statuse = 'Some Status';
+    
+    await NotificationPost(Title, Description, emailId, currentTime, TennatId, statuse);
 
     return [true, data];
   } catch (error) {
@@ -464,6 +471,13 @@ export const deleteFavorite = async (emailId, sigmaId) => {
   try {
     const responsed = await axios(options);
     console.log('Responsed:', responsed);
+    const Title = 'delete to favourites';
+    const Description = 'deleted to favourites';
+    const currentTime = Date.now();
+    const TennatId = 'Some Tenant ID';
+    const statuse = 'Some Status';
+  
+  await NotificationPost(Title, Description, emailId, currentTime, TennatId, statuse);
     return responsed;
   } catch (error) {
     console.error('Error:', error);
@@ -1002,3 +1016,57 @@ const options2 = {
     });
     
 }
+export const NotificationPost = async(Title,Description,emailid,currentTime,TennatId,statuse) =>{
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+  let datas = {
+           
+    "title": Title,
+    "descriptions": Description,
+    "mailId": emailid,
+    "epochtime": currentTime,
+    "tennatId": TennatId,
+    "statuses": statuse
+  }
+
+  const options2 = {
+  method: 'POST',
+  url: '/platform/v1/notification',
+  headers: {
+      'x-api-key': `${key}`    
+  },
+  data: datas
+  };
+  
+  axios.request(options2).then(function (response2) {
+  console.log("notification",response2);
+  
+  // console.log("update successfull15")
+  }).catch(function (error) {
+      console.error("done2",error);
+});
+}
+
+export const getNotificationById = async (emailid) => {
+  console.log("mailnotify",emailid)
+  const url = `/platform/v1/notification/${emailid}`;
+  const key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'x-api-key': key,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return [true, data];
+    } else {
+      return [false, 'Error occurred while fetching data'];
+    }
+  } catch (error) {
+    console.log('Error:', error);
+    return [false, 'Error occurred while making the request'];
+  }
+};

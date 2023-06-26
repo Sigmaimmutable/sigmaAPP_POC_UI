@@ -3,7 +3,7 @@ import Eye from '../asserts/images/eye-icon.svg'
 import { Link,useLocation,useParams } from "react-router-dom";
 import { useState,useEffect } from "react";
 import Layout from "./Snippets/Layout";
-import { fetchFavoriteDetails,deleteFavorite,fetchSigmadocdetails,createUserVisits } from "../apifunction";
+import { fetchFavoriteDetails,deleteFavorite,fetchSigmadocdetails,createUserVisits ,getNotificationById} from "../apifunction";
 const FavouriteDocuments= (props)=>{
 // function FavouriteDocuments() {
     const location = useLocation();
@@ -14,7 +14,7 @@ const FavouriteDocuments= (props)=>{
 
     const {sigmaId} = useParams();
     const [documentDetails, setDocumentDetails] = useState(null);
-  
+    const [notifydata, setnotifyData] = useState([]);
 
     const [search, setSearch] = useState(false);
     // const searchParams = new URLSearchParams(location.search);
@@ -81,7 +81,15 @@ const FavouriteDocuments= (props)=>{
         const deleted = await deleteFavorite(emailId, docId);
       
       };
-  
+      useEffect(() => {
+        getnotify();
+    }, []);
+    const getnotify = async () => {
+        const emailId = localStorage.getItem("UserID")
+        const [check1, data] = await getNotificationById(emailId);
+        console.log("getdata", data);
+        setnotifyData(data);
+    }; 
     return ( 
         <Layout getThemeMode={() => undefined} roleType = {props.roleType}>
             <div className="container-fluid">

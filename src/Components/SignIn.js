@@ -7,7 +7,8 @@ import SSO from '../asserts/images/sso-icon.svg'
 
 import { GoogleLoginButton } from "react-social-login-buttons";
 import { LoginSocialGoogle } from "reactjs-social-login";
-import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget,userprofileget} from '../apifunction';
+import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget,userprofileget,getNotificationById,NotificationPost,getTennantId} from '../apifunction';
+
 function SignIn() {
     const [pass, setPass] = useState(true);
     const [Logged, setLogged] = useState(false);
@@ -17,6 +18,7 @@ function SignIn() {
     const [loginstatus, setLoginstatus] = useState("")
     const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
     const [Logtime, setLogtime] = useState("")
+    const [notifydata, setnotifyData] = useState([]);
     const [rememberMe, setRememberMe] = useState(false);
     console.log("currentDateTime",currentDateTime);
     
@@ -87,6 +89,41 @@ function SignIn() {
           }
        
     }
+    useEffect(() => {
+        userdata();
+      }, []);
+      
+     
+      
+      const userdata = async () => {
+        let tnid = await getTennantId();
+        let getCurrentEpochTime =
+          Math.floor(Date.now() / 1000); // Dividing by 1000 to convert milliseconds to seconds
+          console.log("ep",getCurrentEpochTime)
+        console.log("tn",tnid)
+        let title = "Add User";
+        let descriptions = "User Added successful.";
+        let mailId = localStorage.getItem("UserID");
+        let epochtime =getCurrentEpochTime;
+        let tennatId =tnid;
+        let statuses = 0;
+      
+        try {
+          await NotificationPost(title,descriptions,mailId,epochtime,tennatId,statuses );
+          console.log("Update successful9");
+        } catch (error) {
+          console.error("Error updating:", error);
+  }
+  };
+  useEffect(() => {
+    getnotify();
+}, []);
+const getnotify = async () => {
+    const emailId = localStorage.getItem("UserID")
+    const [check1, data] = await getNotificationById(emailId);
+    console.log("getdata", data);
+    setnotifyData(data);
+};
     const getprofiledetails = async(email) =>{
         let [data,userprofiledetail]=await userprofileget(email);
         // setgetIProfile(userprofiledetail);
