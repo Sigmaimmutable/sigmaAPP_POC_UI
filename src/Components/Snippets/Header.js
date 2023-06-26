@@ -4,7 +4,7 @@ import { Link,useHistory,useNavigate,Redirect,Navigate} from 'react-router-dom';
 // import { Link } from "react-router-dom";
 import LogoutIcon from "../../asserts/images/logout-icon.svg"
 import { useEffect, useState } from "react";
-import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget,Sessionstatusupdate,userprofileget} from '../../apifunction';
+import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget,Sessionstatusupdate,userprofileget,getNotificationRead} from '../../apifunction';
 const Header = () => {
     const [search, setSearch] = useState(false);
     const [menu, setMenu] = useState(false);
@@ -14,6 +14,7 @@ const Header = () => {
     const [logout, setLogout] = useState("")
     const [UserName,setUserName] = useState("");
     const [lastname,setlastname] = useState("");
+    const [statusdata, setstatusdata] = useState([]);
     const[getIProfile,setgetIProfile]=useState("");  
     const navigate = useNavigate()
     if(menu){
@@ -53,6 +54,17 @@ const Header = () => {
       
        
     }
+    
+useEffect(() => {
+    getstatu();
+}, []);
+const getstatu = async () => {
+    const emailId = localStorage.getItem("UserID")
+    const statuses = 0; // Set the desired value for statuses (0 or 1)
+    const [check1, data] = await getNotificationRead(emailId,statuses);
+    console.log("statuscheck", data);
+    setstatusdata(data);
+};
     return ( 
         <header className="app-header">
             <div className="container-fluid">

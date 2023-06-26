@@ -8,7 +8,7 @@ import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
 import { useContext } from "react"
 import { Container, Modal } from "react-bootstrap";
-import { fetchSigmadocByTid,fetchSigmadocdetails,addToFavorites,deleteFavorite, getTennantId,NotificationPost,getNotificationById } from '../apifunction';
+import { fetchSigmadocByTid,fetchSigmadocdetails,addToFavorites,deleteFavorite, getTennantId,NotificationPost,getNotificationById,getNotificationRead } from '../apifunction';
 
 function DocumentDetails() {
     const history = useNavigate()
@@ -22,6 +22,7 @@ function DocumentDetails() {
     const [searchQuery, setSearchQuery] = useState(false);
     const [searchDetails, setsearchDetails] = useState([]);
     const [notifydata, setnotifyData] = useState([]);
+    const [statusdata, setstatusdata] = useState([]);
 
     console.log("search",searchQuery)
     const handleSearch = (searchQuer) => {
@@ -185,8 +186,8 @@ function DocumentDetails() {
           Math.floor(Date.now() / 1000); // Dividing by 1000 to convert milliseconds to seconds
           console.log("ep",getCurrentEpochTime)
         console.log("tn",tnid)
-        let title = "Add User";
-        let descriptions = "User Added successful.";
+        let title = "document";
+        let descriptions = "document details.";
         let mailId = localStorage.getItem("UserID");
         let epochtime =getCurrentEpochTime;
         let tennatId =tnid;
@@ -208,6 +209,17 @@ const getnotify = async () => {
     console.log("getdata", data);
     setnotifyData(data);
 }; 
+
+useEffect(() => {
+  getstatus();
+}, []);
+const getstatus = async () => {
+  const emailId = localStorage.getItem("UserID")
+  const statuses = 0; // Set the desired value for statuses (0 or 1)
+  const [check1, data] = await getNotificationRead(emailId,statuses);
+  console.log("statuscheck", data);
+  setstatusdata(data);
+};
       return ( 
         <div>
             <Row className="mb-20">
