@@ -56,18 +56,28 @@ function DocumentDetails() {
         logout()
         setOpenModal(false)
     } 
-    const logout4=async()=> {                
-        try {
-            localStorage.setItem("Login",false)
-            //await auth.signOut()            
-            history("/sign-up")
-            window.location.reload(false)
-          } catch(e){
-            console.log("Error",e)
-            //setError("Failed to log out")
-          }
+    const logout4 = async () =>
+    {  
         
-    }
+        let email=localStorage.getItem('UserID')
+        console.log("emailid",email)
+      
+       localStorage.setItem("Login",false)
+       localStorage.removeItem('Login');
+       localStorage.setItem("UserID"," ");
+       localStorage.removeItem('UserID');
+       localStorage.removeItem('UserName');
+       if ( localStorage.getItem('rememberMe')=== true) {
+        localStorage.removeItem('rememberMe');
+      } else {
+        localStorage.removeItem('rememberMe');
+      }
+      history('/');
+       
+      
+       
+    }              
+  
 
     const [isFavorite, setIsFavorite] = useState(false);
 
@@ -222,7 +232,23 @@ function DocumentDetails() {
                     )}
                 </Col>
             </Row>
-            
+            <Modal show={openModal} onHide={stay}>
+        <Modal.Header closeButton>
+          <Modal.Title>Your session is about to expire</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Your session is about to expire. You'll be automatically signed out.</p>
+          <p>Do you want to stay signed in?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={logout4}>
+            Sign out now
+          </Button>
+          <Button variant="primary" onClick={stay}>
+            Stay signed in
+          </Button>
+        </Modal.Footer>
+      </Modal>
             <div className="mb-20">
             <Table hover responsive>
                 <thead>
@@ -412,6 +438,7 @@ function DocumentDetails() {
   }
   return null; // Skip rendering for items after the first 10
 })}
+
 </>)}
                     </>)}
                   
@@ -423,6 +450,7 @@ function DocumentDetails() {
             {/* /.mb-20 */}
         </div>
      );
+     
 }
 
 export default DocumentDetails;

@@ -43,17 +43,38 @@ function Dashboard(props) {
         logout()
         setOpenModal(false)
     } 
-    const logout3=async()=> {                
-        try {
-            localStorage.setItem("Login",false)
-            //await auth.signOut()            
-            history("/sign-up")
-            window.location.reload(false)
-          } catch(e){
-            console.log("Error",e)
-            //setError("Failed to log out")
-          }
+    // const logout3=async()=> {                
+    //     try {
+    //         localStorage.setItem("Login",false)
+    //         //await auth.signOut()            
+    //         history("/sign-up")
+    //         window.location.reload(false)
+    //       } catch(e){
+    //         console.log("Error",e)
+    //         //setError("Failed to log out")
+    //       }
         
+    // }
+    const logout3 = async () =>
+    {  
+        
+        let email=localStorage.getItem('UserID')
+        console.log("emailid",email)
+      
+       localStorage.setItem("Login",false)
+       localStorage.removeItem('Login');
+       localStorage.setItem("UserID"," ");
+       localStorage.removeItem('UserID');
+       localStorage.removeItem('UserName');
+       if ( localStorage.getItem('rememberMe')=== true) {
+        localStorage.removeItem('rememberMe');
+      } else {
+        localStorage.removeItem('rememberMe');
+      }
+      history('/');
+       
+      
+       
     }
     useEffect(() => {
       userdata();
