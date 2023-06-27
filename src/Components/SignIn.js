@@ -190,7 +190,7 @@ function SignIn() {
         console.log("emailvalid1", emailvalid);
         
         if (emailvalid === true) {
-          navigate("/");
+          navigate("/home");
         }
       } catch (error) {
         console.error(error);
