@@ -116,11 +116,17 @@ function SignIn() {
   };
 
     const getprofiledetails = async(email) =>{
+      localStorage.setItem("Login",true)
+      localStorage.setItem("UserID",email);
         let [data,userprofiledetail]=await userprofileget(email);
+        localStorage.setItem("UserName",userprofiledetail.firstName);
+      
+       
+            
         // setgetIProfile(userprofiledetail);
         // console.log("userdetail1",userprofiledetail,userprofiledetail.emailId);
         // console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);
-        localStorage.setItem("UserName",userprofiledetail.firstName);
+        
        }
       
     useEffect(()=>{
@@ -190,10 +196,7 @@ function SignIn() {
         console.log("emailvalid1", emailvalid);
         
         if (emailvalid === true) {
-          localStorage.setItem("Login",true)
-          localStorage.setItem("UserID",data.email);
-          let [data,userprofiledetail]=await userprofileget(data.email);
-            localStorage.setItem("UserName",userprofiledetail.firstName);
+          await getprofiledetails(data.email);
           navigate("/home");
         }
       } catch (error) {
