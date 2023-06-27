@@ -224,7 +224,7 @@ console.log("Selectedcolm",Selectedcolm)
             
             <Row className="mb-20" style={{minHeight: '40px'}}>
                 <Col xs={8} md={4} className="d-flex align-items-center">
-                    <h6 className="me-3 mb-0 text-muted">Links:</h6>
+                    <h6 className="me-3 mb-0 text-muted">Versions:</h6>
                     <Dropdown size="sm" className="me-2">
                         <Dropdown.Toggle variant="gray" className="rounded-pill" id="dropdown-basic">
                         {SeValue?SeValue : 'Tesla v1'}
@@ -357,12 +357,12 @@ console.log("Selectedcolm",Selectedcolm)
                                 )
                             })}
                             </>):(<>
-                                <th className="text-center">Job id</th>
-                            <th className="text-center">Job name</th>
-                            <th className="text-center">Job run by</th>
+                                <th className="text-center">Job Id</th>
+                            <th className="text-center">Job Name</th>
+                            <th className="text-center">Job Run By</th>
                             <th className="text-center">Company</th>
-                            <th className="text-center">Start time</th>
-                            <th className="text-center">Completion time</th>
+                            <th className="text-center">Start Time</th>
+                            <th className="text-center">Completion Time</th>
                             <th className="text-center">Status</th>
                             </>)}
                             

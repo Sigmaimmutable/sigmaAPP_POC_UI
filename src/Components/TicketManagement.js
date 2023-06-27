@@ -323,8 +323,8 @@ const paginationProcess = async(start) =>{
                             </th> */}
                             <th className="text-center">Checkbox</th>
                             <th className="text-center">Sl no</th>
-                            <th className="text-center">First name</th>
-                            <th className="text-center">Last name</th>
+                            <th className="text-center">First Name</th>
+                            <th className="text-center">Last Name</th>
                             <th className="text-center">Email Id</th>
                             <th className="text-center">Ticket Type</th>
                             <th className="text-center">Description of Ticket</th>

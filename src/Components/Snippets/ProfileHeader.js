@@ -181,7 +181,13 @@ function ProfileHeader() {
                                                 return(
                                                     <>
                                                         <div onClick={() => singleRead(x.id, x.mailId, x.statuses)} className = {(x.statuses ? 'd-flex notify read' : 'd-flex notify unread notification_unread')}>
-                                                        <img src={Avatar} alt="Avatar" />
+                                                        {getIProfile.profilePic === null || getIProfile.profilePic === "" || getIProfile.profilePic === undefined ?(<>
+                                    <img src={Avatar}  alt="Avatar" />
+                                
+                                </>):(<>
+                                
+                                    <img src={getIProfile.profilePic}  alt="Avatar" />
+                                </>)}
                                                             <div>
                                                                 <bold><h6>{x.title}</h6></bold>
                                                                 <p>{x.descriptions}</p>
@@ -197,7 +203,13 @@ function ProfileHeader() {
                                                 return(
                                                     <>
                                                         <div onClick={() => singleRead(x.id, x.mailId, x.statuses)} className = {(x.statuses ? 'd-flex notify read' : 'd-flex notify unread notification_unread')}>
-                                                        <img src={Avatar} alt="Avatar" />
+                                                        {getIProfile.profilePic === null || getIProfile.profilePic === "" || getIProfile.profilePic === undefined ?(<>
+                                    <img src={Avatar}  alt="Avatar" />
+                                
+                                </>):(<>
+                                
+                                    <img src={getIProfile.profilePic}  alt="Avatar" />
+                                </>)}
                                                             <div>
                                                                 <bold><h6>{x.title}</h6></bold>
                                                                 <p>{x.descriptions}</p>
@@ -213,7 +225,13 @@ function ProfileHeader() {
                                                 return(
                                                     <>
                                                         <div onClick={() => singleRead(x.id, x.mailId, x.statuses)} className = {(x.statuses ? 'd-flex notify read' : 'd-flex notify unread notification_unread')}>
-                                                        <img src={Avatar} alt="Avatar" />
+                                                        {getIProfile.profilePic === null || getIProfile.profilePic === "" || getIProfile.profilePic === undefined ?(<>
+                                    <img src={Avatar}  alt="Avatar" />
+                                
+                                </>):(<>
+                                
+                                    <img src={getIProfile.profilePic}  alt="Avatar" />
+                                </>)}
                                                             <div>
                                                                 <bold><h6>{x.title}</h6></bold>
                                                                 <p>{x.descriptions}</p>
