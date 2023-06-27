@@ -1125,3 +1125,98 @@ export const userByTenantId = async (tenantId) => {
     return [false,""];
   }
 };
+export const HelpandsupportPost = async(Ticket,Description,firstname,lastname,emailid,TennatId,statuse) =>{
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+  let datas = {
+           
+    "ticket": Ticket,
+    "descriptions": Description,
+    "firstName":firstname,
+    "lastName":lastname,
+    "mailId": emailid,
+    "epochtime":"",
+    "tennatId": TennatId,
+    "statuses": statuse
+  }
+
+  const options2 = {
+  method: 'POST',
+  url: '/platform/v1/helpandsupport',
+  headers: {
+      'x-api-key': `${key}`    
+  },
+  data: datas
+  };
+  
+  axios.request(options2).then(function (response2) {
+  console.log("notification",response2);
+  
+  // console.log("update successfull15")
+  }).catch(function (error) {
+      console.error("done2",error);
+});
+}
+
+export const getTicketsById = async (pageno) => {
+  console.log("getticket",pageno)
+  const url = `/platform/v1/helpandsupport/${pageno}`;
+  const key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'x-api-key': key,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return [true, data];
+    } else {
+      return [false, 'Error occurred while fetching data'];
+    }
+  } catch (error) {
+    console.log('Error:', error);
+    return [false, 'Error occurred while making the request'];
+  }
+};
+
+export const ResolveTicket = async(email_id,id,tenantId) => {
+  console.log("email",email_id,id,tenantId);
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+  let data = { 
+    "id":id,  
+    "mailId": email_id,
+    "statuses": true
+  }
+
+  const options2 = {
+  method: 'PUT',
+  url: '/platform/v1/helpandsupport',
+  data: data
+  };
+  try {
+    const response = await axios(options2);
+    const result = response.data;
+    const title = 'Sigma Help and Support';
+    const description = `The ticket originating from ${email_id} has been resolved. Kindly review your email for updates. If you have any additional questions, please feel free to reach out to us through the admin mail or the Help and Support Ticket System.`;
+    const tennat_id = tenantId;
+    const statuses = false;
+  
+    await NotificationPost(title, description, email_id, tennat_id, statuses);
+    console.log('Response:', result);
+    return result;
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+//   axios.request(options2).then(function (response2) {
+//   console.log("helpandsupportbyid", response2);
+//   return [true, response2];
+//   }).catch(function (error) {
+//       console.error("done2", error);
+//       return [false, 'Error occurred while fetching data'];
+// });
+
+}

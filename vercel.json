@@ -152,6 +152,19 @@
         {
             "source": "/platform/v1/notificationbyid",
             "destination": "https://testapi.stasisonline.in/platform/v1/notificationbyid"
+        },
+        {
+            "source": "/platform/v1/helpandsupport",
+            "destination": "https://testapi.stasisonline.in/platform/v1/helpandsupport"
+        },
+        {
+            "source": "/platform/v1/helpandsupport/:pageNo*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/helpandsupport/:pageNo*"
+        },
+        {
+            "source": "/platform/v1/helpandsupportstatus/:emailId*/:status*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/helpandsupportstatus/:emailId*/:status*"
         }
+
     ]
 }

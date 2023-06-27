@@ -1,9 +1,110 @@
 import { Button, Col, Form, Row} from "react-bootstrap";
+import React,{ useEffect ,useState} from "react";
 import Layout from "./Snippets/Layout";
+import {HelpandsupportPost,createUserVisits,getTennantId} from '../apifunction';
+import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 
 function HelpSupport(props) {
+    useEffect(() => {
+        document.title = "Sigma | Help and Support"
+    }, [])
+        const [showA, setShowA] = useState(false);
+        const toggleShowA = () => setShowA(!showA);
+        const[loader, setLoader] = useState(false);
+        const handleShowLoad = () => setLoader(true);
+        const handleHideLoad = () => setLoader(false); 
+    
+        const[name,setname]=useState("");
+        const[lastname,setlastname]=useState("");
+        const[emailid,setEmail]=useState("");
+        const[selecticket,setTicket]=useState("");
+        const[descriptionofissuse,setDescription]=useState("");
+
+        const handleSelect=(e)=>{   
+            console.log("evalue",e)     
+            setTicket(e)
+        }
+        const CreateTicket =async()=>{
+            
+      
+          if(name === null || name === "" || name === undefined){
+            toast.warn(`Please Enter an First Name`);  
+            console.log("checkname");
+        
+          
+             
+        }
+        else if(lastname === null || lastname === "" || lastname === undefined){
+            toast.warn(`Please Enter Last Name`); 
+                                                 
+                }
+        else if(selecticket === null || selecticket === "" || selecticket === undefined){
+                    toast.warn(`Please Select an Tickettype`);    
+                
+                                                             
+        }
+        else if(descriptionofissuse === null || descriptionofissuse === "" || descriptionofissuse === undefined){
+            toast.warn(`Please Enter Last Name`); 
+                                                 
+                }
+        else if(emailid === null || emailid === "" || emailid === undefined){
+            toast.warn(`Please Enter EmailId`); 
+                }
+        else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailid))){
+            toast.warn(`Please Enter Valid EmailId`); 
+          
+                
+            }
+       
+        
+            else{
+            console.log("checkpass");
+            let tenentid = await getTennantId();
+            console.log("tenetid",tenentid);
+          
+            let orguser=await HelpandsupportPost(selecticket,descriptionofissuse,name,lastname,emailid,tenentid,0);            
+            console.log("Orguser",orguser);
+            await Reset();
+            toast.success(`Ticket Raised successfully`);  
+          
+           
+            }
+       
+    
+    
+        }
+        const Reset =async()=>{
+            console.log("aftercall");
+         setname("");
+         setlastname("");
+         setEmail("");
+         setTicket("");
+         setDescription("");
+            }
+        // setTimeout(() => {
+        //     setShowA(false)
+        // }, 5000)
+        useEffect(() => {
+            userdata();
+          }, []);
+          
+          const userdata = async () => {
+            let algoAddress = localStorage.getItem("UserID");
+            let networkType = "type";
+            let walletType = "create-org";
+          
+            try {
+              await createUserVisits(algoAddress, networkType, walletType);
+              console.log("Update successful10");
+            } catch (error) {
+              console.error("Error updating:", error);
+            }
+          };
+
     return ( 
         <Layout getThemeMode={() => undefined} roleType = {props.roleType}>
+    <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
+
             <div className="container-fluid">
                 <Row className="mb-40">
                     <Col md={6} xl={4} xxl={3}>
@@ -19,10 +120,10 @@ function HelpSupport(props) {
                                 <Col sm="9">
                                     <Row>
                                         <Col xs={6}>
-                                            <Form.Control type="text" placeholder="First Name" />
+                                            <Form.Control type="text" placeholder="First Name" onChange={event => setname( event.target.value)} value={name} />
                                         </Col>
                                         <Col xs={6}>
-                                            <Form.Control type="text" placeholder="Last Name" />
+                                            <Form.Control type="text" placeholder="Last Name" onChange={event => setlastname( event.target.value)} value={lastname} />
                                         </Col>
                                     </Row>
                                 </Col>
@@ -30,34 +131,35 @@ function HelpSupport(props) {
                             <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                                 <Form.Label column sm="3">Ticket</Form.Label>
                                 <Col sm="9">
-                                    <Form.Select className="form-control" aria-label="Default select example">
-                                        <option>Select</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                    <Form.Select className="form-control" aria-label="Default select example"  value={selecticket}   onChange={(event)=>{handleSelect(event.target.value)} }>
+                                        <option>Select Type of Ticket</option>
+                                        <option value="General Question">General Question</option>
+                                        <option value="Bug Report">Bug Report</option>
+                                        <option value="Feature Request">Feature Request</option>
+                                        <option value="Other">Other</option>
                                     </Form.Select>
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                                 <Form.Label column sm="3">Subject</Form.Label>
                                 <Col sm="9">
-                                    <Form.Control as="textarea" rows={3} />
+                                    <Form.Control as="textarea" rows={3} onChange={event => setDescription( event.target.value)} value={descriptionofissuse} />
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
                                 <Form.Label column sm="3">Email</Form.Label>
                                 <Col sm="9">
-                                    <Form.Control type="email" placeholder="" />
+                                    <Form.Control type="email" placeholder="" onChange={event => setEmail( event.target.value)} value={emailid}/>
                                 </Col>
                             </Form.Group>
                             <Row className="justify-content-end">
                                 <Col sm="9">
                                     <Row>
                                         <Col xs={6}>
-                                            <Button type="submit" variant="dark" className="w-100 btn-button">Submit</Button>
+                                            <Button  variant="dark" className="w-100 btn-button"onClick={()=>{CreateTicket()}}>Submit</Button>
                                         </Col>
                                         <Col xs={6}>
-                                            <Button type="reset" variant="outline-dark" className="w-100 btn-button">Reset</Button>
+                                            <Button type="reset" variant="outline-dark" className="w-100 btn-button"onClick={()=>{Reset()}}>Reset</Button>
                                         </Col>
                                     </Row>
                                 </Col>
