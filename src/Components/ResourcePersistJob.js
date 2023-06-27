@@ -224,7 +224,7 @@ function ResourcePersistJob() {
 
             <Row className="mb-20" style={{minHeight: '40px'}}>
                 <Col md={12} className="d-flex align-items-center justify-content-end">
-                    <h6 className="me-3 mb-0 text-muted">Links:</h6>
+                    <h6 className="me-3 mb-0 text-muted">Versions:</h6>
                     <Dropdown size="sm">
                         <Dropdown.Toggle variant="gray" id="dropdown-basic">
                             {SeValue?SeValue : 'Select'}

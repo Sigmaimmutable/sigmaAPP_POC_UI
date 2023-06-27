@@ -202,7 +202,13 @@ const Header = () => {
                                                 return(
                                                     <>
                                                         <div onClick={() => singleRead(x.id, x.mailId, x.statuses)} className = {(x.statuses ? 'd-flex notify read' : 'd-flex notify unread notification_unread')}>
-                                                        <img src={Avatar} alt="Avatar" />
+                                                        {getIProfile.profilePic === null || getIProfile.profilePic === "" || getIProfile.profilePic === undefined ?(<>
+                                    <img src={Avatar}  alt="Avatar" />
+                                
+                                </>):(<>
+                                
+                                    <img src={getIProfile.profilePic}  alt="Avatar" />
+                                </>)}
                                                             <div>
                                                                 <bold><h6>{x.title}</h6></bold>
                                                                 <p>{x.descriptions}</p>
@@ -218,7 +224,13 @@ const Header = () => {
                                                 return(
                                                     <>
                                                         <div onClick={() => singleRead(x.id, x.mailId, x.statuses)} className = {(x.statuses ? 'd-flex notify read' : 'd-flex notify unread notification_unread')}>
-                                                        <img src={Avatar} alt="Avatar" />
+                                                        {getIProfile.profilePic === null || getIProfile.profilePic === "" || getIProfile.profilePic === undefined ?(<>
+                                    <img src={Avatar}  alt="Avatar" />
+                                
+                                </>):(<>
+                                
+                                    <img src={getIProfile.profilePic}  alt="Avatar" />
+                                </>)}
                                                             <div>
                                                                 <bold><h6>{x.title}</h6></bold>
                                                                 <p>{x.descriptions}</p>
@@ -234,7 +246,13 @@ const Header = () => {
                                                 return(
                                                     <>
                                                         <div onClick={() => singleRead(x.id, x.mailId, x.statuses)} className = {(x.statuses ? 'd-flex notify read' : 'd-flex notify unread notification_unread')}>
-                                                        <img src={Avatar} alt="Avatar" />
+                                                        {getIProfile.profilePic === null || getIProfile.profilePic === "" || getIProfile.profilePic === undefined ?(<>
+                                    <img src={Avatar}  alt="Avatar" />
+                                
+                                </>):(<>
+                                
+                                    <img src={getIProfile.profilePic}  alt="Avatar" />
+                                </>)}
                                                             <div>
                                                                 <bold><h6>{x.title}</h6></bold>
                                                                 <p>{x.descriptions}</p>
@@ -276,7 +294,7 @@ const Header = () => {
                                 
                                     <img src={getIProfile.profilePic} className="shadow" alt="Avatar" />
                                 </>)}
-                                    <div className="d-flex flex-column justify-content-between">
+                                    <div className="d-flex flex-column justify-content-between text-truncate">
                                         <h6>{localStorage.getItem("UserName")===""||localStorage.getItem("UserName")===null||localStorage.getItem("UserName")===undefined || !localStorage.getItem("UserName")? "User":localStorage.getItem("UserName")}</h6>
                                         <p>{localStorage.getItem("UserID")}</p>
                                     </div>

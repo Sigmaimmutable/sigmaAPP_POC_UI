@@ -101,7 +101,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
                                             </span>
-                                            Resource Persist Job
+                                            Document Export Job
                                         </Link>
                                     </li>
                                     <li>
@@ -110,7 +110,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon2} alt='SubIcon2' />
                                                 <img src={SubIconAct2} alt='SubIconAct2' />
                                             </span>
-                                            List Jobs
+                                            List All Jobs
                                         </Link>
                                     </li>
                                     <li>
@@ -119,7 +119,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon3} alt='SubIcon3' />
                                                 <img src={SubIconAct3} alt='SubIconAct3' />
                                             </span>
-                                            Immutable Record Jobs
+                                            NFT Minter Jobs
                                         </Link>
                                     </li>
                                 </ul>
@@ -225,7 +225,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
                                             </span>
-                                            Resource Persist Job
+                                            Document Export Job
                                         </Link>
                                     </li>
                                     <li>
@@ -234,7 +234,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon2} alt='SubIcon2' />
                                                 <img src={SubIconAct2} alt='SubIconAct2' />
                                             </span>
-                                            List Jobs
+                                            List All Jobs
                                         </Link>
                                     </li>
                                     <li>
@@ -243,7 +243,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon3} alt='SubIcon3' />
                                                 <img src={SubIconAct3} alt='SubIconAct3' />
                                             </span>
-                                            Immutable Record Jobs
+                                            NFT Minter Jobs
                                         </Link>
                                     </li>
                                 </ul>
@@ -456,7 +456,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
                                             </span>
-                                            Resource Persist Job
+                                            Document Export Job
                                         </Link>
                                     </li>
                                     <li>
@@ -465,7 +465,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon2} alt='SubIcon2' />
                                                 <img src={SubIconAct2} alt='SubIconAct2' />
                                             </span>
-                                            List Jobs
+                                            List All Jobs
                                         </Link>
                                     </li>
                                     <li>
@@ -474,7 +474,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon3} alt='SubIcon3' />
                                                 <img src={SubIconAct3} alt='SubIconAct3' />
                                             </span>
-                                            Immutable Record Jobs
+                                            NFT Minter Jobs
                                         </Link>
                                     </li>
                                 </ul>
@@ -692,7 +692,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
                                             </span>
-                                            Resource Persist Job
+                                            Document Export Job
                                         </Link>
                                     </li>
                                     <li>
@@ -701,7 +701,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon2} alt='SubIcon2' />
                                                 <img src={SubIconAct2} alt='SubIconAct2' />
                                             </span>
-                                            List Jobs
+                                            List All Jobs
                                         </Link>
                                     </li>
                                     <li>
@@ -710,7 +710,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon3} alt='SubIcon3' />
                                                 <img src={SubIconAct3} alt='SubIconAct3' />
                                             </span>
-                                            Immutable Record Jobs
+                                            NFT Minter Jobs
                                         </Link>
                                     </li>
                                 </ul>
