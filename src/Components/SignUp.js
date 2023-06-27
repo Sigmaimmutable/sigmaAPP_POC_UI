@@ -17,7 +17,7 @@ import reportWebVitals from './reportWebVitals';
 // import { Col, Row,Button,Alert} from "react-bootstrap";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 
-import {CreateOrganizationPost,CreateOrguserrolepost,OrgAdminmailcheckget1,Orgadminsignup,OrgAdminmailcheckget,Userprofileupload,Orguserlogincheck} from '../apifunction';
+import {CreateOrganizationPost,CreateOrguserrolepost,userprofileget,OrgAdminmailcheckget1,Orgadminsignup,OrgAdminmailcheckget,Userprofileupload,Orguserlogincheck} from '../apifunction';
 
 
 
@@ -114,7 +114,7 @@ function SignUp() {
                         <Form.Control type="password"  onChange={event => setPasswordconfirm( event.target.value)} placeholder="Enter your repeat password" />
                     </Form.Group>
                     {/* mb-2 */}
-                    <Button className='btn-button w-100' variant="dark"onClick={()=>{submit()}}>Sign in</Button>
+                    <Button className='btn-button w-100' variant="dark"onClick={()=>{submit()}}>Sign up</Button>
 
                     <div className='divider d-flex align-items-center'><span className='mx-auto'>Or</span></div>
 
@@ -140,6 +140,10 @@ function SignUp() {
         console.log("emailvalid1", emailvalid);
         
         if (emailvalid === true) {
+            localStorage.setItem("Login",true)
+            localStorage.setItem("UserID",data.email);
+            let [data,userprofiledetail]=await userprofileget(data.email);
+              localStorage.setItem("UserName",userprofiledetail.firstName);
           navigate("/home");
         }
       } catch (error) {

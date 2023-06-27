@@ -192,6 +192,8 @@ function SignIn() {
         if (emailvalid === true) {
           localStorage.setItem("Login",true)
           localStorage.setItem("UserID",data.email);
+          let [data,userprofiledetail]=await userprofileget(data.email);
+            localStorage.setItem("UserName",userprofiledetail.firstName);
           navigate("/home");
         }
       } catch (error) {
