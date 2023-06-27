@@ -11,6 +11,7 @@ import useIdle from "./useIdleTimeout";
 import {createUserVisits} from "../apifunction";
 import { Container, Modal } from "react-bootstrap";
 import { Col, Row,Button,Alert,Card} from "react-bootstrap";
+import App from "../App";
 
 function Dashboard(props) {
     const [theme, setThemeColor] = useState('');
@@ -18,7 +19,7 @@ function Dashboard(props) {
     const [nftsCreatedCount, setNftsCreatedCount] = useState(0); // State for NFTs created
     const [monthlyData, setMonthlyData] = useState([]); // State for monthly data
     const [userCount,setUserCount] = useState(0);
-    const [lastname,setlastname] = useState("");
+    const [appPageCall,setAppPageCall] = useState(true);
     const[getIProfile,setgetIProfile]=useState("");  
    
     const setTheme = (e) => {
@@ -166,6 +167,10 @@ function Dashboard(props) {
         usersInTenantID();
         getprofiledetails();
         userdata();
+        if(appPageCall){
+          (<App />);
+          setAppPageCall(false);
+        }
       }, []);
 
       if(localStorage.getItem('Login') === false || localStorage.getItem('Login') === null || localStorage.getItem('Login') === undefined || localStorage.getItem('Login') === "" || localStorage.getItem('Login') === "false"){            
