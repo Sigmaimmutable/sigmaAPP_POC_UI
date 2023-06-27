@@ -797,6 +797,15 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             User Management
                                         </Link>
                                     </li>
+                                    <li>
+                                        <Link to="/admin-manager/ticket-management">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            Ticket Management
+                                        </Link>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
