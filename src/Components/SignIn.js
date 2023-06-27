@@ -190,6 +190,8 @@ function SignIn() {
         console.log("emailvalid1", emailvalid);
         
         if (emailvalid === true) {
+          localStorage.setItem("Login",true)
+          localStorage.setItem("UserID",data.email);
           navigate("/home");
         }
       } catch (error) {
