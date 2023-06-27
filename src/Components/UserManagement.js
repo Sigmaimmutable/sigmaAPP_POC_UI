@@ -3,104 +3,88 @@ import Eye from '../asserts/images/eye-icon.svg'
 import Question from '../asserts/images/question-icon.svg'
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { OrgAdminmailcheckget1, OrgTenentcheckget, DeleteOrgUser } from "../apifunction";
+import { OrgAdminmailcheckget1, OrgTenentcheckget, DeleteOrgUser, getTennantId } from "../apifunction";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 import {CreateOrganizationPost,CreateOrguserrolepost,createUserVisits} from '../apifunction';
 
 function UserManagement() {
-    const [disabled, setDisabled] = useState(true);
     const [search, setSearch] = useState(false);
     const [show, setShow] = useState(false);
     const [showButton, setShowButton] = useState(false);
     const [memberlistTable, setmemberlistTable] = useState([]);
+    const [userManage, setUserManage] = useState([""]);
     const [deleteEmail, setDeleteEmail] = useState();
     const [gotValue, setGotValue] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [pageSize, setPageSize] = useState(0);   
+    const [searchQuery, setSearchQuery] = useState(false);
+    const [searchDetails, setsearchDetails] = useState([]);
 
-    const[pageBLSize,setPageBLSize] = useState(8);  
-    const [rowSize, setRowSize] = useState();   
-
-    const decrementBLSize=()=>{
-      if(pageBLSize >= 4){
-      setPageBLSize(pageBLSize-2)
-      }        
-    }
+    console.log("search",searchQuery)
+    const handleSearch = (searchQuer) => {
+        if(searchQuer === null || searchQuer === "" || searchQuer === undefined || searchQuer === "null"){
+            setSearchQuery(false)
+        }
+        else{
+            setSearchQuery(true)
+            const filteredJobLists = userManage.filter((r) =>
+              r.emailId.toLowerCase().includes(searchQuer.toLowerCase())
+            );
+            setsearchDetails(filteredJobLists);
+        }
+        
+        // console.log("search",filteredJobLists)
+        // setFilteredJobLists(filteredJobLists);
+      };
  
     const Deleteorguser = async (emailid) => {
         try{
             let orguserdelete=await DeleteOrgUser(emailid);            
             console.log("deleteOrguser",orguserdelete);
             toast.success("Deleted user successfully");
-            await memberTableFetch();
+            let tenantid = await getTennantId(localStorage.getItem('UserID'));
+            let [value, data] = await OrgTenentcheckget(tenantid, pageSize);  
+            if (value) {  
+                  setUserManage(data);
+            }
             setShowButton(!showButton);
+            handleClose();
         }catch(err){
             toast.error(err);
         }
         }
 
-    const memberTableFetch=async()=>{            
+    const memberTableFetch = async(start) => {            
         if(localStorage.getItem("UserID")  === null || localStorage.getItem("UserID")  === "" || localStorage.getItem("UserID")  === " " || localStorage.getItem("UserID") === undefined || localStorage.getItem("UserID") === ''){
         }
         else{
-          let r=[];
-          let countlist=0;
+          let r = [];
       try {          
-        let [check, tenentid] = await OrgAdminmailcheckget1(localStorage.getItem('UserID'));
+        let tenantid = await getTennantId(localStorage.getItem('UserID'));
       
         // settenentid(tenentid.tenantId);
-        console.log("tenetidnew",tenentid);
-          let [checking, data] = await OrgTenentcheckget(tenentid.tennantId);
-        
-          console.log("Length", data);     
-          if (data) {  
-              try{
-              let datavar=data;
-              console.log("datascheck13",datavar);
-             
-              Object.keys(datavar).map((m)=>{
-                console.log("datascheck15",datavar[m]);
-                countlist=countlist + 1;
-            //    if(datavar[m].tennantId === tenentid.tennantId && datavar[m].roleType != "Super User" && datavar[m].roleType != "System Admin" && datavar[m].roleType != "Business Admin")
-                    r.push({
-                       userName:datavar[m].userName,
-                        emailId:datavar[m].emailId,
-                        roleType:datavar[m].roleType,
-                        // networkName:datavar[m].networkName,
-                    })    
-                
-                
-                             
-              })  
-          }   catch(e){                      
-          } 
-        //   r.reverse();
-        setmemberlistTable(r);      
-        if(r)
-        {
-            setGotValue(!gotValue)
-        }          
+        console.log("tenetidnew",tenantid);
+          let [value, data] = await OrgTenentcheckget(tenantid, start);  
+          if (value) {  
+                setUserManage(data);
           }
-          else{
-            setmemberlistTable([""]);  
-          }
-          console.log("Data", data);
-          //setpagesCountlist(countlist);        
-      } catch (error) {            
+      } catch (error) { 
+            console.error(error);        
       }                
       
     }
-      }
+}
 
 useEffect(() => {
     if(gotValue === false)
-    memberTableFetch();
+    {
+        memberTableFetch(pageSize);
+        userdata();
+    }
 },[memberlistTable])
 
-      useEffect(() => {
-        userdata();
-      }, []);
       
       const userdata = async () => {
         let algoAddress = localStorage.getItem("UserID");
@@ -115,12 +99,16 @@ useEffect(() => {
         }
       };
 
-const checkedDeleteButton = (email) =>
-{
-    setDeleteEmail(email);
-    setShowButton(!showButton);
-}
-
+    const checkedDeleteButton = (email) =>
+    {
+        setDeleteEmail(email);
+        setShowButton(!showButton);
+    }
+    
+    const paginationProcess = async(start) =>{
+        await memberTableFetch(start);
+        setPageSize(start);
+    }
     return ( 
         <div>
             <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
@@ -133,7 +121,7 @@ const checkedDeleteButton = (email) =>
             <Row className="mb-20" style={{minHeight: '40px'}}>
                 <Col xs={6} className="ms-md-0 d-flex align-items-center justify-content-end ms-auto order-md-1">
                     <Link to="/admin-manager/add-user" className="btn-gray-black btn btn-gray rounded-pill me-2">Add user</Link>
-                    <Button variant="outline-gray" className={`me-2 btn-outline-gray-black ${!showButton && 'disabled'}`} onClick={() => Deleteorguser(deleteEmail)}>
+                    <Button variant="outline-gray" className={`me-2 btn-outline-gray-black ${!showButton && 'disabled'}`} onClick={() => handleShow()}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="d-block" viewBox="0 0 16 16">
                             <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                         </svg>
@@ -162,7 +150,8 @@ const checkedDeleteButton = (email) =>
                                 <Form.Control
                                     aria-describedby="basic-addon1"
                                     aria-label="Write something to search"
-                                    placeholder="Write something to search..."
+                                    placeholder="Search by Email-ID..."
+                                    onChange={(e) => {handleSearch(e.target.value)}}
                                 />
                             </InputGroup>
                         </Form>
@@ -176,7 +165,7 @@ const checkedDeleteButton = (email) =>
                     <h6>Are you sure you want to execute this action?</h6>
 
                     <div className="d-flex pt-4 align-items-center justify-content-center">
-                        <Button type="submit" variant="dark" className="btn-button btn-sm" onClick={handleClose}>Yes</Button>
+                        <Button type="submit" variant="dark" className="btn-button btn-sm" onClick={() => Deleteorguser(deleteEmail)}>Yes</Button>
                         <Button type="reset" variant="outline-dark" className="btn-button btn-sm ms-3" onClick={handleClose}>No</Button>
                     </div>
                 </Modal.Body>
@@ -267,8 +256,8 @@ const checkedDeleteButton = (email) =>
                         </tr>
                     </thead>
                     <tbody>
-                    {memberlistTable.map((x,y)=>{
-                              if(y < pageBLSize)
+                    {searchQuery ? <>
+                        {searchDetails.map((x,y)=>{
                               return(
                                   <tr>
                                   {x.roleType === "Super User" || x.roleType === "System Admin" ? <>
@@ -294,7 +283,7 @@ const checkedDeleteButton = (email) =>
                                         </div>
                                     </td>                                  
                                   </>}  
-                                  <td className="text-center">{y+1}</td>
+                                  <td className="text-center">{(y+1) + (pageSize/10 * 10)}</td>
                                   <td className="text-center">{x.userName}</td>
                                   <td className="text-center">{x.emailId}</td>
                                   <td className="text-center">{x.roleType}</td>
@@ -305,6 +294,45 @@ const checkedDeleteButton = (email) =>
                               )
                               })
                               }
+                    </> : <>
+                    {userManage.map((x,y)=>{
+                              return(
+                                  <tr>
+                                  {x.roleType === "Super User" || x.roleType === "System Admin" ? <>
+                                  <td width="84">
+                                        <div className="d-flex justify-content-center">
+                                            <Form.Check
+                                                className="mb-0 check-single"
+                                                type='checkbox'
+                                                id= "checked"
+                                                disabled
+                                            />
+                                        </div>
+                                    </td>
+                                  </> : <>
+                                    <td width="84">
+                                        <div className="d-flex justify-content-center">
+                                            <Form.Check
+                                                className="mb-0 check-single"
+                                                type='checkbox'
+                                                id= "checked"
+                                                onClick={() => checkedDeleteButton(x.emailId)}
+                                            />
+                                        </div>
+                                    </td>                                  
+                                  </>}  
+                                  <td className="text-center">{(y+1) + (pageSize/10 * 10)}</td>
+                                  <td className="text-center">{x.userName}</td>
+                                  <td className="text-center">{x.emailId}</td>
+                                  <td className="text-center">{x.roleType}</td>
+                                  {/* <td>  <ButtonLoad loading={loader} className='w-100 btn-blue mb-3' onClick={()=>{Deleteorguser(x.emailId)}}>Delete user</ButtonLoad> </td>       */}
+
+                                  {/* <td>{x.networkName}</td> */}
+                                  </tr>
+                              )
+                              })
+                              }                    
+                    </>}
                         {/* <tr>
                             <td width="84">
                                 <div className="d-flex justify-content-end">
@@ -325,7 +353,7 @@ const checkedDeleteButton = (email) =>
 
                 <Row className="mt-4">
                     <Col md={4} className="mb-md-0 mb-3">
-                        <Dropdown size="sm">
+                        {/* <Dropdown size="sm">
                             <Dropdown.Toggle variant="gray" id="dropdown-basic">
                                 Select Rows
                             </Dropdown.Toggle>
@@ -334,25 +362,25 @@ const checkedDeleteButton = (email) =>
                                 <Dropdown.Item href="#/action-2">500 Rows</Dropdown.Item>
                                 <Dropdown.Item href="#/action-3">1000 Rows</Dropdown.Item>
                             </Dropdown.Menu>
-                        </Dropdown>
+                        </Dropdown> */}
                     </Col>
                     <Col md={8} className="d-flex justify-content-md-end justify-content-center">
                         <ul className="d-flex pagination list-unstyled">
                             <li>
-                                <Link className="prev" onClick={()=>{decrementBLSize()}}>
+                                <Link className={pageSize !== 0 ? 'next' : pageSize === 0 ? 'prev disabled' : ''} onClick={()=>{paginationProcess(pageSize-10)}}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
                                         <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
                                     </svg>
                                 </Link>
                             </li>
-                            {/* <li><Link className="active" to="/">1</Link></li>
-                            <li><Link to="/">2</Link></li>
+                            <li><Link className="active" onClick={()=>{paginationProcess(pageSize+10)}}>{pageSize?(pageSize/10)+1:'1'}</Link></li>
+                            {/*<li><Link to="/">2</Link></li>
                             <li><Link to="/">3</Link></li>
                             <li><Link to="/">4</Link></li>
                             <li><Link to="/">5</Link></li>
                             <li><Link to="/">6</Link></li> */}
                             <li>
-                                <Link className="next" onClick={()=>{setPageBLSize(pageBLSize+2)}}>
+                                <Link className="next" onClick={()=>{paginationProcess(pageSize+10)}}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                         <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                     </svg>

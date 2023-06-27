@@ -832,7 +832,7 @@ export const userDetailWithEmail = async (emailid) =>
   }
 }
 
-export const OrgTenentcheckget = async(tenentId) =>{
+export const OrgTenentcheckget = async(tenentId, pageSize) =>{
    console.log("orgTenant", tenentId);
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
@@ -842,7 +842,7 @@ export const OrgTenentcheckget = async(tenentId) =>{
       {
         cancelToken.cancel("API Call cancelled")
       }
-      let response2 = await fetch(`/platform/v1/userdetailsid/${tenentId}`, 
+      let response2 = await fetch(`/platform/v1/userdetailsid/${tenentId}/${parseInt(pageSize)}`, 
       {
           headers: {
               'x-api-key': `${key}`    
@@ -855,7 +855,7 @@ export const OrgTenentcheckget = async(tenentId) =>{
       // console.log("response",tentidresponse)
         
       const data2 = await response2.json();
-      console.log("Api inside", data2)
+      console.log("orgTenant check", data2);
       // return {data2};
       return [true,data2];
     }catch(err){
