@@ -1111,7 +1111,7 @@ export const getNotificationById = async (emailid) => {
 };
 
 export const userByTenantId = async (tenantId) => {
-  const url = `platform/v1/userdetailsid/${tenantId}`;
+  const url = `platform/v1/userdetailbytennantall/${tenantId}`;
 
   try {
     const response = await fetch(url);

@@ -3,12 +3,15 @@ import { Button, Col, Form, Row, Dropdown} from "react-bootstrap";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 import { OrgAdminmailcheckget1, CreateOrguserrolepost,getTennantId,NotificationPost,getNotificationById } from "../apifunction";
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 function AddUser() {
     const[name,setname]=useState("");
     const[emailid,setEmail]=useState("");
     const[role,setRole]=useState("");
     const [roleId,setRoleId] = useState("");
+
+    const navigate = useNavigate()
     // console.log("selected",roleId);
     const handleChange = (e) => {
         setRole(e)
@@ -28,6 +31,10 @@ function AddUser() {
         roleFetch();
     }, [roleId])
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+     }
+
     const Addusertoorganization = async () => {
         try{
             let [check, tenentid] = await OrgAdminmailcheckget1(localStorage.getItem('UserID'));
@@ -36,6 +43,8 @@ function AddUser() {
             let orguser = await CreateOrguserrolepost(emailid, name, role, tenentid.tennantId);            
             // console.log("----------Orguser",emailid, name, role);
             toast.success("User added successfully");
+            await sleep(5000);
+            navigate("/admin-manager/user-management");
         }catch(err){
             toast.error(err);
         }

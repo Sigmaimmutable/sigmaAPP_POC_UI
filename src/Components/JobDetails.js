@@ -471,12 +471,12 @@ console.log("Selectedcolm",Selectedcolm)
                                     </svg>
                                 </Link>
                             </li>
-                            <li><Link className={StartValue === 0 ? 'active' : ''}  onClick={()=>paginationProcess(0,10)} >1</Link></li>
-                            <li><Link className={StartValue === 10 ? 'active' : ''} onClick={()=>paginationProcess(10,10)}>2</Link></li>
+                            <li><Link className='active' onClick={()=>paginationProcess(0,10)} >{StartValue?(StartValue/10)+1:'1'}</Link></li>
+                            {/* <li><Link className={StartValue === 10 ? 'active' : ''} onClick={()=>paginationProcess(10,10)}>2</Link></li>
                             <li><Link className={StartValue === 20? 'active' : ''} onClick={()=>paginationProcess(20,10)}>3</Link></li>
                             <li><Link className={StartValue === 30? 'active' : ''} onClick={()=>paginationProcess(30,10)}>4</Link></li>
                             <li><Link className={StartValue === 40? 'active' : ''} onClick={()=>paginationProcess(40,10)}>5</Link></li>
-                            <li><Link className={StartValue === 50 ? 'active' : ''} onClick={()=>paginationProcess(50,10)}>6</Link></li>
+                            <li><Link className={StartValue === 50 ? 'active' : ''} onClick={()=>paginationProcess(50,10)}>6</Link></li> */}
                             <li>
                                 <Link onClick={()=>paginationProcess(StartValue+10,10)} className="next">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
