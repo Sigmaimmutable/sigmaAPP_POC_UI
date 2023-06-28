@@ -21,6 +21,7 @@ function UserManagement() {
     const [pageSize, setPageSize] = useState(0);   
     const [searchQuery, setSearchQuery] = useState(false);
     const [searchDetails, setsearchDetails] = useState([]);
+    const [filterDisplay, setFilterDisplay] = useState("All");
 
     console.log("search",searchQuery)
     const handleSearch = (searchQuer) => {
@@ -31,6 +32,24 @@ function UserManagement() {
             setSearchQuery(true)
             const filteredJobLists = userManage.filter((r) =>
               r.emailId.toLowerCase().includes(searchQuer.toLowerCase())
+            );
+            setsearchDetails(filteredJobLists);
+        }
+        
+        // console.log("search",filteredJobLists)
+        // setFilteredJobLists(filteredJobLists);
+      };
+
+      const handleFilter = (searchQuer) => {
+        if(searchQuer === null || searchQuer === "" || searchQuer === undefined || searchQuer === "null"){
+            setSearchQuery(false);
+            setFilterDisplay("All");
+        }
+        else{
+            setFilterDisplay(searchQuer);
+            setSearchQuery(true)
+            const filteredJobLists = userManage.filter((r) =>
+              r.roleType.toLowerCase().includes(searchQuer.toLowerCase())
             );
             setsearchDetails(filteredJobLists);
         }
@@ -353,16 +372,21 @@ useEffect(() => {
 
                 <Row className="mt-4">
                     <Col md={4} className="mb-md-0 mb-3">
-                        {/* <Dropdown size="sm">
+                        <Dropdown size="sm">
                             <Dropdown.Toggle variant="gray" id="dropdown-basic">
-                                Select Rows
+                                {filterDisplay}
                             </Dropdown.Toggle>
                             <Dropdown.Menu className="dropdown-filter">
-                                <Dropdown.Item href="#/action-1">100 Rows</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">500 Rows</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">1000 Rows</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>handleFilter("")}>All</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>handleFilter("Super User")}>Super User</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>handleFilter("System Admin")}>System Admin</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>handleFilter("Business Admin")}>Business Admin</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>handleFilter("FDA Auditor")}>FDA Auditor</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>handleFilter("Vault Owner")}>Vault Owner</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>handleFilter("Full User")}>Full User</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>handleFilter("Viewer")}>Viewer</Dropdown.Item>
                             </Dropdown.Menu>
-                        </Dropdown> */}
+                        </Dropdown>
                     </Col>
                     <Col md={8} className="d-flex justify-content-md-end justify-content-center">
                         <ul className="d-flex pagination list-unstyled">
