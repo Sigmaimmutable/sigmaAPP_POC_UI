@@ -152,6 +152,13 @@ body{
         .modal .card-body label{
             color: var(--black);
         }
+
+        .css-1nmdiq5-menu{
+            background-color: #000 !important;
+        }
+        .css-d7l1ni-option{
+            background-color: rgb(58 59 60) !important;
+        }
     }
 }
 
@@ -1617,7 +1624,7 @@ sup{
 }
 
 .time-zone{
-    .css-13cymwt-control{
+    .css-13cymwt-control, .css-t3ipsp-control{
         @extend .form-control;
         @include flexbox();
         @include align-items(center);

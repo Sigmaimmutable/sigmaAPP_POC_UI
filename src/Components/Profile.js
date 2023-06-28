@@ -523,6 +523,7 @@ defaultOptionLabel= {getIProfile.state}
                                         {getIProfile.timeZone === "" || getIProfile.timeZone === undefined || getIProfile.timeZone === null || getIProfile.timeZone === "" || getIProfile.timeZone === undefined || getIProfile.timeZone === null ? (
                                       <TimezoneSelect 
                                     //   name="timezone"
+                                    className="time-zone"
                                       value={timezoneselected}
                                       onChange={handleTimezoneChange}
                                   
@@ -701,6 +702,7 @@ defaultOptionLabel= {getIProfile.state}
                                         <Form.Label className='text-muted'>Time Zone</Form.Label>
                                       <TimezoneSelect 
                                     //   name="timezone"
+                                    className="time-zone"
                                       value={timezoneselected}
                                       onChange={handleTimezoneChange}
                                   
