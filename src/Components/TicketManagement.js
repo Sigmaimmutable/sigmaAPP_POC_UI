@@ -23,13 +23,30 @@ function TicketManagement() {
 
     const[pageBLSize,setPageBLSize] = useState(8);  
     const [rowSize, setRowSize] = useState();   
-
+    const [filterstatus, setFilterStatus] = useState("");   
+    const [searchQuery, setSearchQuery] = useState(false);
+    const [searchDetails, setsearchDetails] = useState([]);
+    const [userManage, setUserManage] = useState([""]);
     const decrementBLSize=()=>{
       if(pageBLSize >= 4){
       setPageBLSize(pageBLSize-2)
       }        
     }
- 
+    const handleSearch = (searchQuer) => {
+        if(searchQuer === null || searchQuer === "" || searchQuer === undefined || searchQuer === "null"){
+            setSearchQuery(false)
+        }
+        else{
+            setSearchQuery(true)
+            const filteredJobLists = userManage.filter((r) =>
+              r.mailId.toLowerCase().includes(searchQuer.toLowerCase())
+            );
+            setsearchDetails(filteredJobLists);
+        }
+        
+        // console.log("search",filteredJobLists)
+        // setFilteredJobLists(filteredJobLists);
+      };
     const ResolvedTicket = async (getemails,getids) => {
         try{
             console.log("sendemail",getemails,getids);
@@ -48,51 +65,55 @@ const ticketlisting =async(firstvalue)=>{
     let countlist=0;
     try {          
         let [check, data] = await getTicketsById(firstvalue);
-      
+        if (check) {  
+            setUserManage(data);
+      }
         // settenentid(tenentid.tenantId);
         console.log("ticket",data);
         //   let [checking, data] = await OrgTenentcheckget(ticket.tennantId);
         
-          console.log("Length", data);     
-          if (data) {  
-              try{
-              let datavar=data;
-              console.log("datascheck13",datavar);
+        //   console.log("Length", data);     
+        //   if (data) {  
+        //       try{
+        //       let datavar=data;
+        //       console.log("datascheck13",datavar);
              
-              Object.keys(datavar).map((m)=>{
-                console.log("datascheck15",datavar[m]);
+        //       Object.keys(datavar).map((m)=>{
+        //         console.log("datascheck15",datavar[m]);
                 
-                countlist=countlist + 1;
-            //    if(datavar[m].tennantId === tenentid.tennantId && datavar[m].roleType != "Super User" && datavar[m].roleType != "System Admin" && datavar[m].roleType != "Business Admin")
-                    r.push({
-                        id:datavar[m].id,
-                        ticket:datavar[m].ticket,
-                        descriptions:datavar[m].descriptions,
-                        firstName:datavar[m].firstName,
-                        lastName:datavar[m].lastName,
-                        mailId:datavar[m].mailId,
-                        ticketRaisetime:datavar[m].ticketRaisetime,
-                        statuses:datavar[m].statuses,
-                    })    
+        //         countlist=countlist + 1;
+        //     //    if(datavar[m].tennantId === tenentid.tennantId && datavar[m].roleType != "Super User" && datavar[m].roleType != "System Admin" && datavar[m].roleType != "Business Admin")
+        //             r.push({
+        //                 id:datavar[m].id,
+        //                 ticket:datavar[m].ticket,
+        //                 descriptions:datavar[m].descriptions,
+        //                 firstName:datavar[m].firstName,
+        //                 lastName:datavar[m].lastName,
+        //                 mailId:datavar[m].mailId,
+        //                 ticketRaisetime:datavar[m].ticketRaisetime,
+        //                 statuses:datavar[m].statuses,
+        //             })    
                 
                 
                              
-              })  
-          }   catch(e){                      
-          } 
-        //   r.reverse();
-        setticketlistTable(r);      
-        if(r)
-        {
-            setGotValue(!gotValue)
-        }          
-          }
-          else{
-            setticketlistTable([""]);  
-          }
-          console.log("Data", data);
+        //       })  
+        //   }   catch(e){                      
+        //   } 
+        // //   r.reverse();
+        // setticketlistTable(r);      
+        // if(r)
+        // {
+        //     setGotValue(!gotValue)
+        // }          
+        //   }
+        //   else{
+        //     setticketlistTable([""]);  
+        //   }
+        //   console.log("Data", data);
           //setpagesCountlist(countlist);        
-      } catch (error) {            
+      } catch (error) {  
+        console.error(error);            
+
       }
 }
     const ticketTableFetch=async()=>{            
@@ -104,51 +125,54 @@ const ticketlisting =async(firstvalue)=>{
           let countlist=0;
       try {          
         let [check, data] = await getTicketsById(startvalue);
-      
-        // settenentid(tenentid.tenantId);
-        console.log("ticket",data);
-        //   let [checking, data] = await OrgTenentcheckget(ticket.tennantId);
+        if (check) {  
+            setUserManage(data);
+      }
+        // // settenentid(tenentid.tenantId);
+        // console.log("ticket",data);
+        // //   let [checking, data] = await OrgTenentcheckget(ticket.tennantId);
         
-          console.log("Length", data);     
-          if (data) {  
-              try{
-              let datavar=data;
-              console.log("datascheck13",datavar);
+        //   console.log("Length", data);     
+        //   if (data) {  
+        //       try{
+        //       let datavar=data;
+        //       console.log("datascheck13",datavar);
              
-              Object.keys(datavar).map((m)=>{
-                console.log("datascheck15",datavar[m]);
+        //       Object.keys(datavar).map((m)=>{
+        //         console.log("datascheck15",datavar[m]);
                 
-                countlist=countlist + 1;
-            //    if(datavar[m].tennantId === tenentid.tennantId && datavar[m].roleType != "Super User" && datavar[m].roleType != "System Admin" && datavar[m].roleType != "Business Admin")
-                    r.push({
-                        id:datavar[m].id,
-                        ticket:datavar[m].ticket,
-                        descriptions:datavar[m].descriptions,
-                        firstName:datavar[m].firstName,
-                        lastName:datavar[m].lastName,
-                        mailId:datavar[m].mailId,
-                        ticketRaisetime:datavar[m].ticketRaisetime,
-                        statuses:datavar[m].statuses,
-                    })    
+        //         countlist=countlist + 1;
+        //     //    if(datavar[m].tennantId === tenentid.tennantId && datavar[m].roleType != "Super User" && datavar[m].roleType != "System Admin" && datavar[m].roleType != "Business Admin")
+        //             r.push({
+        //                 id:datavar[m].id,
+        //                 ticket:datavar[m].ticket,
+        //                 descriptions:datavar[m].descriptions,
+        //                 firstName:datavar[m].firstName,
+        //                 lastName:datavar[m].lastName,
+        //                 mailId:datavar[m].mailId,
+        //                 ticketRaisetime:datavar[m].ticketRaisetime,
+        //                 statuses:datavar[m].statuses,
+        //             })    
                 
                 
                              
-              })  
-          }   catch(e){                      
-          } 
-        //   r.reverse();
-        setticketlistTable(r);      
-        if(r)
-        {
-            setGotValue(!gotValue)
-        }          
-          }
-          else{
-            setticketlistTable([""]);  
-          }
-          console.log("Data", data);
+        //       })  
+        //   }   catch(e){                      
+        //   } 
+        // //   r.reverse();
+        // setticketlistTable(r);      
+        // if(r)
+        // {
+        //     setGotValue(!gotValue)
+        // }          
+        //   }
+        //   else{
+        //     setticketlistTable([""]);  
+        //   }
+        //   console.log("Data", data);
           //setpagesCountlist(countlist);        
-      } catch (error) {            
+      } catch (error) {   
+        console.error(error);        
       }                
       
     }
@@ -192,7 +216,7 @@ const paginationProcess = async(start) =>{
             <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
             <Row className="mb-20">
                 <Col md={6} xl={4} xxl={3}>
-                    <h4 className="page-title mb-0">User Details</h4>
+                    <h4 className="page-title mb-0">Ticket Details</h4>
                 </Col>
             </Row>
 
@@ -204,7 +228,7 @@ const paginationProcess = async(start) =>{
                             <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                         </svg> */}
                     </Button>
-                    <Button variant="outline-gray" className="me-0" onClick={() => setSearch(!search)}>
+                    <Button variant="outline-gray" className="me-0" onClick={() => {setSearch(!search); handleSearch("")}}>
                         {search ? (
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="d-block" viewBox="0 0 16 16">
                                 <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
@@ -228,7 +252,8 @@ const paginationProcess = async(start) =>{
                                 <Form.Control
                                     aria-describedby="basic-addon1"
                                     aria-label="Write something to search"
-                                    placeholder="Write something to search..."
+                                    placeholder="Search by Email-ID..."
+                                    onChange={(e) => {handleSearch(e.target.value)}}
                                 />
                             </InputGroup>
                         </Form>
@@ -333,7 +358,9 @@ const paginationProcess = async(start) =>{
                         </tr>
                     </thead>
                     <tbody>
-                    {ticketlistTable.map((x,y)=>{
+                    {searchQuery ? <>
+                       
+                    {searchDetails.map((x,y)=>{
                             
                               return(
                                   <tr>
@@ -365,6 +392,38 @@ const paginationProcess = async(start) =>{
                               )
                               })
                               }
+                           </> : <>  {userManage.map((x,y)=>{
+                                 return(
+                                <tr>
+                                  
+                                
+                                  <td width="84">
+                                      <div className="d-flex justify-content-center">
+                                          <Form.Check
+                                              className="mb-0 check-single"
+                                              type='checkbox'
+                                              id= "checked"
+                                              onClick={() => checkedTicketButton(x.mailId,x.id)}
+                                          />
+                                      </div>
+                                  </td>                                  
+                               
+                                <td className="text-center">{y+1}</td>
+                                <td className="text-center">{x.firstName}</td>
+                                <td className="text-center">{x.lastName}</td>
+                                <td className="text-center">{x.mailId}</td>
+                                <td className="text-center">{x.ticket}</td>
+                                <td className="text-center">{x.descriptions}</td>
+                                <td className="text-center">{x.ticketRaisetime}</td>
+                                <td className="text-center">{x.statuses?<>Resolved</>:<>Pending</>}</td>
+                                {/* <td>  <ButtonLoad loading={loader} className='w-100 btn-blue mb-3' onClick={()=>{Deleteorguser(x.emailId)}}>Delete user</ButtonLoad> </td>       */}
+
+                                {/* <td>{x.networkName}</td> */}
+                                </tr>
+                            )
+                        })
+                    }                    
+          </>}
                         {/* <tr>
                             <td width="84">
                                 <div className="d-flex justify-content-end">
@@ -387,12 +446,12 @@ const paginationProcess = async(start) =>{
                     <Col md={4} className="mb-md-0 mb-3">
                         <Dropdown size="sm">
                             <Dropdown.Toggle variant="gray" id="dropdown-basic">
-                                Select Rows
+                               Status
                             </Dropdown.Toggle>
                             <Dropdown.Menu className="dropdown-filter">
-                                <Dropdown.Item href="#/action-1">100 Rows</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">500 Rows</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">1000 Rows</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>setFilterStatus("Resolved")}>Resolved</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>setFilterStatus("Pending")}>Pending</Dropdown.Item>
+                                {/* <Dropdown.Item href="#/action-3">1000 Rows</Dropdown.Item> */}
                             </Dropdown.Menu>
                         </Dropdown>
                     </Col>
