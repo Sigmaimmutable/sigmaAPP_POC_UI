@@ -47,6 +47,22 @@ function TicketManagement() {
         // console.log("search",filteredJobLists)
         // setFilteredJobLists(filteredJobLists);
       };
+      const handleFilter = (searchQuer) => {
+        if(searchQuer === null || searchQuer === "" || searchQuer === undefined || searchQuer === "null"){
+            setSearchQuery(false)
+        }
+        else{
+            setSearchQuery(true)
+            const filteredJobLists = userManage.filter((r) =>
+          
+             r.statuses===searchQuer
+            );
+            setsearchDetails(filteredJobLists);
+        }
+        
+        // console.log("search",filteredJobLists)
+        // setFilteredJobLists(filteredJobLists);
+      };
     const ResolvedTicket = async (getemails,getids) => {
         try{
             console.log("sendemail",getemails,getids);
@@ -449,9 +465,10 @@ const paginationProcess = async(start) =>{
                                Status
                             </Dropdown.Toggle>
                             <Dropdown.Menu className="dropdown-filter">
-                                <Dropdown.Item onClick={()=>setFilterStatus("Resolved")}>Resolved</Dropdown.Item>
-                                <Dropdown.Item onClick={()=>setFilterStatus("Pending")}>Pending</Dropdown.Item>
-                                {/* <Dropdown.Item href="#/action-3">1000 Rows</Dropdown.Item> */}
+                             <Dropdown.Item onClick={()=>handleFilter("")}>All</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>handleFilter(true)}>Resolved</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>handleFilter(false)}>Pending</Dropdown.Item>
+                               
                             </Dropdown.Menu>
                         </Dropdown>
                     </Col>
