@@ -275,7 +275,16 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
                                             </span>
-                                            Node Transactions Report
+                                            Nft Transactions Report
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/admin/block-transactions-report">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            Block Transactions Report
                                         </Link>
                                     </li>
                                 </ul>
@@ -743,6 +752,15 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
                                             </span>
                                             Nft Transactions Report
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/admin/block-transactions-report">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            Block Transactions Report
                                         </Link>
                                     </li>
                                 </ul>
