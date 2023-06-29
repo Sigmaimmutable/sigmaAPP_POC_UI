@@ -95,7 +95,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                             <div className='sidebar-subnav-inner'>
                                 <h4>Jobs</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
-                                    <li>
+                                    {/* <li>
                                         <Link to="/job">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
@@ -103,7 +103,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             </span>
                                             Document Export Job
                                         </Link>
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <Link to="/job/job-details">
                                             <span>
@@ -219,7 +219,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                             <div className='sidebar-subnav-inner'>
                                 <h4>Jobs</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
-                                    <li>
+                                    {/* <li>
                                         <Link to="/job">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
@@ -227,7 +227,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             </span>
                                             Document Export Job
                                         </Link>
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <Link to="/job/job-details">
                                             <span>
@@ -303,7 +303,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                             <div className='sidebar-subnav-inner'>
                                 <h4>Admin Manager</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
-                                    <li>
+                                    {/* <li>
                                         <Link to="/admin-manager">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
@@ -311,7 +311,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             </span>
                                             API Logs
                                         </Link>
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <Link to="/admin-manager/create-org">
                                             <span>
@@ -321,7 +321,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             Create Org
                                         </Link>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <Link to="/admin-manager/environment">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
@@ -329,7 +329,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             </span>
                                             Create Env
                                         </Link>
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <Link to="/admin-manager/user-management">
                                             <span>
@@ -459,7 +459,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                             <div className='sidebar-subnav-inner'>
                                 <h4>Jobs</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
-                                    <li>
+                                    {/* <li>
                                         <Link to="/job">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
@@ -467,7 +467,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             </span>
                                             Document Export Job
                                         </Link>
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <Link to="/job/job-details">
                                             <span>
@@ -695,7 +695,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                             <div className='sidebar-subnav-inner'>
                                 <h4>Jobs</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
-                                    <li>
+                                    {/* <li>
                                         <Link to="/job">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
@@ -703,7 +703,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             </span>
                                             Document Export Job
                                         </Link>
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <Link to="/job/job-details">
                                             <span>
@@ -779,7 +779,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                             <div className='sidebar-subnav-inner'>
                                 <h4>Admin Manager</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
-                                    <li>
+                                    {/* <li>
                                         <Link to="/admin-manager">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
@@ -787,7 +787,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             </span>
                                             API Logs
                                         </Link>
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <Link to="/admin-manager/create-org">
                                             <span>
@@ -797,7 +797,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             Create Org
                                         </Link>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <Link to="/admin-manager/environment">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
@@ -805,7 +805,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             </span>
                                             Create Env
                                         </Link>
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <Link to="/admin-manager/user-management">
                                             <span>
