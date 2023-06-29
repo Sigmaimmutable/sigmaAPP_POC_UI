@@ -270,7 +270,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                 <h4>Admin</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
                                     <li>
-                                        <Link to="/admin/node-transactions-report">
+                                        <Link to="/admin/nft-transactions-report">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
@@ -737,12 +737,12 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                 <h4>Admin</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
                                     <li>
-                                        <Link to="/admin/node-transactions-report">
+                                        <Link to="/admin/nft-transactions-report">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
                                             </span>
-                                            Node Transactions Report
+                                            Nft Transactions Report
                                         </Link>
                                     </li>
                                 </ul>
