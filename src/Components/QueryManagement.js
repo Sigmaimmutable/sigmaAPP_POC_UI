@@ -30,8 +30,20 @@ function QueryManagement() {
         {"Name": "Create Session", "APILink": "https://sb-juul-regone-sandbox.veevavault.com/api/v22.3/auth"},
          {"Name": "Fetch Latest Document", "APILink": "https://sb-juul-regone-sandbox.veevavault.com/api/v22.3/query"},
          {"Name": "File Download", "APILink": "https://sb-juul-regone-sandbox.veevavault.com/api/v22.3/objects/documents/docId/file"}
+         
         ]);
-   
+      let  scopes= "['openid', 'profile', 'email']";
+    const [userManage1, setUserManage1] = useState([
+            {"Name": "Issuer","issuer": "https://dev-33074294.okta.com/oauth2/default", "scopes": scopes},
+             
+             
+            ]);
+
+    const [userManage2, setUserManage2] = useState([
+                {"Name": "TeslaVv", "URL": "https://sb-juul-regone-sandbox.veevavault.com","User":"system.admin@sb-juul.com","CreatedBy":"TESLA_ADMIN"}
+               
+                ]);      
+       
     const handleSearch = (searchQuer) => {
         if(searchQuer === null || searchQuer === "" || searchQuer === undefined || searchQuer === "null"){
             setSearchQuery(false)
@@ -72,13 +84,12 @@ function QueryManagement() {
             <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
             <Row className="mb-20">
                 <Col md={6} xl={4} xxl={3}>
-                    <h4 className="page-title mb-0">Query Details</h4>
+                    <h4 className="page-title mb-0">Configuration Details</h4>
                 </Col>
             </Row>
 
             <Row className="mb-20" style={{minHeight: '40px'}}>
-                <Col xs={6} className="ms-md-0 d-flex align-items-center justify-content-end ms-auto order-md-1">
-                    {/* <Link to="/admin-manager/add-user" className="btn-gray-black btn btn-gray rounded-pill me-2">Add user</Link> */}
+                {/* <Col xs={6} className="ms-md-0 d-flex align-items-center justify-content-end ms-auto order-md-1">
                   
                     <Button variant="outline-gray" className="me-0" onClick={() => {setSearch(!search); handleSearch("")}}>
                         {search ? (
@@ -91,8 +102,8 @@ function QueryManagement() {
                             </svg>
                         )}
                     </Button>
-                </Col>
-                <Col xs={12} md={6} className="mt-md-0 mt-2 mb-md-0 mb-3">
+                </Col> */}
+                {/* <Col xs={12} md={6} className="mt-md-0 mt-2 mb-md-0 mb-3">
                     {search && (
                         <Form>
                             <InputGroup className="form-search shadow">
@@ -110,10 +121,10 @@ function QueryManagement() {
                             </InputGroup>
                         </Form>
                     )}
-                </Col>
+                </Col> */}
             </Row>
 
-            <Modal show={show} onHide={handleClose} centered>
+            {/* <Modal show={show} onHide={handleClose} centered>
                 <Modal.Body className="text-center py-5">
                     <img src={Question} className="mb-2" alt="Question" />
                     <h6>Are you sure you want to execute this action?</h6>
@@ -123,10 +134,52 @@ function QueryManagement() {
                         <Button type="reset" variant="outline-dark" className="btn-button btn-sm ms-3" onClick={handleClose}>No</Button>
                     </div>
                 </Modal.Body>
-            </Modal>
+            </Modal> */}
             
             <div className="mb-20">
-                <Table hover responsive>
+            <center>
+                    
+                    <h4 className="text-center">Veeva Configuration Details</h4>
+             </center>
+             <Table >
+                    <thead>
+                        <tr>
+                           
+                            <th className="text-center">Sl no</th>
+                            <th className="text-center">Vault Name</th>
+                            <th className="text-center">Url</th>
+                            <th className="text-center">User Name</th>
+                            <th className="text-center">CreatedBY</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                     {userManage2.map((x,y)=>{
+                                 return(
+                                <tr>
+                            
+                                  <td className="text-center">{y+1}</td>
+                                  <td className="text-center">{x.Name}</td>
+                                  <td className="text-center">{x.URL}</td>
+                                  <td className="text-center">{x.User}</td>
+                                  <td className="text-center">{x.CreatedBy}</td>
+                                </tr>
+                            )
+                        })
+                    }                    
+         
+             
+                      
+                    </tbody>
+                  
+                </Table>
+<br/>
+            <center>
+                    
+                    <h4 className="text-center">Veeva Vault Queries</h4>
+             </center>
+          
+                <Table >
                     <thead>
                         <tr>
                            
@@ -137,7 +190,7 @@ function QueryManagement() {
                         </tr>
                     </thead>
                     <tbody>
-                    {searchQuery ? <>
+                    {/* {searchQuery ? <>
                        
                     {searchDetails.map((x,y)=>{
                             
@@ -145,16 +198,7 @@ function QueryManagement() {
                                   <tr>
                                     
                                   
-                                    {/* <td width="84">
-                                        <div className="d-flex justify-content-center">
-                                            <Form.Check
-                                                className="mb-0 check-single"
-                                                type='checkbox'
-                                                id= "checked"
-                                                onClick={() => checkedTicketButton(x.mailId,x.id)}
-                                            />
-                                        </div>
-                                    </td>                                   */}
+                                   
                                  
                                   <td className="text-center">{y+1}</td>
                                   <td className="text-center">{x.Name}</td>
@@ -163,8 +207,9 @@ function QueryManagement() {
                                   </tr>
                               )
                               })
-                              }
-                           </> : <>  {userManage.map((x,y)=>{
+                              } */}
+                           {/* </> : <>  */}
+                            {userManage.map((x,y)=>{
                                  return(
                                 <tr>
                             
@@ -176,14 +221,52 @@ function QueryManagement() {
                             )
                         })
                     }                    
-          </>}
+          {/* </>}
+              */}
                       
                     </tbody>
+                  
                 </Table>
-
-               
+                <br/>
+                <center>
+                    
+                    <h4 className="text-center">OKTA Configuration Details</h4>
+             </center>
+          
+             <Table >
+                    <thead>
+                        <tr>
+                           
+                            <th className="text-center">Sl no</th>
+                            <th className="text-center">Configuration Name</th>
+                            <th className="text-center">Value</th>
+                            <th className="text-center">Scope</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                     {userManage1.map((x,y)=>{
+                                 return(
+                                <tr>
+                            
+                                  <td className="text-center">{y+1}</td>
+                                  <td className="text-center">{x.Name}</td>
+                                  <td className="text-center">{x.issuer}</td>
+                                  <td className="text-center">{x.scopes}</td>
+                               
+                                </tr>
+                            )
+                        })
+                    }                    
+         
+             
+                      
+                    </tbody>
+                  
+                </Table>
+      
             </div>
-            {/* /.mb-20 */}
+        
         </div>
      );
 }

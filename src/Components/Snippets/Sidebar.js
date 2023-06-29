@@ -812,7 +812,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
                                             </span>
-                                           Query Management
+                                           Configuration Details
                                         </Link>
                                     </li>
                                 </ul>
