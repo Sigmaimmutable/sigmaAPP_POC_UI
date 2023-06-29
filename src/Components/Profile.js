@@ -238,7 +238,7 @@ const [country, setCountry] = useState('');
                                 </Col>
                                 <Col className="mb-2" sm={6}>
                                     <Form.Group className="mb-2" controlId="form.ControlInput1">
-                                    {getIProfile.lastName=== "" || getIProfile.lastName=== undefined || getIProfile.lastName=== null || getIProfile.lastName=== "" || getIProfile.lastName === undefined || getIProfile.lastName === null ? (   <> <Form.Label className='text-muted'>First Name</Form.Label>
+                                    {getIProfile.lastName=== "" || getIProfile.lastName=== undefined || getIProfile.lastName=== null || getIProfile.lastName=== "" || getIProfile.lastName === undefined || getIProfile.lastName === null ? (   <> <Form.Label className='text-muted'>Last Name</Form.Label>
                                         <Form.Control type="text" onChange={event => setlastname( event.target.value)} /></>):
                                         ( <>  <Form.Label className='text-muted'>Last Name</Form.Label>
                                         <Form.Control type="text" value={getIProfile.lastName} /></>  )}
@@ -423,7 +423,7 @@ const [country, setCountry] = useState('');
                                 </Col>
                                 <Col className="mb-2" sm={6}>
                                     <Form.Group className="mb-2" controlId="form.ControlInput1">
-                                    {getIProfile.lastName=== "" || getIProfile.lastName=== undefined || getIProfile.lastName=== null || getIProfile.lastName=== "" || getIProfile.lastName === undefined || getIProfile.lastName === null ? (   <> <Form.Label className='text-muted'>First Name</Form.Label>
+                                    {getIProfile.lastName=== "" || getIProfile.lastName=== undefined || getIProfile.lastName=== null || getIProfile.lastName=== "" || getIProfile.lastName === undefined || getIProfile.lastName === null ? (   <> <Form.Label className='text-muted'>Last Name</Form.Label>
                                         <Form.Control type="text" onChange={event => setlastname( event.target.value)} /></>):
                                         ( <>  <Form.Label className='text-muted'>Last Name</Form.Label>
                                         <Form.Control type="text" value={getIProfile.lastName} /></>  )}
@@ -617,7 +617,7 @@ defaultOptionLabel= {getIProfile.state}
                                 </Col>
                                 <Col className="mb-2" sm={6}>
                                     <Form.Group className="mb-2" controlId="form.ControlInput1">
-                                    {getIProfile.lastName=== "" || getIProfile.lastName=== undefined || getIProfile.lastName=== null || getIProfile.lastName=== "" || getIProfile.lastName === undefined || getIProfile.lastName === null ? (   <> <Form.Label className='text-muted'>First Name</Form.Label>
+                                    {getIProfile.lastName=== "" || getIProfile.lastName=== undefined || getIProfile.lastName=== null || getIProfile.lastName=== "" || getIProfile.lastName === undefined || getIProfile.lastName === null ? (   <> <Form.Label className='text-muted'>Last Name</Form.Label>
                                         <Form.Control type="text" onChange={event => setlastname( event.target.value)} /></>):
                                         ( <>  <Form.Label className='text-muted'>Last Name</Form.Label>
                                         <Form.Control type="text" value={getIProfile.lastName} /></>  )}
