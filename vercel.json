@@ -130,6 +130,10 @@
             "destination": "https://testapi.stasisonline.in/platform/v1/tx"
         },
         {
+            "source": "/platform/v1/blocks",
+            "destination": "https://testapi.stasisonline.in/platform/v1/blocks"
+        },
+        {
             "source": "/platform/v1/favourite",
             "destination": "https://testapi.stasisonline.in/platform/v1/favourite"
         },
