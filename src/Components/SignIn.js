@@ -44,7 +44,7 @@ function SignIn() {
     {  
         console.log("Logtime12",currentDateTime);
        let loginorgcheck= await Orguserlogincheck(emailRef,passwordRef);
-       console.log("logincheck",loginorgcheck);
+
        if(loginorgcheck.result === "Y"){
             
             localStorage.setItem("Login",true)
@@ -53,9 +53,6 @@ function SignIn() {
            
             localStorage.setItem("UserName",userprofiledetail.firstName);
             let [check,rolecheck] = await  OrgAdminmailcheckget1(emailRef);
-            console.log("datacheckvalue",rolecheck)
-            console.log("Logtime",currentDateTime);
-           
             let sessionlogin= await Sessionloginpost("","","Login",rolecheck.tennantId,rolecheck.roleType,emailRef);
             console.log("sessionstatus",sessionlogin);
             let [checklogin,loginstauscheck] = await  Sessionstatusget(emailRef);

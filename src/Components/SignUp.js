@@ -26,52 +26,59 @@ function SignUp() {
     const [pass, setPass] = useState(true);
     const [error, setError] = useState("")
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [passwordnew, setPassword] = useState("");
     const [passwordconfirm, setPasswordconfirm] = useState("");
-    const [firstName, setfirstName] = useState(true);
-    const [lastname, setlastName] = useState(true);
+    const [firstName, setfirstName] = useState("");
+    const [lastname, setlastName] = useState("");
     const submit = async () =>
     {       
       
      
          let [emailvalid,data2] = await OrgAdminmailcheckget1(email);
-         console.log("emailvalid1",emailvalid,data2.password);
+         if (firstName === "" || firstName === null || firstName === undefined) {
+            setError("Please enter your First Name!");
+          } 
+          else if (lastname === "" || lastname === null || lastname === undefined) {
+            setError("Please enter your Last Name!");
+          } 
+          else if (email === null || email === "" || email === undefined) {
+            setError("Please enter an Email ID!");
+          }
+           else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))) {
+            setError("Please enter a valid Email ID!");
+          } 
+          
+          else if (passwordnew === null || passwordnew === "" || passwordnew === undefined) {
+            setError("Please enter an Password!");
+          }
+          
+          else if (emailvalid === true) {
+            console.log("validcheck");
+   
         
-         if(emailvalid===true)
-         {
-          if(data2.password===""||data2.password===null||data2.password===undefined||data2.password==="undefined"){
-              if (password!== passwordconfirm) {
-                  //       return setError("Passwords do not match")
-                 
-                  setError("Password mismatch!");
-                   }
-             else{
-              let signupuser=await Orgadminsignup(email,password);
-              console.log("checksignup",signupuser);
-              if(signupuser===true){
-                 let userprofileuploding1 = await Userprofileupload(firstName,lastname,email);
+            if (!data2.password || data2.password.trim() === "") {
+              if (passwordnew !== passwordconfirm) {
+                setError("Password mismatch!");
+              } else {
+                let signupuser = await Orgadminsignup(email, passwordnew);
+                console.log("checksignup", signupuser);
+                if (signupuser === true) {
+                  console.log("validcheck23");
+                  let userprofileuploading1 = await Userprofileupload(firstName,lastname,email);
+                  console.log(userprofileuploading1,userprofileuploading1)
                   toast.success("Account created Successfully");
                   navigate('/');
-                
                   console.log("Account created Successfully");
-              }
-              else{
-               
+                } else {
                   setError("Account Already Exists!");
-               
+                }
               }
+            } else {
+              setError("Account Already Exists");
+            }
+          } else {
+            setError("Invalid User");
           }
-          }
-         else{
-          setError("Account Already Exists");
-       
-         }        
-  
-         }
-         else{
-          setError("InValidUser");
-       
-         }
     }
     return ( 
         <div className="vh-100 d-flex w-100">
@@ -90,28 +97,28 @@ function SignUp() {
                         <Col className="mb-2" sm={6} xs={12}>
                             <Form.Group controlId="form.ControlInput1">
                                 <Form.Label className='text-muted'>First Name</Form.Label>
-                                <Form.Control type="text" onChange={event => setfirstName( event.target.value)} placeholder="Enter your First Name" />
+                                <Form.Control type="text" onChange={event => setfirstName(event.target.value)} placeholder="Enter your First Name" />
                             </Form.Group>
                         </Col>
                         <Col className="mb-2" sm={6} xs={12}>
                             <Form.Group controlId="form.ControlInput2">
                                 <Form.Label className='text-muted'>Last Name</Form.Label>
-                                <Form.Control type="text" onChange={event => setlastName( event.target.value)}placeholder="Enter your Last Name" />
+                                <Form.Control type="text" onChange={event => setlastName(event.target.value)}placeholder="Enter your Last Name" />
                             </Form.Group>
                         </Col>
                     </Row>
                     <Form.Group className="mb-2" controlId="form.ControlInput3">
                         <Form.Label className='text-muted'>Email</Form.Label>
-                        <Form.Control type="email" onChange={event => setEmail( event.target.value)}  placeholder="Enter your email" />
+                        <Form.Control type="email" onChange={event => setEmail(event.target.value)}  placeholder="Enter your email" />
                     </Form.Group>
                     {/* mb-2 */}
                     <Form.Group className="mb-4" controlId="form.ControlInput4">
                         <Form.Label className='text-muted'>Password</Form.Label>
-                        <Form.Control type="password"  onChange={event => setPassword( event.target.value)} placeholder="Choose a password (min 10 characters)" />
+                        <Form.Control type="password"  onChange={event => setPassword(event.target.value)} placeholder="Choose a password (min 10 characters)" />
                     </Form.Group>
                     <Form.Group className="mb-4" controlId="form.ControlInput4">
                         <Form.Label className='text-muted'>Confirm Password</Form.Label>
-                        <Form.Control type="password"  onChange={event => setPasswordconfirm( event.target.value)} placeholder="Enter your repeat password" />
+                        <Form.Control type="password"  onChange={event => setPasswordconfirm(event.target.value)} placeholder="Enter your repeat password" />
                     </Form.Group>
                     {/* mb-2 */}
                     <Button className='btn-button w-100' variant="dark"onClick={()=>{submit()}}>Sign up</Button>

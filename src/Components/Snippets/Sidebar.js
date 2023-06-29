@@ -806,6 +806,15 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             Ticket Management
                                         </Link>
                                     </li>
+                                    <li>
+                                        <Link to="/admin-manager/query-management">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                           Query Management
+                                        </Link>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

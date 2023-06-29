@@ -28,6 +28,7 @@ import HelpSupport from './Components/HelpSupport';
 import ImmutableRecordJobs from './Components/ImmutableRecordJobs';
 import UserManagement from './Components/UserManagement';
 import TicketManagement from './Components/TicketManagement';
+import QueryManagement from './Components/QueryManagement';
 import AddUser from './Components/AddUser';
 import User from './Components/User';
 import { userDetailWithEmail } from "./apifunction";
@@ -245,6 +246,7 @@ function App () {
                 <Route path="/admin-manager/environment" element={ <Environment/> } />
                 <Route path="/admin-manager/user-management" element={ <UserManagement/> } />
                 <Route path="/admin-manager/ticket-management" element={ <TicketManagement/> } />
+                <Route path="/admin-manager/query-management" element={ <QueryManagement/> } />
                 <Route path="/admin-manager/add-user" element={ <AddUser roleType = {roleType}/> } />
               </Route>
               <Route path="/help-support" element={ <HelpSupport  roleType = {roleType}/> } />
