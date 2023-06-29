@@ -19,7 +19,7 @@ import Job from './Components/Job';
 import FavouriteDocuments from './Components/FavouriteDocuments';
 import Admin from './Components/Admin';
 import AdminMain from './Components/AdminMain';
-import NodeTransactionsReport from './Components/NodeTransactionsReport';
+import NftTransactionsReport from './Components/NftTransactionsReport';
 import AdminManager from './Components/AdminManager';
 import APILogs from './Components/APILogs';
 import CreateOrg from './Components/CreateOrg';
@@ -108,7 +108,7 @@ function App () {
               <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
               <Route path="/admin" element={ <AdminMain /> }>
                 <Route index element={ <Admin /> } />
-                <Route path=":node" element={ <NodeTransactionsReport /> } />
+                <Route path=":node" element={ <NftTransactionsReport /> } />
               </Route>
               <Route path="/admin-manager" element={ <AdminManager roleType = {roleType}/> }>
                 <Route index element={ <APILogs /> } />
@@ -238,7 +238,7 @@ function App () {
               <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
               <Route path="/admin" element={ <AdminMain roleType = {roleType}/> }>
                 <Route index element={ <Admin /> } />
-                <Route path=":node" element={ <NodeTransactionsReport /> } />
+                <Route path=":node" element={ <NftTransactionsReport /> } />
               </Route>
               <Route path="/admin-manager" element={ <AdminManager roleType = {roleType}/> }>
                 <Route index element={ <APILogs /> } />

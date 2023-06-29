@@ -46,4 +46,14 @@
     }
   }
 
+  .txn_hash_hover {    
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+.txn_hash {
+  text-decoration-line: underline;
+}
+
  

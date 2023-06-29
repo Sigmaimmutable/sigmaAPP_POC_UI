@@ -1,10 +1,11 @@
-import { Button, Col, Dropdown, Form, InputGroup, Row, Table } from "react-bootstrap";
+import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge } from "react-bootstrap";
 import Eye from '../asserts/images/eye-icon.svg'
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getTennantId, getTransaction } from "../apifunction";
+import Check from '../asserts/images/check_icon.svg';
 
-function NodeTransactionsReport() {
+function NftTransactionsReport() {
     const [search, setSearch] = useState(false);
 
     const [StartValue, setStartValue] = useState(0);
@@ -59,11 +60,36 @@ function NodeTransactionsReport() {
 
     // }
 
+        const calculateTimeAgo = (timestamp) => {
+          const currentTime = new Date();
+          const previousTime = new Date(timestamp);
+          const timeDifference = Math.abs(currentTime - previousTime) / 1000; // Convert milliseconds to seconds
+      
+          if (timeDifference < 60) {
+            return 'a few seconds ago';
+          } else if (timeDifference < 3600) {
+            const minutes = Math.floor(timeDifference / 60);
+            return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+          } else if (timeDifference < 86400) {
+            const hours = Math.floor(timeDifference / 3600);
+            return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+          } else if (timeDifference < 2592000) {
+            const days = Math.floor(timeDifference / 86400);
+            return `${days} day${days !== 1 ? 's' : ''} ago`;
+          } else if (timeDifference < 31536000) {
+            const months = Math.floor(timeDifference / 2592000);
+            return `${months} month${months !== 1 ? 's' : ''} ago`;
+          } else {
+            const years = Math.floor(timeDifference / 31536000);
+            return `${years} year${years !== 1 ? 's' : ''} ago`;
+          }
+        };
+
     return ( 
         <div>
             <Row className="mb-20">
                 <Col md={6} xl={4} xxl={3}>
-                    <h4 className="page-title mb-0">Node Transactions Report</h4>
+                    <h4 className="page-title mb-0">Nft Transactions Report</h4>
                 </Col>
             </Row>
 
@@ -178,13 +204,11 @@ function NodeTransactionsReport() {
                                     />
                                 </div>
                             </th> */}
+                            <th className="text-center">Transaction</th>
+                            <th className="text-center">Status</th>
                             <th className="text-center">Address</th>
+                            <th className="text-center">To</th>
                             <th className="text-center">Time</th>
-                            <th className="text-center">Data</th>
-                            <th className="text-center">Block Number</th>
-                            <th className="text-center">Transaction Hash</th>
-                            <th className="text-center">Transaction Index</th>
-                            <th className="text-center">Block Hash</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -203,13 +227,15 @@ function NodeTransactionsReport() {
                                     />
                                 </div>
                             </td> */}
-                            <td>{(r.from).substring(0, 5)}...{(r.from).substring((r.from).length - 5)}</td>
-                            <td>{formatTime(r.timestamp)}</td>
-                            <td>{r.logs[0].data}</td>
-                            <td className="text-center">{r.blockNumber}</td>
-                            <td className="text-center">{(r.hash).substring(0, 5)}...{(r.hash).substring((r.hash).length - 5)}</td>
-                            <td className="text-center">{r.index}</td>
-                            <td className="text-center text-truncate"> {(r.blockHash).substring(0, 5)}...{(r.blockHash).substring((r.blockHash).length - 5)}</td>
+                             <td className="text-center txn_hash txn_hash_hover" style={{color: "#3366CC "}}>{(r.hash).substring(0, 5)}...{(r.hash).substring((r.hash).length - 5)}</td>
+                             <td className="text-center"><Badge pill bg="success"><img src={Check} alt="success badge" />success</Badge></td>
+                            {/* <td className="text-center text-truncate"> {(r.blockHash).substring(0, 5)}...{(r.blockHash).substring((r.blockHash).length - 5)}</td> */}
+                            <td className="text-center">{(r.from).substring(0, 5)}...{(r.from).substring((r.from).length - 5)}</td>
+                            <td className="text-center">{(r.to).substring(0, 5)}...{(r.to).substring((r.to).length - 5)}</td>
+                            <td className="text-center">{calculateTimeAgo(r.timestamp)}</td>
+                            {/* <td>{r.logs[0].data}</td> */}
+                            {/* <td className="text-center">{r.blockNumber}</td>
+                            <td className="text-center">{r.index}</td> */}
                         </tr>
                             </>)
                         })}
@@ -242,12 +268,12 @@ function NodeTransactionsReport() {
                                     </svg>
                                 </Link>
                             </li>
-                            <li><Link className={StartValue === 0 ? 'active' : ''}  onClick={()=>pagination(0)} >1</Link></li>
-                            <li><Link className={StartValue === 10 ? 'active' : ''} onClick={()=>pagination(10)}>2</Link></li>
+                            <li><Link className='active'  onClick={()=>pagination(0)} >{StartValue ? (StartValue/10)+1 : "1"}</Link></li>
+                            {/* <li><Link className={StartValue === 10 ? 'active' : ''} onClick={()=>pagination(10)}>2</Link></li>
                             <li><Link className={StartValue === 20? 'active' : ''} onClick={()=>pagination(20)}>3</Link></li>
                             <li><Link className={StartValue === 30? 'active' : ''} onClick={()=>pagination(30)}>4</Link></li>
                             <li><Link className={StartValue === 40? 'active' : ''} onClick={()=>pagination(40)}>5</Link></li>
-                            <li><Link className={StartValue === 50 ? 'active' : ''} onClick={()=>pagination(50)}>6</Link></li>
+                            <li><Link className={StartValue === 50 ? 'active' : ''} onClick={()=>pagination(50)}>6</Link></li> */}
                             <li>
                                 <Link onClick={()=>pagination(StartValue+10)} className="next">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
@@ -264,4 +290,4 @@ function NodeTransactionsReport() {
      );
 }
 
-export default NodeTransactionsReport;
+export default NftTransactionsReport;
