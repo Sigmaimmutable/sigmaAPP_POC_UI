@@ -1,6 +1,6 @@
 import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge } from "react-bootstrap";
 import Eye from '../asserts/images/eye-icon.svg'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getTennantId, getTransaction } from "../apifunction";
 import Check from '../asserts/images/check_icon.svg';
@@ -11,6 +11,8 @@ function NftTransactionsReport() {
     const [StartValue, setStartValue] = useState(0);
     const [limit, setlimit] = useState(10);
     const [txh, setTxh] = useState([]);
+
+    const navigate = useNavigate();
 
     const getTransc = async() =>{
         if(limit == 10){
@@ -84,6 +86,12 @@ function NftTransactionsReport() {
             return `${years} year${years !== 1 ? 's' : ''} ago`;
           }
         };
+
+        const NftTransactionPage = (index) => {
+            // console.log("nftTransactionPage", txh[index]);
+            let txnHash = txh[index];
+            navigate("/admin/nft-transactions-report/single-transaction/", { state: { object: txnHash } });
+        }
 
     return ( 
         <div>
@@ -227,7 +235,7 @@ function NftTransactionsReport() {
                                     />
                                 </div>
                             </td> */}
-                             <td className="text-center txn_hash txn_hash_hover" style={{color: "#3366CC "}}>{(r.hash).substring(0, 5)}...{(r.hash).substring((r.hash).length - 5)}</td>
+                             <td onClick={() => NftTransactionPage(i)} className="text-center txn_hash txn_hash_hover" style={{color: "#3366CC "}}>{(r.hash).substring(0, 5)}...{(r.hash).substring((r.hash).length - 5)}</td>
                              <td className="text-center"><Badge pill bg="success"><img src={Check} alt="success badge" />success</Badge></td>
                             {/* <td className="text-center text-truncate"> {(r.blockHash).substring(0, 5)}...{(r.blockHash).substring((r.blockHash).length - 5)}</td> */}
                             <td className="text-center">{(r.from).substring(0, 5)}...{(r.from).substring((r.from).length - 5)}</td>

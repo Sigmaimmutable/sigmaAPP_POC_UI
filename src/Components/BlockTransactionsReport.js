@@ -230,7 +230,7 @@ function BlockTransactionsReport() {
                             </td> */}
                             <td className="text-center">{(r.number)}</td>
 
-                             <td className="text-center " style={{color: "#3366CC "}}>{(r.hash).substring(0, 5)}...{(r.hash).substring((r.hash).length - 5)}</td>
+                             <td className="text-center">{(r.hash).substring(0, 5)}...{(r.hash).substring((r.hash).length - 5)}</td>
                              {/* <td className="text-center"><Badge pill bg="success"><img src={Check} alt="success badge" />success</Badge></td> */}
                             {/* <td className="text-center text-truncate"> {(r.blockHash).substring(0, 5)}...{(r.blockHash).substring((r.blockHash).length - 5)}</td> */}
                             <td className="text-center">{(r.miner).substring(0, 5)}...{(r.miner).substring((r.miner).length - 5)}</td>

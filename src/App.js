@@ -20,6 +20,7 @@ import FavouriteDocuments from './Components/FavouriteDocuments';
 import Admin from './Components/Admin';
 import AdminMain from './Components/AdminMain';
 import NftTransactionsReport from './Components/NftTransactionsReport';
+import NftTransactionPage from './Components/NftTransactionPage';
 import BlockTransactionsReport from './Components/BlockTransactionsReport';
 import AdminManager from './Components/AdminManager';
 import APILogs from './Components/APILogs';
@@ -241,6 +242,7 @@ function App () {
               <Route path="/admin" element={ <AdminMain roleType = {roleType}/> }>
                 <Route index element={ <Admin /> } />
                 <Route path="/admin/nft-transactions-report" element={ <NftTransactionsReport /> } />
+                <Route path="/admin/nft-transactions-report/single-transaction" element={ <NftTransactionPage /> } />
                 <Route path="/admin/block-transactions-report" element={ <BlockTransactionsReport /> } />
               </Route>
               <Route path="/admin-manager" element={ <AdminManager roleType = {roleType}/> }>
