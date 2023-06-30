@@ -48,13 +48,20 @@ const OuterRoundProgressBar = ({ value }) => {
   const percentageStyle = {
     fontSize: '24px',
     fontWeight: 'bold',
+    position: 'absolute',
+    zIndex: 1,
+    width: '100%',
+    height: '100%',
+    lineHeight: '150px',
+    textAlign: 'center'
   };
 
   return (
     <div className="outer-round-progress-bar" style={containerStyle}>
+      <span style={percentageStyle}>{value}%</span>
       <div className="outer-circle" style={outerCircleStyle}>
         <div className="inner-circle" style={innerCircleStyle}>
-          <span style={percentageStyle}>{value}%</span>
+          {/* <span style={percentageStyle}>{value}%</span> */}
         </div>
       </div>
     </div>
