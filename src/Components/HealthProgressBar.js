@@ -6,9 +6,11 @@ const OuterRoundProgressBar = ({ value }) => {
   useEffect(() => {
       setInterval(() => {
         const savedTheme = localStorage.getItem('theme::SigUI');
-        setTheme(savedTheme)
-      }, 500);
-  }, [theme]);
+        if(savedTheme !== null){
+          setTheme(savedTheme)
+        }
+    }, 500);
+  }, []);
 
   const containerStyle = {
     position: 'relative',

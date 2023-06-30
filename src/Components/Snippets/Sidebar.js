@@ -43,10 +43,12 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
     }
     
     useEffect(() => {
-        applyTheme();
         const savedTheme = localStorage.getItem('theme::SigUI');
-        setTheme(savedTheme)
-        getTheme(savedTheme);
+        if(savedTheme !== null){
+            applyTheme();
+            setTheme(savedTheme)
+            getTheme(savedTheme);
+        }
     }, [theme]);
 
     const applyTheme = () => {

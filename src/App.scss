@@ -22,41 +22,41 @@ $space: 50px;
     --bg-E0: #E0E0E0;
     --green: #17CA0E;
 
-    --text-body: 16px;
-    --36: 36px;
-    --32: 32px;
-    --28: 28px;
-    --20: 20px;
-    --16: 16px;
-    --18: 18px;
+    --text-body: 14px;
+    --36: 30px;
+    --32: 28px;
+    --28: 24px;
+    --20: 18px;
+    --16: 14px;
+    --18: 16px;
     --14: 14px;
     --12: 12px;
     
-    @media screen and (max-width: 1680px){
-        --text-body: 14px;
-        --36: 30px;
-        --32: 28px;
-        --28: 25px;
-        --20: 18px;
-        --16: 14px;
-        --18: 16px;
-        --14: 13px;
-    }
+    // @media screen and (max-width: 1680px){
+    //     --text-body: 14px;
+    //     --36: 30px;
+    //     --32: 28px;
+    //     --28: 25px;
+    //     --20: 18px;
+    //     --16: 14px;
+    //     --18: 16px;
+    //     --14: 13px;
+    // }
 
     @media screen and (max-width: 1199px){
-        --36: 32px;
-        --32: 28px;
-        --28: 24px;
-        --20: 18px;
+        --36: 28px;
+        --32: 24px;
+        --28: 20px;
+        --20: 16px;
     }
 
-    @media screen and (max-width: 575px){
-        --36: 28px;
-        --32: 26px;
-        --28: 22px;
-        --20: 16px;
-        --17: 17px;
-    }
+    // @media screen and (max-width: 575px){
+    //     --36: 28px;
+    //     --32: 26px;
+    //     --28: 22px;
+    //     --20: 16px;
+    //     --17: 17px;
+    // }
 }
 
 ::-webkit-scrollbar {
@@ -448,6 +448,9 @@ h1, h2, h3, h4, h5, h6{
     font-family: 'Roboto', sans-serif;
 }
 
+h1{
+    @extend h2;
+}
 
 h2{
     font-weight: 500;
