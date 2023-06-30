@@ -27,6 +27,7 @@ import APILogs from './Components/APILogs';
 import CreateOrg from './Components/CreateOrg';
 import Environment from './Components/Environment';
 import HelpSupport from './Components/HelpSupport';
+import HealthCheck from './Components/HealthCheck';
 import ImmutableRecordJobs from './Components/ImmutableRecordJobs';
 import UserManagement from './Components/UserManagement';
 import TicketManagement from './Components/TicketManagement';
@@ -76,6 +77,7 @@ function App () {
                 <Route index element={ <ResourcePersistJob /> } />
                 <Route path="/job/job-details" element={ <JobDetails /> } />
                 <Route path="/job/immutable-record-jobs" element={ <ImmutableRecordJobs /> } />
+                <Route path="/job/health-check" element={ <HealthCheck roleType = {roleType}/> } />
               </Route>
               <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
               <Route path="/admin-manager" element={ <AdminManager roleType = {roleType}/> }>
@@ -106,6 +108,7 @@ function App () {
                 <Route index element={ <ResourcePersistJob /> } />
                 <Route path="/job/job-details" element={ <JobDetails /> } />
                 <Route path="/job/immutable-record-jobs" element={ <ImmutableRecordJobs /> } />
+                <Route path="/job/health-check" element={ <HealthCheck roleType = {roleType}/> } />
               </Route>
               <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
               <Route path="/admin" element={ <AdminMain /> }>
@@ -165,6 +168,7 @@ function App () {
                 <Route index element={ <ResourcePersistJob /> } />
                 <Route path="/job/job-details" element={ <JobDetails /> } />
                 <Route path="/job/immutable-record-jobs" element={ <ImmutableRecordJobs /> } />
+                <Route path="/job/health-check" element={ <HealthCheck roleType = {roleType}/> } />
               </Route>
               <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
               <Route path="/admin-manager" element={ <AdminManager roleType = {roleType}/> }>
@@ -237,6 +241,7 @@ function App () {
                 <Route index element={ <ResourcePersistJob /> } />
                 <Route path="/job/job-details" element={ <JobDetails /> } />
                 <Route path="/job/immutable-record-jobs" element={ <ImmutableRecordJobs /> } />
+                <Route path="/job/health-check" element={ <HealthCheck roleType = {roleType}/> } />
               </Route>
               <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
               <Route path="/admin" element={ <AdminMain roleType = {roleType}/> }>

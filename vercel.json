@@ -176,7 +176,16 @@
         {
             "source": "/platform/v1/helpandsupportstatus/:emailId*/:status*",
             "destination": "https://testapi.stasisonline.in/platform/v1/helpandsupportstatus/:emailId*/:status*"
+        }      ,
+        {
+            "source": "/platform/v1/jobsfetch",
+            "destination": "https://testapi.stasisonline.in/platform/v1/jobsfetch"
+        },
+        {
+            "source": "/platform/v1/jobsfetch/:pageNo*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/jobsfetch/:pageNo*"
         }
+
 
     ]
 }

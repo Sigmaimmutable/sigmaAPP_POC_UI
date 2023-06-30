@@ -122,6 +122,15 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             NFT Minter Jobs
                                         </Link>
                                     </li>
+                                    <li>
+                                        <Link to="/job/health-check">
+                                            <span>
+                                                <img src={SubIcon3} alt='SubIcon3' />
+                                                <img src={SubIconAct3} alt='SubIconAct3' />
+                                            </span>
+                                            Health Check
+                                        </Link>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -244,6 +253,15 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIconAct3} alt='SubIconAct3' />
                                             </span>
                                             NFT Minter Jobs
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/job/health-check">
+                                            <span>
+                                                <img src={SubIcon3} alt='SubIcon3' />
+                                                <img src={SubIconAct3} alt='SubIconAct3' />
+                                            </span>
+                                            Health Check
                                         </Link>
                                     </li>
                                 </ul>
@@ -486,6 +504,15 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             NFT Minter Jobs
                                         </Link>
                                     </li>
+                                    <li>
+                                        <Link to="/job/health-check">
+                                            <span>
+                                                <img src={SubIcon3} alt='SubIcon3' />
+                                                <img src={SubIconAct3} alt='SubIconAct3' />
+                                            </span>
+                                            Health Check
+                                        </Link>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -720,6 +747,15 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIconAct3} alt='SubIconAct3' />
                                             </span>
                                             NFT Minter Jobs
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/job/health-check">
+                                            <span>
+                                                <img src={SubIcon3} alt='SubIcon3' />
+                                                <img src={SubIconAct3} alt='SubIconAct3' />
+                                            </span>
+                                            Health Check
                                         </Link>
                                     </li>
                                 </ul>
