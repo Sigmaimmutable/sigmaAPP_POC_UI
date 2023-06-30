@@ -1257,3 +1257,40 @@ export const ResolveTicket = async(email_id,id,tenantId) => {
 // });
 
 }
+export const getNFTProp = async (id,tennatId) =>
+{       
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  // let userID = localStorage.getItem('UserID');
+  // let connectAddress = localStorage.getItem("walletAddress");
+  // let network = "AB";
+  
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    //console.log("done1",response.data);
+      // console.log("date",date);
+      const options2 = {
+        method: 'POST',
+        url: `/platform/v1/nftdetails/${id}`,
+        headers: {
+          'x-api-key': `${key}`    
+        },
+        data: {
+          
+          "tenantId":tennatId
+           
+        }
+      };
+
+     let jobsList=[] ;
+      try {
+        const response = await axios(options2);
+        jobsList = response.data;
+         
+        console.log('Response:', jobsList);
+      }catch(error){
+        console.error("done2",error);
+      }
+    
+     
+      return jobsList;
+    
+}

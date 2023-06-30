@@ -72,11 +72,11 @@ function ImmutableRecordJobs() {
             <Row className="mb-20" style={{minHeight: '40px'}}>
                 <Col xs={9} md={6} className="ms-md-0 d-flex align-items-center justify-content-end ms-auto order-md-1">
                     <Button variant="gray" className="btn-gray-black rounded-pill me-2" onClick={handleShow}>Schedule Job</Button>
-                    <Button variant="outline-gray" className="me-2 btn-outline-gray-black">
+                    {/* <Button variant="outline-gray" className="me-2 btn-outline-gray-black">
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="d-block" viewBox="0 0 16 16">
                             <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
                         </svg>
-                    </Button>
+                    </Button> */}
                     {/* <Button variant="outline-gray" className="me-0" onClick={() => setSearch(!search)}>
                         {search ? (
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="d-block" viewBox="0 0 16 16">
@@ -198,12 +198,12 @@ function ImmutableRecordJobs() {
                                     />
                                 </div>
                             </th> */}
-                            <th className="text-center">Job id</th>
-                            <th className="text-center">Job name</th>
-                            <th className="text-center">Job run by</th>
+                            <th className="text-center">Job Id</th>
+                            <th className="text-center">Job Name</th>
+                            <th className="text-center">Job Run By</th>
                             <th className="text-center">Company</th>
-                            <th className="text-center">Start time</th>
-                            <th className="text-center">Completion time</th>
+                            <th className="text-center">Start Time</th>
+                            <th className="text-center">Completion Time</th>
                             <th className="text-center">Status</th>
                         </tr>
                     </thead>

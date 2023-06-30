@@ -87,7 +87,8 @@ function NftTransactionPage({}) {
         const rows = event.target.rows; 
         const rowHeight = 15; 
         const trows = Math.ceil(height / rowHeight) - 1; 
-        console.log(height, rows, trows); 
+        console.log(height, rows
+            , trows); 
         
       }
 

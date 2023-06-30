@@ -18,6 +18,7 @@ function BlockTransactionsReport() {
             let tx = await getTransactionblock(StartValue,limit,tnId);
             console.log("blocktxn",tx)
             setTxh(tx);
+            console.log("checktxh",txh)
         }
         
     }

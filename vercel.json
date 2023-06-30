@@ -134,6 +134,10 @@
             "destination": "https://testapi.stasisonline.in/platform/v1/blocks"
         },
         {
+            "source": "/platform/v1/nftdetails/:uid*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/nftdetails/:uid*"
+        },
+        {
             "source": "/platform/v1/favourite",
             "destination": "https://testapi.stasisonline.in/platform/v1/favourite"
         },
