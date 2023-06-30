@@ -253,7 +253,7 @@ useEffect(( )=>{data()},[])
                                 <div className="list-icon">://</div>
                                 <div className="list-content pe-2 flex-grow-1">
                                     <h6 className="mb-1 text-truncate">JSON/RPC HTTP endpoint</h6>
-                                    <p className="text-truncate">{nodeDetail1? convertToConnectUrl(nodeDetail1.smartContractAccessUrl): ""}</p>
+                                    <p className="text-break">{nodeDetail1? convertToConnectUrl(nodeDetail1.smartContractAccessUrl): ""}</p>
                                 </div>
                                 <div className="list-copy">
                                     <Button variant="reset" onClick={() => {navigator.clipboard.writeText( convertToConnectUrl(nodeDetail1.smartContractAccessUrl)); toggleShowA();}}>
@@ -265,7 +265,7 @@ useEffect(( )=>{data()},[])
                                 <div className="list-icon">://</div>
                                 <div className="list-content pe-2 flex-grow-1">
                                     <h6 className="mb-1 text-truncate">JSON/RPC Web socket endpoint</h6>
-                                    <p className="text-truncate">{nodeDetail1? convertToWebSocketUrl(nodeDetail1.smartContractAccessUrl): ""}</p>
+                                    <p className="text-break">{nodeDetail1? convertToWebSocketUrl(nodeDetail1.smartContractAccessUrl): ""}</p>
                                 </div>
                                 <div className="list-copy">
                                     <Button variant="reset" onClick={() => {navigator.clipboard.writeText(convertToWebSocketUrl(nodeDetail1.smartContractAccessUrl)); toggleShowA();}}>
@@ -277,7 +277,7 @@ useEffect(( )=>{data()},[])
                                 <div className="list-icon"><img src={RestAPI} alt="RestAPI" /></div>
                                 <div className="list-content pe-2 flex-grow-1">
                                     <h6 className="mb-1 text-truncate">REST API Gateway</h6>
-                                    <p className="text-truncate">{nodeDetail1? nodeDetail1.smartContractAccessUrl: ""}</p>
+                                    <p className="text-break">{nodeDetail1? nodeDetail1.smartContractAccessUrl: ""}</p>
                                 </div>
                                 <div className="list-copy">
                                     <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nodeDetail1.smartContractAccessUrl); toggleShowA();}}>

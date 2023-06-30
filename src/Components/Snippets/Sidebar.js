@@ -105,7 +105,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li> */}
                                     <li>
-                                        <Link to="/job/job-details">
+                                        <Link onClick={() => setMenu(!menu)} to="/job/job-details">
                                             <span>
                                                 <img src={SubIcon2} alt='SubIcon2' />
                                                 <img src={SubIconAct2} alt='SubIconAct2' />
@@ -114,7 +114,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/job/immutable-record-jobs">
+                                        <Link onClick={() => setMenu(!menu)} to="/job/immutable-record-jobs">
                                             <span>
                                                 <img src={SubIcon3} alt='SubIcon3' />
                                                 <img src={SubIconAct3} alt='SubIconAct3' />
@@ -123,7 +123,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/job/health-check">
+                                        <Link onClick={() => setMenu(!menu)} to="/job/health-check">
                                             <span>
                                                 <img src={SubIcon3} alt='SubIcon3' />
                                                 <img src={SubIconAct3} alt='SubIconAct3' />
@@ -156,7 +156,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                 <h4>Admin Manager</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
                                     <li>
-                                        <Link to="/admin-manager/user-management">
+                                        <Link onClick={() => setMenu(!menu)} to="/admin-manager/user-management">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
@@ -238,7 +238,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li> */}
                                     <li>
-                                        <Link to="/job/job-details">
+                                        <Link onClick={() => setMenu(!menu)} to="/job/job-details">
                                             <span>
                                                 <img src={SubIcon2} alt='SubIcon2' />
                                                 <img src={SubIconAct2} alt='SubIconAct2' />
@@ -247,7 +247,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/job/immutable-record-jobs">
+                                        <Link onClick={() => setMenu(!menu)} to="/job/immutable-record-jobs">
                                             <span>
                                                 <img src={SubIcon3} alt='SubIcon3' />
                                                 <img src={SubIconAct3} alt='SubIconAct3' />
@@ -256,7 +256,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/job/health-check">
+                                        <Link onClick={() => setMenu(!menu)} to="/job/health-check">
                                             <span>
                                                 <img src={SubIcon3} alt='SubIcon3' />
                                                 <img src={SubIconAct3} alt='SubIconAct3' />
@@ -288,7 +288,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                 <h4>Admin</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
                                     <li>
-                                        <Link to="/admin/nft-transactions-report">
+                                        <Link onClick={() => setMenu(!menu)} to="/admin/nft-transactions-report">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
@@ -297,7 +297,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/admin/block-transactions-report">
+                                        <Link onClick={() => setMenu(!menu)} to="/admin/block-transactions-report">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
@@ -331,7 +331,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li> */}
                                     <li>
-                                        <Link to="/admin-manager/create-org">
+                                        <Link onClick={() => setMenu(!menu)} to="/admin-manager/create-org">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
@@ -349,7 +349,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li> */}
                                     <li>
-                                        <Link to="/admin-manager/user-management">
+                                        <Link onClick={() => setMenu(!menu)} to="/admin-manager/user-management">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
@@ -487,7 +487,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li> */}
                                     <li>
-                                        <Link to="/job/job-details">
+                                        <Link onClick={() => setMenu(!menu)} to="/job/job-details">
                                             <span>
                                                 <img src={SubIcon2} alt='SubIcon2' />
                                                 <img src={SubIconAct2} alt='SubIconAct2' />
@@ -496,7 +496,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/job/immutable-record-jobs">
+                                        <Link onClick={() => setMenu(!menu)} to="/job/immutable-record-jobs">
                                             <span>
                                                 <img src={SubIcon3} alt='SubIcon3' />
                                                 <img src={SubIconAct3} alt='SubIconAct3' />
@@ -505,7 +505,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/job/health-check">
+                                        <Link onClick={() => setMenu(!menu)} to="/job/health-check">
                                             <span>
                                                 <img src={SubIcon3} alt='SubIcon3' />
                                                 <img src={SubIconAct3} alt='SubIconAct3' />
@@ -538,7 +538,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                 <h4>Admin Manager</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
                                     <li>
-                                        <Link to="/admin-manager/user-management">
+                                        <Link onClick={() => setMenu(!menu)} to="/admin-manager/user-management">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
@@ -732,7 +732,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li> */}
                                     <li>
-                                        <Link to="/job/job-details">
+                                        <Link onClick={() => setMenu(!menu)} to="/job/job-details">
                                             <span>
                                                 <img src={SubIcon2} alt='SubIcon2' />
                                                 <img src={SubIconAct2} alt='SubIconAct2' />
@@ -741,7 +741,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/job/immutable-record-jobs">
+                                        <Link onClick={() => setMenu(!menu)} to="/job/immutable-record-jobs">
                                             <span>
                                                 <img src={SubIcon3} alt='SubIcon3' />
                                                 <img src={SubIconAct3} alt='SubIconAct3' />
@@ -750,7 +750,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/job/health-check">
+                                        <Link onClick={() => setMenu(!menu)} to="/job/health-check">
                                             <span>
                                                 <img src={SubIcon3} alt='SubIcon3' />
                                                 <img src={SubIconAct3} alt='SubIconAct3' />
@@ -782,7 +782,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                 <h4>Admin</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
                                     <li>
-                                        <Link to="/admin/nft-transactions-report">
+                                        <Link onClick={() => setMenu(!menu)} to="/admin/nft-transactions-report">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
@@ -791,7 +791,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/admin/block-transactions-report">
+                                        <Link onClick={() => setMenu(!menu)} to="/admin/block-transactions-report">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
@@ -825,7 +825,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li> */}
                                     <li>
-                                        <Link to="/admin-manager/create-org">
+                                        <Link onClick={() => setMenu(!menu)} to="/admin-manager/create-org">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
@@ -843,7 +843,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li> */}
                                     <li>
-                                        <Link to="/admin-manager/user-management">
+                                        <Link onClick={() => setMenu(!menu)} to="/admin-manager/user-management">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
@@ -852,7 +852,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/admin-manager/ticket-management">
+                                        <Link onClick={() => setMenu(!menu)} to="/admin-manager/ticket-management">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
@@ -861,7 +861,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/admin-manager/query-management">
+                                        <Link onClick={() => setMenu(!menu)} to="/admin-manager/query-management">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />

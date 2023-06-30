@@ -207,8 +207,8 @@ function DocumentDetails() {
                 </Col>
             </Row>
             <Row className="mb-20" style={{minHeight: '40px'}}>
-                <Col md={6} className="d-flex align-items-center justify-content-end order-md-1 mb-md-0 mb-2">
-                    <Button variant="outline-gray" className="me-2" onClick={() => setSearch(!search)}>
+                <Col md={6} className="d-flex flex-wrap align-items-center justify-content-end order-md-1 mb-md-0 mb-2">
+                    <Button variant="outline-gray" className="me-2 mb-1" onClick={() => setSearch(!search)}>
                         {search ? (
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="d-block" viewBox="0 0 16 16">
                                 <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
@@ -221,10 +221,10 @@ function DocumentDetails() {
                     </Button>
                     {/* <Button variant="outline-gray" className="me-2 px-3">7 Days</Button>
                     <Button variant="outline-gray" className="me-2 px-3">30 Days</Button> */}
-                     <Button variant="outline-gray" className="me-2 px-3"
+                     <Button variant="outline-gray" className="me-2 mb-1 px-3"
                     onClick={() => handleFilterClick('7Days')}> 7 Days
                     </Button>
-                    <Button variant="outline-gray" className="me-2 px-3"  onClick={() => handleFilterClick('30Days')}>30 Days</Button>
+                    <Button variant="outline-gray" className="me-2 mb-1 px-3"  onClick={() => handleFilterClick('30Days')}>30 Days</Button>
                     
                     <Dropdown size="sm">
                         <Dropdown.Toggle variant="gray" id="dropdown-basic">

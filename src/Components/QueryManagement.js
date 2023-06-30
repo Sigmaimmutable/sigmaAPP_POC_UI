@@ -160,8 +160,8 @@ function QueryManagement() {
                             
                                   <td className="text-center">{y+1}</td>
                                   <td className="text-center">{x.Name}</td>
-                                  <td className="text-center">{x.URL}</td>
-                                  <td className="text-center">{x.User}</td>
+                                  <td className="text-center text-break">{x.URL}</td>
+                                  <td className="text-center text-break">{x.User}</td>
                                   <td className="text-center">{x.CreatedBy}</td>
                                 </tr>
                             )
@@ -215,7 +215,7 @@ function QueryManagement() {
                             
                                   <td className="text-center">{y+1}</td>
                                   <td className="text-center">{x.Name}</td>
-                                  <td className="text-center">{x.APILink}</td>
+                                  <td className="text-center text-break">{x.APILink}</td>
                                
                                 </tr>
                             )
@@ -251,8 +251,8 @@ function QueryManagement() {
                             
                                   <td className="text-center">{y+1}</td>
                                   <td className="text-center">{x.Name}</td>
-                                  <td className="text-center">{x.issuer}</td>
-                                  <td className="text-center">{x.scopes}</td>
+                                  <td className="text-center text-break">{x.issuer}</td>
+                                  <td className="text-center text-break">{x.scopes}</td>
                                
                                 </tr>
                             )

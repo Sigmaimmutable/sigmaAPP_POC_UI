@@ -118,7 +118,7 @@ function NftTransactionPage({}) {
                 <Col xs={12} className="mb-3">
                     <div className="info-card d-flex flex-column justify-content-between">
                         <h6 className="d-flex align-items-center">Transaction</h6>
-                        <p style={{color: "white"}} className="mb-0">{txnHash?.hash}</p>
+                        <p style={{color: "white"}} className="mb-0 text-break">{txnHash?.hash}</p>
                     </div>
                 </Col>
             </Row>
@@ -131,7 +131,7 @@ function NftTransactionPage({}) {
                            
                                 <tr>
                                     <td>Hash</td>
-                                    <td>{txnHash? txnHash.hash : ''}</td>
+                                    <td className="text-break" title={txnHash? txnHash.hash : ''}>{txnHash? txnHash.hash : ''}</td>
                                     <td width="50">
                                         <Button variant="reset" onClick={() => {navigator.clipboard.writeText(txnHash.hash); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />

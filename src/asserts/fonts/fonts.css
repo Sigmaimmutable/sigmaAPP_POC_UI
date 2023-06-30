@@ -1,4 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&display=swap');
+
+@font-face {
+    font-family: 'Times New Roman';
+    src: url('./TimesNewRomanPS-BoldMT.eot');
+    src: url('./TimesNewRomanPS-BoldMT.eot?#iefix') format('embedded-opentype'),
+        url('./TimesNewRomanPS-BoldMT.woff2') format('woff2'),
+        url('./TimesNewRomanPS-BoldMT.woff') format('woff'),
+        url('./TimesNewRomanPS-BoldMT.ttf') format('truetype'),
+        url('./TimesNewRomanPS-BoldMT.svg#TimesNewRomanPS-BoldMT') format('svg');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Times New Roman';
+    src: url('./TimesNewRomanPSMT.eot');
+    src: url('./TimesNewRomanPSMT.eot?#iefix') format('embedded-opentype'),
+        url('./TimesNewRomanPSMT.woff2') format('woff2'),
+        url('./TimesNewRomanPSMT.woff') format('woff'),
+        url('./TimesNewRomanPSMT.ttf') format('truetype'),
+        url('./TimesNewRomanPSMT.svg#TimesNewRomanPSMT') format('svg');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 
 
 @font-face {
