@@ -22,7 +22,7 @@ $space: 50px;
     --bg-E0: #E0E0E0;
     --green: #17CA0E;
 
-    --text-body: 18px;
+    --text-body: 16px;
     --36: 36px;
     --32: 32px;
     --28: 28px;
@@ -33,7 +33,7 @@ $space: 50px;
     --12: 12px;
     
     @media screen and (max-width: 1680px){
-        --text-body: 16px;
+        --text-body: 14px;
         --36: 30px;
         --32: 28px;
         --28: 25px;
@@ -48,7 +48,6 @@ $space: 50px;
         --32: 28px;
         --28: 24px;
         --20: 18px;
-        --text-body: 16px;
     }
 
     @media screen and (max-width: 575px){
@@ -57,7 +56,6 @@ $space: 50px;
         --28: 22px;
         --20: 16px;
         --17: 17px;
-        --text-body: 15px;
     }
 }
 
@@ -77,9 +75,9 @@ body{
     line-height: 1.4;
     font-weight: 400;
     overflow-x: hidden;
-    font-size: var(--14);
+    font-size: var(--12);
     // font-family: 'TT Norms';
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Times New Roman';
     font-size: var(--text-body);
     background-color: var(--white);
 
@@ -111,6 +109,10 @@ body{
             &-muted{
                 color: rgba(255, 255, 255, 0.80) !important;
             }
+        }
+
+        .user-card .form-select{
+            background-color: transparent !important;
         }
 
         .btn{
@@ -154,7 +156,7 @@ body{
         }
 
         .css-1nmdiq5-menu{
-            background-color: #000 !important;
+            background-color: var(--white) !important;
         }
         .css-d7l1ni-option{
             background-color: rgb(58 59 60) !important;
@@ -162,6 +164,11 @@ body{
 
         .css-1dimb5e-singleValue{
             color: #fff !important;
+        }
+
+        .user-card-footer select{
+            color: #000;
+            filter: invert(1);
         }
     }
 }
@@ -226,7 +233,9 @@ a{
 }
 
 .btn{
+    font-size: var(--14);
     --bs-btn-disabled-opacity: 0.3;
+    font-family: 'Roboto', sans-serif;
 
     &-link{
         font-size: var(--text-body);
@@ -435,6 +444,10 @@ label{
     font-size: var(--16);
 }
 
+h1, h2, h3, h4, h5, h6{
+    font-family: 'Roboto', sans-serif;
+}
+
 
 h2{
     font-weight: 500;
@@ -506,7 +519,7 @@ h6{
 		border-radius: 7px;
 		font-weight: normal;
         // font-family: 'TT Norms';
-        font-family: 'Rubik', sans-serif;
+        font-family: 'Times New Roman';
 		color: var(--text-color);
         font-size: var(--text-body);
         background-color: var(--white) !important;
@@ -558,6 +571,8 @@ h6{
             --bs-border-width: 2px;
             height: 19px;
             width: 19px;
+            margin-top: 0;
+            margin-right: 8px;
 
             &:checked{
                 background-color: #333;
@@ -1331,7 +1346,7 @@ h6{
     margin-bottom: 0;
     
     &-responsive{
-        min-height: 65vh;
+        // min-height: 65vh;
         box-shadow: 0 0 10px rgba(0,0,0, 0.1);
 
         @media screen and (max-width: 767px){
@@ -1383,6 +1398,10 @@ h6{
         @media screen and (max-width: 991px) {
             font-size: var(--12);
         }
+
+        @media screen and (max-width: 991px) {
+            font-size: 11px;
+        }
     }
 
     th, td{
@@ -1391,6 +1410,10 @@ h6{
 
         @media screen and (max-width: 1199px) {
             padding: 8px;
+        }
+
+        @media screen and (max-width: 767px) {
+            padding: 8px 4px;
         }
     }
 
@@ -1658,3 +1681,6 @@ sup{
   }
  
     
+.text-break{
+    word-break: break-all;
+}
