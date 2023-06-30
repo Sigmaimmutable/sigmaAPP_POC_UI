@@ -352,11 +352,13 @@ function DocumentDetails() {
                                 />
                             </div>
                         </th> */}
+                        <th className="text-center">View</th>
                         <th className="text-center">Favourite</th>
                         <th className="text-center">ID</th>
                         <th className="text-center">File Name</th>
                         <th className="text-center">Document Name</th>
                         <th className="text-center">Status</th>
+                        <th className="text-center">NFT Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -377,7 +379,14 @@ function DocumentDetails() {
             />
           </div>
         </td> */}
+         <td className="text-center">
+         <Link to={{pathname: "/document-details/single",search:`?id=${postt.sigmaId}`}}><img src={Eye} alt="Eye" /></Link>
+          {/* <Dropdown.Toggle variant="reset" id="dropdown-basic">
+                                            
+                                            </Dropdown.Toggle> */}
+                                            </td>
         <td className="text-center">
+          
         <Favourite
         sigmaid= {postt.sigmaId} name__v = {postt.name__v} filename__v ={postt.filename__v} status__v ={postt.status__v}
         />
@@ -401,12 +410,15 @@ function DocumentDetails() {
           {/* <Link to={`/document-details/single/${postt.sigmaId}`}>
                {postt.status__v ? postt.status__v : ""}
               </Link> */}
-              <Link to={{pathname: "/document-details/single",search:`?id=${postt.sigmaId}`}}>{postt.status__v ? postt.status__v : ""}</Link>
+             
+             {postt.status__v ? postt.status__v : ""}
+            
               {/* <Link to="/about?id=123">Go to About</Link> */}
                {/* return( 
                                     <DocumentDetailsSingle x={postt.sigmaId}/>) */}
               {/* <Link to={{ pathname: "/document-details/single", state: { allData: postt.sigmaid } }}><Button variant="blue" className='w-100'> {postt.status__v ? postt.status__v : ""}</Button></Link> */}
         </td>
+        <td className="text-center"> {postt.uuid ? "Created" : "Pending"} </td>
       </tr>
     );
   }

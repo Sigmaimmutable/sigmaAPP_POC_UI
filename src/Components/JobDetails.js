@@ -1,4 +1,4 @@
-import { Button, Card, Col, Dropdown, Form, InputGroup, Row, Table, Modal } from "react-bootstrap";
+import { Button, Card, Col, Dropdown, Form, InputGroup, Row, Table, Modal} from "react-bootstrap";
 import Eye from '../asserts/images/eye-icon.svg'
 import SiteLogo from '../asserts/images/site-logo-xxl.svg'
 import CheckBox from '../asserts/images/check-box.svg';
@@ -392,7 +392,7 @@ console.log("Selectedcolm",Selectedcolm)
                                         {r.map((x,y)=>{
                                             return(<>
                                               
-                                            <td className="text-center">{x}</td>
+                                            <td className="text-center text-capitalize ">{x}</td>
                                             </>
                                             )
                                         })}

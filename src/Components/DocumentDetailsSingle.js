@@ -1,17 +1,22 @@
-import { Button, Card, Col, Dropdown, Form, InputGroup, Row, Table } from "react-bootstrap";
+import { Button, Card, Col, Dropdown, Form, InputGroup, Row, Table,Badge,Toast, ToastContainer } from "react-bootstrap";
 import Eye from '../asserts/images/eye-icon.svg'
 import SiteLogo from '../asserts/images/site-logo-xxl.svg'
 import { Link,useParams,useLocation  } from "react-router-dom";
 import { useState,useEffect, useContext } from "react";
-import { fetchSigmadocdetails } from '../apifunction';
+import { fetchSigmadocdetails,getNFTProp,getTennantId} from '../apifunction';
+import CopyIcon from '../asserts/images/copy-icon.svg'
 import { DataContext } from "../App";
+import Check from '../asserts/images/check_icon.svg';
    
 const DocumentDetailsSingle= (props)=>{
     const location = useLocation();
+    const [showA, setShowA] = useState(false);
+    const toggleShowA = () => setShowA(!showA);
     //  const allData = location.state.allData;
     // const id = useContext(DataContext);
     const {sigmaId} = useParams();
     const [documentDetails, setDocumentDetails] = useState(null);
+    const [nftproperties, setNftprop] = useState([]);
     // const location = useLocation();  
     // const [sigmaId, setSigmaId] = useState(''); // State variable for sigmaId
 
@@ -27,29 +32,52 @@ const DocumentDetailsSingle= (props)=>{
 
     
 
-    useEffect(() => {
-        fetchSigmadocdetails(id)
-          .then(response => {
-            console.log("res",response)
-            const [success, data] = response;
-            if (success) {
-              setDocumentDetails(data);
-              console.log("data", data);
-            } else {
-              console.error('Error fetching document details');
+    // useEffect(() => {
+    //     fetchSigmadocdetails(id)
+    //       .then(response => {
+    //         console.log("res",response)
+    //         const [success, data] = response;
+    //         if (success) {
+    //           setDocumentDetails(data);
+    //           console.log("data1", data);
+    //         } else {
+    //           console.error('Error fetching document details');
+    //         }
+    //       })
+    //       .catch(error => {
+    //         console.error('Error fetching document details:', error);
+    //       });
+    //   }, [id]);
+
+     
+      const getNFTproperties= async() =>{
+        const [success, data] = await fetchSigmadocdetails(id);
+        setDocumentDetails(data);
+            let tnId = await getTennantId();
+            if(data.uuid){
+              let tx = await getNFTProp(data.uuid,tnId);
+              // console.log("txhistory",tx)
+              setNftprop(tx.output);
+              console.log("nftprop",tx)
             }
-          })
-          .catch(error => {
-            console.error('Error fetching document details:', error);
-          });
-      }, [id]);
-
-
+           
+        
+        
+    }
+    useEffect(() =>{getNFTproperties()},[])
    
     
 
     return ( 
         <div>
+            <ToastContainer 
+                position={"bottom-end"}
+                className="p-3 position-fixed"
+                style={{ zIndex: 1 }}>
+                <Toast show={showA} onClose={toggleShowA}>
+                    <Toast.Body><div className="d-flex px-2 align-items-center"><img src={CopyIcon} alt="CopyIcon" className="me-2" /> Copied successfully!</div></Toast.Body>
+                </Toast>
+            </ToastContainer>
             <div className="mb-20">
                 <Link to="/document-details" className="d-inline-block btn-back align-items-center"> 
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="me-2" viewBox="0 0 16 16">
@@ -66,7 +94,7 @@ const DocumentDetailsSingle= (props)=>{
 
             <Row className="mb-20" style={{minHeight: '40px'}}>
                 <Col md={6} className="d-flex align-items-center justify-content-end order-md-1 mb-md-0 mb-2">
-                    <Dropdown size="sm" className="me-2">
+                    {/* <Dropdown size="sm" className="me-2">
                         <Dropdown.Toggle variant="gray" className="btn-gray-black" id="dropdown-basic">
                             Download
                         </Dropdown.Toggle>
@@ -77,7 +105,7 @@ const DocumentDetailsSingle= (props)=>{
                             <Dropdown.Item href="#/action-3">png</Dropdown.Item>
                             <Dropdown.Item href="#/action-3">jpeg</Dropdown.Item>
                         </Dropdown.Menu>
-                    </Dropdown>
+                    </Dropdown> */}
                     {/* <Link to="/resource-persist-job" className="me-2 btn-outline-gray btn-outline-gray-black">
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="d-block" viewBox="0 0 16 16">
                             <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
@@ -117,6 +145,90 @@ const DocumentDetailsSingle= (props)=>{
                                 <img src={SiteLogo} alt="SiteLogo" className="img-fluid" />
                             </Card.Body>
                         </Card>
+                        {documentDetails?(<>
+                          {documentDetails.uuid===""||documentDetails.uuid===undefined||documentDetails.uuid===null?(<>
+                     </>):(<>
+                      {nftproperties.tokenOwner===""||nftproperties.tokenOwner===undefined||nftproperties.tokenOwner===null?(<>
+                      
+                      </>):(<>
+                      
+                        <th className="text-center">NFT Properties</th>
+                        <Table >
+                
+                        <thead>
+                  <tr>
+                
+                                    <th>Document Title</th>
+                                    <td>{nftproperties.fVar1}</td>
+                                    
+                                </tr>
+                            </thead>
+                            {/* <tbody> */}
+                            <thead>                          
+  <tr>
+    <th>Token ID</th>
+    <td>{nftproperties.tokenId}</td>
+  </tr></thead>
+  {/* </tbody> */}
+  <thead> 
+  <tr>
+    <th>Global_ID_SYS</th>
+    <td>{nftproperties.fVar3}</td>
+  </tr>
+  </thead>
+  <thead> 
+  <tr>
+    <th>Version ID</th>
+    <td>{nftproperties.fVar2}</td>
+  </tr>
+  </thead>
+  <thead> 
+  <tr>
+    <th>Status</th>
+    <td><Badge pill bg="success"><img src={Check} alt="success badge" />{nftproperties.fVar4}</Badge></td>
+  </tr>
+  </thead>
+  <thead> 
+  <tr>
+    <th>IPFS Hash</th>
+     <td>    {nftproperties? (nftproperties.fVar10).substring(0, 5) : ''}...{(nftproperties? (nftproperties.fVar10).substring((nftproperties.fVar10).length - 5) : '')} </td> 
+
+    {/* <td>{(nftproperties.fVar10).substring(0, 5)}...{(nftproperties.fVar10).substring((nftproperties.fVar10).length - 5)}</td> */}
+  </tr>
+  </thead>
+  <thead> 
+  <tr>
+  
+    <th>Token Owner</th>
+     <td>    {nftproperties? (nftproperties.tokenOwner).substring(0, 8) : ''}...{(nftproperties? (nftproperties.tokenOwner).substring((nftproperties.tokenOwner).length - 5) : '')} 
+    
+</td>
+<td>
+     <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nftproperties.tokenOwner); toggleShowA();}}>
+                                            <img src={CopyIcon} alt="CopyIcon" />
+                                        </Button>
+                                        </td>                      
+
+  </tr>
+  </thead>
+  </Table>
+                      
+                      
+                      </>)}
+
+                      
+                     
+                     </>)}
+                        
+                        
+                        
+                        
+                        </>):(<></>)}
+                    
+                               
+                             
+                     
+                     
                     </Col>
                     <Col md={8}>
                         <Table hover responsive>
@@ -130,13 +242,13 @@ const DocumentDetailsSingle= (props)=>{
                             </thead>
                             <tbody>
   <tr>
-    <th>Token ID</th>
+    <th>Document ID</th>
     <td>{documentDetails?.id}</td>
   </tr>
-  <tr>
+  {/* <tr>
     <th>Document ID</th>
     <td>{documentDetails?.jobId}</td>
-  </tr>
+  </tr> */}
   <tr>
     <th>Version ID</th>
     <td>{documentDetails?.version_id}</td>
@@ -163,7 +275,7 @@ const DocumentDetailsSingle= (props)=>{
   </tr>
   <tr>
     <th>UUID</th>
-    <td>{documentDetails?.nftCreationStatus}</td>
+    <td>{documentDetails?.uuid}</td>
   </tr>
   <tr>
     <th>Createby</th>
