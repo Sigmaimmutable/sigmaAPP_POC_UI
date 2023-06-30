@@ -1294,3 +1294,48 @@ export const getNFTProp = async (id,tennatId) =>
       return jobsList;
     
 }
+
+export const getJobsCountByType = async (type) => {
+  const url = `/platform/v1/jobsfetch/${type}`;
+  const key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'x-api-key': key,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return  data;
+    } else {
+      return 0;
+    }
+  } catch (error) {
+    console.log('Error:', error);
+    return 0;
+  }
+};
+export const getLatestJObTime = async () => {
+  const url = `/platform/v1/jobsfetch`;
+  const key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'x-api-key': key,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return  data;
+    } else {
+      return 0;
+    }
+  } catch (error) {
+    console.log('Error:', error);
+    return 0;
+  }
+};
