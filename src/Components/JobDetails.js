@@ -77,6 +77,10 @@ console.log("Selectedcolm",Selectedcolm)
                                 k.push("Immutable record job")
                             }else if(r[x] === "P"){
                                 k.push("InProgress")
+                            }else if(r[x] === "Yes"){
+                                k.push("Manual")
+                            }else if(r[x] === "No"){
+                                k.push("Automatic")
                             }
                             else{
                                 k.push(r[x])
@@ -122,6 +126,10 @@ console.log("Selectedcolm",Selectedcolm)
                                 k.push("Immutable record job")
                             }else if(r[x] === "P"){
                                 k.push("InProgress")
+                            }else if(r[x] === "Yes"){
+                                k.push("Manual")
+                            }else if(r[x] === "No"){
+                                k.push("Automatic")
                             }
                             else{
                                 k.push(r[x])
@@ -165,7 +173,7 @@ console.log("Selectedcolm",Selectedcolm)
         // configColumns.map((r,i)=>{
         //     columnData.push(r.extField)
         // })
-        let colmData = ["id","jobName","status","errorSummary","companyCode","runStartTime","runCompletionTime","noOfRecordsProcessed","jobRunByUser","latestDocumentDate"]
+        let colmData = ["id","jobName","status","errorSummary","companyCode","runStartTime","runCompletionTime","noOfRecordsProcessed","jobRunByUser","latestDocumentDate","jobType"]
         // console.log("columnData",columnData)
         setColumnValue(colmData);
     }
@@ -364,6 +372,7 @@ console.log("Selectedcolm",Selectedcolm)
                             <th className="text-center">Start Time</th>
                             <th className="text-center">Completion Time</th>
                             <th className="text-center">Status</th>
+                            <th className="text-center">Job Type</th>
                             </>)}
                             
                         </tr>
@@ -434,6 +443,7 @@ console.log("Selectedcolm",Selectedcolm)
                                     <td className="text-center">{r.runStartTime}</td>
                                     <td className="text-center">{r.runCompletionTime}</td>
                                     <td className="text-center">{r.status === "Y" ? "Completed" : "InProgress"}</td>
+                                    <td className="text-center">{r.jobType === "Yes" ? "Manual" : "Automatic"}</td>
                                 </tr>
                                 )
                        
