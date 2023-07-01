@@ -66,6 +66,11 @@ const DocumentDetailsSingle= (props)=>{
     }
     useEffect(() =>{getNFTproperties()},[])
    
+    function timestampToEpoch(timestamp) {
+      const epochTime = new Date(timestamp).getTime() ; // Divide by 1000 to convert to seconds
+      return epochTime;
+    }
+
     
 
     return ( 
@@ -160,7 +165,7 @@ const DocumentDetailsSingle= (props)=>{
                 
                                     <th>Document Title</th>
                                     <td>{nftproperties.fVar1}</td>
-                                    
+                                    <td></td>
                                 </tr>
                             </thead>
                             {/* <tbody> */}
@@ -168,31 +173,35 @@ const DocumentDetailsSingle= (props)=>{
   <tr>
     <th>Token ID</th>
     <td>{nftproperties.tokenId}</td>
+    <td></td>
   </tr></thead>
   {/* </tbody> */}
   <thead> 
   <tr>
     <th>Global_ID_SYS</th>
     <td>{nftproperties.fVar3}</td>
+    <td></td>
   </tr>
   </thead>
   <thead> 
   <tr>
     <th>Version ID</th>
     <td>{nftproperties.fVar2}</td>
+    <td></td>
   </tr>
   </thead>
   <thead> 
   <tr>
     <th>Status</th>
     <td><Badge pill bg="success"><img src={Check} alt="success badge" />{nftproperties.fVar4}</Badge></td>
+    <td></td>
   </tr>
   </thead>
   <thead> 
   <tr>
     <th>IPFS Hash</th>
      <td>    {nftproperties? (nftproperties.fVar10).substring(0, 5) : ''}...{(nftproperties? (nftproperties.fVar10).substring((nftproperties.fVar10).length - 5) : '')} </td> 
-
+     <td></td>
     {/* <td>{(nftproperties.fVar10).substring(0, 5)}...{(nftproperties.fVar10).substring((nftproperties.fVar10).length - 5)}</td> */}
   </tr>
   </thead>
@@ -201,7 +210,7 @@ const DocumentDetailsSingle= (props)=>{
   
     <th>Token Owner</th>
      <td>    {nftproperties? (nftproperties.tokenOwner).substring(0, 8) : ''}...{(nftproperties? (nftproperties.tokenOwner).substring((nftproperties.tokenOwner).length - 5) : '')} 
-    
+     <td></td>
 </td>
 <td>
      <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nftproperties.tokenOwner); toggleShowA();}}>
@@ -259,24 +268,27 @@ const DocumentDetailsSingle= (props)=>{
   </tr>
   <tr>
     <th>File Modified Date</th>
-    <td>{new Date((documentDetails?.createdDate)/1).toLocaleString()}</td>
+    <td>{new Date(timestampToEpoch(documentDetails?.file_modified_date__v)).toLocaleString()}</td>
   </tr>
   <tr>
     <th>File Created Date</th>
-    <td>{new Date((documentDetails?.createdDate)/1).toLocaleString()}</td>
+    <td>{new Date(timestampToEpoch(documentDetails?.file_created_date__v)).toLocaleString()}</td>
   </tr>
   <tr>
     <th>Document Creation Date</th>
-    <td>{new Date((documentDetails?.createdDate)/1).toLocaleString()}</td>
+    <td>{new Date(timestampToEpoch(documentDetails?.document_creation_date__v)).toLocaleString()}</td>
   </tr>
   <tr>
     <th>NFT Creation Status</th>
-    <td>{documentDetails?.version_id}</td>
+    <td>{documentDetails?.nftCreationStatus}</td>
   </tr>
-  <tr>
+ 
+    {/* <tr>
     <th>UUID</th>
     <td>{documentDetails?.uuid}</td>
-  </tr>
+  </tr> */}
+ 
+  
   <tr>
     <th>Createby</th>
     <td>{documentDetails?.createdBy}</td>
@@ -293,10 +305,10 @@ const DocumentDetailsSingle= (props)=>{
     <th>Title</th>
     <td>{documentDetails?.name__v}</td>
   </tr>
-  <tr>
+  {/* <tr>
     <th>Source Vault ID</th>
     <td>{documentDetails?.tenantId}</td>
-  </tr>
+  </tr> */}
 </tbody>
                         </Table>
                     </Col>

@@ -146,7 +146,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/admin-manager">
+                        <NavLink to='/admin-manager/create-org'>
                             <img src={NavIcon6} alt='NavIcon6' />
                             <img src={NavIconAct6} alt='NavIcon6' />
 
@@ -312,7 +312,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                         </div>
                     </li>
                     <li>
-                        <NavLink to="/admin-manager">
+                        <NavLink to='/admin-manager/create-org'>
                             <img src={NavIcon6} alt='NavIcon6' />
                             <img src={NavIconAct6} alt='NavIcon6' />
                                 
@@ -528,7 +528,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/admin-manager">
+                        <NavLink to='/admin-manager/create-org'>
                             <img src={NavIcon6} alt='NavIcon6' />
                             <img src={NavIconAct6} alt='NavIcon6' />
 
@@ -806,7 +806,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                         </div>
                     </li>
                     <li>
-                        <NavLink to="/admin-manager">
+                        <NavLink to='/admin-manager/create-org'>
                             <img src={NavIcon6} alt='NavIcon6' />
                             <img src={NavIconAct6} alt='NavIcon6' />
 

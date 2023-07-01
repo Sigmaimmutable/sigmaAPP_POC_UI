@@ -221,10 +221,10 @@ function DocumentDetails() {
                     </Button>
                     {/* <Button variant="outline-gray" className="me-2 px-3">7 Days</Button>
                     <Button variant="outline-gray" className="me-2 px-3">30 Days</Button> */}
-                     <Button variant="outline-gray" className="me-2 mb-1 px-3"
+                     {/* <Button variant="outline-gray" className="me-2 mb-1 px-3"
                     onClick={() => handleFilterClick('7Days')}> 7 Days
-                    </Button>
-                    <Button variant="outline-gray" className="me-2 mb-1 px-3"  onClick={() => handleFilterClick('30Days')}>30 Days</Button>
+                    </Button> */}
+                    {/* <Button variant="outline-gray" className="me-2 mb-1 px-3"  onClick={() => handleFilterClick('30Days')}>30 Days</Button> */}
                     
                     <Dropdown size="sm">
                         <Dropdown.Toggle variant="gray" id="dropdown-basic">

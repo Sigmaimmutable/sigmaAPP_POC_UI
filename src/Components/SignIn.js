@@ -68,6 +68,9 @@ function SignIn() {
             // history.push("/dashboarduserdetails")
         //   history.push("/home")
           navigate('/');
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000); 
         }
         else if(emailRef === null || emailRef === "" || emailRef === undefined){
             setError("Failed to log in,Please enter and EmailId!");
@@ -195,6 +198,9 @@ function SignIn() {
         if (emailvalid === true) {
           await getprofiledetails(data.email);
           navigate("/home");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000); 
         }
       } catch (error) {
         console.error(error);

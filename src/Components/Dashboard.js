@@ -187,12 +187,13 @@ function Dashboard(props) {
                 </Row>
 
                 <Row className="gx-3 mb-1">
-                    <Col xs={6} lg={3} className="mb-3">
-                        <div className="info-card info-card-1 d-flex flex-column justify-content-between">
-                            <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>Documents Uploaded</span></h4>
-                            <h3 className="mb-0">{documentsUploadedCount}</h3>
+                <Col xs={6} lg={3} className="mb-3">
+                        <div className="info-card info-card-3 d-flex flex-column justify-content-between">
+                            <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>Total Documents</span></h4>
+                            <h3 className="mb-0">{documentsUploadedCount + nftsCreatedCount}</h3>
                         </div>
                     </Col>
+                    
                     <Col xs={6} lg={3} className="mb-3">
                         <div className="info-card info-card-2 d-flex flex-column justify-content-between">
                             <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>NFTs Created</span></h4>
@@ -200,11 +201,12 @@ function Dashboard(props) {
                         </div>
                     </Col>
                     <Col xs={6} lg={3} className="mb-3">
-                        <div className="info-card info-card-3 d-flex flex-column justify-content-between">
-                            <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>Total Documents</span></h4>
-                            <h3 className="mb-0">{documentsUploadedCount + nftsCreatedCount}</h3>
+                        <div className="info-card info-card-1 d-flex flex-column justify-content-between">
+                            <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>Pending Documents For NFT</span></h4>
+                            <h3 className="mb-0">{documentsUploadedCount}</h3>
                         </div>
                     </Col>
+                    
                     <Col xs={6} lg={3} className="mb-3">
                         <div className="info-card info-card-4 d-flex flex-column justify-content-between">
                             <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>Total Users</span></h4>
@@ -220,7 +222,7 @@ function Dashboard(props) {
                             <Row className="justify-content-center h-100 align-items-center">
                                     <Col md={11}>
                             <PieChart theme={theme} data={[
-  { label: 'Documents Uploaded', value: documentsUploadedCount },
+  { label: 'Pending Documents For NFT', value: documentsUploadedCount },
   { label: 'NFTs Created', value: nftsCreatedCount }
 ]} />
 </Col>

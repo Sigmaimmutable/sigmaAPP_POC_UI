@@ -113,12 +113,21 @@
             "destination": "https://testapi.stasisonline.in/platform/v1/networkbytennatid "
         },
         {
+            "source": "/platform/v1/networkbytennatid/:path*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/networkbytennatid/:path*"
+        },
+        {
             "source": "/platform/v1/userdetailsid/:path*",
             "destination": "https://testapi.stasisonline.in/platform/v1/userdetailsid/:path*"
         },
         {
             "source": "/platform/v1/userdetailsidall/:path*",
             "destination": "https://testapi.stasisonline.in/platform/v1/userdetailsidall/:path*"
+        }
+        ,
+        {
+            "source": "/platform/v1/sigmanodesummary",
+            "destination": "https://testapi.stasisonline.in/platform/v1/sigmanodesummary"
         }
         ,
         {
@@ -184,6 +193,13 @@
         {
             "source": "/platform/v1/jobsfetch/:pageNo*",
             "destination": "https://testapi.stasisonline.in/platform/v1/jobsfetch/:pageNo*"
+        },{
+            "source": "/platform/v1/userdetailbytennantall",
+            "destination": "https://testapi.stasisonline.in/platform/v1/userdetailbytennantall"
+        },
+        {
+            "source": "/platform/v1/userdetailbytennantall/:pageNo*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/userdetailbytennantall/:pageNo*"
         }
 
 

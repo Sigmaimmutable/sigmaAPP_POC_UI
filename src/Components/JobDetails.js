@@ -226,7 +226,7 @@ console.log("Selectedcolm",Selectedcolm)
         <div>
             <Row className="mb-2">
                 <Col md={6} xl={4} xxl={3}>
-                    <h4 className="page-title mb-0">Job Details</h4>
+                    <h4 className="page-title mb-0">All Jobs Detail</h4>
                 </Col>
             </Row>
             
