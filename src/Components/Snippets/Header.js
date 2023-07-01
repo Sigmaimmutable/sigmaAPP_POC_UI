@@ -342,7 +342,7 @@ const Header = () => {
                         </Dropdown>
                     </Col>
                     <Col md={6} className={`mt-md-0 d-md-block d-none mt-3 ${search ? 'form-col-active' : ''}`}>
-                        <Form>
+                        <Form className="position-relative">
                             <InputGroup className="form-search shadow">
                                 <Button variant="reset" id="button-addon1">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
@@ -368,14 +368,25 @@ const Header = () => {
       </select>
       <button type="submit">Go</button>
     </form>                              */}
-                            </InputGroup>
-                            {searchQuery?(<>
+                            {searchQuery?(<div className="dropdown-menu mt-1 border-0 shadow show py-2 w-100">
         {searchDetails.map((page,index) => (
-          <option key={index} value={page.name} onClick={()=>pagetoanother(page.path)} >
+          <Link className="dropdown-item d-flex align-items-center py-2" to={page.path} key={index}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" className="me-2" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+                    <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+                </svg>
+             {page.name}
+          </Link>
+        ))}
+        </div>):(<></>)}
+                            {/* {searchQuery?(<div className="dropdown-menu border-0 shadow show p-3 w-100">
+        {searchDetails.map((page,index) => (
+          <Link to={page.path} key={index} value={page.name} onClick={()=>pagetoanother(page.path)} >
             {page.name}
           </option>
         ))}
-        </>):(<></>)}
+        </div>):(<></>)} */}
+                            </InputGroup>
                         </Form>
                     </Col>
                 </Row>

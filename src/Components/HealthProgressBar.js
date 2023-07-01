@@ -26,7 +26,7 @@ const OuterRoundProgressBar = ({ value }) => {
     width: '100%',
     height: '100%',
     borderRadius: '50%',
-    border: `10px solid ${theme === 'light' ? '#2196f3' : '#2dece4'}`,
+    border: `10px solid ${theme === 'light' ? '#0970BE' : '#2dece4'}`,
     clipPath: `polygon(0 0, 100% 0, 100% ${value}%, 0 100%)`,
   };
 

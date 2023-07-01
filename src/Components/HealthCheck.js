@@ -94,11 +94,11 @@ const MyPage = () => {
     <div>
       <h3 style={{ marginBottom: '30px' }}>Health Check-up</h3>
       <div className="">
-        <div className="row">
-          <div className="col-md-4 mb-3">
+        <div className="row justify-content-center">
+          <div className="col-md-4 mb-4">
             <Card className="shadow border-0 h-100">
-              <Card.Body className="p-lg-4 p-md-3 p-2">
-                <h5 className="card-title">Document Health</h5>
+              <Card.Body className="p-lg-4 p-md-3 p-3">
+                <h4 className="card-title">Document Health</h4>
                 <div className="progress-content pt-3">
                   <Row className="align-items-center">
                     <Col xs={6}>
@@ -116,10 +116,10 @@ const MyPage = () => {
             </Card>
           </div>
 
-          <div className="col-md-4 mb-3">
+          <div className="col-md-4 mb-4">
           <Card className="shadow border-0 h-100">
-              <Card.Body className="p-lg-4 p-md-3 p-2">
-                <h5 className="card-title">Documents NFT Health</h5>
+              <Card.Body className="p-lg-4 p-md-3 p-3">
+                <h4 className="card-title">Documents NFT Health</h4>
                 <div className="progress-content pt-3">
                   <Row className="align-items-center">
                     <Col xs={6}>
@@ -137,10 +137,10 @@ const MyPage = () => {
             </Card>
           </div>
 
-          <div className="col-md-4 mb-3">
+          <div className="col-md-4 mb-4">
             <Card className="shadow border-0 h-100">
-              <Card.Body className="p-lg-4 p-md-3 p-2">
-                <h5 className="card-title">Job Health</h5>
+              <Card.Body className="p-lg-4 p-md-3 p-3">
+                <h4 className="card-title">Job Health</h4>
                 <div className="progress-content pt-3">
                 <Row className="align-items-center">
                     <Col xs={6}>
@@ -158,16 +158,12 @@ const MyPage = () => {
             </Card>
           </div>
 
-          <div className="col-md-4 mb-3">
-
-          </div>
-
-          <div className="col-md-4 mb-3">
+          <div className="col-md-4 mb-4">
           <Card className="shadow border-0 h-100">
-              <Card.Body className="p-lg-4 p-md-3 p-2">
-              <h5 className="card-title text-center">Timer Until Next Job</h5>
-                  <div className="progress-content pt-3">
-                  <h3 className='digital-clock'>{Timer(epochTimeState)}</h3>
+              <Card.Body className="p-lg-4 p-md-3 p-3">
+              <h4 className="card-title text-center">Timer Until Next Job</h4>
+                  <div className="progress-content justify-content-center pt-3">
+                  <h3 className='digital-clock px-3 py-2'>{Timer(epochTimeState)}</h3>
                   {/* <Row className="align-items-center">
                     <Col xs={12}> */}
                       {/* <OuterRoundPercentageBar value={remainingTime} /> */}
