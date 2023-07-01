@@ -202,6 +202,9 @@ function SignIn() {
             window.location.reload();
           }, 1000); 
         }
+        else{
+          setError("Your google mail is not valid with Sigma");
+        }
       } catch (error) {
         console.error(error);
       }
