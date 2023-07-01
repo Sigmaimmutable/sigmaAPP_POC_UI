@@ -24,6 +24,7 @@ import SubIcon3 from '../../asserts/images/subnav-icon-3.svg';
 import SubIconAct1 from '../../asserts/images/subnav-icon-active-1.svg';
 import SubIconAct2 from '../../asserts/images/subnav-icon-active-2.svg';
 import SubIconAct3 from '../../asserts/images/subnav-icon-active-3.svg';
+import heathImg from '../../asserts/images/health-insurance.png';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 
@@ -86,7 +87,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/job">
+                        <NavLink to="/job/job-details">
                             <img src={NavIcon3} alt='NavIcon3' />
                             <img src={NavIconAct3} alt='NavIcon3' />
 
@@ -127,8 +128,8 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                     <li>
                                         <Link onClick={() => setMenu(!menu)} to="/job/health-check">
                                             <span>
-                                                <img src={SubIcon3} alt='SubIcon3' />
-                                                <img src={SubIconAct3} alt='SubIconAct3' />
+                                                <img src={heathImg} alt='SubIcon3' />
+                                                <img src={heathImg} alt='SubIconAct3' />
                                             </span>
                                             Health Check
                                         </Link>
@@ -219,7 +220,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/job">
+                        <NavLink to="/job/job-details">
                             <img src={NavIcon3} alt='NavIcon3' />
                             <img src={NavIconAct3} alt='NavIcon3' />
                                 
@@ -260,8 +261,8 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                     <li>
                                         <Link onClick={() => setMenu(!menu)} to="/job/health-check">
                                             <span>
-                                                <img src={SubIcon3} alt='SubIcon3' />
-                                                <img src={SubIconAct3} alt='SubIconAct3' />
+                                                <img src={heathImg} alt='SubIcon3' />
+                                                <img src={heathImg} alt='SubIconAct3' />
                                             </span>
                                             Health Check
                                         </Link>
@@ -468,7 +469,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/job">
+                        <NavLink to="/job/job-details">
                             <img src={NavIcon3} alt='NavIcon3' />
                             <img src={NavIconAct3} alt='NavIcon3' />
 
@@ -509,8 +510,8 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                     <li>
                                         <Link onClick={() => setMenu(!menu)} to="/job/health-check">
                                             <span>
-                                                <img src={SubIcon3} alt='SubIcon3' />
-                                                <img src={SubIconAct3} alt='SubIconAct3' />
+                                                <img src={heathImg} alt='SubIcon3' />
+                                                <img src={heathImg} alt='SubIconAct3' />
                                             </span>
                                             Health Check
                                         </Link>
@@ -713,7 +714,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/job">
+                        <NavLink to="/job/job-details">
                             <img src={NavIcon3} alt='NavIcon3' />
                             <img src={NavIconAct3} alt='NavIcon3' />
 
@@ -754,8 +755,8 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                     <li>
                                         <Link onClick={() => setMenu(!menu)} to="/job/health-check">
                                             <span>
-                                                <img src={SubIcon3} alt='SubIcon3' />
-                                                <img src={SubIconAct3} alt='SubIconAct3' />
+                                                <img src={heathImg} alt='SubIcon3' />
+                                                <img src={heathImg} alt='SubIconAct3' />
                                             </span>
                                             Health Check
                                         </Link>
