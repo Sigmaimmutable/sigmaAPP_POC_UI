@@ -127,8 +127,8 @@ const MyPage = () => {
                     </Col>
                     <Col xs={6}>
                       <div className="additional-info">
-                        <p><b>With NFT:</b> {nftsCreatedCount}</p>
-                        <p><b>Without NFT:</b> {documentsUploadedCount}</p>
+                        <p>&nbsp;&nbsp;&nbsp;&nbsp;<b>With NFT:</b> {nftsCreatedCount}</p>
+                        <p>&nbsp;&nbsp;&nbsp;&nbsp;<b>Without NFT:</b> {documentsUploadedCount}</p>
                       </div>
                     </Col>
                   </Row>
