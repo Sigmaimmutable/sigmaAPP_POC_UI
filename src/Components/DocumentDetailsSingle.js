@@ -210,7 +210,7 @@ const DocumentDetailsSingle= (props)=>{
   
     <th>Token Owner</th>
      <td>    {nftproperties? (nftproperties.tokenOwner).substring(0, 8) : ''}...{(nftproperties? (nftproperties.tokenOwner).substring((nftproperties.tokenOwner).length - 5) : '')} 
-     <td></td>
+    
 </td>
 <td>
      <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nftproperties.tokenOwner); toggleShowA();}}>

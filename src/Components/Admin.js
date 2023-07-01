@@ -171,12 +171,13 @@ useEffect(( )=>{data()},[])
                                 <tr>
                                 
                                     <td>Status</td>
-                                   {nodeDetail ? (<>
-                                   {nodeDetail.nodes[0].state === "started" ? (<>
                                     <td><Badge pill bg="success"><img src={Check} alt="Check" /> Started</Badge></td>
+                                   {/* {nodeDetail ? (<>
+                                   {nodeDetail.nodes[0].state === "started" ? (<>
+                                   
                                    </>):(<>
                                    </>)}
-                                   </>):(<></>)}
+                                   </>):(<></>)} */}
                                     
                                     <td>
                                     </td>

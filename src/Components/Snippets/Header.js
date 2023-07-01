@@ -4,6 +4,8 @@ import { Link,useHistory,useNavigate,Redirect,Navigate} from 'react-router-dom';
 // import { Link } from "react-router-dom";
 import LogoutIcon from "../../asserts/images/logout-icon.svg"
 import { useEffect, useState } from "react";
+
+
 import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget,Sessionstatusupdate,userprofileget, getNotificationById, NotificationSingle, NotificationAll} from '../../apifunction';
 const Header = () => {
     const [search, setSearch] = useState(false);
@@ -166,6 +168,39 @@ const Header = () => {
         // Return the formatted month, date, and year
         return `${month} ${day}, ${year}`;
       }
+      
+      const [searchQuery, setSearchQuery] = useState(false);
+      const [searchDetails, setsearchDetails] = useState([]);
+      const handleSearch = (searchQuer) => {
+        console.log("searchq",searchQuer)
+        if(searchQuer === null || searchQuer === "" || searchQuer === undefined || searchQuer === "null"){
+            setSearchQuery(false)
+        }
+        else{
+            setSearchQuery(true)
+           let k =[
+            {path:"/home" ,name : "Dashboard"},
+           {path:"/document-details",name :"Documents"},
+           {path:"/job/job-details" ,name : "All jobs"},
+           {path:"/job/immutable-record-jobs",name : 'NFT minter jobs'},
+           {path:"/job/health-check",name : 'Health check up'},
+            {path:"/favourite-documents",name : 'favourites'},
+            {path:"/help-support" ,name :'Help and support'}
+        ]
+            const filteredJobLists = k.filter((r) =>
+              r.name.toLowerCase().includes(searchQuer.toLowerCase())
+            );
+            console.log("filet",filteredJobLists)
+            setsearchDetails(filteredJobLists);
+        }
+        
+        // console.log("search",filteredJobLists)
+        // setFilteredJobLists(filteredJobLists);
+      };
+
+      const pagetoanother = (value) =>{
+        navigate(value);
+      }
 
     return ( 
         <header className="app-header">
@@ -315,11 +350,32 @@ const Header = () => {
                                     </svg>
                                 </Button>
                                 <Form.Control
-                                    aria-describedby="basic-addon1"
-                                    aria-label="Write something to search"
-                                    placeholder="Write something to search..."
-                                />
+        aria-describedby="basic-addon1"
+        aria-label="Write something to search"
+        placeholder="Write something to search..."
+        // value={searchQuery}
+        onChange={(e) => handleSearch(e.target.value)}
+      />
+
+{/* <form 
+// onSubmit={handleSearchSubmit}
+>
+      <input type="text"  onChange={(e)=>handleSearch(e.target.value)} placeholder="Search" />
+    
+      <select  onChange={(e)=>handleSearch(e.target.value)}>
+        <option value="">Select a page</option>
+       
+      </select>
+      <button type="submit">Go</button>
+    </form>                              */}
                             </InputGroup>
+                            {searchQuery?(<>
+        {searchDetails.map((page,index) => (
+          <option key={index} value={page.name} onClick={()=>pagetoanother(page.path)} >
+            {page.name}
+          </option>
+        ))}
+        </>):(<></>)}
                         </Form>
                     </Col>
                 </Row>
