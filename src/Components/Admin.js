@@ -97,7 +97,7 @@ useEffect(( )=>{data()},[])
                 className="p-3 position-fixed"
                 style={{ zIndex: 1 }}>
                 <Toast show={showA} onClose={toggleShowA}>
-                    <Toast.Body><div className="d-flex px-2 align-items-center"><img src={CopyIcon} alt="CopyIcon" className="me-2" /> Copped successfully!</div></Toast.Body>
+                    <Toast.Body><div className="d-flex px-2 align-items-center"><img src={CopyIcon} alt="CopyIcon" className="me-2" /> Copied successfully!</div></Toast.Body>
                 </Toast>
             </ToastContainer>
             <Row className="mb-20">

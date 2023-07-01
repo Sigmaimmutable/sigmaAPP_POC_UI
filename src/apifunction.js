@@ -1329,13 +1329,14 @@ export const getLatestJObTime = async () => {
     });
 
     if (response.ok) {
-      const data = await response.json();
-      return  data;
+      const data = await response.text();
+      // console.log("--time--", data);
+      return data;
     } else {
-      return 0;
+      return 0; 
     }
   } catch (error) {
-    console.log('Error:', error);
+    console.log('--time--', error);
     return 0;
   }
 };
