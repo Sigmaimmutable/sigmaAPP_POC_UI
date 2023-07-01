@@ -65,7 +65,7 @@ function ImmutableRecordJobs() {
         <div>
             <Row className="mb-20">
                 <Col md={6} xl={4} xxl={3}>
-                    <h4 className="page-title mb-0">Job Details</h4>
+                    <h4 className="page-title mb-0">NFT Minter Jobs</h4>
                 </Col>
             </Row>
 

@@ -52,8 +52,12 @@ const oktaAuth = new OktaAuth({
           // if (emailvalid === true) {
          
           // Code to execute after the login information is stored successfully
-  
+          localStorage.setItem("Login",true)
+            localStorage.setItem("UserID",id);
           history("/");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000); 
           // } else {
           //   // Code to execute if email is not valid
           // }

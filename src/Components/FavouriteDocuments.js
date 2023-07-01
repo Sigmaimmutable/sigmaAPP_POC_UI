@@ -150,11 +150,13 @@ const FavouriteDocuments= (props)=>{
                     <Table hover responsive>
                         <thead>
                             <tr>
-                                <th>
+                                {/* <th>
                                     <div className="d-flex align-items-center justify-content-between">
                                         <Dropdown size="sm" className="me-2">
                                             <Dropdown.Toggle variant="reset" id="dropdown-basic">
                                                 <img src={Eye} alt="Eye" />
+                                                <th className="text-center">Unfavourite</th>
+                                                
                                             </Dropdown.Toggle>
                                             <Dropdown.Menu className="dropdown-filter-table">
                                                 <div className="d-flex px-2 py-1">
@@ -216,7 +218,8 @@ const FavouriteDocuments= (props)=>{
                                             </Dropdown.Menu>
                                         </Dropdown>
                                     </div>
-                                </th>
+                                </th> */}
+                                <th className="text-center">Unfavourite</th>
                                 <th className="text-center">ID</th>
                                 <th className="text-center">File Name</th>
                                 <th className="text-center">Document Name</th>
@@ -226,7 +229,7 @@ const FavouriteDocuments= (props)=>{
                         <tbody>
                         {favoriteData.map((postt, index) => (
     <tr key={index}>
-      <td>
+      <td><center>
         <Button variant="link" onClick={() => deleteFavorites(postt.docId, postt.fileName)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -242,6 +245,7 @@ const FavouriteDocuments= (props)=>{
             />
           </svg>
         </Button>
+        </center>
       </td>
       <td className="text-center">{postt.docId}</td>
       <td>{postt.fileName}</td>
