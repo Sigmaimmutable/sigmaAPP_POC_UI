@@ -1,4 +1,5 @@
 import { Button, Col, Dropdown, Form, InputGroup, Modal, Row, Table } from "react-bootstrap";
+import Layout from "./Snippets/Layout";
 import Eye from '../asserts/images/eye-icon.svg'
 import Question from '../asserts/images/question-icon.svg'
 import { Link } from "react-router-dom";
@@ -7,7 +8,7 @@ import { OrgAdminmailcheckget1, OrgTenentcheckget, DeleteOrgUser, getTennantId }
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 import {CreateOrganizationPost,CreateOrguserrolepost,createUserVisits} from '../apifunction';
 
-function UserManagement() {
+function UserManagement(props) {
     const [search, setSearch] = useState(false);
     const [show, setShow] = useState(false);
     const [showButton, setShowButton] = useState(false);
@@ -129,7 +130,8 @@ useEffect(() => {
         setPageSize(start);
     }
     return ( 
-        <div>
+        <Layout getThemeMode={() => undefined} roleType = {props.roleType}>
+        <div className="container-fluid">
             <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
             <Row className="mb-20">
                 <Col md={6} xl={4} xxl={3}>
@@ -416,6 +418,7 @@ useEffect(() => {
             </div>
             {/* /.mb-20 */}
         </div>
+        </Layout>
      );
 }
 

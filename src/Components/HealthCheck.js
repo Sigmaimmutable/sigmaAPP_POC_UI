@@ -1,10 +1,11 @@
 import React,{useState,useEffect} from 'react';
+import Layout from "./Snippets/Layout";
 import OuterRoundProgressBar from './HealthProgressBar';
 import { OrgAdminmailcheckget, getJobsCountByType, getLatestJObTime, getTennantId } from '../apifunction';
 import { Card, Col, Row } from 'react-bootstrap';
 import "./HealthCheck.css";
 
-const MyPage = () => {
+const MyPage = (props) => {
     useEffect(() => {
         document.title = "Sigma | Health Checkup"
     }, [])
@@ -91,7 +92,8 @@ const MyPage = () => {
     };
     
   return (
-    <div>
+    <Layout getThemeMode={() => undefined} roleType = {props.roleType}>
+    <div className="container-fluid">
       <h3 style={{ marginBottom: '30px' }}>Health Check-up</h3>
       <div className="">
         <div className="row justify-content-center">
@@ -123,7 +125,7 @@ const MyPage = () => {
                 <div className="progress-content pt-3">
                   <Row className="align-items-center">
                     <Col xs={6}>
-                      <OuterRoundProgressBar value={calculatePercentageDifference(nftsCreatedCount, documentsUploadedCount)} />
+                      <OuterRoundProgressBar value={documentsUploadedCount ?calculatePercentageDifference(nftsCreatedCount, documentsUploadedCount):"0"} />
                     </Col>
                     <Col xs={6}>
                       <div className="additional-info">
@@ -144,7 +146,7 @@ const MyPage = () => {
                 <div className="progress-content pt-3">
                 <Row className="align-items-center">
                     <Col xs={6}>
-                      <OuterRoundProgressBar value={calculatePercentageDifference(fjob, sjob)} />
+                      <OuterRoundProgressBar value={fjob ?calculatePercentageDifference(fjob, sjob):"0"} />
                     </Col>
                     <Col xs={6}>
                       <div className="additional-info">
@@ -177,6 +179,7 @@ const MyPage = () => {
         </div>
       </div>
     </div>
+    </Layout>
   );
 };
 

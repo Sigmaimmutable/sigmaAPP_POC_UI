@@ -25,6 +25,10 @@ import SubIconAct1 from '../../asserts/images/subnav-icon-active-1.svg';
 import SubIconAct2 from '../../asserts/images/subnav-icon-active-2.svg';
 import SubIconAct3 from '../../asserts/images/subnav-icon-active-3.svg';
 import heathImg from '../../asserts/images/health-insurance.png';
+import heathImg1 from '../../asserts/images/health-check-up 1.png';
+import heathImg2 from '../../asserts/images/health-check-up.png';
+import userImg from '../../asserts/images/team-management.png';
+import adminimg from '../../asserts/images/admin.png';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 
@@ -125,7 +129,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             NFT Minter Jobs
                                         </Link>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <Link onClick={() => setMenu(!menu)} to="/job/health-check">
                                             <span>
                                                 <img src={heathImg} alt='SubIcon3' />
@@ -133,10 +137,17 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             </span>
                                             Health Check
                                         </Link>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                         </div>
+                    </li>
+                    <li>
+                        <NavLink to="/health-check">
+                        <img src={heathImg1} style={{height:"24px"}}alt='NavIcon5' />
+                            <img src={heathImg2} style={{height:"24px"}} alt='NavIcon5' />
+                            <span> Health Check</span>
+                        </NavLink>
                     </li>
                     <li>
                         <NavLink to="/favourite-documents">
@@ -147,14 +158,21 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                         </NavLink>
                     </li>
                     <li>
+                        <NavLink to="/user-management">
+                        <img src={NavIcon5} alt='NavIcon5' />
+                            <img src={NavIconAct5} alt='NavIcon5' />
+                            <span>User Management</span>
+                        </NavLink>
+                    </li>
+                    <li>
                         <NavLink to='/admin-manager/create-org'>
-                            <img src={NavIcon6} alt='NavIcon6' />
+                        <img src={NavIcon6} alt='NavIcon6' />
                             <img src={NavIconAct6} alt='NavIcon6' />
 
                             <span>Admin Manager</span>
                         </NavLink>
 
-                        <div className='sidebar-subnav'>
+                        {/* <div className='sidebar-subnav'>
                             <div className='sidebar-subnav-inner'>
                                 <h4>Admin Manager</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
@@ -169,7 +187,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> */}
                     </li>
                     {/* <li>
                         <NavLink to="/environment">
@@ -258,7 +276,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             NFT Minter Jobs
                                         </Link>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <Link onClick={() => setMenu(!menu)} to="/job/health-check">
                                             <span>
                                                 <img src={heathImg} alt='SubIcon3' />
@@ -266,10 +284,17 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             </span>
                                             Health Check
                                         </Link>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                         </div>
+                    </li>
+                    <li>
+                        <NavLink to="/health-check">
+                        <img src={heathImg1} style={{height:"24px"}}alt='NavIcon5' />
+                            <img src={heathImg2} style={{height:"24px"}} alt='NavIcon5' />
+                            <span> Health Check</span>
+                        </NavLink>
                     </li>
                     <li>
                         <NavLink to="/favourite-documents">
@@ -280,9 +305,16 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/admin">
-                            <img src={NavIcon5} alt='NavIcon5' />
+                        <NavLink to="/user-management">
+                        <img src={NavIcon5} alt='NavIcon5' />
                             <img src={NavIconAct5} alt='NavIcon5' />
+                            <span>User Management</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/admin">
+                             <img src={adminimg} style ={{height:"24px"}}alt='NavIcon5' />
+                            <img src={adminimg}style ={{height:"24px"}} alt='NavIcon5' />
                                 
                             <span>Admin</span>
                         </NavLink>
@@ -351,7 +383,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             Create Env
                                         </Link>
                                     </li> */}
-                                    <li>
+                                    {/* <li>
                                         <Link onClick={() => setMenu(!menu)} to="/admin-manager/user-management">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
@@ -359,7 +391,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             </span>
                                             User Management
                                         </Link>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                         </div>
@@ -418,6 +450,13 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                             <img src={NavIconAct4} alt='NavIcon4' />
 
                             <span>Favourite</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/user-management">
+                        <img src={NavIcon5} alt='NavIcon5' />
+                            <img src={NavIconAct5} alt='NavIcon5' />
+                            <span>User Management</span>
                         </NavLink>
                     </li>
                     {/* <li>
@@ -507,7 +546,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             NFT Minter Jobs
                                         </Link>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <Link onClick={() => setMenu(!menu)} to="/job/health-check">
                                             <span>
                                                 <img src={heathImg} alt='SubIcon3' />
@@ -515,10 +554,17 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             </span>
                                             Health Check
                                         </Link>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                         </div>
+                    </li>
+                    <li>
+                        <NavLink to="/health-check">
+                        <img src={heathImg1} style={{height:"24px"}}alt='NavIcon5' />
+                            <img src={heathImg2} style={{height:"24px"}} alt='NavIcon5' />
+                            <span> Health Check</span>
+                        </NavLink>
                     </li>
                     <li>
                         <NavLink to="/favourite-documents">
@@ -529,6 +575,13 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                         </NavLink>
                     </li>
                     <li>
+                        <NavLink to="/user-management">
+                        <img src={NavIcon5} alt='NavIcon5' />
+                            <img src={NavIconAct5} alt='NavIcon5' />
+                            <span>User Management</span>
+                        </NavLink>
+                    </li>
+                    <li>
                         <NavLink to='/admin-manager/create-org'>
                             <img src={NavIcon6} alt='NavIcon6' />
                             <img src={NavIconAct6} alt='NavIcon6' />
@@ -536,7 +589,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                             <span>Admin Manager</span>
                         </NavLink>
 
-                        <div className='sidebar-subnav'>
+                        {/* <div className='sidebar-subnav'>
                             <div className='sidebar-subnav-inner'>
                                 <h4>Admin Manager</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
@@ -551,7 +604,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> */}
                     </li>
                     {/* <li>
                         <NavLink to="/environment">
@@ -609,6 +662,13 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                             <span>Favourite</span>
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink to="/user-management">
+                        <img src={NavIcon5} alt='NavIcon5' />
+                            <img src={NavIconAct5} alt='NavIcon5' />
+                            <span>User Management</span>
+                        </NavLink>
+                    </li>
                     {/* <li>
                         <NavLink to="/environment">
                             <img src={NavIcon7} alt='NavIcon7' />
@@ -663,6 +723,13 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                             <img src={NavIconAct4} alt='NavIcon4' />
 
                             <span>Favourite</span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/user-management">
+                        <img src={NavIcon5} alt='NavIcon5' />
+                            <img src={NavIconAct5} alt='NavIcon5' />
+                            <span>User Management</span>
                         </NavLink>
                     </li>
                     {/* <li>
@@ -752,7 +819,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             NFT Minter Jobs
                                         </Link>
                                     </li>
-                                    <li>
+                                    {/* <li>
                                         <Link onClick={() => setMenu(!menu)} to="/job/health-check">
                                             <span>
                                                 <img src={heathImg} alt='SubIcon3' />
@@ -760,10 +827,17 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             </span>
                                             Health Check
                                         </Link>
-                                    </li>
+                                    </li> */}
                                 </ul>
                             </div>
                         </div>
+                    </li>
+                    <li>
+                        <NavLink to="/health-check">
+                        <img src={heathImg1} style={{height:"24px"}}alt='NavIcon5' />
+                            <img src={heathImg2} style={{height:"24px"}} alt='NavIcon5' />
+                            <span> Health Check</span>
+                        </NavLink>
                     </li>
                     <li>
                         <NavLink to="/favourite-documents">
@@ -773,10 +847,18 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                             <span>Favourite</span>
                         </NavLink>
                     </li>
+                    
+                    <li>
+                        <NavLink to="/user-management">
+                        <img src={NavIcon5} alt='NavIcon5' />
+                            <img src={NavIconAct5} alt='NavIcon5' />
+                            <span>User Management</span>
+                        </NavLink>
+                    </li>
                     <li>
                         <NavLink to="/admin">
-                            <img src={NavIcon5} alt='NavIcon5' />
-                            <img src={NavIconAct5} alt='NavIcon5' />
+                            <img src={adminimg} style ={{height:"24px"}}alt='NavIcon5' />
+                            <img src={adminimg}style ={{height:"24px"}} alt='NavIcon5' />
 
                             <span>Admin</span>
                         </NavLink>
@@ -845,7 +927,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             Create Env
                                         </Link>
                                     </li> */}
-                                    <li>
+                                    {/* <li>
                                         <Link onClick={() => setMenu(!menu)} to="/admin-manager/user-management">
                                             <span>
                                                 <img src={SubIcon1} alt='SubIcon1' />
@@ -853,7 +935,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             </span>
                                             User Management
                                         </Link>
-                                    </li>
+                                    </li> */}
                                     <li>
                                         <Link onClick={() => setMenu(!menu)} to="/admin-manager/ticket-management">
                                             <span>
