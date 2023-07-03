@@ -66,7 +66,10 @@ const [country, setCountry] = useState('');
         console.log("revalue",e)     
         setRegion(e)
     }
-
+    const handleSelectMobileNumber = (e) => {
+        console.log("mobno value", e);
+        setmobno(e);
+      };
     const handleTimezoneChange = (event) => {
         setTimezoneselected(event);
         console.log("timezoneselected1",timezoneselected);
@@ -143,9 +146,9 @@ const [country, setCountry] = useState('');
             handleShowLoad()
             toast.dismiss()
             toast.success(`Updating profile Inprogress`,{autoClose:3000});  
-            console.log("datapass",getIProfile.firstName,getIProfile.lastName,getIProfile.emailId,"733526357235",gender,country,region,timezoneselected.label
+            console.log("datapass",getIProfile.firstName,getIProfile.lastName,getIProfile.emailId,mobno,gender,country,region,timezoneselected.label
             ,language,Img);
-            let Profileupdate= await Userprofileupdate(getIProfile.firstName,getIProfile.lastName,"733526357235",Img,gender,region,country,"English",timezoneselected.label
+            let Profileupdate= await Userprofileupdate(getIProfile.firstName,getIProfile.lastName,mobno,Img,gender,region,country,"English",timezoneselected.label
                 ,getIProfile.emailId);
             console.log("updated successfully",Profileupdate);
             toast.success(`updated successfully`,{autoClose:3000});  
@@ -251,7 +254,8 @@ const [country, setCountry] = useState('');
                                     {getIProfile.mobileNumber === "" || getIProfile.mobileNumber=== undefined || getIProfile.mobileNumber === null || getIProfile.mobileNumber === "" || getIProfile.mobileNumber === undefined || getIProfile.mobileNumber === null ? (
                                   <>
                                    <Form.Label className='text-muted'>Contact No</Form.Label>
-                                        <Form.Control type="number" onChange={event => setmobno( event.target.value)} />
+                                        <Form.Control type="number"  onChange={(e) => handleSelectMobileNumber(e.target.value)}
+    />
                                   </>  ):(<>
                                     <Form.Label className='text-muted'>Contact No</Form.Label>
                                    <Form.Control type="number"  value={getIProfile.mobileNumber} />
@@ -436,7 +440,8 @@ const [country, setCountry] = useState('');
                                     {getIProfile.mobileNumber === "" || getIProfile.mobileNumber=== undefined || getIProfile.mobileNumber === null || getIProfile.mobileNumber === "" || getIProfile.mobileNumber === undefined || getIProfile.mobileNumber === null ? (
                                   <>
                                    <Form.Label className='text-muted'>Contact No</Form.Label>
-                                        <Form.Control type="number" onChange={event => setmobno( event.target.value)} />
+                                        <Form.Control type="number"  onChange={(e) => handleSelectMobileNumber(e.target.value)}
+    />
                                   </>  ):(<>
                                     <Form.Label className='text-muted'>Contact No</Form.Label>
                                    <Form.Control type="number"  value={getIProfile.mobileNumber} />
@@ -629,7 +634,8 @@ defaultOptionLabel= {getIProfile.state}
                                     <Form.Group className="mb-2" controlId="form.ControlInput1">
                                     
                                    <Form.Label className='text-muted'>Contact No</Form.Label>
-                                        <Form.Control type="number" onChange={event => setmobno( event.target.value)} />
+                                        <Form.Control type="number"  onChange={(e) => handleSelectMobileNumber(e.target.value)}
+    />
                                  
                                        
                                     </Form.Group>

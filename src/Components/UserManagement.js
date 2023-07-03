@@ -169,7 +169,7 @@ useEffect(() => {
                                 <Form.Control
                                     aria-describedby="basic-addon1"
                                     aria-label="Write something to search"
-                                    placeholder="Search by Email-ID..."
+                                    placeholder="Search by User name..."
                                     onChange={(e) => {handleSearch(e.target.value)}}
                                 />
                             </InputGroup>
