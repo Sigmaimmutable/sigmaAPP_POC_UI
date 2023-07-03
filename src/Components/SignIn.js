@@ -203,7 +203,7 @@ function SignIn() {
           }, 1000); 
         }
         else{
-          setError("Your google mail is not valid with Sigma");
+          setError("Your user account has not been created. Please contact the Business Administrator or System Administrator to add your account to the platform");
         }
       } catch (error) {
         console.error(error);

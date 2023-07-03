@@ -70,16 +70,31 @@ function SignUp() {
                   navigate('/');
                   console.log("Account created Successfully");
                 } else {
-                  setError("Account Already Exists!");
+                  setError("An account with the given credentials already exists!");
                 }
               }
             } else {
-              setError("Account Already Exists");
+              setError("An account with the given credentials already exists!");
             }
           } else {
-            setError("Invalid User");
+            setError("Your user account has not been created. Please contact the Business Administrator or System Administrator to add your account to the platform");
           }
+
+          
     }
+    const getprofiledetails = async(email) =>{
+      localStorage.setItem("Login",true)
+      localStorage.setItem("UserID",email);
+        let [data,userprofiledetail]=await userprofileget(email);
+        localStorage.setItem("UserName",userprofiledetail.firstName);
+      
+       
+            
+        // setgetIProfile(userprofiledetail);
+        // console.log("userdetail1",userprofiledetail,userprofiledetail.emailId);
+        // console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);
+        
+       }
     return ( 
         <div className="vh-100 d-flex w-100">
     <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
@@ -146,13 +161,25 @@ function SignUp() {
         let [emailvalid, data2] = await OrgAdminmailcheckget1(data.email);
         console.log("emailvalid1", emailvalid);
         
+        // if (emailvalid === true) {
+        //     localStorage.setItem("Login",true)
+        //     localStorage.setItem("UserID",data.email);
+        //     let [data,userprofiledetail]=await userprofileget(data.email);
+        //       localStorage.setItem("UserName",userprofiledetail.firstName);
+        //   navigate("/home");
+        // }
+
         if (emailvalid === true) {
-            localStorage.setItem("Login",true)
-            localStorage.setItem("UserID",data.email);
-            let [data,userprofiledetail]=await userprofileget(data.email);
-              localStorage.setItem("UserName",userprofiledetail.firstName);
+          await getprofiledetails(data.email);
           navigate("/home");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000); 
         }
+        else{
+          setError("Your user account has not been created. Please contact the Business Administrator or System Administrator to add your account to the platform");
+        }
+        
       } catch (error) {
         console.error(error);
       }
