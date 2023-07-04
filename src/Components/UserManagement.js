@@ -319,7 +319,8 @@ useEffect(() => {
                     {userManage.map((x,y)=>{
                               return(
                                   <tr>
-                                  {x.roleType === "Super User" || x.roleType === "System Admin" ? <>
+                                     {/* || x.roleType === "System Admin"  */}
+                                  {x.roleType === "Super User" ? <>
                                   <td width="84">
                                         <div className="d-flex justify-content-center">
                                             <Form.Check

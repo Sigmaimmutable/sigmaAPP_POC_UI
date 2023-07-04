@@ -129,7 +129,7 @@ function App () {
               </Route>
               <Route path="/health-check" element={ <HealthCheck roleType = {roleType} getIProfile={getIProfile}/> } />
               <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
-              <Route path="/admin" element={ <AdminMain /> }>
+              <Route path="/admin" element={ <AdminMain roleType = {roleType} getIProfile={getIProfile}/> }>
                 <Route index element={ <Admin /> } />
                 <Route path="/admin/nft-transactions-report" element={ <NftTransactionsReport /> } />
                 <Route path="/admin/block-transactions-report" element={ <BlockTransactionsReport /> } />
