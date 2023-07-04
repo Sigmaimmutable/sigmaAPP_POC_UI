@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 
 import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget,Sessionstatusupdate,userprofileget, getNotificationById, NotificationSingle, NotificationAll} from '../../apifunction';
-const Header = () => {
+const Header = ({getIProfile}) => {
     const [search, setSearch] = useState(false);
     const [menu, setMenu] = useState(false);
     const [loginstatus, setLoginstatus] = useState("")
@@ -17,25 +17,14 @@ const Header = () => {
     const [UserName,setUserName] = useState(""); 
     const [lastname,setlastname] = useState("");
     const [allNotification, setAllNotification] = useState([]);
-    const[getIProfile,setgetIProfile]=useState("");  
+    // const[getIProfile,setgetIProfile]=useState("");  
     const navigate = useNavigate()
 
-    // console.log("notificationArray", allNotification);
+    console.log("getIProfileHeader", getIProfile);
     if(menu){
         document.getElementsByTagName('body')[0].classList.add('submenu');
         setMenu(!menu)
     }
-    const getprofiledetails = async() =>{
-        let [data,userprofiledetail]=await userprofileget(localStorage.getItem("UserID"));
-        setgetIProfile(userprofiledetail);
-        // console.log("userdetail1",userprofiledetail,userprofiledetail.emailId);
-        // console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);
-        // localStorage.setItem("UserName",userprofiledetail.firstName);
-       }
-       useEffect(()=>{
-        if(!getIProfile)
-        getprofiledetails()
-    })
 
     const notification = async () => {
         try{
@@ -305,41 +294,40 @@ const Header = () => {
                                 </div>
                             </Dropdown.Menu>
                         </Dropdown>
-
-                        <Dropdown align={"end"} autoClose="outside">
-                            <Dropdown.Toggle variant="ava" className="avatar p-0 border-0 d-flex align-items-center" id="dropdown-basic">
-                                <strong className="d-none d-md-block">{localStorage.getItem("UserName")===""||localStorage.getItem("UserName")===null||localStorage.getItem("UserName")===undefined || !localStorage.getItem("UserName")? "User":localStorage.getItem("UserName")}</strong>
-                                {/* <img src={Avatar} className="shadow" alt="Avatar" /> */}
-                                {getIProfile.profilePic === null || getIProfile.profilePic === "" || getIProfile.profilePic === undefined ?(<>
-                                    <img src={Avatar} className="shadow" alt="Avatar" />
-                                
-                                </>):(<>
-                                
-                                    <img src={getIProfile.profilePic} className="shadow" alt="Avatar" />
-                                </>)}
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu className="dropdown-avatar px-3">
-                                <div className="d-flex py-3 border-bottom">
-                                    {/* <img src={Avatar} alt="Avatar" /> */}
+                        {getIProfile ? <>
+                            <Dropdown align={"end"} autoClose="outside">
+                                <Dropdown.Toggle variant="ava" className="avatar p-0 border-0 d-flex align-items-center" id="dropdown-basic">
+                                    <strong className="d-none d-md-block">{localStorage.getItem("UserName")===""||localStorage.getItem("UserName")===null||localStorage.getItem("UserName")===undefined || !localStorage.getItem("UserName")? "User":localStorage.getItem("UserName")}</strong>
                                     {getIProfile.profilePic === null || getIProfile.profilePic === "" || getIProfile.profilePic === undefined ?(<>
-                                    <img src={Avatar}  alt="Avatar" />
-                                
-                                </>):(<>
-                                
-                                    <img src={getIProfile.profilePic} className="shadow" alt="Avatar" />
-                                </>)}
-                                    <div className="d-flex flex-column justify-content-between text-truncate">
-                                        <h6>{localStorage.getItem("UserName")===""||localStorage.getItem("UserName")===null||localStorage.getItem("UserName")===undefined || !localStorage.getItem("UserName")? "User":localStorage.getItem("UserName")}</h6>
-                                        <p>{localStorage.getItem("UserID")}</p>
+                                        <img src={Avatar} className="shadow" alt="Avatar" />
+                                    
+                                    </>):(<>
+                                    
+                                        <img src={getIProfile.profilePic} className="shadow" alt="Avatar" />
+                                    </>)}
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu className="dropdown-avatar px-3">
+                                    <div className="d-flex py-3 border-bottom">
+                                        {getIProfile.profilePic === null || getIProfile.profilePic === "" || getIProfile.profilePic === undefined ?(<>
+                                        <img src={Avatar}  alt="Avatar" />
+                                        
+                                    </>):(<>
+                                    
+                                        <img src={getIProfile.profilePic} className="shadow" alt="Avatar" />
+                                    </>)}
+                                        <div className="d-flex flex-column justify-content-between text-truncate">
+                                            <h6>{localStorage.getItem("UserName")===""||localStorage.getItem("UserName")===null||localStorage.getItem("UserName")===undefined || !localStorage.getItem("UserName")? "User":localStorage.getItem("UserName")}</h6>
+                                            <p>{localStorage.getItem("UserID")}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="py-2 d-flex align-items-center justify-content-between">
-                                    <Link to="/account" className="btn-link">My Account</Link>
-                                    <Button variant="logout" onClick={()=>{Logout()}} ><img src={LogoutIcon} alt="LogoutIcon"/> Sign Out</Button>
-                                </div>
-                            </Dropdown.Menu>
-                        </Dropdown>
+                                    <div className="py-2 d-flex align-items-center justify-content-between">
+                                        <Link to="/account" className="btn-link">My Account</Link>
+                                        <Button variant="logout" onClick={()=>{Logout()}} ><img src={LogoutIcon} alt="LogoutIcon"/> Sign Out</Button>
+                                    </div>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </> : <></>}
                     </Col>
                     <Col md={6} className={`mt-md-0 d-md-block d-none mt-3 ${search ? 'form-col-active' : ''}`}>
                         <Form className="position-relative">
@@ -352,7 +340,7 @@ const Header = () => {
                                 <Form.Control
         aria-describedby="basic-addon1"
         aria-label="Write something to search"
-        placeholder="Write something to search..."
+        placeholder="Write page name to search..."
         // value={searchQuery}
         onChange={(e) => handleSearch(e.target.value)}
       />

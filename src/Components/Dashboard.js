@@ -21,6 +21,8 @@ function Dashboard(props) {
     const [userCount,setUserCount] = useState(0);
     const [appPageCall,setAppPageCall] = useState(true);
     const[getIProfile,setgetIProfile]=useState("");  
+
+    console.log("profileDashboard", props);
    
     const setTheme = (e) => {
       setThemeColor(e);
@@ -76,8 +78,7 @@ function Dashboard(props) {
        
       
        
-    }
-    
+    } 
   
     const userdata = async () => {
       let algoAddress = localStorage.getItem("UserID");
@@ -91,13 +92,7 @@ function Dashboard(props) {
         console.error("Error updating:", error);
       }
     };
-    
-    const getprofiledetails = async() =>{
-      let [data,userprofiledetail]=await userprofileget(localStorage.getItem("UserID"));
-      setgetIProfile(userprofiledetail);
-      console.log("userdetail1",userprofiledetail,userprofiledetail.emailId);
-      console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);
-     }
+
     // useEffect(() => {
     //   // Fetch the raw data records
     //   fetchRawData('543609ec-58ba-4f50-9757-aaf149e5f187');
@@ -165,7 +160,6 @@ function Dashboard(props) {
         fetchMonthlyData(); // Fetch the monthly data
         documentsUploaded();
         usersInTenantID();
-        getprofiledetails();
         userdata();
         if(appPageCall){
           (<App />);
@@ -177,7 +171,7 @@ function Dashboard(props) {
         return <>{history("/")}</>;
       } else  { 
     return ( 
-        <Layout getThemeMode={(e) => setTheme(e)} roleType = {props.roleType}>
+        <Layout getThemeMode={(e) => setTheme(e)} roleType = {props.roleType} getIProfile = {props.getIProfile}>
             <div className="container-fluid">
                 <Row className="mb-3">
                     <Col md={6} xl={4} xxl={3}>

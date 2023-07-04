@@ -44,7 +44,7 @@ function AddUser() {
             // console.log("----------Orguser",emailid, name, role);
             toast.success("User added successfully");
             await sleep(5000);
-            navigate("/admin-manager/user-management");
+            navigate("/user-management");
         }catch(err){
             toast.error(err);
         }

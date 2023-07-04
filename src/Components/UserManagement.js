@@ -130,7 +130,7 @@ useEffect(() => {
         setPageSize(start);
     }
     return ( 
-        <Layout getThemeMode={() => undefined} roleType = {props.roleType}>
+        <Layout getThemeMode={() => undefined} roleType = {props.roleType} getIProfile = {props.getIProfile}>
         <div className="container-fluid">
             <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
             <Row className="mb-20">
@@ -319,7 +319,8 @@ useEffect(() => {
                     {userManage.map((x,y)=>{
                               return(
                                   <tr>
-                                  {x.roleType === "Super User" || x.roleType === "System Admin" ? <>
+                                     {/* || x.roleType === "System Admin"  */}
+                                  {x.roleType === "Super User" ? <>
                                   <td width="84">
                                         <div className="d-flex justify-content-center">
                                             <Form.Check

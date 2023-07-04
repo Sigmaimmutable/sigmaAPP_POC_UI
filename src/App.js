@@ -34,10 +34,12 @@ import TicketManagement from './Components/TicketManagement';
 import QueryManagement from './Components/QueryManagement';
 import AddUser from './Components/AddUser';
 import User from './Components/User';
-import { userDetailWithEmail } from "./apifunction";
+import Layout from './Components/Snippets/Layout';
+import { userDetailWithEmail, userprofileget } from "./apifunction";
 
 function App () {
   const [roleType, setRoleType] = useState();
+  const[getIProfile,setgetIProfile]=useState("");
 
   const fetchRole = async () => {
     if(localStorage.getItem("UserID"))
@@ -55,6 +57,18 @@ function App () {
       fetchRole();
     }
   }, [roleType]);
+
+  const getprofiledetails = async() =>{
+    let [data,userprofiledetail] = await userprofileget(localStorage.getItem("UserID"));
+    setgetIProfile(userprofiledetail);
+    // console.log("userdetail1",userprofiledetail,userprofiledetail.emailId);
+    // console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);
+    // localStorage.setItem("UserName",userprofiledetail.firstName);
+   }
+   useEffect(()=>{
+    if(!getIProfile)
+      getprofiledetails();
+  })
   
   return (
     <div className="App">
@@ -68,26 +82,26 @@ function App () {
               <Route path="/user" element={ <User /> } /> 
               {/* <Route path="/google" element={ <Google /> } /> */}
               <Route path="/account" element={ <Profile /> } />
-              <Route path="/home" element={ <Dashboard roleType = {roleType}/> } />
-              <Route path="/document-details" element={<Document roleType = {roleType}/>}>
+              <Route path="/home" element={ <Dashboard roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
               </Route>
-              <Route path="/job" element={<Job roleType = {roleType}/>}>
+              <Route path="/job" element={<Job roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
                 <Route path="/job/job-details" element={ <JobDetails /> } />
                 <Route path="/job/immutable-record-jobs" element={ <ImmutableRecordJobs /> } />
                 {/* <Route path="/job/health-check" element={ <HealthCheck roleType = {roleType}/> } /> */}
               </Route>
-              <Route path="/health-check" element={ <HealthCheck roleType = {roleType}/> } />
-              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
-              <Route path="/admin-manager" element={ <AdminManager roleType = {roleType}/> }>
+              <Route path="/health-check" element={ <HealthCheck roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/admin-manager" element={ <AdminManager roleType = {roleType} getIProfile={getIProfile}/> }>
                 {/* <Route path="/admin-manager/user-management" element={ <UserManagement/> } /> */}
-                <Route path="/admin-manager/add-user" element={ <AddUser roleType = {roleType}/> } />
+                <Route path="/admin-manager/add-user" element={ <AddUser roleType = {roleType} getIProfile={getIProfile}/> } />
               </Route>
-              <Route path="/user-management" element={ <UserManagement roleType = {roleType}/> } />
+              <Route path="/user-management" element={ <UserManagement roleType = {roleType} getIProfile={getIProfile}/> } />
 
-              <Route path="/help-support" element={ <HelpSupport roleType = {roleType}/> } />
+              <Route path="/help-support" element={ <HelpSupport roleType = {roleType} getIProfile={getIProfile}/> } />
               {/* <Route path="about" element={ <About/> } />
               <Route path="contact" element={ <Contact/> } /> */}
             </Routes>          
@@ -102,34 +116,34 @@ function App () {
               <Route path="/user" element={ <User /> } /> 
               {/* <Route path="/google" element={ <Google /> } /> */}
               <Route path="/account" element={ <Profile /> } />
-              <Route path="/home" element={ <Dashboard roleType = {roleType}/> } />
-              <Route path="/document-details" element={<Document roleType = {roleType}/>}>
+              <Route path="/home" element={ <Dashboard roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
               </Route>
-              <Route path="/job" element={<Job roleType = {roleType}/>}>
+              <Route path="/job" element={<Job roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
                 <Route path="/job/job-details" element={ <JobDetails /> } />
                 <Route path="/job/immutable-record-jobs" element={ <ImmutableRecordJobs /> } />
                 {/* <Route path="/job/health-check" element={ <HealthCheck roleType = {roleType}/> } /> */}
               </Route>
-              <Route path="/health-check" element={ <HealthCheck roleType = {roleType}/> } />
-              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
-              <Route path="/admin" element={ <AdminMain /> }>
+              <Route path="/health-check" element={ <HealthCheck roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/admin" element={ <AdminMain roleType = {roleType} getIProfile={getIProfile}/> }>
                 <Route index element={ <Admin /> } />
                 <Route path="/admin/nft-transactions-report" element={ <NftTransactionsReport /> } />
                 <Route path="/admin/block-transactions-report" element={ <BlockTransactionsReport /> } />
               </Route>
-              <Route path="/admin-manager" element={ <AdminManager roleType = {roleType}/> }>
+              <Route path="/admin-manager" element={ <AdminManager roleType = {roleType} getIProfile={getIProfile}/> }>
                 <Route index element={ <APILogs /> } />
                 <Route path="/admin-manager/create-org" element={ <CreateOrg /> } />
                 <Route path="/admin-manager/environment" element={ <Environment/> } />
                 {/* <Route path="/admin-manager/user-management" element={ <UserManagement/> } /> */}
-                <Route path="/admin-manager/add-user" element={ <AddUser roleType = {roleType}/> } />
+                <Route path="/admin-manager/add-user" element={ <AddUser roleType = {roleType} getIProfile={getIProfile}/> } />
               </Route>
-              <Route path="/user-management" element={ <UserManagement roleType = {roleType}/> } />
+              <Route path="/user-management" element={ <UserManagement roleType = {roleType} getIProfile={getIProfile}/> } />
 
-              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType}/> } />
+              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType} getIProfile={getIProfile}/> } />
               {/* <Route path="about" element={ <About/> } />
               <Route path="contact" element={ <Contact/> } /> */}
             </Routes>            
@@ -144,13 +158,13 @@ function App () {
               <Route path="/user" element={ <User /> } /> 
               {/* <Route path="/google" element={ <Google /> } /> */}
               <Route path="/account" element={ <Profile /> } />
-              <Route path="/home" element={ <Dashboard roleType = {roleType}/> } />
-              <Route path="/document-details" element={<Document roleType = {roleType}/>}>
+              <Route path="/home" element={ <Dashboard roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
               </Route>
-              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
-              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType}/> } />
+              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType} getIProfile={getIProfile}/> } />
               {/* <Route path="about" element={ <About/> } />
               <Route path="contact" element={ <Contact/> } /> */}
             </Routes>            
@@ -165,26 +179,26 @@ function App () {
               <Route path="/user" element={ <User /> } /> 
               {/* <Route path="/google" element={ <Google /> } /> */}
               <Route path="/account" element={ <Profile /> } />
-              <Route path="/home" element={ <Dashboard roleType = {roleType}/> } />
-              <Route path="/document-details" element={<Document roleType = {roleType}/>}>
+              <Route path="/home" element={ <Dashboard roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
               </Route>
-              <Route path="/job" element={<Job roleType = {roleType}/>}>
+              <Route path="/job" element={<Job roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
                 <Route path="/job/job-details" element={ <JobDetails /> } />
                 <Route path="/job/immutable-record-jobs" element={ <ImmutableRecordJobs /> } />
-                <Route path="/job/health-check" element={ <HealthCheck roleType = {roleType}/> } />
+                <Route path="/job/health-check" element={ <HealthCheck roleType = {roleType} getIProfile={getIProfile}/> } />
               </Route>
-              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
-              <Route path="/admin-manager" element={ <AdminManager roleType = {roleType}/> }>
+              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/admin-manager" element={ <AdminManager roleType = {roleType} getIProfile={getIProfile}/> }>
                 {/* <Route path="/admin-manager/user-management" element={ <UserManagement/> } /> */}
-                <Route path="/admin-manager/add-user" element={ <AddUser roleType = {roleType}/> } />
+                <Route path="/admin-manager/add-user" element={ <AddUser roleType = {roleType} getIProfile={getIProfile}/> } />
               </Route>
 
-              <Route path="/user-management" element={ <UserManagement roleType = {roleType}/> } />
+              <Route path="/user-management" element={ <UserManagement roleType = {roleType} getIProfile={getIProfile}/> } />
 
-              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType}/> } />
+              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType} getIProfile={getIProfile}/> } />
               {/* <Route path="about" element={ <About/> } />
               <Route path="contact" element={ <Contact/> } /> */}
             </Routes>            
@@ -199,13 +213,13 @@ function App () {
               <Route path="/user" element={ <User /> } /> 
               {/* <Route path="/google" element={ <Google /> } /> */}
               <Route path="/account" element={ <Profile /> } />
-              <Route path="/home" element={ <Dashboard roleType = {roleType}/> } />
-              <Route path="/document-details" element={<Document roleType = {roleType}/>}>
+              <Route path="/home" element={ <Dashboard roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
               </Route>
-              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
-              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType}/> } />
+              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType} getIProfile={getIProfile}/> } />
               {/* <Route path="about" element={ <About/> } />
               <Route path="contact" element={ <Contact/> } /> */}
             </Routes>            
@@ -220,13 +234,13 @@ function App () {
               <Route path="/user" element={ <User /> } /> 
               {/* <Route path="/google" element={ <Google /> } /> */}
               <Route path="/account" element={ <Profile /> } />
-              <Route path="/home" element={ <Dashboard roleType = {roleType}/> } />
-              <Route path="/document-details" element={<Document roleType = {roleType}/>}>
+              <Route path="/home" element={ <Dashboard roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
               </Route>
-              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
-              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType}/> } />
+              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType} getIProfile={getIProfile}/> } />
               {/* <Route path="about" element={ <About/> } />
               <Route path="contact" element={ <Contact/> } /> */}
             </Routes>
@@ -241,37 +255,37 @@ function App () {
               <Route path="/user" element={ <User /> } /> 
               {/* <Route path="/google" element={ <Google /> } /> */}
               <Route path="/account" element={ <Profile /> } />
-              <Route path="/home" element={ <Dashboard roleType = {roleType}/> } />
-              <Route path="/document-details" element={<Document roleType = {roleType}/>}>
+              <Route path="/home" element={ <Dashboard roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
               </Route>
-              <Route path="/job" element={<Job roleType = {roleType}/>}>
+              <Route path="/job" element={<Job roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
                 <Route path="/job/job-details" element={ <JobDetails /> } />
                 <Route path="/job/immutable-record-jobs" element={ <ImmutableRecordJobs /> } />
                 {/* <Route path="/job/health-check" element={ <HealthCheck roleType = {roleType}/> } /> */}
               </Route>
-              <Route path="/health-check" element={ <HealthCheck roleType = {roleType}/> } />
-              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType}/> } />
-              <Route path="/admin" element={ <AdminMain roleType = {roleType}/> }>
+              <Route path="/health-check" element={ <HealthCheck roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/admin" element={ <AdminMain roleType = {roleType} getIProfile={getIProfile}/> }>
                 <Route index element={ <Admin /> } />
                 <Route path="/admin/nft-transactions-report" element={ <NftTransactionsReport /> } />
                 <Route path="/admin/nft-transactions-report/single-transaction" element={ <NftTransactionPage /> } />
                 <Route path="/admin/block-transactions-report" element={ <BlockTransactionsReport /> } />
               </Route>
-              <Route path="/admin-manager" element={ <AdminManager roleType = {roleType}/> }>
+              <Route path="/admin-manager" element={ <AdminManager roleType = {roleType} getIProfile={getIProfile}/> }>
                 <Route index element={ <APILogs /> } />
                 <Route path="/admin-manager/create-org" element={ <CreateOrg /> } />
                 <Route path="/admin-manager/environment" element={ <Environment/> } />
                 {/* <Route path="/admin-manager/user-management" element={ <UserManagement/> } /> */}
                 <Route path="/admin-manager/ticket-management" element={ <TicketManagement/> } />
                 <Route path="/admin-manager/query-management" element={ <QueryManagement/> } />
-                <Route path="/admin-manager/add-user" element={ <AddUser roleType = {roleType}/> } />
+                <Route path="/admin-manager/add-user" element={ <AddUser roleType = {roleType} getIProfile={getIProfile}/> } />
               </Route>
-              <Route path="/user-management" element={ <UserManagement roleType = {roleType}/> } />
+              <Route path="/user-management" element={ <UserManagement roleType = {roleType} getIProfile={getIProfile}/> } />
 
-              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType}/> } />
+              <Route path="/help-support" element={ <HelpSupport  roleType = {roleType} getIProfile={getIProfile}/> } />
               {/* <Route path="about" element={ <About/> } />
               <Route path="contact" element={ <Contact/> } /> */}
             </Routes>
