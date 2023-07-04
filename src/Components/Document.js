@@ -23,7 +23,7 @@ function Document(props) {
         }
       };
     return ( 
-        <Layout getThemeMode={() => undefined} roleType = {props.roleType}>
+        <Layout getThemeMode={() => undefined} roleType = {props.roleType} getIProfile = {props.getIProfile}>
             <div className="container-fluid">
                 <Outlet />
 

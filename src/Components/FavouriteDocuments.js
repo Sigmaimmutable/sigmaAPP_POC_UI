@@ -93,7 +93,7 @@ const FavouriteDocuments= (props)=>{
         setnotifyData(data);
     }; 
     return ( 
-        <Layout getThemeMode={() => undefined} roleType = {props.roleType}>
+        <Layout getThemeMode={() => undefined} roleType = {props.roleType} getIProfile = {props.getIProfile}>
             <div className="container-fluid">
                 <Row className="mb-20">
                     <Col md={6} xl={4} xxl={3}>

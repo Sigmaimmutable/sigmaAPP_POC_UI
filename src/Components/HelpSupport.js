@@ -102,7 +102,7 @@ function HelpSupport(props) {
           };
 
     return ( 
-        <Layout getThemeMode={() => undefined} roleType = {props.roleType}>
+        <Layout getThemeMode={() => undefined} roleType = {props.roleType} getIProfile = {props.getIProfile}>
     <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
 
             <div className="container-fluid">

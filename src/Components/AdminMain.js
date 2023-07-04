@@ -6,6 +6,7 @@ function AdminMain(props) {
         <Layout 
             getThemeMode={() => undefined}
             roleType = {props.roleType}
+            getIProfile = {props.getIProfile}
         >
             <div className="container-fluid">
                 <Outlet />

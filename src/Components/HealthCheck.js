@@ -92,7 +92,7 @@ const MyPage = (props) => {
     };
     
   return (
-    <Layout getThemeMode={() => undefined} roleType = {props.roleType}>
+    <Layout getThemeMode={() => undefined} roleType = {props.roleType} getIProfile = {props.getIProfile}>
     <div className="container-fluid">
       <h3 style={{ marginBottom: '30px' }}>Health Check-up</h3>
       <div className="">

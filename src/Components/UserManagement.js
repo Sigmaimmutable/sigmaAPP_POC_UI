@@ -130,7 +130,7 @@ useEffect(() => {
         setPageSize(start);
     }
     return ( 
-        <Layout getThemeMode={() => undefined} roleType = {props.roleType}>
+        <Layout getThemeMode={() => undefined} roleType = {props.roleType} getIProfile = {props.getIProfile}>
         <div className="container-fluid">
             <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
             <Row className="mb-20">

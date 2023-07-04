@@ -6,14 +6,14 @@ function Layout(props) {
     const setTheme = (e) => {
         props.getThemeMode(e)
     }
-    // console.log("roleDashboard", props.roleType)
+    // console.log("roleDashboard", props)
     return ( 
         <div className="app-outer">
             <Sidebar 
                 getTheme={(e) => setTheme(e)} 
                 roleType = {props.roleType}
             />
-            <Header />
+            <Header getIProfile={props.getIProfile} />
 
             <main className="app-main">
                 {props.children}
