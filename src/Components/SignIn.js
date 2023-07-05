@@ -146,9 +146,9 @@ function SignIn() {
             <div className="vh-100 d-flex py-md-4 py-2 w-100">
                 <div className="container my-auto">
                     <div className="user-card overflow-hidden">
-                        <div className="user-card-logo text-center"><img className='img-fluid' src={Logo} alt="logo" /></div>
+                        <div className="user-card-logo text-center" ><img style={{height:"70px"}} className='img-fluid' src={Logo} alt="logo" /></div>
                         <div className='mb-3'>
-                            <h2 className='mb-2'>Get Started</h2>
+                            <h3 className='mb-2'>Get Started</h3> 
                             <p>Don’t have an account? <Link className='btn-link' to="/sign-up">Create one</Link></p>
                         </div>
                         {/* mb-3 */}
@@ -229,7 +229,7 @@ function SignIn() {
                             </Form.Select>
                             <OverlayTrigger
                                 placement="top"
-                                overlay={<Tooltip id="button-tooltip">Hover Tooltip</Tooltip>}
+                                overlay={<Tooltip id="button-tooltip">Choose the region closest to you for optimal performance and compliance with data protection regulations</Tooltip>}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
                                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
