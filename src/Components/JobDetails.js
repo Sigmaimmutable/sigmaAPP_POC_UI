@@ -26,7 +26,9 @@ function JobDetails() {
     const [active, setActive] = useState("notActive");
     const [Selectedcolm, setSelectedcolm] = useState("");
     const[SeValue,setSeValue] = useState(false)
-
+    const [searchQuery, setSearchQuery] = useState(false);
+    const [searchDetails, setsearchDetails] = useState([]);
+    const [userManage, setUserManage] = useState([""]);
 
 
 console.log("Selectedcolm",Selectedcolm)
@@ -101,6 +103,17 @@ console.log("Selectedcolm",Selectedcolm)
 
         // navigate('/job/immutable-record-jobs')
     }
+    const handleFilterStatus = (status) => {
+        setSearchQuery(status === null ? false : true);
+        const filteredJobLists = userManage.filter((r) => r.statuses === status);
+        setsearchDetails(filteredJobLists);
+      };
+      
+      const handleFilterJobType = (jobType) => {
+        setSearch(jobType === null ? false : true);
+        const filteredJobLists = userManage.filter((r) => r.jobType === jobType);
+        setsearchDetails(filteredJobLists);
+      };
 
     const handlefatchforPagination = (selvalues,jobListing) => {
         console.log("selecetd",selvalues)
@@ -235,19 +248,32 @@ console.log("Selectedcolm",Selectedcolm)
                     <h6 className="me-3 mb-0 text-muted">Versions:</h6>
                     <Dropdown size="sm" className="me-2">
                         <Dropdown.Toggle variant="gray" className="rounded-pill" id="dropdown-basic">
-                        {SeValue?SeValue : 'Tesla v1'}
+                        {SeValue?SeValue : 'Veeva v1'}
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="dropdown-filter">
-                        <Dropdown.Item onClick={()=>resetColumn("Tesla v1")} >Tesla v1</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>resetColumn("Tesla v2")} >Tesla v2</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>resetColumn("Tesla v3")} >Tesla v3</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>resetColumn("Tesla v4")} >Tesla v4</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>resetColumn("Tesla v5")} >Tesla v5</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>resetColumn("Veeva v1")} >Veeva v1</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>resetColumn("Veeva v2")} >Veeva v2</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>resetColumn("Veeva v3")} >Veeva v3</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>resetColumn("Veeva v4")} >Veeva v4</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>resetColumn("Veeva v5")} >Veeva v5</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
+
+                    
                     {/* <Button variant="gray" className="btn-gray-black rounded-pill">Submit</Button> */}
                 </Col>
+                
                 <Col xs={'auto'} className="ms-md-0 ms-auto order-md-1">
+                <Dropdown size="sm">
+                        <Dropdown.Toggle variant="gray" id="dropdown-basic">
+                             Job Type
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu className="dropdown-filter">
+                        <Dropdown.Item onClick={() => handleFilterJobType()}>Manual</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleFilterJobType()}>Automatic</Dropdown.Item>
+              {/* <Dropdown.Item onClick={() => handleFilterJobType()}>1000 Rows</Dropdown.Item> */}
+                        </Dropdown.Menu>
+                    </Dropdown>
                     {/* <Button variant="outline-gray" className="me-0" onClick={() => setSearch(!search)}>
                         {search ? (
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="d-block" viewBox="0 0 16 16">
@@ -284,6 +310,8 @@ console.log("Selectedcolm",Selectedcolm)
                 <Table hover responsive>
                     <thead>
                         <tr>
+
+                            
                             {/* <th width="84">
                                 <div className="d-flex align-items-center justify-content-between">
                                     <Dropdown size="sm" className="me-2">
@@ -461,6 +489,17 @@ console.log("Selectedcolm",Selectedcolm)
 
                 <Row className="mt-4">
                     <Col md={4} className="mb-md-0 mb-3">
+                    <Dropdown size="sm">
+                            <Dropdown.Toggle variant="gray" id="dropdown-basic">
+                               Status
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu className="dropdown-filter">
+                             <Dropdown.Item onClick={()=>handleFilterStatus("")}>All</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>handleFilterStatus(true)}>Completed</Dropdown.Item>
+                                <Dropdown.Item onClick={()=>handleFilterStatus(false)}>InProgress</Dropdown.Item>
+                               
+                            </Dropdown.Menu>
+                        </Dropdown>
                         {/* <Dropdown size="sm">
                             <Dropdown.Toggle variant="gray" id="dropdown-basic">
                                 Select Rows
