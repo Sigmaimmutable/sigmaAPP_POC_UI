@@ -230,11 +230,11 @@ function ResourcePersistJob() {
                             {SeValue?SeValue : 'Select'}
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="dropdown-filter">
-                            <Dropdown.Item onClick={()=>resetColumn("Tesla v1")} >Tesla v1</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>resetColumn("Tesla v2")} >Tesla v2</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>resetColumn("Tesla v3")} >Tesla v3</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>resetColumn("Tesla v4")} >Tesla v4</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>resetColumn("Tesla v5")} >Tesla v5</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>resetColumn("Veeva v1")} >Veeva v1</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>resetColumn("Veeva v2")} >Veeva v2</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>resetColumn("Veeva v3")} >Veeva v3</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>resetColumn("Veeva v4")} >Veeva v4</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>resetColumn("Veeva v5")} >Veeva v5</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </Col>

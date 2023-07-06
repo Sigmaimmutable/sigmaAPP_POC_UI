@@ -40,7 +40,7 @@ function QueryManagement() {
             ]);
 
     const [userManage2, setUserManage2] = useState([
-                {"Name": "TeslaVv", "URL": "https://sb-juul-regone-sandbox.veevavault.com","User":"system.admin@sb-juul.com","CreatedBy":"TESLA_ADMIN"}
+                {"Name": "Veevav", "URL": "https://sb-juul-regone-sandbox.veevavault.com","User":"system.admin@sb-juul.com","CreatedBy":"VEEVA_ADMIN"}
                
                 ]);      
        
@@ -149,7 +149,7 @@ function QueryManagement() {
                             <th className="text-center">Vault Name</th>
                             <th className="text-center">Url</th>
                             <th className="text-center">User Name</th>
-                            <th className="text-center">CreatedBY</th>
+                            <th className="text-center">CreatedBy</th>
                            
                         </tr>
                     </thead>
