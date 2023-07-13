@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { OrgAdminmailcheckget1, OrgTenentcheckget, DeleteOrgUser } from "../apifunction";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
-import {createUserVisits,getTicketsById,ResolveTicket,getTennantId} from '../apifunction';
+import {createUserVisits,getTicketsById,ResolveTicket,getTennantId,help1} from '../apifunction';
 
 function TicketManagement() {
     const [disabled, setDisabled] = useState(true);
@@ -227,6 +227,11 @@ const paginationProcess = async(start) =>{
     setstartvalue(start);
     await ticketlisting(start);
 }
+const attend = async (id, email) => {
+    await help1(id, email, localStorage.getItem("UserName"));
+    await ticketTableFetch();
+}
+
     return ( 
         <div>
             <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
@@ -371,13 +376,13 @@ const paginationProcess = async(start) =>{
                             <th className="text-center">Description of Ticket</th>
                             <th className="text-center">Raised At</th>
                             <th className="text-center">Status</th>
+                            <th className="text-center">Assignee</th>
                         </tr>
                     </thead>
                     <tbody>
                     {searchQuery ? <>
                        
-                    {searchDetails.map((x,y)=>{
-                            
+                    {searchDetails.map((x,y)=>{                           
                               return(
                                   <tr>
                                     
@@ -401,14 +406,19 @@ const paginationProcess = async(start) =>{
                                   <td className="text-center">{x.descriptions}</td>
                                   <td className="text-center">{x.ticketRaisetime}</td>
                                   <td className="text-center">{x.statuses?<>Resolved</>:<>Pending</>}</td>
+                                  {/* <td className="text-center">{showButton && sendEmail === x.mailId && id === x.id ? assignee : null}</td> */}
+                                  <td className="text-center">{x.assignee === null ? <> <Button variant="outline-gray" className="me-2 btn-outline-gray-black" onClick={() => attend(x.id, x.mailId)}>Attend</Button></>:<> {x.assignee} </>}</td>
                                   {/* <td>  <ButtonLoad loading={loader} className='w-100 btn-blue mb-3' onClick={()=>{Deleteorguser(x.emailId)}}>Delete user</ButtonLoad> </td>       */}
 
                                   {/* <td>{x.networkName}</td> */}
                                   </tr>
+
+
                               )
                               })
                               }
                            </> : <>  {userManage.map((x,y)=>{
+                           
                                  return(
                                 <tr>
                                   
@@ -432,6 +442,9 @@ const paginationProcess = async(start) =>{
                                 <td className="text-center">{x.descriptions}</td>
                                 <td className="text-center">{x.ticketRaisetime}</td>
                                 <td className="text-center">{x.statuses?<>Resolved</>:<>Pending</>}</td>
+                                <td className="text-center">{x.assignee === null ? <> <Button variant="outline-gray" className="me-2 btn-outline-gray-black" onClick={() => attend(x.id, x.mailId)}>Attend</Button></>:<> {x.assignee} </>}</td>
+
+
                                 {/* <td>  <ButtonLoad loading={loader} className='w-100 btn-blue mb-3' onClick={()=>{Deleteorguser(x.emailId)}}>Delete user</ButtonLoad> </td>       */}
 
                                 {/* <td>{x.networkName}</td> */}
