@@ -200,6 +200,10 @@
         {
             "source": "/platform/v1/userdetailbytennantall/:pageNo*",
             "destination": "https://testapi.stasisonline.in/platform/v1/userdetailbytennantall/:pageNo*"
+        },
+        {
+            "source": "/platform/v1/helpandsupportstatus",
+            "destination": "https://testapi.stasisonline.in/platform/v1/helpandsupportstatus"
         }
 
 

@@ -1340,3 +1340,29 @@ export const getLatestJObTime = async () => {
     return 0;
   }
 };
+
+
+export const help1 = async(id,email_id,assignee) => {
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+  let data = { 
+    "id": id,  
+    "mailId": email_id,
+    "assignee":assignee
+  
+  }
+
+  const options2 = {
+  method: 'PUT',
+  url: '/platform/v1/helpandsupportstatus',
+  data: data
+  };
+  
+  axios.request(options2).then(function (response2) {
+  console.log("notification1", response2);
+  return [true, response2];
+  }).catch(function (error) {
+      console.error("done2", error);
+      return [false, 'Error occurred while fetching data'];
+});
+
+};
