@@ -152,7 +152,7 @@ export const CreateOrguserrolepost = async (emailid, name, role, tenentid) =>
         return null;
       }
 }
-export const Orgadminsignup = async (emailid,Pwd) =>
+export const Orgadminsignup = async (emailid,Pwd,signInMethod) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -170,7 +170,7 @@ export const Orgadminsignup = async (emailid,Pwd) =>
         },
         data: {
             'password': `${Pwd}`,
-            'method':"SIGNIN",
+            'method':`${signInMethod}`,
             'emailId': `${emailid}`
           
           

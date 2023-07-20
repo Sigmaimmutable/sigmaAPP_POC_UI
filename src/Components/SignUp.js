@@ -62,6 +62,9 @@ function SignUp() {
               } else {
                 let signupuser = await Orgadminsignup(email, passwordnew);
                 console.log("checksignup", signupuser);
+
+                let signupuser1 = await Orgadminsignup(localStorage.getItem('UserID'), data2.password ,"Google");
+                console.log("checksignup1", signupuser1);
                 if (signupuser === true) {
                   console.log("validcheck23");
                   let userprofileuploading1 = await Userprofileupload(firstName,lastname,email);

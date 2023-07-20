@@ -4,7 +4,7 @@ import Eye from '../asserts/images/eye-icon.svg'
 import Question from '../asserts/images/question-icon.svg'
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { OrgAdminmailcheckget1, OrgTenentcheckget, DeleteOrgUser, getTennantId } from "../apifunction";
+import { OrgAdminmailcheckget1, OrgTenentcheckget, DeleteOrgUser, getTennantId,Orgadminsignup } from "../apifunction";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 import {CreateOrganizationPost,CreateOrguserrolepost,createUserVisits} from '../apifunction';
 
@@ -129,6 +129,12 @@ useEffect(() => {
         await memberTableFetch(start);
         setPageSize(start);
     }
+
+    // const mode = async(emailid, pwd,signInMethod) =>{
+    //     await Orgadminsignup(emailid, pwd,signInMethod) ;
+    //     }
+
+
     return ( 
         <Layout getThemeMode={() => undefined} roleType = {props.roleType} getIProfile = {props.getIProfile}>
         <div className="container-fluid">
@@ -274,6 +280,7 @@ useEffect(() => {
                             <th className="text-center">User name</th>
                             <th className="text-center">Email Id</th>
                             <th className="text-center">Role Type</th>
+                            <th className="text-center">Login Type</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -308,6 +315,8 @@ useEffect(() => {
                                   <td className="text-center">{x.userName}</td>
                                   <td className="text-center">{x.emailId}</td>
                                   <td className="text-center">{x.roleType}</td>
+                                  <td className="text-center">{x.method}
+                  </td>
                                   {/* <td>  <ButtonLoad loading={loader} className='w-100 btn-blue mb-3' onClick={()=>{Deleteorguser(x.emailId)}}>Delete user</ButtonLoad> </td>       */}
 
                                   {/* <td>{x.networkName}</td> */}
@@ -347,6 +356,8 @@ useEffect(() => {
                                   <td className="text-center">{x.userName}</td>
                                   <td className="text-center">{x.emailId}</td>
                                   <td className="text-center">{x.roleType}</td>
+                                  <td className="text-center">{x.method}
+                  </td>
                                   {/* <td>  <ButtonLoad loading={loader} className='w-100 btn-blue mb-3' onClick={()=>{Deleteorguser(x.emailId)}}>Delete user</ButtonLoad> </td>       */}
 
                                   {/* <td>{x.networkName}</td> */}
