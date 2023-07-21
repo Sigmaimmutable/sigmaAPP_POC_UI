@@ -2,11 +2,13 @@ import { Button, Col, Dropdown, Form, InputGroup, Modal, Row, Table } from "reac
 import Layout from "./Snippets/Layout";
 import Eye from '../asserts/images/eye-icon.svg'
 import Question from '../asserts/images/question-icon.svg'
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link,useNavigate } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
 import { OrgAdminmailcheckget1, OrgTenentcheckget, DeleteOrgUser, getTennantId,Orgadminsignup } from "../apifunction";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 import {CreateOrganizationPost,CreateOrguserrolepost,createUserVisits} from '../apifunction';
+import AuthContext from "./AuthContext";
+import useIdle from "./useIdleTimeout"; 
 
 function UserManagement(props) {
     const [search, setSearch] = useState(false);
@@ -23,7 +25,50 @@ function UserManagement(props) {
     const [searchQuery, setSearchQuery] = useState(false);
     const [searchDetails, setsearchDetails] = useState([]);
     const [filterDisplay, setFilterDisplay] = useState("All");
-
+    const history = useNavigate();
+        const navigate = useNavigate()
+       // console.log("selected",roleId);
+     
+       const [openModal, setOpenModal] = useState(false)
+           
+       const { logout } = useContext(AuthContext);
+           
+       const handleIdle = () => {
+           setOpenModal(true);
+       }
+       const { idleTimer } = useIdle({ onIdle: handleIdle, idleTime: 5 })
+       
+       const stay = () => {
+           setOpenModal(false)
+           idleTimer.reset()
+       }
+       
+       const handleLogout = () => {
+           logout()
+           setOpenModal(false)
+       } 
+    
+       const logout3 = async () =>
+       {  
+           
+           let email=localStorage.getItem('UserID')
+           console.log("emailid",email)
+         
+          localStorage.setItem("Login",false)
+          localStorage.removeItem('Login');
+          localStorage.setItem("UserID"," ");
+          localStorage.removeItem('UserID');
+          localStorage.removeItem('UserName');
+          if ( localStorage.getItem('rememberMe')=== true) {
+           localStorage.removeItem('rememberMe');
+         } else {
+           localStorage.removeItem('rememberMe');
+         }
+         history('/');
+          
+         
+          
+       } 
     console.log("search",searchQuery)
     const handleSearch = (searchQuer) => {
         if(searchQuer === null || searchQuer === "" || searchQuer === undefined || searchQuer === "null"){
@@ -429,6 +474,23 @@ useEffect(() => {
                 </Row>
             </div>
             {/* /.mb-20 */}
+            <Modal show={openModal} onHide={stay}>
+        <Modal.Header closeButton>
+          <Modal.Title>Your session is about to expire</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Your session is about to expire. You'll be automatically signed out.</p>
+          <p>Do you want to stay signed in?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={logout3}>
+            Sign out now
+          </Button>
+          <Button variant="primary" onClick={stay}>
+            Stay signed in
+          </Button>
+        </Modal.Footer>
+      </Modal>
         </div>
         </Layout>
      );

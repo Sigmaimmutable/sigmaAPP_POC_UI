@@ -1,9 +1,11 @@
-import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge } from "react-bootstrap";
+import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal } from "react-bootstrap";
 import Eye from '../asserts/images/eye-icon.svg'
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
 import { getTennantId, getTransactionblock } from "../apifunction";
 import Check from '../asserts/images/check_icon.svg';
+import AuthContext from "./AuthContext";
+import useIdle from "./useIdleTimeout";
 
 function BlockTransactionsReport() {
     const [search, setSearch] = useState(false);
@@ -11,7 +13,50 @@ function BlockTransactionsReport() {
     const [StartValue, setStartValue] = useState(10);
     const [limit, setlimit] = useState(10);
     const [txh, setTxh] = useState([]);
+    const history = useNavigate();
+    const navigate = useNavigate()
+   // console.log("selected",roleId);
 
+   const [openModal, setOpenModal] = useState(false)
+       
+   const { logout } = useContext(AuthContext);
+       
+   const handleIdle = () => {
+       setOpenModal(true);
+   }
+   const { idleTimer } = useIdle({ onIdle: handleIdle, idleTime: 5 })
+   
+   const stay = () => {
+       setOpenModal(false)
+       idleTimer.reset()
+   }
+   
+   const handleLogout = () => {
+       logout()
+       setOpenModal(false)
+   } 
+
+   const logout3 = async () =>
+   {  
+       
+       let email=localStorage.getItem('UserID')
+       console.log("emailid",email)
+     
+      localStorage.setItem("Login",false)
+      localStorage.removeItem('Login');
+      localStorage.setItem("UserID"," ");
+      localStorage.removeItem('UserID');
+      localStorage.removeItem('UserName');
+      if ( localStorage.getItem('rememberMe')=== true) {
+       localStorage.removeItem('rememberMe');
+     } else {
+       localStorage.removeItem('rememberMe');
+     }
+     history('/');
+      
+     
+      
+   } 
     const getTransc = async() =>{
         if(limit == 10){
             let tnId = await getTennantId();
@@ -290,6 +335,23 @@ function BlockTransactionsReport() {
                 </Row>
             </div>
             {/* /.mb-20 */}
+            <Modal show={openModal} onHide={stay}>
+        <Modal.Header closeButton>
+          <Modal.Title>Your session is about to expire</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Your session is about to expire. You'll be automatically signed out.</p>
+          <p>Do you want to stay signed in?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={logout3}>
+            Sign out now
+          </Button>
+          <Button variant="primary" onClick={stay}>
+            Stay signed in
+          </Button>
+        </Modal.Footer>
+      </Modal>
         </div>
      );
 }
