@@ -9,7 +9,7 @@ import AuthContext from "./AuthContext";
 
 const useIdleTimeout = ({ onIdle, idleTime = 1 }) => {
 
-    const idleTimeout = 600000 * idleTime;
+    const idleTimeout = 60000 * idleTime;
     const [isIdle, setIdle] = useState(false)
     const { logout } = useContext(AuthContext);
 
