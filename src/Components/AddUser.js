@@ -1,21 +1,63 @@
-import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Row, Dropdown} from "react-bootstrap";
+import React, { useEffect, useState,useContext} from "react";
+import { Button, Col, Form, Row, Dropdown,Modal} from "react-bootstrap";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 import { OrgAdminmailcheckget1, CreateOrguserrolepost,getTennantId,NotificationPost,getNotificationById } from "../apifunction";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import AuthContext from "./AuthContext";
+import useIdle from "./useIdleTimeout";
 
 function AddUser() {
     const[name,setname]=useState("");
     const[emailid,setEmail]=useState("");
     const[role,setRole]=useState("");
     const [roleId,setRoleId] = useState("");
-
-    const navigate = useNavigate()
+    const history = useNavigate();
+     const navigate = useNavigate()
     // console.log("selected",roleId);
     const handleChange = (e) => {
         setRole(e)
     }
+    const [openModal, setOpenModal] = useState(false)
+        
+    const { logout } = useContext(AuthContext);
+        
+    const handleIdle = () => {
+        setOpenModal(true);
+    }
+    const { idleTimer } = useIdle({ onIdle: handleIdle, idleTime: 5 })
+    
+    const stay = () => {
+        setOpenModal(false)
+        idleTimer.reset()
+    }
+    
+    const handleLogout = () => {
+        logout()
+        setOpenModal(false)
+    } 
+
+    const logout3 = async () =>
+    {  
+        
+        let email=localStorage.getItem('UserID')
+        console.log("emailid",email)
+      
+       localStorage.setItem("Login",false)
+       localStorage.removeItem('Login');
+       localStorage.setItem("UserID"," ");
+       localStorage.removeItem('UserID');
+       localStorage.removeItem('UserName');
+       if ( localStorage.getItem('rememberMe')=== true) {
+        localStorage.removeItem('rememberMe');
+      } else {
+        localStorage.removeItem('rememberMe');
+      }
+      history('/');
+       
+      
+       
+    } 
 
     const roleFetch = async () => {
         try{
@@ -121,6 +163,25 @@ function AddUser() {
                     </Form>
                 </Col>
             </Row>
+
+            <Modal show={openModal} onHide={stay}>
+        <Modal.Header closeButton>
+          <Modal.Title>Your session is about to expire</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Your session is about to expire. You'll be automatically signed out.</p>
+          <p>Do you want to stay signed in?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={logout3}>
+            Sign out now
+          </Button>
+          <Button variant="primary" onClick={stay}>
+            Stay signed in
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
         </div>
      );
 }

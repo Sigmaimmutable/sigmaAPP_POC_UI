@@ -1,9 +1,11 @@
-import { Button, Col, Dropdown, Form, InputGroup, Row, Table } from "react-bootstrap";
+import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Modal } from "react-bootstrap";
 import Eye from '../asserts/images/eye-icon.svg'
-import { Link,useLocation,useParams } from "react-router-dom";
-import { useState,useEffect } from "react";
+import { Link,useLocation,useParams,useNavigate } from "react-router-dom";
+import { useState,useEffect,useContext } from "react";
 import Layout from "./Snippets/Layout";
 import { fetchFavoriteDetails,deleteFavorite,fetchSigmadocdetails,createUserVisits ,getNotificationById, getTennantId} from "../apifunction";
+import AuthContext from "./AuthContext";
+import useIdle from "./useIdleTimeout";
 const FavouriteDocuments= (props)=>{
 // function FavouriteDocuments() {
     const location = useLocation();
@@ -17,6 +19,50 @@ const FavouriteDocuments= (props)=>{
     const [notifydata, setnotifyData] = useState([]);
 
     const [search, setSearch] = useState(false);
+    const history = useNavigate();
+    const navigate = useNavigate()
+   // console.log("selected",roleId);
+ 
+   const [openModal, setOpenModal] = useState(false)
+       
+   const { logout } = useContext(AuthContext);
+       
+   const handleIdle = () => {
+       setOpenModal(true);
+   }
+   const { idleTimer } = useIdle({ onIdle: handleIdle, idleTime: 5 })
+   
+   const stay = () => {
+       setOpenModal(false)
+       idleTimer.reset()
+   }
+   
+   const handleLogout = () => {
+       logout()
+       setOpenModal(false)
+   } 
+
+   const logout3 = async () =>
+   {  
+       
+       let email=localStorage.getItem('UserID')
+       console.log("emailid",email)
+     
+      localStorage.setItem("Login",false)
+      localStorage.removeItem('Login');
+      localStorage.setItem("UserID"," ");
+      localStorage.removeItem('UserID');
+      localStorage.removeItem('UserName');
+      if ( localStorage.getItem('rememberMe')=== true) {
+       localStorage.removeItem('rememberMe');
+     } else {
+       localStorage.removeItem('rememberMe');
+     }
+     history('/');
+      
+     
+      
+   } 
     // const searchParams = new URLSearchParams(location.search);
     // console.log("all",searchParams);
     // const id = searchParams.get('id');
@@ -333,6 +379,25 @@ const FavouriteDocuments= (props)=>{
                     </Row>
                 </div>
                 {/* /.mb-20 */}
+                
+            <Modal show={openModal} onHide={stay}>
+        <Modal.Header closeButton>
+          <Modal.Title>Your session is about to expire</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Your session is about to expire. You'll be automatically signed out.</p>
+          <p>Do you want to stay signed in?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={logout3}>
+            Sign out now
+          </Button>
+          <Button variant="primary" onClick={stay}>
+            Stay signed in
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
             </div>
         </Layout>
      );
