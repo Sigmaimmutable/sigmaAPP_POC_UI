@@ -1,6 +1,6 @@
 import { Button, Form } from 'react-bootstrap';
 import Logo from '../asserts/images/logo.svg';
-import { OrgAdminmailcheckget1 } from "../apifunction";
+import { OrgAdminmailcheckget1,Orgadminsignup } from "../apifunction";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 
@@ -16,6 +16,9 @@ function SignInwithEnterpriseSSO() {
     try {
       let [emailValid, data2] = await OrgAdminmailcheckget1(email);
       console.log("emailValid", emailValid);
+
+      let signupuser1 = await Orgadminsignup(localStorage.getItem('UserID'), password ,"Okta");
+      console.log("checksignup1", signupuser1);
 
       if (emailValid === true) {
         localStorage.setItem("Login", true);

@@ -1,19 +1,63 @@
-import { Badge, Button, Card, Col, ListGroup, Row, Table, Toast, ToastContainer } from "react-bootstrap";
+import { Badge, Button, Card, Col, ListGroup, Row, Table, Toast, ToastContainer,Modal } from "react-bootstrap";
 import CopyIcon from '../asserts/images/copy-icon.svg'
 import Check from '../asserts/images/check_icon.svg'
 import Wallet from '../asserts/images/wallet-icon.svg'
 import RestAPI from '../asserts/images/rest_api.svg'
-import { Link } from "react-router-dom";
-import { useState,useEffect } from "react";
+import { Link,useNavigate } from "react-router-dom";
+import { useState,useEffect,useContext } from "react";
 import {   OrgAdminmailcheckget2, getTennantId, nodeDetails,createUserVisits } from "../apifunction";
-
+import AuthContext from "./AuthContext";
+import useIdle from "./useIdleTimeout"; 
 function Admin() {
     const [showA, setShowA] = useState(false);
     const toggleShowA = () => setShowA(!showA);
 
     const [nodeDetail, setnodeDetail] = useState(false);
     const [nodeDetail1, setnodeDetail1] = useState(false);
+    const history = useNavigate();
+    const navigate = useNavigate()
+   // console.log("selected",roleId);
+ 
+   const [openModal, setOpenModal] = useState(false)
+       
+   const { logout } = useContext(AuthContext);
+       
+   const handleIdle = () => {
+       setOpenModal(true);
+   }
+   const { idleTimer } = useIdle({ onIdle: handleIdle, idleTime: 5 })
+   
+   const stay = () => {
+       setOpenModal(false)
+       idleTimer.reset()
+   }
+   
+   const handleLogout = () => {
+       logout()
+       setOpenModal(false)
+   } 
 
+   const logout3 = async () =>
+   {  
+       
+       let email=localStorage.getItem('UserID')
+       console.log("emailid",email)
+     
+      localStorage.setItem("Login",false)
+      localStorage.removeItem('Login');
+      localStorage.setItem("UserID"," ");
+      localStorage.removeItem('UserID');
+      localStorage.removeItem('UserName');
+      if ( localStorage.getItem('rememberMe')=== true) {
+       localStorage.removeItem('rememberMe');
+     } else {
+       localStorage.removeItem('rememberMe');
+     }
+     history('/');
+      
+     
+      
+   } 
 
     setTimeout(() => {
         setShowA(false)
@@ -300,6 +344,23 @@ useEffect(( )=>{data()},[])
                     </Card>
                 </Col>
             </Row>
+            <Modal show={openModal} onHide={stay}>
+        <Modal.Header closeButton>
+          <Modal.Title>Your session is about to expire</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Your session is about to expire. You'll be automatically signed out.</p>
+          <p>Do you want to stay signed in?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={logout3}>
+            Sign out now
+          </Button>
+          <Button variant="primary" onClick={stay}>
+            Stay signed in
+          </Button>
+        </Modal.Footer>
+      </Modal>
         </div>
      );
 }

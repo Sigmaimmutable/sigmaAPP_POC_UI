@@ -7,7 +7,7 @@ import SSO from '../asserts/images/sso-icon.svg'
 
 import { GoogleLoginButton } from "react-social-login-buttons";
 import { LoginSocialGoogle } from "reactjs-social-login";
-import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget,userprofileget,getNotificationById,NotificationPost,getTennantId} from '../apifunction';
+import {Orguserlogincheck,Sessionloginpost,Orgadminsignup,OrgAdminmailcheckget1,Sessionstatusget,userprofileget,getNotificationById,NotificationPost,getTennantId} from '../apifunction';
 
 function SignIn() {
     const [pass, setPass] = useState(true);
@@ -49,6 +49,10 @@ function SignIn() {
             
             localStorage.setItem("Login",true)
             localStorage.setItem("UserID",emailRef);
+           
+            let signupuser1 = await Orgadminsignup(localStorage.getItem('UserID'), passwordRef ,"Inline Login");
+            console.log("checksignup1", signupuser1);
+            
             let [data,userprofiledetail]=await userprofileget(emailRef);
            
             localStorage.setItem("UserName",userprofiledetail.firstName);
