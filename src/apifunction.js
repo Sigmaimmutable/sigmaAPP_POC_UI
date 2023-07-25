@@ -1366,3 +1366,111 @@ export const help1 = async(id,email_id,assignee) => {
 });
 
 };
+export const getNotificationById1 = async (id) => {
+  
+  console.log("hi",id)
+  const url = `/platform/v1/jobs/${id}`;
+
+  try {
+    const response = await fetch(url);
+
+    if (response.ok) {
+      const data = await response.json();
+      return [true, data];
+    } else {
+      return [false, 'Error occurred while fetching data'];
+    }
+  } catch (error) {
+    console.log('Error:', error);
+    return [false, 'Error occurred while making the request'];
+  }
+};
+
+
+
+export const getNotificationById2 = async(emailId,tenantId) =>{
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+  let datas = {
+           
+   
+    "emailId": emailId,
+    "tenantId": tenantId
+   
+  }
+
+  const options2 = {
+  method: 'POST',
+  url: '/platform/v1/jobs',
+  headers: {
+      'x-api-key': `${key}`    
+  },
+  data: datas
+  };
+  
+  axios.request(options2).then(function (response2) {
+  console.log("notification1",response2);
+  
+  // console.log("update successfull15")
+  }).catch(function (error) {
+      console.error("done2",error);
+});
+}
+
+
+
+export const getNotificationById3 = async (userId, emailId, tenantId) => {
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+  let data = {
+    "userId": userId,
+    "emailId": emailId,
+    "tenantId": tenantId
+  };
+
+  const options2 = {
+    method: 'PUT',
+    url: '/platform/v1/jobs',
+    data: data
+  };
+
+  try {
+    const response2 = await axios.request(options2);
+    console.log("notification2", response2);
+    return [true, response2];
+  } catch (error) {
+    console.error("done2", error);
+    return [false, 'Error occurred while fetching data'];
+  }
+};
+
+
+export const getNotificationById4 = async (userId) =>
+
+{       
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  // let userID = localStorage.getItem('UserID');
+  // let connectAddress = localStorage.getItem("walletAddress");
+  // let network = "AB";
+  
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    //console.log("done1",response.data);
+      // console.log("date",date);
+      const options2 = {
+        method: 'DELETE',
+        url: `/platform/v1/jobsremove/${userId}`,
+        headers: {
+          'x-api-key': `${key}`    
+        },
+        data: {
+            
+        }
+      };
+      
+      axios.request(options2).then(function (response2) {
+       console.log("response",response2);
+       return response2;
+      //  window.location.reload();
+      }).catch(function (error) {
+          console.error("done2",error);
+      });
+}
