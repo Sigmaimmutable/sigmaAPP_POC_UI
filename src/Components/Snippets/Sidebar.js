@@ -954,7 +954,15 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                            Configuration Details
                                         </Link>
                                     </li>
-
+                                    <li>
+                                        <Link onClick={() => setMenu(!menu)} to="/admin-manager/audit-log">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                         Audit Log
+                                        </Link>
+                                    </li>
                                     <li>
                                         <Link onClick={() => setMenu(!menu)} to="/admin-manager/notify">
                                             <span>

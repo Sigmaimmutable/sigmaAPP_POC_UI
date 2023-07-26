@@ -9,8 +9,8 @@ import Layout from "./Snippets/Layout";
 import { useNavigate } from "react-router-dom";
 import { getJobList, getSigmafieldConfig, getTennantId } from "../apifunction";
 import {createUserVisits} from "../apifunction";
-import AuthContext from "./AuthContext";
-import useIdle from "./useIdleTimeout";
+// import AuthContext from "./AuthContext";
+// import useIdle from "./useIdleTimeout";
 
 
 function JobDetails() {
@@ -31,49 +31,49 @@ function JobDetails() {
     const [searchQuery, setSearchQuery] = useState(false);
     const [searchDetails, setsearchDetails] = useState([]);
     const [userManage, setUserManage] = useState([""]);
-    const history = useNavigate();
+    // const history = useNavigate();
 
 
-    const [openModal, setOpenModal] = useState(false)
+    // const [openModal, setOpenModal] = useState(false)
         
-    const { logout } = useContext(AuthContext);
+    // const { logout } = useContext(AuthContext);
         
-    const handleIdle = () => {
-        setOpenModal(true);
-    }
-    const { idleTimer } = useIdle({ onIdle: handleIdle, idleTime: 5 })
+    // const handleIdle = () => {
+    //     setOpenModal(true);
+    // }
+    // const { idleTimer } = useIdle({ onIdle: handleIdle, idleTime: 5 })
     
-    const stay = () => {
-        setOpenModal(false)
-        idleTimer.reset()
-    }
+    // const stay = () => {
+    //     setOpenModal(false)
+    //     idleTimer.reset()
+    // }
     
-    const handleLogout = () => {
-        logout()
-        setOpenModal(false)
-    } 
+    // const handleLogout = () => {
+    //     logout()
+    //     setOpenModal(false)
+    // } 
 
-    const logout3 = async () =>
-    {  
+    // const logout3 = async () =>
+    // {  
         
-        let email=localStorage.getItem('UserID')
-        console.log("emailid",email)
+    //     let email=localStorage.getItem('UserID')
+    //     console.log("emailid",email)
       
-       localStorage.setItem("Login",false)
-       localStorage.removeItem('Login');
-       localStorage.setItem("UserID"," ");
-       localStorage.removeItem('UserID');
-       localStorage.removeItem('UserName');
-       if ( localStorage.getItem('rememberMe')=== true) {
-        localStorage.removeItem('rememberMe');
-      } else {
-        localStorage.removeItem('rememberMe');
-      }
-      history('/');
+    //    localStorage.setItem("Login",false)
+    //    localStorage.removeItem('Login');
+    //    localStorage.setItem("UserID"," ");
+    //    localStorage.removeItem('UserID');
+    //    localStorage.removeItem('UserName');
+    //    if ( localStorage.getItem('rememberMe')=== true) {
+    //     localStorage.removeItem('rememberMe');
+    //   } else {
+    //     localStorage.removeItem('rememberMe');
+    //   }
+    //   history('/');
        
       
        
-    } 
+    // } 
 console.log("Selectedcolm",Selectedcolm)
     const handleClose = () => {
         setShow(false);
@@ -655,7 +655,7 @@ console.log("Selectedcolm",Selectedcolm)
             </Modal>
             {/* /.mb-20 */}
 
-            <Modal show={openModal} onHide={stay}>
+            {/* <Modal show={openModal} onHide={stay}>
         <Modal.Header closeButton>
           <Modal.Title>Your session is about to expire</Modal.Title>
         </Modal.Header>
@@ -671,7 +671,7 @@ console.log("Selectedcolm",Selectedcolm)
             Stay signed in
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
 
         </div>
      );

@@ -6,8 +6,8 @@ import { useEffect, useState, useContext } from "react";
 import { OrgAdminmailcheckget1, OrgTenentcheckget, DeleteOrgUser } from "../apifunction";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 import {createUserVisits,getTicketsById,ResolveTicket,getTennantId} from '../apifunction';
-import AuthContext from "./AuthContext";
-import useIdle from "./useIdleTimeout";
+// import AuthContext from "./AuthContext";
+// import useIdle from "./useIdleTimeout";
 
 function QueryManagement() {
     const [disabled, setDisabled] = useState(true);
@@ -22,50 +22,50 @@ function QueryManagement() {
     
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const history = useNavigate();
-    const navigate = useNavigate()
-   // console.log("selected",roleId);
+//     const history = useNavigate();
+//     const navigate = useNavigate()
+//    // console.log("selected",roleId);
 
-   const [openModal, setOpenModal] = useState(false)
+//    const [openModal, setOpenModal] = useState(false)
        
-   const { logout } = useContext(AuthContext);
+//    const { logout } = useContext(AuthContext);
        
-   const handleIdle = () => {
-       setOpenModal(true);
-   }
-   const { idleTimer } = useIdle({ onIdle: handleIdle, idleTime: 5 })
+//    const handleIdle = () => {
+//        setOpenModal(true);
+//    }
+//    const { idleTimer } = useIdle({ onIdle: handleIdle, idleTime: 5 })
    
-   const stay = () => {
-       setOpenModal(false)
-       idleTimer.reset()
-   }
+//    const stay = () => {
+//        setOpenModal(false)
+//        idleTimer.reset()
+//    }
    
-   const handleLogout = () => {
-       logout()
-       setOpenModal(false)
-   } 
+//    const handleLogout = () => {
+//        logout()
+//        setOpenModal(false)
+//    } 
 
-   const logout3 = async () =>
-   {  
+//    const logout3 = async () =>
+//    {  
        
-       let email=localStorage.getItem('UserID')
-       console.log("emailid",email)
+//        let email=localStorage.getItem('UserID')
+//        console.log("emailid",email)
      
-      localStorage.setItem("Login",false)
-      localStorage.removeItem('Login');
-      localStorage.setItem("UserID"," ");
-      localStorage.removeItem('UserID');
-      localStorage.removeItem('UserName');
-      if ( localStorage.getItem('rememberMe')=== true) {
-       localStorage.removeItem('rememberMe');
-     } else {
-       localStorage.removeItem('rememberMe');
-     }
-     history('/');
+//       localStorage.setItem("Login",false)
+//       localStorage.removeItem('Login');
+//       localStorage.setItem("UserID"," ");
+//       localStorage.removeItem('UserID');
+//       localStorage.removeItem('UserName');
+//       if ( localStorage.getItem('rememberMe')=== true) {
+//        localStorage.removeItem('rememberMe');
+//      } else {
+//        localStorage.removeItem('rememberMe');
+//      }
+//      history('/');
       
      
       
-   } 
+//    } 
     const[pageBLSize,setPageBLSize] = useState(8);  
     const [rowSize, setRowSize] = useState();   
     const [filterstatus, setFilterStatus] = useState("");   
@@ -311,7 +311,7 @@ function QueryManagement() {
                 </Table>
       
             </div>
-            <Modal show={openModal} onHide={stay}>
+            {/* <Modal show={openModal} onHide={stay}>
         <Modal.Header closeButton>
           <Modal.Title>Your session is about to expire</Modal.Title>
         </Modal.Header>
@@ -327,7 +327,7 @@ function QueryManagement() {
             Stay signed in
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
         </div>
      );
 }
