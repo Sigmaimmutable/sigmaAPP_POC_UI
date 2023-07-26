@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Modal, Table } from "react-bootstrap";
-import { getTennantId, getNotificationById1, getNotificationById2, getNotificationById3, getNotificationById4 } from '../apifunction';
+import { getTennantId, getNotificationById1, getNotificationById2, getNotificationById3, getNotificationById4,OrgTenentcheckget } from '../apifunction';
 import Question from '../asserts/images/question-icon.svg';
+import { ToastContainer, Zoom, toast} from 'react-toastify';
 
 function NotifyDetails() {
   const [show, setShow] = useState(false);
@@ -14,6 +15,8 @@ function NotifyDetails() {
   const [userManage, setUserManage] = useState([]);
   const [showButton, setShowButton] = useState(false);
   const [deleteEmail, setDeleteEmail] = useState();
+  const [pageSize, setPageSize] = useState(0);  
+  const[user,setUser]  = useState();
 
   const handleUpdateUserButtonClick = () => {
     setShowUpdateUserPopup(true);
@@ -42,18 +45,67 @@ function NotifyDetails() {
   };
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
-  const newUsers = async () => {
-    const emailId = localStorage.getItem("UserID");
-    const tennantId = await getTennantId(emailId);
 
-    try {
-      let orguser = await getNotificationById2(email, tennantId);
-      console.log("Orguser", orguser);
-      setEmail('');
-    } catch (error) {
-      console.error("Error updating:", error);
+  const Users = async () => {
+    try{
+        let tenantid = await getTennantId(localStorage.getItem('UserID'));
+        let [value, data] = await OrgTenentcheckget(tenantid, pageSize);  
+
+    setUser(data);
+
+    console.log("details",data);
+    }catch(err){
+        console.error(err);
     }
-  };
+}
+
+useEffect(() => {
+    Users();
+}, [])
+
+
+
+//   const newUsers = async () => {
+//     user.map((r,i)=>{
+//         if(r.emailId===email){
+//             console.log("true")  
+//         }
+//     })
+//     const emailId = localStorage.getItem("UserID");
+//     const tennantId = await getTennantId(emailId);
+    
+
+//     try {
+//       let orguser = await getNotificationById2(email, tennantId);
+//       console.log("Orguser", orguser);
+//       setEmail('');
+//       handleClose();
+//     } catch (error) {
+//       console.error("Error updating:", error);
+//     }
+//   };
+const newUsers = async () => {
+    
+      const matchingUser = user.find((r) => r.emailId === email);
+  
+      if (matchingUser) {
+        const emailId = localStorage.getItem("UserID");
+       const tennantId = await getTennantId(emailId);
+        let orguser = await getNotificationById2(email, tennantId);
+        console.log("Orguser", orguser);
+        setEmail('');
+        handleClose();
+      } else {
+      
+       
+        toast.error("The emailId does not belong to our organization");
+        handleClose();
+    }
+}
+       
+       
+     
+  
 
   const Deleteorguser1 = async (userId) => {
     try {
@@ -66,7 +118,7 @@ function NotifyDetails() {
         setUserManage(data);
       }
       setShowButton(false);
-      handleClose();
+      handleClose2();
     } catch (err) {
       console.error(err);
     }
@@ -82,7 +134,7 @@ function NotifyDetails() {
         setUserManage(data);
       }
       setShowButton(false);
-      handleClose();
+      handlePopupClose();
     } catch (err) {
       console.error(err);
     }
@@ -127,6 +179,7 @@ function NotifyDetails() {
 
   return (
     <div className="container-fluid">
+           <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
       <>
       <div className="d-flex align-items-center justify-content-end mb-3">
         <Button variant="gray" className="btn-gray-black rounded-pill me-2" onClick={handleShow}>
@@ -145,37 +198,36 @@ function NotifyDetails() {
       
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Body className="text-center py-5">
-          <img src={Question} className="mb-2" alt="Question" />
-          <h6>Are you sure you want to execute this action?</h6>
+          
         
           <div className="d-flex pt-4 align-items-center justify-content-center">
             {/* <span className="close" onClick={handleClose}>&times;</span> */}
-            <label>Enter Email</label>&nbsp;&nbsp;
+            {/* <label>Enter Email</label>&nbsp;&nbsp; */}
             <input
               type="text"
-              placeholder="Email"
+              placeholder="Enter Email"
               value={email}
               onChange={handleEmailChange}
-            />&nbsp;&nbsp;
+            />&nbsp;&nbsp;&nbsp;
           <Button type="submit" variant="dark" className="btn-button btn-sm" onClick={()=>newUsers()}>Submit</Button> &nbsp;&nbsp;
           <Button variant="dark"  className="btn-button btn-sm" onClick={handleClose}>Cancel</Button>
           </div>
         </Modal.Body>
       </Modal>
+
       <Modal show={showPopup} onHide={handlePopupClose} centered>
         <Modal.Body className="text-center py-5">
-          <img src={Question} className="mb-2" alt="Question" />
-          <h6>Are you sure you want to execute this action?</h6>
+        
         
           <div className="d-flex pt-4 align-items-center justify-content-center">
             {/* <span className="close" onClick={handleClose}>&times;</span> */}
-            <label>Enter Email</label>&nbsp;&nbsp;
+            {/* <label>Enter Email</label>&nbsp;&nbsp; */}
             <input
               type="text"
-              placeholder="Email"
+              placeholder="Enter Email"
               value={email}
               onChange={handleEmailChange}
-            />&nbsp;&nbsp;
+            />&nbsp;&nbsp;&nbsp;
           <Button type="submit" variant="dark" className="btn-button btn-sm" onClick={()=>attend1(deleteEmail)}>Submit</Button> &nbsp;&nbsp;
           <Button variant="dark"  className="btn-button btn-sm" onClick={handlePopupClose}>Cancel</Button>
           </div>
@@ -186,7 +238,7 @@ function NotifyDetails() {
       <Modal show={show2} onHide={handleClose2} centered>
         <Modal.Body className="text-center py-5">
           <img src={Question} className="mb-2" alt="Question" />
-          <h6>Are you sure you want to execute this action?</h6>
+          <h6>Are you sure you want to delete this emailid?</h6>
         
           <div className="d-flex pt-4 align-items-center justify-content-center">
           
