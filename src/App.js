@@ -32,6 +32,7 @@ import ImmutableRecordJobs from './Components/ImmutableRecordJobs';
 import UserManagement from './Components/UserManagement';
 import TicketManagement from './Components/TicketManagement';
 import QueryManagement from './Components/QueryManagement';
+import NotifyDetails from './Components/NotifyDetails';
 import AddUser from './Components/AddUser';
 import User from './Components/User';
 import Layout from './Components/Snippets/Layout';
@@ -281,6 +282,7 @@ function App () {
                 {/* <Route path="/admin-manager/user-management" element={ <UserManagement/> } /> */}
                 <Route path="/admin-manager/ticket-management" element={ <TicketManagement/> } />
                 <Route path="/admin-manager/query-management" element={ <QueryManagement/> } />
+                <Route path ="/admin-manager/notify" element={ <NotifyDetails/> } />
                 <Route path="/admin-manager/add-user" element={ <AddUser roleType = {roleType} getIProfile={getIProfile}/> } />
               </Route>
               <Route path="/user-management" element={ <UserManagement roleType = {roleType} getIProfile={getIProfile}/> } />
