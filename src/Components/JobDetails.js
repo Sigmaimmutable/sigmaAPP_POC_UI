@@ -291,10 +291,10 @@ console.log("Selectedcolm",Selectedcolm)
                     <h6 className="me-3 mb-0 text-muted">Versions:</h6>
                     <Dropdown size="sm" className="me-2">
                         <Dropdown.Toggle variant="gray" className="rounded-pill" id="dropdown-basic">
-                        {SeValue?SeValue : 'Veeva v1'}
+                        {SeValue?SeValue : '23R1'}
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="dropdown-filter">
-                        <Dropdown.Item onClick={()=>resetColumn("Veeva v1")} >Veeva v1</Dropdown.Item>
+                        <Dropdown.Item onClick={()=>resetColumn("23R1")} >23R1</Dropdown.Item>
                             <Dropdown.Item onClick={()=>resetColumn("Veeva v2")} >Veeva v2</Dropdown.Item>
                             <Dropdown.Item onClick={()=>resetColumn("Veeva v3")} >Veeva v3</Dropdown.Item>
                             <Dropdown.Item onClick={()=>resetColumn("Veeva v4")} >Veeva v4</Dropdown.Item>
