@@ -25,6 +25,7 @@ import BlockTransactionsReport from './Components/BlockTransactionsReport';
 import AdminManager from './Components/AdminManager';
 import APILogs from './Components/APILogs';
 import CreateOrg from './Components/CreateOrg';
+import AuditLog from './Components/AuditLog';
 import Environment from './Components/Environment';
 import HelpSupport from './Components/HelpSupport';
 import HealthCheck from './Components/HealthCheck';
@@ -193,6 +194,7 @@ function App () {
               </Route>
               <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
               <Route path="/admin-manager" element={ <AdminManager roleType = {roleType} getIProfile={getIProfile}/> }>
+              <Route path="/admin-manager/audit-log" element={ <AuditLog roleType = {roleType} getIProfile={getIProfile}/> } />
                 {/* <Route path="/admin-manager/user-management" element={ <UserManagement/> } /> */}
                 <Route path="/admin-manager/add-user" element={ <AddUser roleType = {roleType} getIProfile={getIProfile}/> } />
               </Route>
@@ -278,6 +280,7 @@ function App () {
               <Route path="/admin-manager" element={ <AdminManager roleType = {roleType} getIProfile={getIProfile}/> }>
                 <Route index element={ <APILogs /> } />
                 <Route path="/admin-manager/create-org" element={ <CreateOrg /> } />
+                <Route path="/admin-manager/audit-log" element={ <AuditLog roleType = {roleType} getIProfile={getIProfile}/> } />
                 <Route path="/admin-manager/environment" element={ <Environment/> } />
                 {/* <Route path="/admin-manager/user-management" element={ <UserManagement/> } /> */}
                 <Route path="/admin-manager/ticket-management" element={ <TicketManagement/> } />
