@@ -216,6 +216,18 @@
         {
             "source": "/platform/v1/jobsremove/:userId*",
             "destination": "https://testapi.stasisonline.in/platform/v1/jobsremove/:userId*"
+        },
+        {
+            "source": "/platform/v1/jobschedule",
+            "destination": "https://testapi.stasisonline.in/platform/v1/jobschedule"
+        },
+        {
+            "source": "/platform/v1/jobschedule/:tennantid*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/jobschedule/:tennantid*"
+        },
+        {
+            "source": "/platform/v1/updatedelay/:scheduletime*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/updatedelay/:scheduletime*"
         }
 
 
