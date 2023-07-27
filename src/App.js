@@ -32,6 +32,7 @@ import HealthCheck from './Components/HealthCheck';
 import ImmutableRecordJobs from './Components/ImmutableRecordJobs';
 import UserManagement from './Components/UserManagement';
 import TicketManagement from './Components/TicketManagement';
+import JobManagement from './Components/JobManagement';
 import QueryManagement from './Components/QueryManagement';
 import NotifyDetails from './Components/NotifyDetails';
 import AddUser from './Components/AddUser';
@@ -194,6 +195,7 @@ function App () {
               </Route>
               <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
               <Route path="/admin-manager" element={ <AdminManager roleType = {roleType} getIProfile={getIProfile}/> }>
+              <Route path="/admin-manager/job-management" element={ <JobManagement roleType = {roleType} getIProfile={getIProfile}/> } />
               <Route path="/admin-manager/audit-log" element={ <AuditLog roleType = {roleType} getIProfile={getIProfile}/> } />
                 {/* <Route path="/admin-manager/user-management" element={ <UserManagement/> } /> */}
                 <Route path="/admin-manager/add-user" element={ <AddUser roleType = {roleType} getIProfile={getIProfile}/> } />
@@ -282,6 +284,7 @@ function App () {
                 <Route path="/admin-manager/create-org" element={ <CreateOrg /> } />
                 <Route path="/admin-manager/audit-log" element={ <AuditLog roleType = {roleType} getIProfile={getIProfile}/> } />
                 <Route path="/admin-manager/environment" element={ <Environment/> } />
+                <Route path="/admin-manager/job-management" element={ <JobManagement/> } />
                 {/* <Route path="/admin-manager/user-management" element={ <UserManagement/> } /> */}
                 <Route path="/admin-manager/ticket-management" element={ <TicketManagement/> } />
                 <Route path="/admin-manager/query-management" element={ <QueryManagement/> } />

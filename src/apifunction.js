@@ -1500,3 +1500,147 @@ export const getNotificationById4 = async (userId) =>
           console.error("done2",error);
       });
 }
+
+export const jobschedulardetailpost = async (email,role,tenentid,userlogstatus) =>
+{       
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  // let userID = localStorage.getItem('UserID');
+  // let connectAddress = localStorage.getItem("walletAddress");
+  // let network = "AB";
+  
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    //console.log("done1",response.data);
+      // console.log("date",date);
+      const options2 = {
+        method: 'POST',
+        url: '/platform/v1/jobschedule',
+        headers: {
+          'x-api-key': `${key}`    
+        },
+        data: {
+            'mailId':`${email}`,
+            'roleType': `${role}`,
+            'tennatId':`${tenentid}`,
+            'activity':`${userlogstatus}`
+        }
+      };
+      
+      axios.request(options2).then(function (response2) {
+       console.log("responsepost",response2);
+       return response2;
+      //  window.location.reload();
+      }).catch(function (error) {
+          console.error("done2",error);
+      });
+}
+// export const jobreschedulardetail = async (schduletime) =>
+// {       
+//   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+//   // let userID = localStorage.getItem('UserID');
+//   // let connectAddress = localStorage.getItem("walletAddress");
+//   // let network = "AB";
+  
+//     axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+//     //console.log("done1",response.data);
+//       // console.log("date",date);
+//       const options2 = {
+//         method: 'POST',
+//         url: `/platform/v1/updatedelay/${schduletime}`,
+//         headers: {
+//           'x-api-key': `${key}`    
+//         },
+       
+//       };
+      
+//       axios.request(options2).then(function (response2) {
+//        console.log("response",response2);
+//        return response2;
+//       //  window.location.reload();
+//       }).catch(function (error) {
+//           console.error("done2",error);
+//       });
+// }
+
+
+export const jobreschedulardetail = async (schduletime,email,role,tenentid,userlogstatus) =>
+{         
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    //console.log("done1",response.data);
+      // console.log("date",date);
+      const options2 = {
+        method: 'POST',
+        url: `/platform/v1/updatedelay/${schduletime}`,
+        
+      };
+      try {
+        const response = await axios(options2);
+        const result = response.data;
+      
+        const mail_Id = email;
+        const roletype=role;
+        const tennat_id = tenentid;
+        const usersettime = userlogstatus;
+      
+        await jobschedulardetailpost(localStorage.getItem("UserID"),roletype,tennat_id, usersettime);
+        console.log('Response:', result);
+        return result;
+      } catch (error) {
+        console.error('Error:', error);
+        return null;
+      }
+}
+export const jobschedulardetailget= async() =>{
+   
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+    //Get method start
+    try{
+      let response2 = await fetch(`/platform/v1/jobschedule`, 
+      {
+          headers: {
+              'x-api-key': `${key}`    
+            },
+        }
+        )
+      //console.log(response2);
+      // let response = await axios.request(options2);
+      // tentidresponse= await response.data;
+      // console.log("response",tentidresponse)
+        
+      const data2 = await response2.json();
+      console.log("Api inside", data2)
+      // return {data2};
+      return [true,data2];
+    }catch(err){
+      console.log("vercelerrro",err)
+      return [false,""];
+    }
+     
+}
+
+export const jobschedulardetailgetbyid= async(tennantId) =>{
+   
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+    //Get method start
+    try{
+      let response2 = await fetch(`/platform/v1/jobschedule/${tennantId}`, 
+      {
+          headers: {
+              'x-api-key': `${key}`    
+            },
+        }
+        )
+      //console.log(response2);
+      // let response = await axios.request(options2);
+      // tentidresponse= await response.data;
+      // console.log("response",tentidresponse)
+        
+      const data2 = await response2.json();
+      console.log("Api inside", data2)
+      // return {data2};
+      return [true,data2];
+    }catch(err){
+      console.log("vercelerrro",err)
+      return [false,""];
+    }
+     
+}

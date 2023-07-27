@@ -588,7 +588,22 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
 
                             <span>Admin Manager</span>
                         </NavLink>
-
+                        <div className='sidebar-subnav'>
+                            <div className='sidebar-subnav-inner'>
+                                <h4>Admin Manager</h4>
+                                <ul className='p-0 m-0 list-unstyled'>
+                                    <li>
+                                        <Link onClick={() => setMenu(!menu)} to="/admin-manager/job-management">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            Job Management
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                         {/* <div className='sidebar-subnav'>
                             <div className='sidebar-subnav-inner'>
                                 <h4>Admin Manager</h4>
@@ -918,6 +933,17 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             Create Org
                                         </Link>
                                     </li>
+                                   
+                                    <li>
+                                        <Link onClick={() => setMenu(!menu)} to="/admin-manager/job-management">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            Job Management
+                                        </Link>
+                                    </li>
+                               
                                     {/* <li>
                                         <Link to="/admin-manager/environment">
                                             <span>
