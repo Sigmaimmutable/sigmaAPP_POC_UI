@@ -228,6 +228,10 @@
         {
             "source": "/platform/v1/updatedelay/:scheduletime*",
             "destination": "https://testapi.stasisonline.in/platform/v1/updatedelay/:scheduletime*"
+        },
+        {
+            "source": "/platform/v1/restdownload",
+            "destination": "https://testapi.stasisonline.in/platform/v1/restdownload"
         }
 
 

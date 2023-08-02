@@ -146,7 +146,7 @@ useEffect(( )=>{data()},[])
             </ToastContainer>
             <Row className="mb-20">
                 <Col md={6} xl={4} xxl={3}>
-                    <h4 className="page-title mb-0">Admin</h4>
+                    <h4 className="page-title mb-0">Node Details</h4>
                 </Col>
             </Row>
 

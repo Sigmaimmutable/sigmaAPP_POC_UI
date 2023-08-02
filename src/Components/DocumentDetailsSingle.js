@@ -1,17 +1,22 @@
-import { Button, Card, Col, Dropdown, Form, InputGroup, Row, Table,Badge,Toast, ToastContainer } from "react-bootstrap";
+import { Button, Card, Col, Dropdown, Form, InputGroup, Row, Table,Badge} from "react-bootstrap";
 import Eye from '../asserts/images/eye-icon.svg'
 import SiteLogo from '../asserts/images/site-logo-xxl.svg'
 import { Link,useParams,useLocation  } from "react-router-dom";
 import { useState,useEffect, useContext } from "react";
-import { fetchSigmadocdetails,getNFTProp,getTennantId} from '../apifunction';
+import { fetchSigmadocdetails,getNFTProp,getTennantId,handleWriteToFile} from '../apifunction';
 import CopyIcon from '../asserts/images/copy-icon.svg'
 import { DataContext } from "../App";
+import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 import Check from '../asserts/images/check_icon.svg';
-   
+import ButtonLoad from 'react-bootstrap-button-loader';
 const DocumentDetailsSingle= (props)=>{
     const location = useLocation();
     const [showA, setShowA] = useState(false);
     const toggleShowA = () => setShowA(!showA);
+    const[loaderDownload, setLoaderDownload] = useState(false);
+
+    const handleShowLoadDownload = () => setLoaderDownload(true);
+    const handleHideLoadDownload = () => setLoaderDownload(false);
     //  const allData = location.state.allData;
     // const id = useContext(DataContext);
     const {sigmaId} = useParams();
@@ -70,19 +75,36 @@ const DocumentDetailsSingle= (props)=>{
       const epochTime = new Date(timestamp).getTime() ; // Divide by 1000 to convert to seconds
       return epochTime;
     }
-
+    const downloaddoc = async () => {
+      try{
+        handleShowLoadDownload();
+          let tnId = await getTennantId();
+          // let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
+          // console.log("app.js role", data.roleType);
+          // console.log("hoursvalue1", milliseconds);
+          let downloadtapi=await handleWriteToFile(tnId,documentDetails.docChecksum);    
+                  
+          console.log("recheduldownloadtapiedtime",downloadtapi);
+          // console.log("hoursvalue2", milliseconds);
+          
+          // let Jobrecheduleruser=await jobschedulardetailpost();    
+          // console.log("Jobrecheduleruser",Jobrecheduleruser);
+          toast.success("Downloaded  successfully");
+          // await ticketTableFetch();
+          handleHideLoadDownload();
+      
+        
+      }catch(err){
+          toast.error(err);
+          handleHideLoadDownload();
+      }
+      }
     
 
     return ( 
         <div>
-            <ToastContainer 
-                position={"bottom-end"}
-                className="p-3 position-fixed"
-                style={{ zIndex: 1 }}>
-                <Toast show={showA} onClose={toggleShowA}>
-                    <Toast.Body><div className="d-flex px-2 align-items-center"><img src={CopyIcon} alt="CopyIcon" className="me-2" /> Copied successfully!</div></Toast.Body>
-                </Toast>
-            </ToastContainer>
+                       <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
+
             <div className="mb-20">
                 <Link to="/document-details" className="d-inline-block btn-back align-items-center"> 
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="me-2" viewBox="0 0 16 16">
@@ -100,17 +122,18 @@ const DocumentDetailsSingle= (props)=>{
             <Row className="mb-20" style={{minHeight: '40px'}}>
                 <Col md={6} className="d-flex align-items-center justify-content-end order-md-1 mb-md-0 mb-2">
                     {/* <Dropdown size="sm" className="me-2">
-                        <Dropdown.Toggle variant="gray" className="btn-gray-black" id="dropdown-basic">
+                        <Dropdown.Toggle variant="gray" className="btn-gray-black" id="dropdown-basic" onClick={() => downloaddoc()}>
                             Download
                         </Dropdown.Toggle>
-                        <Dropdown.Menu className="dropdown-filter">
-                            <Dropdown.Item href="#/action-1">word</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">csv</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">pdf</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">png</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">jpeg</Dropdown.Item>
-                        </Dropdown.Menu>
+                         <Dropdown.Menu className="dropdown-filter">
+                            
+                         <Dropdown.Item onClick={() => handleSelecttype("Pdf")}>Pdf</Dropdown.Item> 
+                            
+                        </Dropdown.Menu> 
                     </Dropdown> */}
+                    <ButtonLoad loading={loaderDownload}variant="gray" className="btn-gray-black" onClick={() => downloaddoc()}>
+                    Download
+                                                    </ButtonLoad>
                     {/* <Link to="/resource-persist-job" className="me-2 btn-outline-gray btn-outline-gray-black">
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="d-block" viewBox="0 0 16 16">
                             <path fillRule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
