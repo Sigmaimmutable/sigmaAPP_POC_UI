@@ -316,11 +316,11 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                              <img src={adminimg} style ={{height:"24px"}}alt='NavIcon5' />
                             <img src={adminimg}style ={{height:"24px"}} alt='NavIcon5' />
                                 
-                            <span>Admin</span>
+                            <span>Node Reports</span>
                         </NavLink>
                         <div className='sidebar-subnav'>
                             <div className='sidebar-subnav-inner'>
-                                <h4>Admin</h4>
+                                <h4>Node Reports</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
                                     <li>
                                         <Link onClick={() => setMenu(!menu)} to="/admin/nft-transactions-report">
@@ -875,11 +875,11 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                             <img src={adminimg} style ={{height:"24px"}}alt='NavIcon5' />
                             <img src={adminimg}style ={{height:"24px"}} alt='NavIcon5' />
 
-                            <span>Admin</span>
+                            <span>Node Reports</span>
                         </NavLink>
                         <div className='sidebar-subnav'>
                             <div className='sidebar-subnav-inner'>
-                                <h4>Admin</h4>
+                                <h4>Node Reports</h4>
                                 <ul className='p-0 m-0 list-unstyled'>
                                     <li>
                                         <Link onClick={() => setMenu(!menu)} to="/admin/nft-transactions-report">

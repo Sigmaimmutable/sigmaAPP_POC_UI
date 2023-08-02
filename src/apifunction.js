@@ -1644,3 +1644,43 @@ export const jobschedulardetailgetbyid= async(tennantId) =>{
     }
      
 }
+export const handleWriteToFile = async(tennantId,ipfshash) => {
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+ 
+  
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    const options2 = {
+      method: 'POST',
+      url: '/platform/v1/restdownload',
+      headers: {
+        'x-api-key': key,
+        'Content-Disposition': 'attachment; filename="picture.pdf"',
+      },
+      data: {
+        "tenantId": `${tennantId}`,
+        "ipfsHash": `${ipfshash}`,
+      },
+      responseType: 'arraybuffer', // Set the response type to arraybuffer
+    };
+    
+
+      try {
+        
+       
+        const response = await axios(options2);
+        console.log("reponsecheck",response);
+        let datavalue = response.data;
+        const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'document.pdf'); // Set the desired file name
+        document.body.appendChild(link);
+        link.click();
+       
+        console.log('download:', response);
+       
+      }catch(error){
+      }
+        
+    
+}
