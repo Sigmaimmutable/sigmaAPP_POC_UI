@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { saveAs } from 'file-saver';
 export const OrgAdminmailcheckget = async (id) => {
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   //Get method start
@@ -1684,3 +1684,47 @@ export const handleWriteToFile = async(tennantId,ipfshash) => {
         
     
 }
+export const handleWriteToDocumentlist = async (start, limit,tennantId) => {
+  const url = '/platform/v1/sigmadocbytid';
+  const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
+  
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
+  const options = {
+    method: 'POST',
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': key
+    },
+    data: {
+      start: start,
+      limit: limit,
+      tenantId:tennantId
+    }
+  };
+
+  try {
+    const response = await axios(options);
+  const sigmadocData = response.data;
+  console.log('Response:', sigmadocData);
+
+  // Download the data as CSV
+  if (sigmadocData && sigmadocData.length > 0) {
+    const csvData = [
+      "Document Name,Document ID,Version ID,Document Creation Date,File Modified Date,File Created Date,Document Status,NFT Creation Status,",
+      ...sigmadocData.map(row => (
+        `"${row.filename__v}","${row.sigmaId}","${row.jobId}","${row.document_creation_date__v}","${row.file_modified_date__v}","${row.file_created_date__v}","${row.status__v}","${row.nftCreationStatus === '0' ? 'Pending' : row.nftCreationStatus === '1' ? 'Approved' : ''}"`
+      )),
+    ].join('\n');
+
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
+    saveAs(blob, 'document_list.csv');
+  }
+
+  return sigmadocData;
+} catch (error) {
+  console.error('Error:', error);
+  return null;
+}
+};
