@@ -8,8 +8,9 @@ import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
 import { useContext } from "react"
 import { Container, Modal } from "react-bootstrap";
-import { fetchSigmadocByTid,fetchSigmadocdetails,addToFavorites,deleteFavorite, getTennantId,NotificationPost,getNotificationById } from '../apifunction';
-
+import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
+import { fetchSigmadocByTid,fetchSigmadocdetails,addToFavorites,deleteFavorite, getTennantId,NotificationPost,getNotificationById,handleWriteToDocumentlist} from '../apifunction';
+import ButtonLoad from 'react-bootstrap-button-loader';
 function DocumentDetails() {
     const history = useNavigate()
     const [search, setSearch] = useState(false);
@@ -21,7 +22,10 @@ function DocumentDetails() {
     const [fav, setFav] = useState(false);
     const [searchQuery, setSearchQuery] = useState(false);
     const [searchDetails, setsearchDetails] = useState([]);
+    const[loaderDownload, setLoaderDownload] = useState(false);
 
+    const handleShowLoadDownload = () => setLoaderDownload(true);
+    const handleHideLoadDownload = () => setLoaderDownload(false);
     console.log("search",searchQuery)
     const handleSearch = (searchQuer) => {
         if(searchQuer === null || searchQuer === "" || searchQuer === undefined || searchQuer === "null"){
@@ -199,13 +203,41 @@ function DocumentDetails() {
   }
   };
 
+  const downloaddoc = async () => {
+    try{
+      handleShowLoadDownload();
+        let tnId = await getTennantId();
+        const start = '0'; 
+        // let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
+        // console.log("app.js role", data.roleType);
+        // console.log("hoursvalue1", milliseconds);
+        let downloadtapi=await handleWriteToDocumentlist(start,limit,tnId);    
+                
+        console.log("recheduldownloadtapiedtime",downloadtapi);
+        // console.log("hoursvalue2", milliseconds);
+        
+        // let Jobrecheduleruser=await jobschedulardetailpost();    
+        // console.log("Jobrecheduleruser",Jobrecheduleruser);
+        toast.success("Downloaded  successfully");
+        // await ticketTableFetch();
+        handleHideLoadDownload();
+    
+      
+    }catch(err){
+        toast.error(err);
+        handleHideLoadDownload();
+    }
+    }
       return ( 
         <div>
+                                 <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
+
             <Row className="mb-20">
                 <Col md={6} xl={4} xxl={3}>
                     <h4 className="page-title mb-0">Document Details</h4>
                 </Col>
             </Row>
+            
             <Row className="mb-20" style={{minHeight: '40px'}}>
                 <Col md={6} className="d-flex flex-wrap align-items-center justify-content-end order-md-1 mb-md-0 mb-2">
                     <Button variant="outline-gray" className="me-2 mb-1" onClick={() => setSearch(!search)}>
@@ -225,7 +257,9 @@ function DocumentDetails() {
                     onClick={() => handleFilterClick('7Days')}> 7 Days
                     </Button> */}
                     {/* <Button variant="outline-gray" className="me-2 mb-1 px-3"  onClick={() => handleFilterClick('30Days')}>30 Days</Button> */}
-                    
+                    <ButtonLoad loading={loaderDownload} variant="gray" className="btn-gray-black me-2 mb-1 px-3" onClick={() => downloaddoc()}>
+                    Download
+                      </ButtonLoad>
                     <Dropdown size="sm">
                         <Dropdown.Toggle variant="gray" id="dropdown-basic">
                             Select Rows
