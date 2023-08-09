@@ -601,6 +601,15 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                             Job Management
                                         </Link>
                                     </li>
+                                    <li>
+                                        <Link onClick={() => setMenu(!menu)} to="/admin-manager/job-handling">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            Job Handling
+                                        </Link>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -944,6 +953,15 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                         </Link>
                                     </li>
                                
+                                    <li>
+                                        <Link onClick={() => setMenu(!menu)} to="/admin-manager/job-handling">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            Job Handling
+                                        </Link>
+                                    </li>
                                     {/* <li>
                                         <Link to="/admin-manager/environment">
                                             <span>

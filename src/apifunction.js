@@ -1728,3 +1728,64 @@ export const handleWriteToDocumentlist = async (start, limit,tennantId) => {
   return null;
 }
 };
+export const jobstatusupdate = async (tennantId,jobtype,jobstatus) =>
+{       
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  // let userID = localStorage.getItem('UserID');
+  // let connectAddress = localStorage.getItem("walletAddress");
+  // let network = "AB";
+  
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    //console.log("done1",response.data);
+      // console.log("date",date);
+      const options2 = {
+        method: 'PUT',
+        url: `/platform/v1/jobhandle/${tennantId}/${jobtype}/${jobstatus}`,
+        headers: {
+          'x-api-key': `${key}`    
+        },
+        data: {}
+      };
+      let userlogincheck ="";
+      try {
+     let response = await axios.request(options2);
+     userlogincheck= await response.data;
+     console.log("response",userlogincheck);
+      }catch(error){
+        console.error("done2",error);
+      }
+    
+     
+      return userlogincheck;
+
+
+    
+}
+
+export const Jobstatusget= async() =>{
+   
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+    //Get method start
+    try{
+      let response2 = await fetch(`/platform/v1/jobhandle`, 
+      {
+          headers: {
+              'x-api-key': `${key}`    
+            },
+        }
+        )
+      //console.log(response2);
+      // let response = await axios.request(options2);
+      // tentidresponse= await response.data;
+      // console.log("response",tentidresponse)
+        
+      const data2 = await response2.json();
+      console.log("Api inside", data2)
+      // return {data2};
+      return [true,data2];
+    }catch(err){
+      console.log("vercelerrro",err)
+      return [false,""];
+    }
+     
+}
