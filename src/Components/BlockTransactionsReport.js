@@ -9,7 +9,7 @@ import useIdle from "./useIdleTimeout";
 
 function BlockTransactionsReport() {
     const [search, setSearch] = useState(false);
-
+    const [reachedLastPage, setReachedLastPage] = useState(false);
     const [StartValue, setStartValue] = useState(10);
     const [limit, setlimit] = useState(10);
     const [txh, setTxh] = useState([]);
@@ -63,6 +63,11 @@ function BlockTransactionsReport() {
             let tx = await getTransactionblock(StartValue,limit,tnId);
             console.log("blocktxn",tx)
             setTxh(tx);
+            if (tx.length === 0) {
+                setReachedLastPage(true);
+            } else {
+                setReachedLastPage(false);
+            }
             console.log("checktxh",txh)
         }
         
@@ -95,6 +100,11 @@ function BlockTransactionsReport() {
         let tx = await getTransactionblock(value,limit,tnId);
         // console.log("txhistory",tx)
         setTxh(tx);
+        // if (tx.length === 0) {
+        //     setReachedLastPage(true);
+        // } else {
+        //     setReachedLastPage(false);
+        // }
     }
 
     // const selectrow = async(value) =>{
@@ -324,7 +334,7 @@ function BlockTransactionsReport() {
                             <li><Link className={StartValue === 40? 'active' : ''} onClick={()=>pagination(40)}>5</Link></li>
                             <li><Link className={StartValue === 50 ? 'active' : ''} onClick={()=>pagination(50)}>6</Link></li> */}
                             <li>
-                                <Link onClick={()=>pagination(StartValue+10)} className="next">
+                            <Link className={`next ${reachedLastPage ? 'disabled' : ''}`}onClick={() => {if (!reachedLastPage){pagination(StartValue + 10); }}}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                         <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                     </svg>

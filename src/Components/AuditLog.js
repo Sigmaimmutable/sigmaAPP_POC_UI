@@ -7,6 +7,7 @@ import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 
  
 function Audit(props) {
+  const [reachedLastPage, setReachedLastPage] = useState(false);
     const [limit, setlimit] = useState(249);
     const [search, setSearch] = useState(false);
     const [show, setShow] = useState(false);
@@ -43,6 +44,12 @@ const Users =async(start)=>{
         let [check, data] = await Sessionstatusget1(start);
         if (check) {  
             setUserManage(data);
+             // Check if this is the last page of data
+             if (data.length === 0) {
+              setReachedLastPage(true);
+          } else {
+              setReachedLastPage(false);
+          }
       }
         // settenentid(tenentid.tenantId);
         console.log("ticket",data);
@@ -181,7 +188,13 @@ const ticketTableFetch = async () => {
                             </li>
                             <li><Link className="active" onClick={()=>{pagination(startvalue+10)}}>{startvalue?(startvalue/10)+1:'1'}</Link></li>
                             <li>
-                            <Link className="next" onClick={()=>{pagination(startvalue+10)}}>
+                            <Link
+    className={`next ${reachedLastPage ? 'disabled' : ''}`}onClick={() => {
+        if (!reachedLastPage) {
+            pagination(startvalue + 10);
+        }
+    }}
+>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                         <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                     </svg>

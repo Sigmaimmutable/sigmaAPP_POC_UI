@@ -532,7 +532,7 @@ const attend = async (id, email) => {
                 </Row>
             </div>
             {/* /.mb-20 */}
-            <Modal show={openModal} onHide={stay}>
+            {/* <Modal show={openModal} onHide={stay}>
         <Modal.Header closeButton>
           <Modal.Title>Your session is about to expire</Modal.Title>
         </Modal.Header>
@@ -548,7 +548,7 @@ const attend = async (id, email) => {
             Stay signed in
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
         </div>
      );
 }
