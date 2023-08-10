@@ -10,13 +10,17 @@ import {createUserVisits,getTicketsById,ResolveTicket,getTennantId,help1,jobresc
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
 import ButtonLoad from 'react-bootstrap-button-loader';
+
 function JobHandling() {
     const [disabled, setDisabled] = useState(true);
     const [search, setSearch] = useState(false);
-    const[loader, setLoader] = useState(false);
+    const[loader1, setLoader1] = useState(false);
+    const[loader2, setLoader2] = useState(false);
+    const[loader3, setLoader3] = useState(false);
+    const[loader4, setLoader4] = useState(false);
 
-    const handleShowLoad = () => setLoader(true);
-    const handleHideLoad = () => setLoader(false);
+    // const handleShowLoad = () => setLoader(true);
+    // const handleHideLoad = () => setLoader(false);
     
     const [show, setShow] = useState(false);
     const [showButton, setShowButton] = useState(false);
@@ -126,8 +130,29 @@ function JobHandling() {
         // console.log("search",filteredJobLists)
         // setFilteredJobLists(filteredJobLists);
       };
+
+      const showloader = async(type,status,show) =>{
+        if(type === "DOC_FETCH"){
+          if(status === 1){
+            setLoader1(show);
+            
+          }
+          else{
+            setLoader2(show);
+          }
+        }
+        else if(type === "MAKE_IREC"){
+          if(status === 1){
+            setLoader3(show);
+          }
+          else{
+            setLoader4(show);
+          }
+        }
+      }
     const Jobstatuschange = async (jobtype,statusjob) => {
-        handleShowLoad();
+        // handleShowLoad();
+        await showloader(jobtype,statusjob,true);
         try{
             let tnId = await getTennantId();
             let recheduledjobstatus= await jobstatusupdate(tnId,jobtype,statusjob);
@@ -137,11 +162,13 @@ function JobHandling() {
             toast.success("Status Changed Successfully");
             // await ticketTableFetch();
             setShowButton(!showButton);
-          handleHideLoad();
+            await showloader(jobtype,statusjob,false);
+          // handleHideLoad();
             // window.location.reload();
         }catch(err){
             toast.error(err);
-            handleHideLoad();
+            await showloader(jobtype,statusjob,false);
+            // handleHideLoad();
         }
         }
         useEffect(() => {
@@ -268,10 +295,10 @@ const attend = async (id, email) => {
 
                                         {userManage[0].jobstatus===0?(<>
                              
-                                            <td>  <ButtonLoad loading={loader} className='w-100 btn-blue mb-3' onClick={()=>{Jobstatuschange("DOC_FETCH",1)}}>Start</ButtonLoad> </td>      
+                                            <td>  <ButtonLoad loading={loader1} className='w-100 btn-blue mb-3' onClick={()=>{Jobstatuschange("DOC_FETCH",1)}}>Start</ButtonLoad> </td>      
  
                           </>):(<>
-                            <td>  <ButtonLoad loading={loader} className='w-100 btn-blue mb-3' onClick={()=>{Jobstatuschange("DOC_FETCH",0)}}>Stop</ButtonLoad> </td>      
+                            <td>  <ButtonLoad loading={loader2} className='w-100 btn-blue mb-3' onClick={()=>{Jobstatuschange("DOC_FETCH",0)}}>Stop</ButtonLoad> </td>      
 
                           </>)}
                              
@@ -292,10 +319,10 @@ const attend = async (id, email) => {
 
                              {userManage[1].jobstatus===0?(<>
                              
-                                <td>  <ButtonLoad loading={loader} className='w-100 btn-blue mb-3' onClick={()=>{Jobstatuschange("MAKE_IREC",1)}}>Start</ButtonLoad> </td>      
+                                <td>  <ButtonLoad loading={loader3} className='w-100 btn-blue mb-3' onClick={()=>{Jobstatuschange("MAKE_IREC",1)}}>Start</ButtonLoad> </td>      
     
                              </>):(<>
-                                <td>  <ButtonLoad loading={loader} className='w-100 btn-blue mb-3' onClick={()=>{Jobstatuschange("MAKE_IREC",0)}}>Stop</ButtonLoad> </td>      
+                                <td>  <ButtonLoad loading={loader4} className='w-100 btn-blue mb-3' onClick={()=>{Jobstatuschange("MAKE_IREC",0)}}>Stop</ButtonLoad> </td>      
 
                              </>)}
                                   {/* <td className="text-center">{x.assignee === null ? <> <Button variant="outline-gray" className="me-2 btn-outline-gray-black" onClick={() => attend(x.id, x.mailId)}>Attend</Button></>:<> {x.assignee} </>}</td> */}
