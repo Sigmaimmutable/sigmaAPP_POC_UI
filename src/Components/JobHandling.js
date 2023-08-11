@@ -295,10 +295,10 @@ const attend = async (id, email) => {
 
                                         {userManage[0].jobstatus===0?(<>
                              
-                                            <td>  <ButtonLoad loading={loader1} className='w-100 btn-blue mb-3' onClick={()=>{Jobstatuschange("DOC_FETCH",1)}}>Start</ButtonLoad> </td>      
+                                            <td className="text-center">  <ButtonLoad loading={loader1} className='w-50 btn-dark mb-3' onClick={()=>{Jobstatuschange("DOC_FETCH",1)}}>Start</ButtonLoad> </td>      
  
                           </>):(<>
-                            <td>  <ButtonLoad loading={loader2} className='w-100 btn-blue mb-3' onClick={()=>{Jobstatuschange("DOC_FETCH",0)}}>Stop</ButtonLoad> </td>      
+                            <td className="text-center">  <ButtonLoad loading={loader2} className='w-50 btn-dark mb-3' onClick={()=>{Jobstatuschange("DOC_FETCH",0)}}>Stop</ButtonLoad> </td>      
 
                           </>)}
                              
@@ -319,10 +319,10 @@ const attend = async (id, email) => {
 
                              {userManage[1].jobstatus===0?(<>
                              
-                                <td>  <ButtonLoad loading={loader3} className='w-100 btn-blue mb-3' onClick={()=>{Jobstatuschange("MAKE_IREC",1)}}>Start</ButtonLoad> </td>      
+                                <td className="text-center">  <ButtonLoad loading={loader3} className='w-50 btn-dark mb-3' onClick={()=>{Jobstatuschange("MAKE_IREC",1)}}>Start</ButtonLoad> </td>      
     
                              </>):(<>
-                                <td>  <ButtonLoad loading={loader4} className='w-100 btn-blue mb-3' onClick={()=>{Jobstatuschange("MAKE_IREC",0)}}>Stop</ButtonLoad> </td>      
+                                <td className="text-center">  <ButtonLoad loading={loader4} className='w-50 btn-dark mb-3' onClick={()=>{Jobstatuschange("MAKE_IREC",0)}}>Stop</ButtonLoad> </td>      
 
                              </>)}
                                   {/* <td className="text-center">{x.assignee === null ? <> <Button variant="outline-gray" className="me-2 btn-outline-gray-black" onClick={() => attend(x.id, x.mailId)}>Attend</Button></>:<> {x.assignee} </>}</td> */}
