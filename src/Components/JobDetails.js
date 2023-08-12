@@ -26,12 +26,15 @@ function JobDetails() {
     const [userManage, setUserManage] = useState([""]);
     const [selectedStatus, setSelectedStatus] = useState("");
     const [selectedJobType, setSelectedJobType] = useState("All");
+    const [reachedLastPage, setReachedLastPage] = useState(false);
     const [selectedStatusFilter, setSelectedStatusFilter] = useState("");
     console.log("details",searchDetails);
     console.log("ch",selectedStatus)
 console.log("Selectedcolm",Selectedcolm)
 console.log("query",searchQuery)
-
+const [errorPopupVisible, setErrorPopupVisible] = useState(false);
+const [errorPopupMessage, setErrorPopupMessage] = useState("");// State for error popup visibility
+const [filteredJobs, setFilteredJobs] = useState([]);
     const handleClose = () => {
         setShow(false);
         setSelectedValues([]);
@@ -96,21 +99,7 @@ console.log("query",searchQuery)
                 )
                 console.log("svalue",s)
                 setSelectedcolm(s);
-
-        // navigate('/job/immutable-record-jobs')
     }
-    // const handleSearch = (searchQuer) => {
-    //     if(searchQuer === null || searchQuer === "" || searchQuer === undefined || searchQuer === "null"){
-    //         setSearchQuery(false)
-    //     }
-    //     else{
-    //         setSearchQuery(true)
-    //         const filteredJobLists = jobLists.filter((r) =>
-    //           r.mailId.toLowerCase().includes(searchQuer.toLowerCase())
-    //         );
-    //         setsearchDetails(filteredJobLists);
-    //     }
-
 
     const handleSearch = (searchQuery) => {
         console.log("Searching for:", searchQuery);
@@ -126,65 +115,6 @@ console.log("query",searchQuery)
         }
     };
         
-        //  console.log("sech",filteredJobLists)
-        // setFilteredJobLists(filteredJobLists);
-        const handleFilterStatus = (status) => {
-            setSelectedStatusFilter(status);
-        };  
-        // const handleFilterStatus = (searchQuer) => {
-        //     if(searchQuer === null || searchQuer === "" || searchQuer === undefined || searchQuer === "null"){
-        //         console.log("qu",searchQuer)
-        //         setSearchQuery(false)
-        //     }
-        //     else{
-        //         console.log("que",searchQuer)
-        //         setSearchQuery(true)
-        //         const filteredJobLists = jobLists.filter((r) =>
-                
-        //          r.status===searchQuer
-        //         //  console.log("yy",filteredJobLists);
-                 
-        //         );
-        //         setSearchQuery(true)
-        //         console.log("yy",filteredJobLists)
-        //         setsearchDetails(filteredJobLists);
-
-        //     }
-            
-        //      console.log("search",jobLists)
-        // //  setFilteredJobLists(filteredJobLists);
-        //   };
-
-
-//     const handleFilterStatus = (status) => {
-//         console.log("Filtering by status:", status);
-//     setSelectedStatus(status);
-//     if (status === "") {
-//         setsearchDetails(jobLists);
-//     } else {
-//         const filteredJobLists = jobLists.filter((job) => job.status === status);
-//         console.log("Filtered job lists:", filteredJobLists);
-//         setsearchDetails(filteredJobLists);
-//     }
-// };
-
-    //       const handleFilterJobType = (jobType) => {
-    //     setSearch(jobType === null ? false : true);
-    //     const filteredJobLists = jobLists.filter((r) => r.jobType === jobType);
-    //     setsearchDetails(filteredJobLists);
-    //   };
-
-    const handleFilterJobType = (jobType) => {
-        console.log("Filtering by job type:", jobType);
-        setSearch1(""); // Clear the search query when changing job type filter
-        const filteredJobLists = jobLists.filter((job) => {
-            if (jobType === "All") {
-                return true;
-            }
-            return job.jobType === jobType;
-        });
-        setsearchDetails(filteredJobLists);
-    };
 
     const handlefatchforPagination = async (selvalues, jobListing) => {
         setSelectedColumns(selvalues);
@@ -229,62 +159,84 @@ console.log("query",searchQuery)
         setSelectedcolm(paginatedData);
         console.log("dd",paginatedData)
     };
-    
 
-    // useEffect(() =>{
-    //     const jobfetch = async() =>{
-    //         let tnId = await getTennantId();
-    //         await getJobList(tnId,StartValue,limit).then((response)=>
-           
-    //         setjobList(response)
-
-    //         );
+        //  console.log("sech",filteredJobLists)
+        // setFilteredJobLists(filteredJobLists);
+     
+        const handleFilterStatus = (status) => {
+            console.log("Clicked status:", status);
             
-    //     }
-      
-    //     jobfetch();
-    // }, [])
+            setSelectedStatus(status);
+            
+            // Filter jobs by status
+            if (status !== "") {
+                const filteredJobs = jobLists.filter((job) => job.status === status);
+                setFilteredJobs(filteredJobs);
+                
+                if (filteredJobs.length === 0) {
+                    const errorMessage = getStatusErrorMessage(status);
+                    setErrorPopupMessage(errorMessage);
+                    setErrorPopupVisible(true); // Show error popup
+                } else {
+                    setErrorPopupVisible(false); // Hide error popup
+                }
+            } else {
+                setFilteredJobs(jobLists); // Show all jobs
+                setErrorPopupVisible(false); // Hide error popup
+            }
+        };
 
-    // useEffect(() => {
-    //     const jobfetch = async () => {
-    //         try {
-    //             const tnId = await getTennantId();
-    //             const response = await getJobList(tnId, StartValue, limit);
-    //             setjobList(response);
-    //             console.log("respr",response)
-    //         } catch (error) {
-    //             console.error("Error fetching job list:", error);
-    //         }
-    //     };
-    
-    //     jobfetch();
-    // }, []);
-
-     // Modify the useEffect hook that fetches job list
-     useEffect(() => {
+    useEffect(() => {
         const jobfetch = async () => {
             try {
+                // Fetch job list
                 const tnId = await getTennantId();
                 const response = await getJobList(tnId, StartValue, limit);
-    
+
                 // Apply filters to the job list based on selectedStatus and selectedJobType
                 let filteredList = response;
-    
+
                 if (selectedStatusFilter !== "") {
                     filteredList = filteredList.filter(job => job.status === selectedStatusFilter);
                 }
                 if (selectedJobType !== "All") {
                     filteredList = filteredList.filter(job => job.jobType === selectedJobType);
                 }
-    
+
                 setjobList(filteredList);
+
+                // Show error popup if no jobs with the selected status on the current page
+                if (selectedStatusFilter !== "") {
+                    const errorMessage = getStatusErrorMessage(selectedStatusFilter);
+                    setErrorPopupMessage(errorMessage);
+                    setErrorPopupVisible(filteredList.length === 0);
+                } else {
+                    setErrorPopupVisible(false);
+                }
             } catch (error) {
                 console.error("Error fetching job list:", error);
             }
         };
-    
+
         jobfetch();
-    }, [selectedStatusFilter, selectedJobType]); // Add selectedStatusFilter as a dependency
+    }, [selectedStatusFilter, selectedJobType]);
+
+
+    const getStatusErrorMessage = (status) => {
+        
+        switch (status) {
+            case "P":
+                return "In this page, all jobs are fully completed. No 'InProgress' jobs found here. Please check on the next page.";
+            case "M":
+                return "In this page, all jobs are fully Automatic. No 'Manual' jobs found here. Please check on the next page.";
+            case "A":
+                return "In this page, all jobs are fully Manual. No 'Automatic' jobs found here. Please check on the next page.";
+            case "Y":
+                return "In this page, all jobs are fully InProgress. No 'Completed' jobs found here. Please check on the next page.";
+            default:
+                return "";
+        }
+    };
     
    
     useEffect(() =>{getSigmaConfigcolumns()},[])
@@ -295,23 +247,29 @@ console.log("query",searchQuery)
         setColumnValue(colmData);
     }
 
-    const paginationProcess = async(start,limit) =>{
+    const paginationProcess = async (start, limit) => {
         setStartValue(start);
-        if(selectedValues[0]){
+        if (selectedValues[0]) {
             let tnId = await getTennantId();
-            let joblisted = await getJobList(tnId,start,limit);
-            await handlefatchforPagination(selectedValues,joblisted);
-       }
-       let tnId = await getTennantId();
-        await getJobList(tnId,start,limit).then((response)=>
-        // console.log("response",response),
-        setjobList(response)
-        
-        )
-        // console.log("response",response)
+            let joblisted = await getJobList(tnId, start, limit);
+            await handlefatchforPagination(selectedValues, joblisted);
+        }
+        let tnId = await getTennantId();
+        try {
+            const response = await getJobList(tnId, start, limit);
+            setjobList(response);
+            if (response.length === 0) {
+                setReachedLastPage(true);
+            } else {
+                setReachedLastPage(false);
+            }
+        } catch (error) {
+            console.error("Error fetching job list:", error);
+        }
         setlimit(limit);
-        setActive("active")
-    }
+        setActive("active");
+    };
+    
 
     const resetColumn = async(value) =>{
         handleShow();
@@ -334,6 +292,17 @@ console.log("query",searchQuery)
           console.error("Error updating:", error);
         }
       };
+      const handleFilterJobType = (jobType) => {
+        console.log("Filtering by job type:", jobType);
+        setSearch1(""); // Clear the search query when changing job type filter
+        const filteredJobLists = jobLists.filter((job) => {
+            if (jobType === "All") {
+                return true;
+            }
+            return job.jobType === jobType;
+        });
+        setsearchDetails(filteredJobLists);
+    };
     return ( 
         <div>
             <Row className="mb-2">
@@ -495,7 +464,8 @@ console.log("query",searchQuery)
                             </li>
                             <li><Link className='active' onClick={()=>paginationProcess(0,10)} >{StartValue?(StartValue/10)+1:'1'}</Link></li>
                             <li>
-                                <Link onClick={()=>paginationProcess(StartValue+10,10)} className="next">
+                                {/* <Link {`next ${reachedLastPage ? 'disabled' : ''}`} onClick={()=> { if (!reachedLastPage) {paginationProcess(StartValue+15,15)} className="next"> */}
+                                <Link className={`next ${reachedLastPage ? 'disabled' : ''}`}onClick={() => { if (!reachedLastPage) { paginationProcess(StartValue+10,10)}  }}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                         <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                     </svg>
@@ -578,6 +548,22 @@ console.log("query",searchQuery)
                     </Row>
                 </Modal.Body>
             </Modal>
+            {/* <Modal show={errorPopupVisible} onHide={() => setErrorPopupVisible(false)} centered> */}
+            <Modal show={errorPopupVisible} onHide={() => setErrorPopupVisible(false)} centered>
+    <Modal.Header closeButton>
+        <Modal.Title>Status Not Found</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+        {errorPopupMessage}
+    </Modal.Body>
+    <Modal.Footer>
+        <div className="text-center">
+            <Button variant="primary" onClick={() => setErrorPopupVisible(false)}>
+                OK
+            </Button>
+        </div>
+    </Modal.Footer>
+</Modal>
         </div>
      );
 }
