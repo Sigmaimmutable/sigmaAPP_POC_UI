@@ -240,7 +240,15 @@
         {
             "source": "/platform/v1/jobhandle/:tennat*/:type*/:status*",
             "destination": "https://testapi.stasisonline.in/platform/v1/jobhandle/:tennat*/:type*/:status*"
-        }    
+        },
+        {
+            "source": "/platform/v1/uservisitrecord/:id*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/uservisitrecord/:id*"
+        },
+        {
+            "source": "/platform/v1/uservisitrecord/",
+            "destination": "https://testapi.stasisonline.in/platform/v1/uservisitrecord/"
+        }  
 
 
     ]
