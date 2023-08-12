@@ -11,6 +11,7 @@ import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout"; 
 
 function UserManagement(props) {
+    const [reachedLastPage, setReachedLastPage] = useState(false);
     const [search, setSearch] = useState(false);
     const [show, setShow] = useState(false);
     const [showButton, setShowButton] = useState(false);
@@ -134,6 +135,11 @@ function UserManagement(props) {
           let [value, data] = await OrgTenentcheckget(tenantid, start);  
           if (value) {  
                 setUserManage(data);
+                if (data.length === 0) {
+                    setReachedLastPage(true);
+                } else {
+                    setReachedLastPage(false);
+                }
           }
       } catch (error) { 
             console.error(error);        
@@ -463,7 +469,7 @@ useEffect(() => {
                             <li><Link to="/">5</Link></li>
                             <li><Link to="/">6</Link></li> */}
                             <li>
-                                <Link className="next" onClick={()=>{paginationProcess(pageSize+10)}}>
+                            <Link className={`next ${reachedLastPage ? 'disabled' : ''}`}onClick={() => { if (!reachedLastPage) { paginationProcess(pageSize + 10);}  }}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                         <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                     </svg>

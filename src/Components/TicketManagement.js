@@ -10,6 +10,7 @@ import {createUserVisits,getTicketsById,ResolveTicket,getTennantId,help1} from '
 // import useIdle from "./useIdleTimeout";
 
 function TicketManagement() {
+    const [reachedLastPage, setReachedLastPage] = useState(false);
     const [disabled, setDisabled] = useState(true);
     const [search, setSearch] = useState(false);
     const [show, setShow] = useState(false);
@@ -29,51 +30,7 @@ function TicketManagement() {
     const [searchQuery, setSearchQuery] = useState(false);
     const [searchDetails, setsearchDetails] = useState([]);
     const [userManage, setUserManage] = useState([""]);
-
-//     const history = useNavigate();
-//     const navigate = useNavigate()
-//    // console.log("selected",roleId);
-
-//    const [openModal, setOpenModal] = useState(false)
-       
-//    const { logout } = useContext(AuthContext);
-       
-//    const handleIdle = () => {
-//        setOpenModal(true);
-//    }
-//    const { idleTimer } = useIdle({ onIdle: handleIdle, idleTime: 5 })
-   
-//    const stay = () => {
-//        setOpenModal(false)
-//        idleTimer.reset()
-//    }
-   
-//    const handleLogout = () => {
-//        logout()
-//        setOpenModal(false)
-//    } 
-
-//    const logout3 = async () =>
-//    {  
-       
-//        let email=localStorage.getItem('UserID')
-//        console.log("emailid",email)
-     
-//       localStorage.setItem("Login",false)
-//       localStorage.removeItem('Login');
-//       localStorage.setItem("UserID"," ");
-//       localStorage.removeItem('UserID');
-//       localStorage.removeItem('UserName');
-//       if ( localStorage.getItem('rememberMe')=== true) {
-//        localStorage.removeItem('rememberMe');
-//      } else {
-//        localStorage.removeItem('rememberMe');
-//      }
-//      history('/');
-      
-     
-      
-//    } 
+    const [hasMoreRecords, setHasMoreRecords] = useState(true);
 
     const decrementBLSize=()=>{
       if(pageBLSize >= 4){
@@ -131,6 +88,11 @@ const ticketlisting =async(firstvalue)=>{
         let [check, data] = await getTicketsById(firstvalue);
         if (check) {  
             setUserManage(data);
+            if (data.length === 0) {
+                setReachedLastPage(true);
+            } else {
+                setReachedLastPage(false);
+            }
       }
         // settenentid(tenentid.tenantId);
         console.log("ticket",data);
@@ -274,6 +236,7 @@ const checkedTicketButton = (email,id) =>
 const paginationProcess = async(start) =>{
     setstartvalue(start);
     await ticketlisting(start);
+
 }
 const attend = async (id, email) => {
     await help1(id, email, localStorage.getItem("UserName"));
@@ -549,7 +512,7 @@ const attend = async (id, email) => {
                             <li><Link to="/">5</Link></li>
                             <li><Link to="/">6</Link></li> */}
                             <li>
-                                <Link className="next" onClick={()=>{paginationProcess(startvalue+10)}}>
+                            <Link className={`next ${reachedLastPage ? 'disabled' : ''}`}onClick={() => { if (!reachedLastPage) { paginationProcess(startvalue + 10);}  }}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                         <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                     </svg>
@@ -559,24 +522,6 @@ const attend = async (id, email) => {
                     </Col>
                 </Row>
             </div>
-            {/* /.mb-20 */}
-            {/* <Modal show={openModal} onHide={stay}>
-        <Modal.Header closeButton>
-          <Modal.Title>Your session is about to expire</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Your session is about to expire. You'll be automatically signed out.</p>
-          <p>Do you want to stay signed in?</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={logout3}>
-            Sign out now
-          </Button>
-          <Button variant="primary" onClick={stay}>
-            Stay signed in
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
         </div>
      );
 }

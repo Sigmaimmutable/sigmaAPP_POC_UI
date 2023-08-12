@@ -743,7 +743,7 @@ export const getJobList = async (tennatid,start,limit) =>
       try {
         const response = await axios(options2);
          jobsList = response.data;
-        // console.log('Response:', jobsList);
+        console.log('Responsejob:', jobsList);
       }catch(error){
         console.error("done2",error);
       }
