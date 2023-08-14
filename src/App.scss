@@ -1065,6 +1065,13 @@ h6{
         > ul > li{
             position: relative;
 
+            &:last-child{
+                .sidebar-subnav{
+                    top: auto;
+                    bottom: -40px;
+                }
+            }
+
             &:hover{
                 div{
                     display: block;
