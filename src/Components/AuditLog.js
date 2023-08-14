@@ -13,7 +13,7 @@ function Audit(props) {
     const [showButton, setShowButton] = useState(false);
     const [memberlistTable, setmemberlistTable] = useState([]);
     const [userManage, setUserManage] = useState([""]);  //setuservisit
-    const [uservisit1, setuservisit] = useState([""]);
+    const [uservisit1, setuservisit] = useState([]);
     const [deleteEmail, setDeleteEmail] = useState();
     const [gotValue, setGotValue] = useState(false);
     const handleClose = () => setShow(false);
@@ -192,7 +192,7 @@ useEffect(()=>{
             <th className="text-center">Email Id</th>
             <th className="text-center">Role Type</th>
             <th className="text-center">Activity</th>
-            <th className="text-center">Login Time</th>
+            <th className="text-center">Session Time</th>
             {/* <th className="text-center">Logout Time</th> */}
         </tr>
     </thead>
