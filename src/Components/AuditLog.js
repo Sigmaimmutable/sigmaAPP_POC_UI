@@ -192,7 +192,7 @@ useEffect(()=>{
             <th className="text-center">Email Id</th>
             <th className="text-center">Role Type</th>
             <th className="text-center">Activity</th>
-            <th className="text-center">Login Time</th>
+            <th className="text-center">Session Time</th>
             {/* <th className="text-center">Logout Time</th> */}
         </tr>
     </thead>
