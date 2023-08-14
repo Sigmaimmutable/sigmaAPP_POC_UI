@@ -13,7 +13,7 @@ function Audit(props) {
     const [showButton, setShowButton] = useState(false);
     const [memberlistTable, setmemberlistTable] = useState([]);
     const [userManage, setUserManage] = useState([""]);  //setuservisit
-    const [uservisit1, setuservisit] = useState([""]);
+    const [uservisit1, setuservisit] = useState([]);
     const [deleteEmail, setDeleteEmail] = useState();
     const [gotValue, setGotValue] = useState(false);
     const handleClose = () => setShow(false);
