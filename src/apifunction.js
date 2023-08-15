@@ -1823,7 +1823,7 @@ export const uservisitrecords= async(id) =>{
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
     try{
-      let response2 = await fetch(`/platform/v1/uservisitrecord/`, 
+      let response2 = await fetch(`/platform/v1/uservisitrecord`, 
       {
           headers: {
               'x-api-key': `${key}`    
