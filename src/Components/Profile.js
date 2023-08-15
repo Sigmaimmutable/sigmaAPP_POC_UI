@@ -32,7 +32,7 @@ function Profile() {
     console.log("checkprofile2",Img)  
 
     const [Imgname,setImgname] = useState("");
-    const [mobileNumber, setMobileNumber] = useState("");  
+    const [mobno,setmobno] = useState("");   
     const [selectedCountry, setSelectedCountry] = useState(""); 
     const [gender,setgender] = useState("");    
     const [state,setState] = useState("");   
@@ -68,7 +68,7 @@ const [country, setCountry] = useState('');
     }
     const handleSelectMobileNumber = (e) => {
         console.log("mobno value", e);
-        setMobileNumber(e)
+        setmobno(e);
       };
     const handleTimezoneChange = (event) => {
         setTimezoneselected(event);
@@ -114,7 +114,7 @@ const [country, setCountry] = useState('');
         //     handleHideLoad()
         // }
        
-         if(mobileNumber === null || mobileNumber === "" || mobileNumber === undefined){
+         if(mobno === null || mobno === "" || mobno === undefined){
             // setissuesdisplay("please enter Social URL")
             // setshowTestAlert(true)                                  
             toast.warning(`please enter mobno `,{autoClose:5000})
@@ -146,9 +146,9 @@ const [country, setCountry] = useState('');
             handleShowLoad()
             toast.dismiss()
             toast.success(`Updating profile Inprogress`,{autoClose:3000});  
-            console.log("datapass",getIProfile.firstName,getIProfile.lastName,getIProfile.emailId,mobileNumber,gender,country,region,timezoneselected.label
+            console.log("datapass",getIProfile.firstName,getIProfile.lastName,getIProfile.emailId,mobno,gender,country,region,timezoneselected.label
             ,language,Img);
-            let Profileupdate= await Userprofileupdate(getIProfile.firstName,getIProfile.lastName,mobileNumber,Img,gender,region,country,"English",timezoneselected.label
+            let Profileupdate= await Userprofileupdate(getIProfile.firstName,getIProfile.lastName,mobno,Img,gender,region,country,"English",timezoneselected.label
                 ,getIProfile.emailId);
             console.log("updated successfully",Profileupdate);
             toast.success(`updated successfully`,{autoClose:3000});  
@@ -436,18 +436,19 @@ const [country, setCountry] = useState('');
                                     </Form.Group>
                                 </Col>
                                 <Col className="mb-2" sm={6}>
-                        <Form.Group className="mb-2" controlId="form.ControlInput1">
-                            <Form.Label className='text-muted'>Contact No</Form.Label>
-                            <Form.Control
-                                type="tel"
-                                value={mobileNumber}
-                                onChange={(e) => {
-                                    const inputMobileNumber = e.target.value.replace(/\D/g, "").slice(0, 10); // Remove non-digit characters and restrict to 10 digits
-                                    setMobileNumber(inputMobileNumber);
-                                }}
-                            />
-                        </Form.Group>
-                    </Col>
+                                    <Form.Group className="mb-2" controlId="form.ControlInput1">
+                                    {getIProfile.mobileNumber === "" || getIProfile.mobileNumber=== undefined || getIProfile.mobileNumber === null || getIProfile.mobileNumber === "" || getIProfile.mobileNumber === undefined || getIProfile.mobileNumber === null ? (
+                                  <>
+                                   <Form.Label className='text-muted'>Contact No</Form.Label>
+                                        <Form.Control type="number"  onChange={(e) => handleSelectMobileNumber(e.target.value)}
+    />
+                                  </>  ):(<>
+                                    <Form.Label className='text-muted'>Contact No</Form.Label>
+                                   <Form.Control type="number"  value={getIProfile.mobileNumber} />
+                                  </>)}
+                                       
+                                    </Form.Group>
+                                </Col>
                                 <Col className="mb-2" sm={6}>
                                     <Form.Group className="mb-2" controlId="form.ControlInput1">
                                         <Form.Label className='text-muted'>Gender</Form.Label>
