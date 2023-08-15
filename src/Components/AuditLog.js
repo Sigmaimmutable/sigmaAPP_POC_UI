@@ -12,6 +12,10 @@ function Audit(props) {
   const [startvalue, setstartvalue] = useState(0);
   const[loaderDownload, setLoaderDownload] = useState(false);
   const [pageSize, setPageSize] = useState(10); // Set your desired page size here
+  
+  const handleShowLoadDownload = () => setLoaderDownload(true);
+  const handleHideLoadDownload = () => setLoaderDownload(false);
+  console.log("search",searchQuery)
 
   const handleSearch = (searchQuer) => {
     if (!searchQuer) {
@@ -52,18 +56,19 @@ function Audit(props) {
         allData.push(...data);
         currentPage++;
       }
-
+    
       return allData;
+    
     } catch (error) {
       console.error(error);
       return [];
     }
   };
-  useEffect(() => {
-    fetchAllData().then((data) => {
-      setUserManage(data);
-    });
-  }, []);
+//   useEffect(() => {
+//     fetchAllData().then((data) => {
+//       setUserManage(data);
+//     });
+//   }, []);
 
   const uservisit = async () => {
     try {
@@ -80,11 +85,12 @@ function Audit(props) {
   useEffect(() => {
     uservisit();
   }, []);
-
   const downloadCsv = async () => {
     try {
+      handleShowLoadDownload(); // Show loader before starting the download process
+  
       const allData = await fetchAllData();
-      
+  
       const csvData = [].concat(
         ...allData.map((x) => ({
           "Sl no": x.id,
@@ -94,30 +100,33 @@ function Audit(props) {
           "Session Time": x.loginTime,
         }))
       );
-
+  
       const csvRows = [];
       const headers = Object.keys(csvData[0]);
       csvRows.push(headers.join(','));
-
+  
       for (const row of csvData) {
         const values = headers.map(header => row[header]);
         csvRows.push(values.join(','));
       }
-
+  
       const csvContent = csvRows.join('\n');
       const blob = new Blob([csvContent], { type: 'text/csv' });
       const url = URL.createObjectURL(blob);
-
+  
       const link = document.createElement('a');
       link.href = url;
       link.download = 'activity_details.csv';
       link.click();
-
+  
       URL.revokeObjectURL(url);
     } catch (error) {
       console.error(error);
+    } finally {
+      handleHideLoadDownload(); // Hide loader after the download process
     }
   };
+  
   return (
     <div className="container-fluid">
       <Row className="mb-20">
