@@ -69,6 +69,26 @@ function Audit(props) {
 //       setUserManage(data);
 //     });
 //   }, []);
+const ticketTableFetch = async () => {
+    if (
+      localStorage.getItem("UserID") === null ||
+      localStorage.getItem("UserID") === "" ||
+      localStorage.getItem("UserID") === " " ||
+      localStorage.getItem("UserID") === undefined ||
+      localStorage.getItem("UserID") === ""
+    ) {
+    } else {
+      try {
+        await Users(startvalue);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    ticketTableFetch();
+  }, [startvalue]);
 
   const uservisit = async () => {
     try {
@@ -92,13 +112,19 @@ function Audit(props) {
       const allData = await fetchAllData();
   
       const csvData = [].concat(
-        ...allData.map((x) => ({
-          "Sl no": x.id,
-          "Email Id": x.mailId,
-          "Role Type": x.roleType,
-          "Activity": !uservisit1.find((visit) => visit.algoAddress === x.mailId) ? x.activity : "",
-          "Session Time": x.loginTime,
-        }))
+        ...allData.map((x) => {
+          const sessionTime = uservisit1.find((visit) => visit.algoAddress === x.mailId)
+            ? ` ${uservisit1.find((visit) => visit.algoAddress === x.mailId).startDate}`
+            : ` ${x.loginTime}`;
+  
+          return {
+            "Sl no": x.id,
+            "Email Id": x.mailId,
+            "Role Type": x.roleType,
+            "Activity": !uservisit1.find((visit) => visit.algoAddress === x.mailId) ? x.activity : "",
+            "Session Time": sessionTime,
+          };
+        })
       );
   
       const csvRows = [];
@@ -127,6 +153,7 @@ function Audit(props) {
     }
   };
   
+  
   return (
     <div className="container-fluid">
       <Row className="mb-20">
@@ -141,7 +168,9 @@ function Audit(props) {
             <Form>
               <InputGroup className="form-search shadow">
                 <Button variant="reset" id="button-addon1">
-                  {/* ... (search icon SVG) */}
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                    </svg>
                 </Button>
                 <Form.Control
                   aria-describedby="basic-addon1"
@@ -237,27 +266,16 @@ function Audit(props) {
               </tr>
             ))
           )}
-          {/* ... (other JSX code) */}
+           {!searchQuery && !Array.isArray(userManage) && (
+            <tr>
+                <td colSpan="6" className="text-center">
+                    No data available
+                </td>
+            </tr>
+        )}
         </tbody>
       </Table>
-        {/* <div className="d-flex justify-content-end mt-3">
-          <button
-            onClick={downloadCsv}
-            className="btn btn-primary"
-          >
-            Download All Pages as CSV
-          </button>
-        </div> */}
-
-         {/* <div className="d-flex justify-content-end mt-3" style={{ position: 'absolute', top: '0', right: '0', zIndex: '1' }}>
-    <button
-      onClick={downloadCsv}
-      className="btn btn-primary"
-      style={{ backgroundColor: 'black', color: 'white' }}
-    >
-      Download All Pages as CSV
-    </button>
-  </div> */}
+       
  
         <Row className="mt-4">
           <Col md={8} className="d-flex justify-content-md-end justify-content-center">
