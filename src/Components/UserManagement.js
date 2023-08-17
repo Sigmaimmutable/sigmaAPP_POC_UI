@@ -4,28 +4,40 @@ import Eye from '../asserts/images/eye-icon.svg'
 import Question from '../asserts/images/question-icon.svg'
 import { Link,useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import { OrgAdminmailcheckget1, OrgTenentcheckget, DeleteOrgUser, getTennantId,Orgadminsignup } from "../apifunction";
+import { OrgAdminmailcheckget1, OrgTenentcheckget, DeleteOrgUser, getTennantId,Orgadminsignup,updateuser } from "../apifunction";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 import {CreateOrganizationPost,CreateOrguserrolepost,createUserVisits} from '../apifunction';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout"; 
 
 function UserManagement(props) {
+    const [userRole, setUserRole] = useState(''); // Initialize with an empty string
     const [reachedLastPage, setReachedLastPage] = useState(false);
     const [search, setSearch] = useState(false);
     const [show, setShow] = useState(false);
+    const [show1, setShow1] = useState(false);
     const [showButton, setShowButton] = useState(false);
     const [memberlistTable, setmemberlistTable] = useState([]);
     const [userManage, setUserManage] = useState([""]);
     const [deleteEmail, setDeleteEmail] = useState();
+    const [deleteEmail1, setDeleteEmail1] = useState();
     const [gotValue, setGotValue] = useState(false);
-
+    const handleClose1 = () => setShow1(false);
+    const handleShow1 = () => setShow1(true);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [pageSize, setPageSize] = useState(0);   
     const [searchQuery, setSearchQuery] = useState(false);
     const [searchDetails, setsearchDetails] = useState([]);
     const [filterDisplay, setFilterDisplay] = useState("All");
+    const [showPopup, setShowPopup] = useState(false);
+    const [email, setEmail] = useState('');
+    const [updateUserEmail, setUpdateUserEmail] = useState('');
+    const [selectedRoleType, setSelectedRoleType] = useState('');
+    const checkedUpdateButton = (userId) => {
+        setUpdateUserEmail(userId);
+        setShowButton(true);
+      };
     const history = useNavigate();
         const navigate = useNavigate()
        // console.log("selected",roleId);
@@ -122,6 +134,46 @@ function UserManagement(props) {
         }
         }
 
+//         const Updateuser = async (emailId, roleType) => {
+//             await updateuser(emailId, roleType);  
+//     // console.log("updatedcheck");
+//     // handleClose1();
+//     handlePopupClose();
+// }
+      
+const Updateuser = async (emailId, roleType) => {
+    await updateuser(emailId, roleType); 
+    // Close the popup
+    handlePopupClose();
+    // Optionally, you can update the user's role in the UI.
+    const updatedUserList = userManage.map(user => {
+        if (user.emailId === emailId) {
+            return { ...user, roleType }; // Update the roleType for the specific user
+        }
+       
+        return user;
+        setShowButton(false);
+    });
+    setUserManage(updatedUserList); // Update the state to reflect the change
+    toast.success("User role updated successfully"); // Show a success toast
+};
+
+const Updateuser1 = async (emailId,roleType,start) => {
+    try {
+       
+        await updateuser(emailId,roleType); 
+        let tenantid = await getTennantId(localStorage.getItem('UserID'));
+        let [value, data] = await OrgTenentcheckget(tenantid, start);
+        if (value) {
+          setUserManage(data);
+        }
+        setShowButton(false);
+        handlePopupClose();
+      } catch (err) {
+        console.error(err);
+    }
+};
+
     const memberTableFetch = async(start) => {            
         if(localStorage.getItem("UserID")  === null || localStorage.getItem("UserID")  === "" || localStorage.getItem("UserID")  === " " || localStorage.getItem("UserID") === undefined || localStorage.getItem("UserID") === ''){
         }
@@ -147,15 +199,18 @@ function UserManagement(props) {
       
     }
 }
-
 useEffect(() => {
-    if(gotValue === false)
-    {
-        memberTableFetch(pageSize);
-        userdata();
+    if (gotValue === false) {
+      memberTableFetch(pageSize);
+      userdata();
+  
+      const savedRoleType = localStorage.getItem('selectedRoleType');
+      setSelectedRoleType(savedRoleType || '');
+  
+      const savedUserRole = localStorage.getItem('userRole'); // Assuming you store the user role in local storage
+      setUserRole(savedUserRole || ''); // Set the user role from local storage or an empty string
     }
-},[memberlistTable])
-
+  }, [memberlistTable]);
       
       const userdata = async () => {
         let algoAddress = localStorage.getItem("UserID");
@@ -175,7 +230,17 @@ useEffect(() => {
         setDeleteEmail(email);
         setShowButton(!showButton);
     }
+
+    const checkedDelete1Button = (email, roleType) => {
+        setDeleteEmail1(email);
+        setSelectedRoleType(roleType); // Set the selected RoleType
+        setShowButton(!showButton);
     
+        // Save the selected RoleType in local storage
+        localStorage.setItem('selectedRoleType', roleType);
+        localStorage.setItem('selectedEmail', email);
+    };
+
     const paginationProcess = async(start) =>{
         await memberTableFetch(start);
         setPageSize(start);
@@ -185,7 +250,21 @@ useEffect(() => {
     //     await Orgadminsignup(emailid, pwd,signInMethod) ;
     //     }
 
+    const handleDropdownSelect = (selectedRole) => {
+        // Show the popup (modal) when a dropdown item is selected
+        handleShow1();
+    };
 
+const handlePopupShow = () => {
+    setShowPopup(true);
+  };
+
+  const handlePopupClose = () => {
+    setShowPopup(false);
+  };
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
     return ( 
         <Layout getThemeMode={() => undefined} roleType = {props.roleType} getIProfile = {props.getIProfile}>
         <div className="container-fluid">
@@ -199,6 +278,56 @@ useEffect(() => {
             <Row className="mb-20" style={{minHeight: '40px'}}>
                 <Col xs={6} className="ms-md-0 d-flex align-items-center justify-content-end ms-auto order-md-1">
                     <Link to="/admin-manager/add-user" className="btn-gray-black btn btn-gray rounded-pill me-2">Add user</Link>
+                    <Button
+  variant="gray"
+  className={`btn-gray-black rounded-pill me-2 `}
+  onClick={handlePopupShow}
+>
+  Update User
+</Button>
+
+<Modal show={showPopup} onHide={handlePopupClose} centered>
+  <Modal.Body className="text-center py-5">
+    <div className="d-flex pt-4 flex-column align-items-center justify-content-center">
+      <select
+        style={{ marginBottom: "10px" }} // Add margin to the bottom
+        value={email} // Assuming you want to display the selected email as the initial value
+        onChange={handleEmailChange} // Assuming you have a function to handle email changes
+      >
+        <option value="">Select Role</option>
+        <option value="Viewer">Viewer</option>
+        <option value="Full User">Full User</option>
+        <option value="FDA Auditor">FDA Auditor</option>
+        <option value="Vault Owner">Vault Owner</option>
+        <option value="System Admin">System Admin</option>
+      </select>
+
+        <div className="d-flex">
+          <Button
+            type="submit"
+            variant="dark"
+            className="btn-button btn-sm"
+            onClick={() => Updateuser(deleteEmail1, email)}
+          >
+            Update
+          </Button>
+          <Button
+            variant="dark"
+            className="btn-button btn-sm"
+            onClick={handlePopupClose}
+            style={{ marginLeft: "10px" }}
+          >
+            Cancel
+          </Button>
+        </div>
+      
+        </div>
+      
+    
+  </Modal.Body>
+</Modal>
+
+                    {/* <Link to="/admin-manager/add-user" className="btn-gray-black btn btn-gray rounded-pill me-2">update user</Link> */}
                     <Button variant="outline-gray" className={`me-2 btn-outline-gray-black ${!showButton && 'disabled'}`} onClick={() => handleShow()}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="d-block" viewBox="0 0 16 16">
                             <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
@@ -236,12 +365,11 @@ useEffect(() => {
                     )}
                 </Col>
             </Row>
-
+    
             <Modal show={show} onHide={handleClose} centered>
                 <Modal.Body className="text-center py-5">
                     <img src={Question} className="mb-2" alt="Question" />
                     <h6>Are you sure you want to execute this action?</h6>
-
                     <div className="d-flex pt-4 align-items-center justify-content-center">
                         <Button type="submit" variant="dark" className="btn-button btn-sm" onClick={() => Deleteorguser(deleteEmail)}>Yes</Button>
                         <Button type="reset" variant="outline-dark" className="btn-button btn-sm ms-3" onClick={handleClose}>No</Button>
@@ -378,7 +506,7 @@ useEffect(() => {
                     </> : <>
                     {userManage.map((x,y)=>{
                               return(
-                                  <tr>
+                                  <tr key={y}>
                                      {/* || x.roleType === "System Admin"  */}
                                   {x.roleType === "Super User" ? <>
                                   <td width="84">
@@ -398,7 +526,10 @@ useEffect(() => {
                                                 className="mb-0 check-single"
                                                 type='checkbox'
                                                 id= "checked"
-                                                onClick={() => checkedDeleteButton(x.emailId)}
+                                               onClick={() => {
+                      checkedDelete1Button(x.emailId, x.roleType);
+                      checkedUpdateButton(x.emailId);
+                    }}
                                             />
                                         </div>
                                     </td>                                  
@@ -406,9 +537,8 @@ useEffect(() => {
                                   <td className="text-center">{(y+1) + (pageSize/10 * 10)}</td>
                                   <td className="text-center">{x.userName}</td>
                                   <td className="text-center">{x.emailId}</td>
-                                  <td className="text-center">{x.roleType}</td>
-                                  <td className="text-center">{x.method}
-                  </td>
+                                  <td className="text-center">{x.roleType === selectedRoleType ? selectedRoleType : x.roleType}</td>
+                                  <td className="text-center">{x.method} </td>
                                   {/* <td>  <ButtonLoad loading={loader} className='w-100 btn-blue mb-3' onClick={()=>{Deleteorguser(x.emailId)}}>Delete user</ButtonLoad> </td>       */}
 
                                   {/* <td>{x.networkName}</td> */}

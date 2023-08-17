@@ -45,6 +45,10 @@
             "destination": "https://testapi.stasisonline.in/platform/v1/userdetail"
         },
         {
+            "source": "/platform/v1/userdetail/:path*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/userdetail/:path*"
+        },
+        {
             "source": "/platform/v1/userdetailsid",
             "destination": "https://testapi.stasisonline.in/platform/v1/userdetailsid"
         },
