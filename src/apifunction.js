@@ -1876,3 +1876,31 @@ export const uservisitrecords= async(id) =>{
     }
      
 }
+export const getoriginaldocprop = async (tennatId, docid) => {       
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
+  // const id = 31;
+
+  const options2 = {
+    method: 'POST',
+    url: `/platform/v1/veevadocs/${tennatId}/${docid}`,
+    headers: {
+      'x-api-key': `${key}`    
+    },
+    data: '31',
+  };
+
+  let docsList = [];
+
+  try {
+    const response = await axios(options2);
+    docsList = response.data;
+    console.log('Response:', docsList);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+  
+  return docsList;
+}

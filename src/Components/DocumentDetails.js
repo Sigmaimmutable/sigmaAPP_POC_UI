@@ -3,7 +3,8 @@ import Eye from '../asserts/images/eye-icon.svg'
 import React, { useState, useEffect } from 'react';
 import { Link,useNavigate,Redirect, useLocation } from "react-router-dom";
 import Favourite from "./Snippets/Fav";
-
+import verify from '../asserts/images/compliant.png'
+import arrow from '../asserts/images/up-right-arrow.png'
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
 import { useContext } from "react"
@@ -11,6 +12,7 @@ import { Container, Modal } from "react-bootstrap";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 import { fetchSigmadocByTid,fetchSigmadocdetails,addToFavorites,deleteFavorite, getTennantId,NotificationPost,getNotificationById,handleWriteToDocumentlist} from '../apifunction';
 import ButtonLoad from 'react-bootstrap-button-loader';
+
 function DocumentDetails() {
     const history = useNavigate()
     const [search, setSearch] = useState(false);
@@ -386,6 +388,7 @@ function DocumentDetails() {
                                 />
                             </div>
                         </th> */}
+                        <th className="text-center">Verification</th>
                         <th className="text-center">View</th>
                         <th className="text-center">Favourite</th>
                         <th className="text-center">ID</th>
@@ -413,6 +416,12 @@ function DocumentDetails() {
             />
           </div>
         </td> */}
+        <td className="text-center">
+         <Link to={{pathname: "/document-details/check",search:`?id=${postt.sigmaId}&docid=${postt.id}`}}><img src={verify} alt="verify" /><img src={arrow} style={{fillColor:"#0000FF"}}alt="arrow" /></Link>
+          {/* <Dropdown.Toggle variant="reset" id="dropdown-basic">
+                                            
+                                            </Dropdown.Toggle> */}
+                                            </td>
          <td className="text-center">
          <Link to={{pathname: "/document-details/single",search:`?id=${postt.sigmaId}`}}><img src={Eye} alt="Eye" /></Link>
           {/* <Dropdown.Toggle variant="reset" id="dropdown-basic">
@@ -494,6 +503,14 @@ function DocumentDetails() {
         <td>{postt.filename__v ? postt.filename__v : ""}</td>
         <td>{postt.name__v ? postt.name__v : ""}</td>
         <td className="text-center">
+        <Link to={{pathname: "/document-details/check",search:`?id=${postt.sigmaId}`}}>{postt.status__v ? postt.status__v : ""}</Link>
+
+          {/* <Dropdown.Toggle variant="reset" id="dropdown-basic">
+                                            
+                                            </Dropdown.Toggle> */}
+                                            </td>
+        <td className="text-center">
+
         {/* <DocumentDetailsSingle x={postt.sigmaId}/> */}
           {/* <Link to="/document-details/single">{postt.status__v ? postt.status__v : ""}</Link> */}
           {/* <Link to={`/document-details/single/${postt.sigmaId}`}>
