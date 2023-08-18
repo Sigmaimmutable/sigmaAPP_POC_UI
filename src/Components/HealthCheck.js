@@ -185,7 +185,7 @@ const MyPage = (props) => {
             </Card>
           </div>
 
-          <div className="col-md-4 mb-4">
+          {/* <div className="col-md-4 mb-4">
             <Card className="shadow border-0 h-100">
               <Card.Body className="p-lg-4 p-md-3 p-3">
                 <h4 className="card-title">Job Health</h4>
@@ -204,12 +204,12 @@ const MyPage = (props) => {
                 </div>
               </Card.Body>
             </Card>
-          </div>
+          </div> */}
 
           <div className="col-md-4 mb-4">
           <Card className="shadow border-0 h-100">
               <Card.Body className="p-lg-4 p-md-3 p-3">
-              <h4 className="card-title text-center">Timer Until Next Job</h4>
+              <h4 className="card-title text-center mb-4">Timer Until Next Job</h4>
                   <div className="progress-content justify-content-center pt-3">
                   <h3 className='digital-clock px-3 py-2'>{Timer(epochTimeState)}</h3>
                   {/* <Row className="align-items-center">

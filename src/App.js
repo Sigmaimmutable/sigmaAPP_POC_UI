@@ -12,6 +12,7 @@ import Dashboard from './Components/Dashboard';
 import Profile from './Components/Profile';
 import DocumentDetails from './Components/DocumentDetails';
 import DocumentDetailsSingle from './Components/DocumentDetailsSingle';
+import DocumentCheck from './Components/DocumentCheck';
 import Document from './Components/Document';
 import ResourcePersistJob from './Components/ResourcePersistJob';
 import JobDetails from './Components/JobDetails';
@@ -90,6 +91,7 @@ function App () {
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
+                <Route path=":slug" element={ <DocumentCheck /> } />
               </Route>
               <Route path="/job" element={<Job roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
@@ -123,7 +125,8 @@ function App () {
               <Route path="/home" element={ <Dashboard roleType = {roleType} getIProfile={getIProfile}/> } />
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
-                <Route path=":slug" element={ <DocumentDetailsSingle /> } />
+                <Route path="/document-details/single" element={ <DocumentDetailsSingle /> } />
+                <Route path="/document-details/check" element={ <DocumentCheck /> } />
               </Route>
               <Route path="/job" element={<Job roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
@@ -166,6 +169,7 @@ function App () {
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
+                <Route path=":slug" element={ <DocumentCheck /> } />
               </Route>
               <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
               <Route path="/help-support" element={ <HelpSupport  roleType = {roleType} getIProfile={getIProfile}/> } />
@@ -187,6 +191,7 @@ function App () {
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
+                <Route path=":slug" element={ <DocumentCheck /> } />
               </Route>
               <Route path="/job" element={<Job roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
@@ -224,6 +229,7 @@ function App () {
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
+                <Route path=":slug" element={ <DocumentCheck /> } />
               </Route>
               <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
               <Route path="/help-support" element={ <HelpSupport  roleType = {roleType} getIProfile={getIProfile}/> } />
@@ -245,6 +251,7 @@ function App () {
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
+                <Route path=":slug" element={ <DocumentCheck /> } />
               </Route>
               <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
               <Route path="/help-support" element={ <HelpSupport  roleType = {roleType} getIProfile={getIProfile}/> } />
@@ -265,7 +272,8 @@ function App () {
               <Route path="/home" element={ <Dashboard roleType = {roleType} getIProfile={getIProfile}/> } />
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
-                <Route path=":slug" element={ <DocumentDetailsSingle /> } />
+                <Route path="/document-details/single" element={ <DocumentDetailsSingle /> } />
+                <Route path="/document-details/check" element={ <DocumentCheck /> } />
               </Route>
               <Route path="/job" element={<Job roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
