@@ -198,6 +198,37 @@ export const Orgadminsignup = async (emailid,Pwd,signInMethod) =>
       // });
 }
 
+
+export const updateuser = async (emailId,roleType) =>
+{       
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+    //console.log("done1",response.data);
+      // console.log("date",date);
+      const options2 = {
+        method: 'PUT',
+        url: `/platform/v1/userdetail/${emailId}`,
+        headers: {
+          'x-api-key': `${key}`    
+        },
+        data: {
+            'emailId': `${emailId}`,
+            'roleType': `${roleType}`
+          
+        }
+      };
+      let usercheck=true;
+      try {
+        let response = await axios.request(options2);
+        let statuscheck= await response.data;
+        console.log("response",statuscheck);
+         }catch(error){
+           console.error("done2",error);
+           usercheck=false;
+         }
+         return usercheck;
+}
+
 export const Orguserlogincheck = async (emailid,pwd) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
