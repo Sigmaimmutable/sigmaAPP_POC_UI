@@ -9,8 +9,8 @@ import AuthContext from "./AuthContext";
 import SignInwithEnterpriseSSO from "./SignInwithEnterpriseSSO";
 
 const oktaAuth = new OktaAuth({
-    issuer: 'https://dev-33074294.okta.com/oauth2/default',
-    clientId: '0oa9kuhhc9psUKzp05d7',
+    issuer: 'https://dev-14662214.okta.com/oauth2/default',
+    clientId: '0oaavk9mjvBQORadI5d7',
     redirectUri: window.location.origin + '/implicit/callback',
     scopes: ['openid', 'profile', 'email'],
   });
