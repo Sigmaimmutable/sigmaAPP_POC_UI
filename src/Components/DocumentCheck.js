@@ -359,6 +359,19 @@ const DocumentVerification= (props)=>{
   </td>
   </tr>
   <tr>
+    <th>Document Checksum</th>
+    <td>{documentDetails?.md5Checksum}</td>
+    <td>{vvdocumentDetails.md5Checksum}</td>
+    <td colSpan="4"><center>
+    {documentDetails?.global_id__sys === vvdocumentDetails.data[0]?.global_id__sys
+ ? (
+      <Badge bg="success">Pass</Badge>
+    ) : (
+      <Badge bg="danger">Fail</Badge>
+    )}</center>
+  </td>
+  </tr>
+  <tr>
     <th>File Modified Date</th>
     <td>{new Date(timestampToEpoch(documentDetails?.file_modified_date__v)).toLocaleString()}</td>
     <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.file_modified_date__v)).toLocaleString()}</td>
