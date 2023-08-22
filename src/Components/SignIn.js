@@ -189,7 +189,7 @@ function SignIn() {
                         <div className='mb-50'>
                         <Button className='btn-access w-100 mb-2'>
   <LoginSocialGoogle
-    client_id="308436375718-6q7sm9h4gmcm6l5901uv1s523ppoidvi.apps.googleusercontent.com"
+    client_id="482696259620-eocmo9r6l0jdkh4go14riiebrodcl3h7.apps.googleusercontent.com"
     scope="openid profile email"
     discoveryDocs="claims_supported"
     access_type="offline"
