@@ -256,6 +256,10 @@
         {
             "source": "/platform/v1/veevadocs/:tennat*/:type*/:docid*",
             "destination": "https://testapi.stasisonline.in/platform/v1/veevadocs/:tennat*/:type*/:docid*"
+        },
+        {
+            "source": "/platform/v1/doccount/:id*",
+            "destination": "https://testapi.stasisonline.in/platform/v1/doccount/:id*"
         }  
 
 
