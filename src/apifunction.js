@@ -1904,3 +1904,32 @@ export const getoriginaldocprop = async (tennatId, docid) => {
   
   return docsList;
 }
+
+export const getoriginaldoccount = async (tennatId) => {       
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  
+  axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
+  // const id = 31;
+
+  const options2 = {
+    method: 'POST',
+    url: `/platform/v1/doccount/${tennatId}`,
+    headers: {
+      'x-api-key': `${key}`    
+    },
+    data: '31',
+  };
+
+  let docscount = [];
+
+  try {
+    const response = await axios(options2);
+    docscount = response.data;
+    console.log('Response:', docscount);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+  
+  return docscount;
+}
