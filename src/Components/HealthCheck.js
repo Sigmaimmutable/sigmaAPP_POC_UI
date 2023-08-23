@@ -1,13 +1,13 @@
 import React,{useState,useEffect,useContext} from 'react';
 import Layout from "./Snippets/Layout";
 import OuterRoundProgressBar from './HealthProgressBar';
-import { OrgAdminmailcheckget, getJobsCountByType, getLatestJObTime, getTennantId } from '../apifunction';
-import { Card, Col, Row, Modal, Button } from 'react-bootstrap';
+import { OrgAdminmailcheckget, getJobsCountByType, getLatestJObTime, getTennantId,getoriginaldoccount } from '../apifunction';
+import { Card, Col, Row, Modal, Button} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
 import "./HealthCheck.css";
-
+import ButtonLoad from 'react-bootstrap-button-loader';
 
 const MyPage = (props) => {
     useEffect(() => {
@@ -21,7 +21,14 @@ const MyPage = (props) => {
     const [documentsUploadedCount, setDocumentsUploadedCount] = useState(0); // State for documents uploaded
     const [nftsCreatedCount, setNftsCreatedCount] = useState(0); 
     const [remainingTime, setRemainingTime] = useState('');
+    const [vvdocumentcount, setvvDocumentcount] = useState(null);
+    const [vvDocumentCount, setVvDocumentCount] = useState(null);
+    const [countsFetched, setCountsFetched] = useState(false);
+    const [sigmaDocumentCount, setsigmadocCount] = useState(null);
+    const[loaderVerify, setLoaderVerify] = useState(false);
 
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false);
     console.log("----timer----", epochTimeState);
     const history = useNavigate();
 
@@ -44,7 +51,18 @@ const MyPage = (props) => {
         logout()
         setOpenModal(false)
     } 
-
+    const handleVerifyCounts = async () => {
+      try {
+        handleShowLoadVerify();
+        await fetchjobcount();
+        await getvvdoccount();
+        setCountsFetched(true);
+        handleHideLoadVerify();
+      } catch (error) {
+        console.error("Error verifying counts:", error);
+        handleHideLoadVerify();
+      }
+    };
     const logout3 = async () =>
     {  
         
@@ -70,6 +88,7 @@ const MyPage = (props) => {
         let firstjob = await getJobsCountByType("DOC_FETCH");
         let secondjob = await getJobsCountByType("MAKE_IREC");
         let lasttimejobrunned = await getLatestJObTime();
+        console.log("docssigmacount1", firstjob);
         setfjob(firstjob);
         setsjob(secondjob);
         let tnId = await getTennantId();
@@ -85,6 +104,20 @@ const MyPage = (props) => {
           }
 
     }
+    const getvvdoccount = async () => {
+      try {
+        
+        let tnId = await getTennantId();
+        const vvdoccount = await getoriginaldoccount(tnId);
+        let firstjob = await getJobsCountByType("DOC_FETCH");
+        setsigmadocCount(parseInt(documentsUploadedCount + nftsCreatedCount));
+        setVvDocumentCount(vvdoccount.totalcount); // Update vvDocumentCount state
+        console.log("docscounts", vvdoccount.totalcount);
+        console.log("docssigmacount", sigmaDocumentCount);
+      } catch (error) {
+        console.error("Error fetching vvdoccount:", error);
+      }
+    };
 
     const calculatePercentageDifference = (num1, num2) => { 
       if (isNaN(num1) || isNaN(num2)) {
@@ -136,7 +169,45 @@ const MyPage = (props) => {
     
       return remainingTime;
     };
+
+    const renderDifferenceBadge = (difference) => {
+      let badgeClass = "";
+      let badgeText = "";
     
+      if (difference === 0) {
+        badgeClass = "badge bg-success";
+        badgeText = "No Difference";
+      } else if (difference > 0 && difference <= 100) {
+        badgeClass = "badge bg-warning";
+        badgeText = "Slightly Differ and the Difference is ";
+      } else if (difference > 100) {
+        badgeClass = "badge bg-danger";
+        badgeText = "Highly  Differ and the Difference is";
+      }
+    
+      return (
+        <span className={badgeClass} style={{ fontSize:"15px" }}>
+          {badgeText} &nbsp; <span style={{ fontWeight: "bold" }}>{difference}</span>
+        </span>
+      );
+        };
+    // const renderCountInfo = () => {
+    //   if (countsFetched) {
+    //     return (
+    //       <div>
+    //         {/* ... (existing count info rendering) */}
+    //         <p><b>vvDocument Count:</b> {vvdocumentcount}</p>
+    //       </div>
+    //     );
+    //   } else {
+    //     return <p>Click the button to verify counts.</p>;
+    //   }
+    // };
+  
+    useEffect(() => {
+      fetchjobcount();
+      getvvdoccount();
+    }, []);
   return (
     <Layout getThemeMode={() => undefined} roleType = {props.roleType} getIProfile = {props.getIProfile}>
     <div className="container-fluid">
@@ -221,9 +292,35 @@ const MyPage = (props) => {
               </Card.Body>
             </Card>
           </div>
-
-        </div>
+         
+<div className="col-md-4 mb-4">
+  <Card className="shadow border-0 h-100">
+    <Card.Body className="p-lg-4 p-md-3 p-3">
+    <h4 className="card-title text-center mb-4"></h4>
+      <div className="progress-content justify-content-center pt-3">
+        {countsFetched ? null : (
+          <ButtonLoad loading={loaderVerify} variant="gray" className="btn-gray-black me-2 mb-1 px-3" onClick={handleVerifyCounts}>
+            Docs Counts Check
+          </ButtonLoad>
+        )}
       </div>
+      {countsFetched ? (
+        <div className="card-title text-center mb-4 pt-3">
+          {renderDifferenceBadge(vvDocumentCount - (documentsUploadedCount + nftsCreatedCount))}
+        </div>
+      ) : (
+        <h6 className="card-title text-center mb-4"></h6>
+      )}
+    </Card.Body>
+  </Card>
+</div>
+         
+    </div>
+      </div>
+
+
+
+     
       <Modal show={openModal} onHide={stay}>
         <Modal.Header closeButton>
           <Modal.Title>Your session is about to expire</Modal.Title>
