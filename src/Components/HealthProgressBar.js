@@ -27,7 +27,7 @@ const OuterRoundProgressBar = ({ value }) => {
     height: '100%',
     borderRadius: '50%',
     border: `10px solid ${theme === 'light' ? '#0970BE' : '#2dece4'}`,
-    clipPath: `polygon(0 0, 100% 0, 100% ${value}%, 0 100%)`,
+    clipPath: `polygon(0 0, 100% 0, 100% ${value ==0?100:value}%, 0 100%)`,
   };
 
   const innerCircleStyle = {
@@ -58,7 +58,7 @@ const OuterRoundProgressBar = ({ value }) => {
 
   return (
     <div className="outer-round-progress-bar" style={containerStyle}>
-      <span style={percentageStyle}>{value}%</span>
+      <span style={percentageStyle}>{value ==0?100:value}%</span>
       <div className="outer-circle" style={outerCircleStyle}>
         <div className="inner-circle" style={innerCircleStyle}>
           {/* <span style={percentageStyle}>{value}%</span> */}

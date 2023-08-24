@@ -110,7 +110,7 @@ const MyPage = (props) => {
         let tnId = await getTennantId();
         const vvdoccount = await getoriginaldoccount(tnId);
         let firstjob = await getJobsCountByType("DOC_FETCH");
-        setsigmadocCount(parseInt(documentsUploadedCount + nftsCreatedCount));
+        // setsigmadocCount(parseInt(documentsUploadedCount + nftsCreatedCount));
         setVvDocumentCount(vvdoccount.totalcount); // Update vvDocumentCount state
         console.log("docscounts", vvdoccount.totalcount);
         console.log("docssigmacount", sigmaDocumentCount);
