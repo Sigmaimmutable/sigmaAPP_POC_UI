@@ -16,11 +16,13 @@ function UserManagement(props) {
     const [search, setSearch] = useState(false);
     const [show, setShow] = useState(false);
     const [show1, setShow1] = useState(false);
+    const [show2, setShow2] = useState(false);
     const [showButton, setShowButton] = useState(false);
     const [memberlistTable, setmemberlistTable] = useState([]);
     const [userManage, setUserManage] = useState([""]);
     const [deleteEmail, setDeleteEmail] = useState();
     const [deleteEmail1, setDeleteEmail1] = useState();
+    
     const [gotValue, setGotValue] = useState(false);
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
@@ -34,10 +36,24 @@ function UserManagement(props) {
     const [email, setEmail] = useState('');
     const [updateUserEmail, setUpdateUserEmail] = useState('');
     const [selectedRoleType, setSelectedRoleType] = useState('');
+    const [checkboxChecked, setCheckboxChecked] = useState(false);
+    const [selectedCheckboxId, setSelectedCheckboxId] = useState(null);
+    const [selectedDeleteCheckboxId, setSelectedDeleteCheckboxId] = useState(null);
+    const [selectedDeleteEmail, setSelectedDeleteEmail] = useState(null);
+    
     const checkedUpdateButton = (userId) => {
+        console.log("setemailcheck",userId);
         setUpdateUserEmail(userId);
         setShowButton(true);
       };
+
+      const checkedUpdateButton1 = (userId) => {
+        console.log("setemailcheckde",userId);
+        setUpdateUserEmail(userId);
+        setSelectedDeleteEmail(userId);
+        setShowButton(true);
+      };
+      
     const history = useNavigate();
         const navigate = useNavigate()
        // console.log("selected",roleId);
@@ -60,7 +76,7 @@ function UserManagement(props) {
            logout()
            setOpenModal(false)
        } 
-    
+       
        const logout3 = async () =>
        {  
            
@@ -93,6 +109,7 @@ function UserManagement(props) {
               r.emailId.toLowerCase().includes(searchQuer.toLowerCase())
             );
             setsearchDetails(filteredJobLists);
+            console.log("searchfordel",filteredJobLists);
         }
         
         // console.log("search",filteredJobLists)
@@ -116,23 +133,71 @@ function UserManagement(props) {
         // console.log("search",filteredJobLists)
         // setFilteredJobLists(filteredJobLists);
       };
+    //   const Deleteorguser = async () => {
+    //     try {
+    //         if (!selectedDeleteEmail) {
+    //             // Handle the case where no email is selected for deletion
+    //             toast.error("Please select a user to delete.");
+    //             return;
+    //         }
+    
+    //         console.log("deleteOrguser11", selectedDeleteEmail);
+    
+    //         let orguserdelete = await DeleteOrgUser(selectedDeleteEmail);
+    //         console.log("deleteOrguser", orguserdelete);
+    //         toast.success("Deleted user successfully");
+    
+    //         let tenantid = await getTennantId(localStorage.getItem('UserID'));
+    //         let [value, data] = await OrgTenentcheckget(tenantid, pageSize);
+            
+    //         if (value) {
+    //             setUserManage(data);
+    //         }
+    
+    //         setShowButton(!showButton);
+    //         handleClose();
+    //     } catch (err) {
+    //         toast.error(err);
+    //     }
+    // };
  
-    const Deleteorguser = async (emailid) => {
-        try{
-            let orguserdelete=await DeleteOrgUser(emailid);            
-            console.log("deleteOrguser",orguserdelete);
-            toast.success("Deleted user successfully");
-            let tenantid = await getTennantId(localStorage.getItem('UserID'));
-            let [value, data] = await OrgTenentcheckget(tenantid, pageSize);  
-            if (value) {  
-                  setUserManage(data);
+    // const Deleteorguser = async (selectedDeleteEmail) => {
+    //     try{
+    //         console.log("checkkk");
+    //         const emailIdToDelete = selectedDeleteEmail; // Get the selected emailId from state
+    //         console.log("deleteOrguser11", selectedDeleteEmail);
+    //         let orguserdelete=await DeleteOrgUser(selectedDeleteEmail);            
+    //         console.log("deleteOrguser",orguserdelete);
+    //         toast.success("Deleted user successfully");
+    //         let tenantid = await getTennantId(localStorage.getItem('UserID'));
+    //         let [value, data] = await OrgTenentcheckget(tenantid, pageSize);  
+    //         if (value) {  
+    //               setUserManage(data);
+    //         }
+    //         setShowButton(!showButton);
+    //         handleClose();
+    //     }catch(err){
+    //         toast.error(err);
+    //     }
+    //     }
+
+        const Deleteorguser = async (emailid) => {
+            try{
+                console.log("emailconsole",emailid);
+                let orguserdelete=await DeleteOrgUser(emailid);            
+                console.log("deleteOrguser",orguserdelete);
+                toast.success("Deleted user successfully");
+                let tenantid = await getTennantId(localStorage.getItem('UserID'));
+                let [value, data] = await OrgTenentcheckget(tenantid, pageSize);  
+                if (value) {  
+                      setUserManage(data);
+                }
+                setShowButton(!showButton);
+                handleClose();
+            }catch(err){
+                toast.error(err);
             }
-            setShowButton(!showButton);
-            handleClose();
-        }catch(err){
-            toast.error(err);
-        }
-        }
+            }
 
 //         const Updateuser = async (emailId, roleType) => {
 //             await updateuser(emailId, roleType);  
@@ -225,12 +290,15 @@ useEffect(() => {
         }
       };
 
-    const checkedDeleteButton = (email) =>
-    {
-        setDeleteEmail(email);
-        setShowButton(!showButton);
-    }
-
+    // const checkedDeleteButton = (email) =>
+    // {
+    //     setDeleteEmail(email);
+    //     setShowButton(!showButton);
+    // }
+    const checkedDeleteButton = (emailId) => {
+        console.log("mailcheck",emailId);
+        setSelectedDeleteEmail(emailId); // Set the selected emailId in state
+    };
     const checkedDelete1Button = (email, roleType) => {
         setDeleteEmail1(email);
         setSelectedRoleType(roleType); // Set the selected RoleType
@@ -279,11 +347,11 @@ const handlePopupShow = () => {
                 <Col xs={6} className="ms-md-0 d-flex align-items-center justify-content-end ms-auto order-md-1">
                     <Link to="/admin-manager/add-user" className="btn-gray-black btn btn-gray rounded-pill me-2">Add user</Link>
                     <Button
-  variant="gray"
-  className={`btn-gray-black rounded-pill me-2 `}
-  onClick={handlePopupShow}
+    variant="gray"
+    className={`btn-gray-black rounded-pill me-2 ${!checkboxChecked && 'disabled'}`}
+    onClick={handlePopupShow}
 >
-  Update User
+    Update User
 </Button>
 
 <Modal show={showPopup} onHide={handlePopupClose} centered>
@@ -366,7 +434,7 @@ const handlePopupShow = () => {
                 </Col>
             </Row>
     
-            <Modal show={show} onHide={handleClose} centered>
+            {/* <Modal show={show} onHide={handleClose} centered>
                 <Modal.Body className="text-center py-5">
                     <img src={Question} className="mb-2" alt="Question" />
                     <h6>Are you sure you want to execute this action?</h6>
@@ -375,85 +443,54 @@ const handlePopupShow = () => {
                         <Button type="reset" variant="outline-dark" className="btn-button btn-sm ms-3" onClick={handleClose}>No</Button>
                     </div>
                 </Modal.Body>
-            </Modal>
+            </Modal> */}
             
+            {/* <Modal show={show} onHide={handleClose} centered>
+    <Modal.Body className="text-center py-5">
+        <img src={Question} className="mb-2" alt="Question" />
+        <h6>Are you sure you want to execute this delete action?</h6>
+        <div className="d-flex pt-4 align-items-center justify-content-center">
+            <Button
+                type="submit"
+                variant="dark"
+                className="btn-button btn-sm"
+                onClick={() => {
+                    if (selectedDeleteEmail) {
+                        Deleteorguser(selectedDeleteEmail);
+                        handleClose(); // Close the modal after deletion
+                    }
+                }}
+            >
+                Yes
+            </Button>
+            <Button
+                type="reset"
+                variant="outline-dark"
+                className="btn-button btn-sm ms-3"
+                onClick={handleClose}
+            >
+                No
+            </Button>
+        </div>
+    </Modal.Body>
+</Modal> */}
+  <Modal show={show} onHide={handleClose} centered>
+                <Modal.Body className="text-center py-5">
+                    <img src={Question} className="mb-2" alt="Question" />
+                    <h6>Are you sure you want to execute this action? </h6>
+                    
+                    <div className="d-flex pt-4 align-items-center justify-content-center">
+                  
+                        <Button type="submit" variant="dark" className="btn-button btn-sm" onClick={() => Deleteorguser(updateUserEmail)}>Yes</Button>
+                        <Button type="reset" variant="outline-dark" className="btn-button btn-sm ms-3" onClick={handleClose}>No</Button>
+                    </div>
+                </Modal.Body>
+            </Modal>
             <div className="mb-20">
                 <Table hover responsive>
                     <thead>
                         <tr>
-                            {/* <th width="84">
-                                <div className="d-flex align-items-center justify-content-between">
-                                    <Dropdown size="sm" className="me-2">
-                                        <Dropdown.Toggle variant="reset" id="dropdown-basic">
-                                            <img src={Eye} alt="Eye" />
-                                        </Dropdown.Toggle>
-                                        <Dropdown.Menu className="dropdown-filter-table">
-                                            <div className="d-flex px-2 py-1">
-                                                <Form.Check
-                                                    className="mb-0"
-                                                    type='checkbox'
-                                                    id={`default-1`}
-                                                    label={`Show/Hide Columns`}
-                                                />
-                                            </div>
-                                            <div className="d-flex px-2 py-1">
-                                                <Form.Check
-                                                    className="mb-0"
-                                                    type='checkbox'
-                                                    id={`default-2`}
-                                                    label={`Favourites`}
-                                                />
-                                            </div>
-                                            <div className="d-flex px-2 py-1">
-                                                <Form.Check
-                                                    className="mb-0"
-                                                    type='checkbox'
-                                                    id={`default-3`}
-                                                    label={`Id`}
-                                                />
-                                            </div>
-                                            <div className="d-flex px-2 py-1">
-                                                <Form.Check
-                                                    className="mb-0"
-                                                    type='checkbox'
-                                                    id={`default-4`}
-                                                    label={`File Name`}
-                                                />
-                                            </div>
-                                            <div className="d-flex px-2 py-1">
-                                                <Form.Check
-                                                    className="mb-0"
-                                                    type='checkbox'
-                                                    id={`default-5`}
-                                                    label={`Document Name`}
-                                                />
-                                            </div>
-                                            <div className="d-flex px-2 py-1">
-                                                <Form.Check
-                                                    className="mb-0"
-                                                    type='checkbox'
-                                                    id={`default-6`}
-                                                    label={`State`}
-                                                />
-                                            </div>
-                                            <div className="d-flex px-2 py-1">
-                                                <Form.Check
-                                                    className="mb-0"
-                                                    type='checkbox'
-                                                    id={`default-7`}
-                                                    label={`Global Id`}
-                                                />
-                                            </div>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-
-                                    <Form.Check
-                                        className="mb-0 check-single"
-                                        type='checkbox'
-                                        id={`default-8`}
-                                    />
-                                </div>
-                            </th> */}
+                         
                             <th className="text-center">Checkbox</th>
                             <th className="text-center">Sl no</th>
                             <th className="text-center">User name</th>
@@ -471,6 +508,7 @@ const handlePopupShow = () => {
                                   <td width="84">
                                         <div className="d-flex justify-content-center">
                                             <Form.Check
+                                            
                                                 className="mb-0 check-single"
                                                 type='checkbox'
                                                 id= "checked"
@@ -481,12 +519,26 @@ const handlePopupShow = () => {
                                   </> : <>
                                     <td width="84">
                                         <div className="d-flex justify-content-center">
-                                            <Form.Check
-                                                className="mb-0 check-single"
-                                                type='checkbox'
-                                                id= "checked"
-                                                onClick={() => checkedDeleteButton(x.emailId)}
-                                            />
+  
+                                        <Form.Check
+    className="mb-0 check-single"
+    type='checkbox'
+    id={`checked-${y}`} // Add a unique ID for each checkbox
+    onClick={() => {
+        if (selectedCheckboxId === `checked-${y}`) {
+            console.log("formcheck1",`checked-${y}`);
+            setSelectedCheckboxId(null);
+            setCheckboxChecked(false);
+        } else {
+            console.log("formcheck2",`checked-${y}`);
+            setSelectedCheckboxId(`checked-${y}`);
+            setCheckboxChecked(true);
+           
+            checkedDeleteButton(x.emailId);
+        }
+    }}
+    checked={selectedCheckboxId === `checked-${y}`}
+/>
                                         </div>
                                     </td>                                  
                                   </>}  
@@ -496,6 +548,7 @@ const handlePopupShow = () => {
                                   <td className="text-center">{x.roleType}</td>
                                   <td className="text-center">{x.method}
                   </td>
+
                                   {/* <td>  <ButtonLoad loading={loader} className='w-100 btn-blue mb-3' onClick={()=>{Deleteorguser(x.emailId)}}>Delete user</ButtonLoad> </td>       */}
 
                                   {/* <td>{x.networkName}</td> */}
@@ -522,15 +575,25 @@ const handlePopupShow = () => {
                                   </> : <>
                                     <td width="84">
                                         <div className="d-flex justify-content-center">
-                                            <Form.Check
-                                                className="mb-0 check-single"
-                                                type='checkbox'
-                                                id= "checked"
-                                               onClick={() => {
-                      checkedDelete1Button(x.emailId, x.roleType);
-                      checkedUpdateButton(x.emailId);
-                    }}
-                                            />
+                                        <Form.Check
+    className="mb-0 check-single"
+    type='checkbox'
+    id={`checked-${y}`} // Add a unique ID for each checkbox
+    onClick={() => {
+        if (selectedCheckboxId === `checked-${y}`) {
+            console.log("formcheck1",`checked-${y}`);
+            setSelectedCheckboxId(null);
+            setCheckboxChecked(false);
+        } else {
+            console.log("formcheck22",`checked-${y}`);
+            setSelectedCheckboxId(`checked-${y}`);
+            setCheckboxChecked(true);
+            checkedDelete1Button(x.emailId, x.roleType);
+            checkedUpdateButton(x.emailId);
+        }
+    }}
+    checked={selectedCheckboxId === `checked-${y}`}
+/>
                                         </div>
                                     </td>                                  
                                   </>}  
