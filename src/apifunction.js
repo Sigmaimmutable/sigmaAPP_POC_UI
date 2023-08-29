@@ -1890,7 +1890,7 @@ export const getoriginaldocprop = async (tennatId, docid) => {
     headers: {
       'x-api-key': `${key}`    
     },
-    data: '31',
+    data: '1',
   };
 
   let docsList = [];
@@ -1919,7 +1919,7 @@ export const getoriginaldoccount = async (tennatId) => {
     headers: {
       'x-api-key': `${key}`    
     },
-    data: '31',
+    data: '1',
   };
 
   let docscount = [];
