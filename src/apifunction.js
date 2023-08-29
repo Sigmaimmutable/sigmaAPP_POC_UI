@@ -45,9 +45,10 @@ export const OrgAdminmailcheckget1 = async(email) =>{
       // console.log("response",tentidresponse)
         
       const data2 = await response2.json();
-      console.log("Api inside", data2)
+      console.log("Api inside", data2[0]);
       // return {data2};
-      return [true,data2];
+      return [true,(data2[0])];
+      // return [true, (data2[0]).tennantId];
     }catch(err){
       console.log("vercelerrro",err)
       return [false,""];
