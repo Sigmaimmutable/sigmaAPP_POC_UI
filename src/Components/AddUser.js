@@ -62,8 +62,8 @@ function AddUser() {
     const roleFetch = async () => {
         try{
             let [check, tenentid] = await OrgAdminmailcheckget1(localStorage.getItem('UserID'));
-            console.log("tenetid",tenentid.roleType);
-            setRoleId(tenentid.roleType);
+            console.log("tenetid",(tenentid[0]).roleType);
+            setRoleId((tenentid[0]).roleType);
         }catch(err){
             console.error(err);
         }

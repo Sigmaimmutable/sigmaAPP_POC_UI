@@ -124,9 +124,9 @@ function JobManagement() {
         try{
             let tnId = await getTennantId();
             let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
-            console.log("app.js role", data.roleType);
+            console.log("app.js role", (data[0]).roleType);
             console.log("hoursvalue1", milliseconds);
-            let recheduledtime=await jobreschedulardetail(milliseconds,localStorage.getItem("UserID"),data.roleType,tnId,selectedHours);    
+            let recheduledtime=await jobreschedulardetail(milliseconds,localStorage.getItem("UserID"),(data[0]).roleType,tnId,selectedHours);    
                     
             console.log("recheduledtime",recheduledtime);
             console.log("hoursvalue2", milliseconds);

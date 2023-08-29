@@ -1064,7 +1064,7 @@ export const getTennantId = async () =>
     const data2 = await response2.json();
     console.log("getTennantId", data2)
     // return {data2};
-    return  data2.tennantId;
+    return  (data2[0]).tennantId;
   }catch(err){
     console.log("vercelerrro",err)
     return "";

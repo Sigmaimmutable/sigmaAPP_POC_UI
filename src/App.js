@@ -50,8 +50,8 @@ function App () {
     if(localStorage.getItem("UserID"))
     {
     let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
-    console.log("app.js role", data.roleType);
-    setRoleType(data.roleType);
+    console.log("app.js role", (data[0]).roleType);
+    setRoleType((data[0]).roleType);
 
     }
   }

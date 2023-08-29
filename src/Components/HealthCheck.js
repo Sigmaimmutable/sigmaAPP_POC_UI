@@ -126,8 +126,13 @@ const MyPage = (props) => {
   
       const difference = num2 - num1;
       const percentageDifference = Math.abs((difference / Math.abs(num1)) * 100);
+      if(percentageDifference>0){
       let percentage = parseInt(percentageDifference);
       return percentage;
+       }
+       else{
+        return 0;
+      }
     };
 
     useEffect(() => {
@@ -242,7 +247,7 @@ const MyPage = (props) => {
                 <div className="progress-content pt-3">
                   <Row className="align-items-center">
                     <Col xs={6}>
-                      <OuterRoundProgressBar value={documentsUploadedCount ?calculatePercentageDifference(nftsCreatedCount, documentsUploadedCount):"0"} />
+                      <OuterRoundProgressBar value={documentsUploadedCount === 0|| documentsUploadedCount === "0" ||documentsUploadedCount === undefined || documentsUploadedCount === null||documentsUploadedCount === "undefined"? "0":calculatePercentageDifference(nftsCreatedCount, documentsUploadedCount)} />
                     </Col>
                     <Col xs={6}>
                       <div className="additional-info">
