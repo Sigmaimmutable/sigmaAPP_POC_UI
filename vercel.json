@@ -260,7 +260,11 @@
         {
             "source": "/platform/v1/doccount/:id*",
             "destination": "https://testapi2.stasisonline.in/platform/v1/doccount/:id*"
-        }  
+        },
+        {
+            "source": "/platform/v1/pwdcheck/:emailid*",
+            "destination": "https://testapi2.stasisonline.in/platform/v1/pwdcheck/:emailid*"
+        }
 
 
     ]
