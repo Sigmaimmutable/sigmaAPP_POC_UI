@@ -57,7 +57,7 @@ function SignIn() {
            
             localStorage.setItem("UserName",userprofiledetail.firstName);
             let [check,rolecheck] = await  OrgAdminmailcheckget1(emailRef);
-            let sessionlogin= await Sessionloginpost("","","Login",(rolecheck[0]).tennantId,(rolecheck[0]).roleType,emailRef);
+            let sessionlogin= await Sessionloginpost("","","Login",rolecheck.tennantId,rolecheck.roleType,emailRef);
             console.log("sessionstatus",sessionlogin);
             let [checklogin,loginstauscheck] = await  Sessionstatusget(emailRef);
             console.log("sessionstatuscheck",loginstauscheck.activity);
