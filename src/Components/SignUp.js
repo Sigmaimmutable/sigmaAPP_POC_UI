@@ -17,7 +17,7 @@ import reportWebVitals from './reportWebVitals';
 // import { Col, Row,Button,Alert} from "react-bootstrap";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 
-import {CreateOrganizationPost,CreateOrguserrolepost,userprofileget,OrgAdminmailcheckget1,Orgadminsignup,OrgAdminmailcheckget,Userprofileupload,Orguserlogincheck} from '../apifunction';
+import {CreateOrganizationPost,CreateOrguserrolepost,userprofileget,OrgAdminmailcheckget1,Orgadminsignup,OrgAdminmailcheckget,Userprofileupload,Orguserlogincheck,OrgPwdCheck} from '../apifunction';
 
 
 
@@ -35,6 +35,8 @@ function SignUp() {
       
      
          let [emailvalid,data2] = await OrgAdminmailcheckget1(email);
+         let pwdget = await OrgPwdCheck(email);
+         console.log("pwdget",pwdget);
          if (firstName === "" || firstName === null || firstName === undefined) {
             setError("Please enter your First Name!");
           } 
@@ -54,9 +56,9 @@ function SignUp() {
           
           else if (emailvalid === true) {
             console.log("validcheck");
-   
-        
-            if (!data2.password || data2.password.trim() === "") {
+            console.log("pwdget",pwdget);
+           
+            if (pwdget=== "N") {
               if (passwordnew !== passwordconfirm) {
                 setError("Password mismatch!");
               } else {

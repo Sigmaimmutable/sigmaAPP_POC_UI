@@ -1934,3 +1934,36 @@ export const getoriginaldoccount = async (tennatId) => {
   
   return docscount;
 }
+export const OrgPwdCheck = async(email) =>{
+   
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+    //Get method start
+    try{
+      let cancelToken;
+      if(typeof cancelToken != typeof undefined)
+      {
+        cancelToken.cancel("API Call cancelled")
+      }
+      let response2 = await fetch(`/platform/v1/pwdcheck/${email}`, 
+      {
+          headers: {
+              'x-api-key': `${key}`    
+            },
+        }
+        )
+ 
+        const data2 = await response2.text(); // Get the raw response text
+        
+        console.log("PWD check", data2);
+        return data2;
+      // return {data2};
+      // return data2;
+
+      
+      // return [true, (data2[0]).tennantId];
+    }catch(err){
+      console.log("vercelerrro",err)
+      return [false,""];
+    }
+     
+}
