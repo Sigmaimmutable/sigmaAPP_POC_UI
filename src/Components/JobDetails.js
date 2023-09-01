@@ -28,6 +28,7 @@ function JobDetails() {
     const [selectedJobType, setSelectedJobType] = useState("All");
     const [reachedLastPage, setReachedLastPage] = useState(false);
     const [selectedStatusFilter, setSelectedStatusFilter] = useState("");
+    const [selectedfetch, setSelectedfetch] = useState(false);
     console.log("details",searchDetails);
     console.log("ch",selectedStatus)
 console.log("Selectedcolm",Selectedcolm)
@@ -35,6 +36,7 @@ console.log("query",searchQuery)
 const [errorPopupVisible, setErrorPopupVisible] = useState(false);
 const [errorPopupMessage, setErrorPopupMessage] = useState("");// State for error popup visibility
 const [filteredJobs, setFilteredJobs] = useState([]);
+const [resetclear, setResetclear] = useState(true);
     const handleClose = () => {
         setShow(false);
         setSelectedValues([]);
@@ -43,9 +45,11 @@ const [filteredJobs, setFilteredJobs] = useState([]);
     const [data, setColumnValue] = useState([""]);
 
     const handleCheckboxClick = (e) => {
+       
         if (selectedValues.includes(e)) {
             const updatedValues = selectedValues.filter((item) => item !== e);
             setSelectedValues(updatedValues);
+            
         }else{
             setSelectedValues([...selectedValues, e]);
         }
@@ -99,6 +103,7 @@ const [filteredJobs, setFilteredJobs] = useState([]);
                 )
                 console.log("svalue",s)
                 setSelectedcolm(s);
+                setSelectedfetch(true);
     }
 
     const handleSearch = (searchQuery) => {
@@ -111,7 +116,10 @@ const [filteredJobs, setFilteredJobs] = useState([]);
             const filteredJobLists = jobLists.filter((job) =>
                 job.status.toLowerCase().includes(searchQuery.toLowerCase())
             );
+             console.log("filtereddata",filteredJobLists,jobLists);
             setsearchDetails(filteredJobLists);
+
+         
         }
     };
         
@@ -152,12 +160,12 @@ const [filteredJobs, setFilteredJobs] = useState([]);
         });
     
         // Apply pagination
-        const startIdx = StartValue;
-        const endIdx = Math.min(startIdx + limit, s.length);
-        const paginatedData = s.slice(startIdx, endIdx);
+        // const startIdx = StartValue;
+        // const endIdx = Math.min(startIdx + limit, s.length);
+        // const paginatedData = s.slice(startIdx, endIdx);
     
-        setSelectedcolm(paginatedData);
-        console.log("dd",paginatedData)
+        setSelectedcolm(s);
+        console.log("dd",s)
     };
 
         //  console.log("sech",filteredJobLists)
@@ -275,6 +283,8 @@ const [filteredJobs, setFilteredJobs] = useState([]);
         handleShow();
         setSelectedValues([])
         setSeValue(value);
+        setResetclear(false);
+        setSearch1('')
     }
     useEffect(() => {
         userdata();
@@ -403,8 +413,8 @@ const [filteredJobs, setFilteredJobs] = useState([]);
                     </thead>
                     <tbody>
 
-                    {Selectedcolm[0] ?
-                    
+                    {/* {Selectedcolm[0] ? */}
+                     {selectedfetch ?
                      (<>
                       
                       {Selectedcolm.map((r,i) =>{
@@ -495,7 +505,7 @@ const [filteredJobs, setFilteredJobs] = useState([]);
                                             aria-label="Write something to search"
                                             placeholder="Search columns..."
                                             className="ps-3"
-                                            onChange={(e) => handleSearch(e)}
+                                            onChange={(e) => handleSearch(e.target.value)}
                                         />
                                         <Button variant="reset"  id="button-addon1">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
@@ -505,7 +515,7 @@ const [filteredJobs, setFilteredJobs] = useState([]);
                                     </InputGroup>
                                 </Card.Header>
                                 <Card.Body className="pt-0">
-                                    {data?.filter((item) => item.toLowerCase().includes(search1?.toLowerCase()))?.map((item, index) => (
+                                    {data?.filter((item) => item.toLowerCase().includes(search1))?.map((item, index) => (
                                         <div key={index} className={`mb-1 d-flex`}>
                                             <Form.Check
                                                 className="mb-0"
@@ -513,6 +523,7 @@ const [filteredJobs, setFilteredJobs] = useState([]);
                                                 id={`default-${index}`}
                                                 label={item}
                                                 value={item}
+                                               checked={selectedValues.includes(item)}
                                                 onChange={() => handleCheckboxClick(item)}
                                             />
                                         </div>
