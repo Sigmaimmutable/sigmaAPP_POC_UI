@@ -1,4 +1,4 @@
-import { Button, Card, Col, Dropdown, Form, InputGroup, Row, Table,Badge} from "react-bootstrap";
+import { Button, Card, Col, Dropdown, Form, InputGroup, Row, Table,Badge,Modal,Toast} from "react-bootstrap";
 import Eye from '../asserts/images/eye-icon.svg'
 import SiteLogo from '../asserts/images/site-logo-xxl.svg'
 import { Link,useParams,useLocation  } from "react-router-dom";
@@ -6,7 +6,7 @@ import { useState,useEffect, useContext } from "react";
 import { fetchSigmadocdetails,getNFTProp,getTennantId,handleWriteToFile} from '../apifunction';
 import CopyIcon from '../asserts/images/copy-icon.svg'
 import { DataContext } from "../App";
-import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
+import { ToastContainer, Zoom, Bounce, toast} from 'react-toastify';
 import Check from '../asserts/images/check_icon.svg';
 import ButtonLoad from 'react-bootstrap-button-loader';
 const DocumentDetailsSingle= (props)=>{
@@ -99,10 +99,26 @@ const DocumentDetailsSingle= (props)=>{
           handleHideLoadDownload();
       }
       }
-    
+      const handleCopyClick = () => {
+        navigator.clipboard.writeText(nftproperties.tokenOwner)
+          .then(() => {
+            toggleShowA();
+            toast.success('Copied successfully!', {
+              position: 'bottom-right',
+              autoClose: 4000,
+              closeButton: false,
+              draggable: false,
+            });
+          })
+          .catch((error) => {
+            console.error('Error copying text: ', error);
+            // Handle the error if needed
+          });
+      };
 
     return ( 
         <div>
+          
                        <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
 
             <div className="mb-20">
@@ -248,10 +264,14 @@ const DocumentDetailsSingle= (props)=>{
     
 </td>
 <td>
-     <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nftproperties.tokenOwner); toggleShowA();}}>
+     {/* <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nftproperties.tokenOwner); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
-                                        </Button>
-                                        </td>                      
+                                        </Button> */}
+     <Button variant="reset" onClick={handleCopyClick}>
+    <img src={CopyIcon} alt="CopyIcon" />
+  </Button>
+                                        </td>      
+                                                        
 
   </tr>
   </thead>

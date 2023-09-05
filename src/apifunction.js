@@ -23,7 +23,7 @@ export const OrgAdminmailcheckget = async (id) => {
 };
 
 export const OrgAdminmailcheckget1 = async(email) =>{
-   
+   console.log("mailcheck",email)
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
     try{
@@ -47,7 +47,13 @@ export const OrgAdminmailcheckget1 = async(email) =>{
       const data2 = await response2.json();
       console.log("Api inside", data2[0]);
       // return {data2};
+      if ((data2[0]) === "" || (data2[0]) === null || (data2[0]) === undefined) {
+        return [false,""];
+      } 
+    else{
       return [true,(data2[0])];
+    }
+      
       // return [true, (data2[0]).tennantId];
     }catch(err){
       console.log("vercelerrro",err)
@@ -1967,3 +1973,35 @@ export const OrgPwdCheck = async(email) =>{
     }
      
 }
+
+export const userByTenantIdAll = async (tenantId) => {
+  const url = `platform/v1/userdetailbytennantall/${tenantId}`;
+  console.log("url", url)
+  let tidall;
+  try {
+    let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+    const options2 = {
+       method: 'GET',
+    url: `/platform/v1/userdetailbytennantall/${tenantId}`,
+    headers: {
+        'x-api-key': `${key}`    
+    },
+   
+    };
+    
+    await axios.request(options2).then(function (response2) {
+    console.log("notification",response2);
+    let dt =  response2.data;
+    tidall=dt;
+    console.log("notification",dt);
+    // return [true, dt];
+    // console.log("update successfull15")
+    })
+    // return {data2};
+    // return [true, data2];
+  }catch(err){
+    console.log("userdetailbytennant",err)
+    // return [false,""];
+  }
+  return tidall;
+};

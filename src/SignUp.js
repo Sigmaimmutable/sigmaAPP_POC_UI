@@ -35,7 +35,7 @@ function SignUp() {
       
      
          let [emailvalid,data2] = await OrgAdminmailcheckget1(email);
-        //  console.log("pwdget1",emailvalid);
+         console.log("pwdget1",emailvalid);
          let pwdget = await OrgPwdCheck(email);
          console.log("pwdget",pwdget);
          if (firstName === "" || firstName === null || firstName === undefined) {
@@ -54,9 +54,11 @@ function SignUp() {
           else if (passwordnew === null || passwordnew === "" || passwordnew === undefined) {
             setError("Please enter an Password!");
           }
+
           else if (passwordconfirm === null || passwordconfirm === "" || passwordconfirm === undefined) {
             setError("Please enter an Confirm Password!");
           }
+          
           else if (emailvalid === true) {
             console.log("validcheck");
             console.log("pwdget",pwdget);

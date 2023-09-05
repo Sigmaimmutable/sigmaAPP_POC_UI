@@ -172,7 +172,7 @@ const Header = ({getIProfile}) => {
            {path:"/document-details",name :"Documents"},
            {path:"/job/job-details" ,name : "All jobs"},
            {path:"/job/immutable-record-jobs",name : 'NFT minter jobs'},
-           {path:"/job/health-check",name : 'Health check up'},
+           {path:"/health-check",name : 'Health check up'},
             {path:"/favourite-documents",name : 'favourites'},
             {path:"/help-support" ,name :'Help and support'}
         ]
