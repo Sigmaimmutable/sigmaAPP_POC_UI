@@ -594,7 +594,15 @@ axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   try {
     let response = await axios.request(options2);
     MailVerify = true;
-    console.log("response",response);
+    let ev = response.data.result;
+      let present = ev.indexOf("Failed")
+      if(present>1){
+        MailVerify =false;
+      }
+      else{
+        MailVerify=true;
+      }
+    console.log("response",response.data);
   }catch(error){
     console.error("done2",error);
     MailVerify = false;
