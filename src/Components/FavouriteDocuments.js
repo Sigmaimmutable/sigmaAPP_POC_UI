@@ -126,6 +126,7 @@ const FavouriteDocuments= (props)=>{
         const updatedFavorites = favoriteData.filter(item => item.docId !== docId);
         setFavoriteData(updatedFavorites);
         console.log("docid",docId)
+        removeFavoriteFromLocalStorage(emailId, docId);
         const deleted = await deleteFavorite(emailId, docId, filename, tenantId);
       
       };
@@ -138,6 +139,21 @@ const FavouriteDocuments= (props)=>{
         console.log("getdata", data);
         setnotifyData(data);
     }; 
+    const removeFavoriteFromLocalStorage = (emailId, docId) => {
+        const localStorageKey = `favorites_${emailId}`;
+        const favoriteItems = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+    
+        // Find the index of the docId in the favoriteItems array
+        const indexToRemove = favoriteItems.indexOf(docId);
+    
+        if (indexToRemove !== -1) {
+            // If found, remove it from the array
+            favoriteItems.splice(indexToRemove, 1);
+    
+            // Update the local storage with the updated favorite items
+            localStorage.setItem(localStorageKey, JSON.stringify(favoriteItems));
+        }
+    };
     return ( 
         <Layout getThemeMode={() => undefined} roleType = {props.roleType} getIProfile = {props.getIProfile}>
             <div className="container-fluid">

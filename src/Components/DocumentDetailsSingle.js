@@ -82,6 +82,8 @@ const DocumentDetailsSingle= (props)=>{
           // let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
           // console.log("app.js role", data.roleType);
           // console.log("hoursvalue1", milliseconds);
+          console.log("tnId",tnId);
+          console.log("docdetails",documentDetails.docChecksum);
           let downloadtapi=await handleWriteToFile(tnId,documentDetails.docChecksum);    
                   
           console.log("recheduldownloadtapiedtime",downloadtapi);
