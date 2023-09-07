@@ -114,12 +114,18 @@ const [country, setCountry] = useState('');
         //     handleHideLoad()
         // }
        
-         if(mobno === null || mobno === "" || mobno === undefined){
-            // setissuesdisplay("please enter Social URL")
-            // setshowTestAlert(true)                                  
-            toast.warning(`please enter mobno `,{autoClose:5000})
-            handleHideLoad()
-        }
+        if (mobno === null || mobno === "" || mobno === undefined) {
+            // If mobno is empty, use the previously displayed mobile number
+            const previousMobileNumber = getIProfile.mobileNumber;
+            if (previousMobileNumber) {
+              setmobno(previousMobileNumber);
+              console.log("previous",mobno);
+            } else {
+              toast.warning(`please enter mobno`, { autoClose: 5000 });
+              handleHideLoad();
+              return; // Exit the function since mobile number is required
+            }
+          }
         else if(country === "" || country === null || country === undefined){
                                            
             toast.warning(`please enter country`,{autoClose:5000})
@@ -152,6 +158,7 @@ const [country, setCountry] = useState('');
                 ,getIProfile.emailId);
             console.log("updated successfully",Profileupdate);
             toast.success(`updated successfully`,{autoClose:3000});  
+            navigate('/')
             toast.dismiss();
             handleHideLoad()
                                                              
@@ -427,7 +434,8 @@ const [country, setCountry] = useState('');
                                 </Col>
                                 <Col className="mb-2" sm={6}>
                                     <Form.Group className="mb-2" controlId="form.ControlInput1">
-                                    {getIProfile.lastName=== "" || getIProfile.lastName=== undefined || getIProfile.lastName=== null || getIProfile.lastName=== "" || getIProfile.lastName === undefined || getIProfile.lastName === null ? (   <> <Form.Label className='text-muted'>Last Name</Form.Label>
+                                    {getIProfile.lastName=== "" || getIProfile.lastName=== undefined || getIProfile.lastName=== null || getIProfile.lastName=== "" || getIProfile.lastName === undefined || getIProfile.lastName === null ? (  
+                                         <> <Form.Label className='text-muted'>Last Name</Form.Label>
                                         <Form.Control type="text" onChange={event => setlastname( event.target.value)} /></>):
                                         ( <>  <Form.Label className='text-muted'>Last Name</Form.Label>
                                         <Form.Control type="text" value={getIProfile.lastName} /></>  )}

@@ -249,7 +249,7 @@ function ImmutableRecordJobs() {
                             <th className="text-center">Company</th>
                             <th className="text-center">Start Time</th>
                             <th className="text-center">Completion Time</th>
-                            {/* <th className="text-center">Status</th> */}
+                            <th className="text-center">Status</th>
                             <th className="text-center">Job Type</th>
                         </tr>
                     </thead>
@@ -275,7 +275,7 @@ function ImmutableRecordJobs() {
                             <td className="text-center">{r.companyCode}</td>
                             <td className="text-center">{r.runStartTime}</td>
                             <td className="text-center">{r.runCompletionTime}</td>
-                            {/* <td className="text-center">Pending</td> */}
+                            <td className="text-center">{r.status === "Y" ? "Completed" : "InProgress"}</td>
                             <td className="text-center">{r.jobType === "Yes" ? "Manual" : "Automatic"}</td>
                         </tr>
                                 </>

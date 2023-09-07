@@ -957,14 +957,32 @@ export const DeleteOrgUser = async (emailid) =>
             
         }
       };
-      
-      axios.request(options2).then(function (response2) {
-       console.log("response",response2);
-       return response2;
-      //  window.location.reload();
-      }).catch(function (error) {
-          console.error("done2",error);
-      });
+      try {
+      const response2 = await axios.request(options2);
+      console.log("response", response2);
+      if (response2.status === 200) {
+        const title = 'User Deletion';
+        const description = `User with email ${emailid} has been deleted.`;
+        
+        const tennat_id = await getTennantId(); // Assuming tenentid is defined
+        const statuses = false;
+  console.log("tennat_id",tennat_id);
+        await NotificationPost(title, description, localStorage.getItem("UserID"), tennat_id, statuses);
+      }
+  
+      return response2;
+      // axios.request(options2).then(function (response2) {
+        
+      //  console.log("response",response2);
+      //  return response2;
+       
+      // //  window.location.reload();
+      // })
+      }
+      catch (error) {
+        console.error("Error:", error);
+        throw error;
+      }
 }
 
 export const getTransaction = async (start,limit,tennatId) =>
@@ -1399,10 +1417,10 @@ export const getLatestJObTime = async () => {
         'x-api-key': key,
       },
     });
-
+  console.log("timeresponse", response);
     if (response.ok) {
       const data = await response.text();
-      // console.log("--time--", data);
+      console.log("--time--", data);
       return data;
     } else {
       return 0; 
