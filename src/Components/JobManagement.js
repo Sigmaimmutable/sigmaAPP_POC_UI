@@ -137,7 +137,7 @@ function JobManagement() {
             // await ticketTableFetch();
             setShowButton(!showButton);
             handleClose();
-            window.location.reload();
+            // window.location.reload();
         }catch(err){
             toast.error(err);
         }

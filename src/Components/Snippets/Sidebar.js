@@ -29,6 +29,7 @@ import heathImg1 from '../../asserts/images/health-check-up 1.png';
 import heathImg2 from '../../asserts/images/health-check-up.png';
 import userImg from '../../asserts/images/team-management.png';
 import adminimg from '../../asserts/images/admin.png';
+import adminimg1 from '../../asserts/images/report.png';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 
@@ -159,15 +160,15 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                     </li>
                     <li>
                         <NavLink to="/user-management">
-                        <img src={NavIcon5} alt='NavIcon5' />
-                            <img src={NavIconAct5} alt='NavIcon5' />
+                        <img src={adminimg} style ={{height:"24px"}}alt='NavIcon5' />
+                            <img src={adminimg}style ={{height:"24px"}} alt='NavIcon5' />
                             <span>User Management</span>
                         </NavLink>
                     </li>
                     <li>
                         <NavLink to='/admin-manager/create-org'>
-                        <img src={NavIcon6} alt='NavIcon6' />
-                            <img src={NavIconAct6} alt='NavIcon6' />
+                        <img src={NavIcon5} alt='NavIcon5' />
+                            <img src={NavIconAct5} alt='NavIcon5' />
 
                             <span>Admin Manager</span>
                         </NavLink>
@@ -306,15 +307,15 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                     </li>
                     <li>
                         <NavLink to="/user-management">
-                        <img src={NavIcon5} alt='NavIcon5' />
-                            <img src={NavIconAct5} alt='NavIcon5' />
+                        <img src={adminimg} style ={{height:"24px"}}alt='NavIcon5' />
+                            <img src={adminimg}style ={{height:"24px"}} alt='NavIcon5' />
                             <span>User Management</span>
                         </NavLink>
                     </li>
                     <li>
                         <NavLink to="/admin">
-                             <img src={adminimg} style ={{height:"24px"}}alt='NavIcon5' />
-                            <img src={adminimg}style ={{height:"24px"}} alt='NavIcon5' />
+                             <img src={adminimg1} style ={{height:"24px"}}alt='NavIcon5' />
+                            <img src={adminimg1}style ={{height:"24px"}} alt='NavIcon5' />
                                 
                             <span>Node Reports</span>
                         </NavLink>
@@ -328,7 +329,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
                                             </span>
-                                            Nft Transactions Report
+                                            NFT Transactions Report
                                         </Link>
                                     </li>
                                     <li>
@@ -346,8 +347,8 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                     </li>
                     <li>
                         <NavLink to='/admin-manager/create-org'>
-                            <img src={NavIcon6} alt='NavIcon6' />
-                            <img src={NavIconAct6} alt='NavIcon6' />
+                        <img src={NavIcon5} alt='NavIcon5' />
+                            <img src={NavIconAct5} alt='NavIcon5' />
                                 
                             <span>Admin Manager</span>
                         </NavLink>
@@ -454,8 +455,8 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                     </li>
                     <li>
                         <NavLink to="/user-management">
-                        <img src={NavIcon5} alt='NavIcon5' />
-                            <img src={NavIconAct5} alt='NavIcon5' />
+                        <img src={adminimg} style ={{height:"24px"}}alt='NavIcon5' />
+                            <img src={adminimg}style ={{height:"24px"}} alt='NavIcon5' />
                             <span>User Management</span>
                         </NavLink>
                     </li>
@@ -576,16 +577,15 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                     </li>
                     <li>
                         <NavLink to="/user-management">
-                        <img src={NavIcon5} alt='NavIcon5' />
-                            <img src={NavIconAct5} alt='NavIcon5' />
+                        <img src={adminimg} style ={{height:"24px"}}alt='NavIcon5' />
+                            <img src={adminimg}style ={{height:"24px"}} alt='NavIcon5' />
                             <span>User Management</span>
                         </NavLink>
                     </li>
                     <li>
                         <NavLink to='/admin-manager/create-org'>
-                            <img src={NavIcon6} alt='NavIcon6' />
-                            <img src={NavIconAct6} alt='NavIcon6' />
-
+                        <img src={NavIcon5} alt='NavIcon5' />
+                            <img src={NavIconAct5} alt='NavIcon5' />
                             <span>Admin Manager</span>
                         </NavLink>
                         <div className='sidebar-subnav'>
@@ -607,7 +607,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
                                             </span>
-                                            Job Handling
+                                            Job Status
                                         </Link>
                                     </li>
                                 </ul>
@@ -688,8 +688,8 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                     </li>
                     <li>
                         <NavLink to="/user-management">
-                        <img src={NavIcon5} alt='NavIcon5' />
-                            <img src={NavIconAct5} alt='NavIcon5' />
+                        <img src={adminimg} style ={{height:"24px"}}alt='NavIcon5' />
+                            <img src={adminimg}style ={{height:"24px"}} alt='NavIcon5' />
                             <span>User Management</span>
                         </NavLink>
                     </li>
@@ -751,8 +751,8 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                     </li>
                     <li>
                         <NavLink to="/user-management">
-                        <img src={NavIcon5} alt='NavIcon5' />
-                            <img src={NavIconAct5} alt='NavIcon5' />
+                        <img src={adminimg} style ={{height:"24px"}}alt='NavIcon5' />
+                            <img src={adminimg}style ={{height:"24px"}} alt='NavIcon5' />
                             <span>User Management</span>
                         </NavLink>
                     </li>
@@ -874,15 +874,15 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                     
                     <li>
                         <NavLink to="/user-management">
-                        <img src={NavIcon5} alt='NavIcon5' />
-                            <img src={NavIconAct5} alt='NavIcon5' />
+                        <img src={adminimg} style ={{height:"24px"}}alt='NavIcon5' />
+                            <img src={adminimg}style ={{height:"24px"}} alt='NavIcon5' />
                             <span>User Management</span>
                         </NavLink>
                     </li>
                     <li>
                         <NavLink to="/admin">
-                            <img src={adminimg} style ={{height:"24px"}}alt='NavIcon5' />
-                            <img src={adminimg}style ={{height:"24px"}} alt='NavIcon5' />
+                            <img src={adminimg1} style ={{height:"24px"}}alt='NavIcon5' />
+                            <img src={adminimg1}style ={{height:"24px"}} alt='NavIcon5' />
 
                             <span>Node Reports</span>
                         </NavLink>
@@ -896,7 +896,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
                                             </span>
-                                            Nft Transactions Report
+                                            NFT Transactions Report
                                         </Link>
                                     </li>
                                     <li>
@@ -914,8 +914,8 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                     </li>
                     <li>
                         <NavLink to='/admin-manager/create-org'>
-                            <img src={NavIcon6} alt='NavIcon6' />
-                            <img src={NavIconAct6} alt='NavIcon6' />
+                        <img src={NavIcon5} alt='NavIcon5' />
+                            <img src={NavIconAct5} alt='NavIcon5' />
 
                             <span>Admin Manager</span>
                         </NavLink>
@@ -959,7 +959,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                                                 <img src={SubIcon1} alt='SubIcon1' />
                                                 <img src={SubIconAct1} alt='SubIconAct1' />
                                             </span>
-                                            Job Handling
+                                            Job Status
                                         </Link>
                                     </li>
                                     {/* <li>

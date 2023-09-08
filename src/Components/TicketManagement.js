@@ -228,6 +228,7 @@ useEffect(() => {
 
 const checkedTicketButton = (email,id) =>
 {
+    
     setSendEmail(email);
     setid(id);
     setShowButton(!showButton);

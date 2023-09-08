@@ -175,8 +175,8 @@ function Dashboard(props) {
             <div className="container-fluid">
                 <Row className="mb-3">
                     <Col md={6} xl={4} xxl={3}>
-                        <h2 className="font-bold">Hi, {localStorage.getItem("UserName")===""||localStorage.getItem("UserName")===null||localStorage.getItem("UserName")===undefined || !localStorage.getItem("UserName")? "User":localStorage.getItem("UserName")}!</h2>
-                        <p>Document Dashboard Summary</p>
+                        <h2 className="font-bold">Dashboard!</h2>
+                        {/* <p>Document Dashboard Summary</p> */}
                     </Col>
                 </Row>
 

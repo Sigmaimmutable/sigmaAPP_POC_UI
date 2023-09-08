@@ -311,6 +311,8 @@ const MyPage = (props) => {
       </div>
       {countsFetched ? (
         <div className="card-title text-center mb-4 pt-3">
+           <h5 className=" text-center mb-4"> Document in Veeva:{vvDocumentCount}</h5>
+           <h5 className=" text-center mb-4">Document in Sigma:{(documentsUploadedCount + nftsCreatedCount)}</h5>
           {renderDifferenceBadge(vvDocumentCount - (documentsUploadedCount + nftsCreatedCount))}
         </div>
       ) : (
