@@ -264,6 +264,10 @@
         {
             "source": "/platform/v1/pwdcheck/:emailid*",
             "destination": "https://testapi2.stasisonline.in/platform/v1/pwdcheck/:emailid*"
+        },
+        {
+            "source": "/platform/v1/joblasttime",
+            "destination": "https://testapi2.stasisonline.in/platform/v1/joblasttime"
         }
 
 

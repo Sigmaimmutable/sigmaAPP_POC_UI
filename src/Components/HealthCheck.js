@@ -1,7 +1,7 @@
 import React,{useState,useEffect,useContext} from 'react';
 import Layout from "./Snippets/Layout";
 import OuterRoundProgressBar from './HealthProgressBar';
-import { OrgAdminmailcheckget, getJobsCountByType, getLatestJObTime, getTennantId,getoriginaldoccount } from '../apifunction';
+import { OrgAdminmailcheckget, getJobsCountByType, getLatestJObTime, getTennantId,getoriginaldoccount,jobschedulardetailget,joblasttime } from '../apifunction';
 import { Card, Col, Row, Modal, Button} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from "./AuthContext";
@@ -26,10 +26,10 @@ const MyPage = (props) => {
     const [countsFetched, setCountsFetched] = useState(false);
     const [sigmaDocumentCount, setsigmadocCount] = useState(null);
     const[loaderVerify, setLoaderVerify] = useState(false);
-
+    const [jobtime, setjobtime] = useState(86400);
     const handleShowLoadVerify = () => setLoaderVerify(true);
     const handleHideLoadVerify = () => setLoaderVerify(false);
-    console.log("----timer----", epochTimeState);
+    console.log("timer", epochTimeState);
     const history = useNavigate();
 
 
@@ -88,13 +88,22 @@ const MyPage = (props) => {
         let firstjob = await getJobsCountByType("DOC_FETCH");
         let secondjob = await getJobsCountByType("MAKE_IREC");
         let lasttimejobrunned = await getLatestJObTime();
-        console.log("docssigmacount1", firstjob);
+        let lasttimejobrunned1 = await joblasttime();
+        setjobtime(lasttimejobrunned1[0].activity);
+        console.log("docssigmacount11", lasttimejobrunned1[0]);
+        console.log("docssigmacount1", lasttimejobrunned1[0].loginTime);
         setfjob(firstjob);
         setsjob(secondjob);
         let tnId = await getTennantId();
         let [check, data2] = await OrgAdminmailcheckget(tnId);
         console.log("OrgAdminmailcheckget", lasttimejobrunned)
-        setEpochTimeState(timestampToEpoch(lasttimejobrunned));
+        const utcDate = new Date(lasttimejobrunned1[0].loginTime);
+    const istDate = new Date(utcDate.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+   
+    console.log("datechecker", lasttimejobrunned1[0].loginTime,istDate);
+
+        setEpochTimeState(timestampToEpoch(istDate));
+        console.log("OrgAdminmailcheckget1", epochTimeState)
         if (check) {
             const nonnftdocs = data2.reduce((total, record) => total + record.rawDocs, 0);
             setDocumentsUploadedCount(nonnftdocs);
@@ -141,15 +150,46 @@ const MyPage = (props) => {
 
     function timestampToEpoch(timestamp) {
       const epochTime = parseInt(new Date(timestamp).getTime() / 1000); // Divide by 1000 to convert to seconds
-      return epochTime;
+      console.log("checkepo",epochTime +19800);
+      return (epochTime+19800);
     }
 
+    // const Timer = () => {
+    //   useEffect(() => {
+    //     const interval = setInterval(() => {
+    //       const now = Math.floor(Date.now() / 1000);
+    //       const difference = (epochTimeState + 86400) - now;
+    //          console.log("checkdate",epochTimeState)
+    //       if (difference <= 0) {
+    //         setRemainingTime('00:00:00:00');
+    //         clearInterval(interval);
+    //       } else {
+    //         const days = Math.floor(difference / 86400);
+    //         const hours = Math.floor((difference % 86400) / 3600);
+    //         const minutes = Math.floor((difference % 3600) / 60);
+    //         const seconds = Math.floor(difference % 60);
+    
+    //         const formattedTime = `${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes
+    //           .toString()
+    //           .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    
+    //         setRemainingTime(formattedTime);
+    //       }
+    //     }, 1000);
+    
+    //     return () => {
+    //       clearInterval(interval);
+    //     };
+    //   }, [epochTimeState]);
+    
+    //   return remainingTime;
+    // };
     const Timer = () => {
       useEffect(() => {
         const interval = setInterval(() => {
           const now = Math.floor(Date.now() / 1000);
-          const difference = (epochTimeState + 86400) - now;
-    
+          const difference = (epochTimeState + (jobtime*3600)) - now;
+  console.log("differ",difference);
           if (difference <= 0) {
             setRemainingTime('00:00:00:00');
             clearInterval(interval);
@@ -158,23 +198,25 @@ const MyPage = (props) => {
             const hours = Math.floor((difference % 86400) / 3600);
             const minutes = Math.floor((difference % 3600) / 60);
             const seconds = Math.floor(difference % 60);
-    
+  
             const formattedTime = `${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes
               .toString()
               .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    
+  
             setRemainingTime(formattedTime);
           }
         }, 1000);
-    
+  
         return () => {
           clearInterval(interval);
         };
       }, [epochTimeState]);
-    
-      return remainingTime;
+  
+      return (
+        <h3 className='digital-clock px-3 py-2'>{remainingTime}</h3>
+      );
     };
-
+  
     const renderDifferenceBadge = (difference) => {
       let badgeClass = "";
       let badgeText = "";
@@ -287,7 +329,7 @@ const MyPage = (props) => {
               <Card.Body className="p-lg-4 p-md-3 p-3">
               <h4 className="card-title text-center mb-4">Timer Until Next Job</h4>
                   <div className="progress-content justify-content-center pt-3">
-                  <h3 className='digital-clock px-3 py-2'>{Timer(epochTimeState)}</h3>
+                  <Timer />
                   {/* <Row className="align-items-center">
                     <Col xs={12}> */}
                       {/* <OuterRoundPercentageBar value={remainingTime} /> */}
