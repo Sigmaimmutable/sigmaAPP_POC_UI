@@ -1,15 +1,17 @@
 import React,{useState,useEffect,useContext} from 'react';
 import Layout from "./Snippets/Layout";
 import OuterRoundProgressBar from './HealthProgressBar';
-import { OrgAdminmailcheckget, getJobsCountByType, getLatestJObTime, getTennantId,getoriginaldoccount,jobschedulardetailget,joblasttime } from '../apifunction';
-import { Card, Col, Row, Modal, Button} from 'react-bootstrap';
+import { OrgAdminmailcheckget, getJobsCountByType, getLatestJObTime, getTennantId,getoriginaldoccount,jobschedulardetailget,joblasttime,userDetailWithEmail,jobreschedulardetail } from '../apifunction';
+import { Card, Col, Row, Modal, Button, Dropdown} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
 import "./HealthCheck.css";
 import ButtonLoad from 'react-bootstrap-button-loader';
+import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
+import Question from '../asserts/images/question-icon.svg'
 
-const MyPage = (props) => {
+const JobSchedule = (props) => {
     useEffect(() => {
         document.title = "Sigma | Health Checkup"
     }, [])
@@ -27,6 +29,13 @@ const MyPage = (props) => {
     const [sigmaDocumentCount, setsigmadocCount] = useState(null);
     const[loaderVerify, setLoaderVerify] = useState(false);
     const [jobtime, setjobtime] = useState(86400);
+
+    const [showButton, setShowButton] = useState(false);
+    const [milliseconds, setMilliseconds] = useState(0);
+    const [show, setShow] = useState(false);
+    const [selectedHours, setSelectedHours] = useState(0);  
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
     const handleShowLoadVerify = () => setLoaderVerify(true);
     const handleHideLoadVerify = () => setLoaderVerify(false);
     console.log("timer", epochTimeState);
@@ -250,6 +259,43 @@ const MyPage = (props) => {
     //     return <p>Click the button to verify counts.</p>;
     //   }
     // };
+
+    const handleSelecthours = (selectedValue) => {
+        setSelectedHours(selectedValue);
+        console.log("selectedValue",selectedValue);
+        setMilliseconds(selectedValue * 3600000);
+        console.log("hoursvalue",milliseconds);
+        //  setMilliseconds(selectedValue * 3600000);
+        //  console.log("hoursvalue",milliseconds);
+        handleShow(); // Update the selected value when an item is clicked
+      };
+
+      const Jobtimechange = async () => {
+        try{
+            let tnId = await getTennantId();
+            let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
+            console.log("app.js role", (data[0]).roleType);
+            console.log("hoursvalue1", milliseconds);
+            let recheduledtime=await jobreschedulardetail(milliseconds,localStorage.getItem("UserID"),(data[0]).roleType,tnId,selectedHours);    
+                    
+            console.log("recheduledtime",recheduledtime);
+            console.log("hoursvalue2", milliseconds);
+            
+            // let Jobrecheduleruser=await jobschedulardetailpost();    
+            // console.log("Jobrecheduleruser",Jobrecheduleruser);
+            toast.success("Rescheduled  successfully");
+            // await ticketTableFetch();
+            setShowButton(!showButton);
+            handleClose();
+            // window.location.reload();
+        }catch(err){
+            toast.error(err);
+        }
+        }
+
+        useEffect(() => {
+            console.log("milliseconds updated:", milliseconds);
+          }, [milliseconds]);
   
     useEffect(() => {
       fetchjobcount();
@@ -257,11 +303,12 @@ const MyPage = (props) => {
     }, []);
   return (
     <Layout getThemeMode={() => undefined} roleType = {props.roleType} getIProfile = {props.getIProfile}>
+    <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
     <div className="container-fluid">
-      <h3 style={{ marginBottom: '30px' }}>Health Check-up</h3>
+      <h3 style={{ marginBottom: '30px' }}>Job Scheduler</h3>
       <div className="">
         <div className="row justify-content-center">
-          <div className="col-md-4 mb-4">
+          {/* <div className="col-md-4 mb-4">
             <Card className="shadow border-0 h-100">
               <Card.Body className="p-lg-4 p-md-3 p-3">
                 <h4 className="card-title">Document Health</h4>
@@ -301,7 +348,7 @@ const MyPage = (props) => {
                 </div>
               </Card.Body>
             </Card>
-          </div>
+          </div> */}
 
           {/* <div className="col-md-4 mb-4">
             <Card className="shadow border-0 h-100">
@@ -323,24 +370,58 @@ const MyPage = (props) => {
               </Card.Body>
             </Card>
           </div> */}
-
-          {/* <div className="col-md-4 mb-4">
+          <Row className="mb-20" style={{minHeight: '40px'}}>
+                  <Col xs={12} className="ms-md-0 d-flex align-items-center justify-content-end ms-auto order-md-1">
+                <Dropdown size="sm">
+                        <Dropdown.Toggle variant="gray" id="dropdown-basic">
+                             Job Runtime Reschedule
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu className="dropdown-filter">
+                        <Dropdown.Item onClick={() => handleSelecthours("6")}>6 hours</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleSelecthours("12")}>12 hours</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleSelecthours("18")}>18 hours</Dropdown.Item>
+              <Dropdown.Item onClick={() => handleSelecthours("24")}>24 hours</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    </Col>
+                  </Row>
+                
+                
+          <div className="col-md-4 mb-4">
           <Card className="shadow border-0 h-100">
               <Card.Body className="p-lg-4 p-md-3 p-3">
               <h4 className="card-title text-center mb-4">Timer Until Next Job</h4>
                   <div className="progress-content justify-content-center pt-3">
-                  <Timer /> */}
+                  
+                  
                   {/* <Row className="align-items-center">
                     <Col xs={12}> */}
                       {/* <OuterRoundPercentageBar value={remainingTime} /> */}
                     {/* </Col>
                   </Row> */}
-                {/* </div>
+                <Timer />
+                </div>
               </Card.Body>
             </Card>
-          </div> */}
+          </div>
+
+          <Modal show={show} onHide={handleClose} centered>
+        <Modal.Body className="text-center py-5">
+          <img src={Question} className="mb-2" alt="Question" />
+          <h6>Are you sure you want to reschedule JobRun time to {selectedHours} hours ?</h6>
+
+          <div className="d-flex pt-4 align-items-center justify-content-center">
+            <Button type="submit" variant="dark" className="btn-button btn-sm"  onClick={()=>Jobtimechange()}>
+              Yes
+            </Button>
+            <Button type="reset" variant="outline-dark" className="btn-button btn-sm ms-3" onClick={handleClose}>
+              No
+            </Button>
+          </div>
+        </Modal.Body>
+      </Modal>
          
-<div className="col-md-4 mb-4">
+{/* <div className="col-md-4 mb-4">
   <Card className="shadow border-0 h-100">
     <Card.Body className="p-lg-4 p-md-3 p-3">
     <h4 className="card-title text-center mb-4"></h4>
@@ -362,7 +443,7 @@ const MyPage = (props) => {
       )}
     </Card.Body>
   </Card>
-</div>
+</div> */}
          
     </div>
       </div>
@@ -393,4 +474,4 @@ const MyPage = (props) => {
   );
 };
 
-export default MyPage;
+export default JobSchedule;

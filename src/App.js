@@ -23,6 +23,9 @@ import AdminMain from './Components/AdminMain';
 import NftTransactionsReport from './Components/NftTransactionsReport';
 import NftTransactionPage from './Components/NftTransactionPage';
 import BlockTransactionsReport from './Components/BlockTransactionsReport';
+import JobScheduleMain from './Components/JobScheduleMain';
+import JobSchedule from './Components/JobSchedule';
+import JobScheduleLog from './Components/JobScheduleLog';
 import AdminManager from './Components/AdminManager';
 import APILogs from './Components/APILogs';
 import CreateOrg from './Components/CreateOrg';
@@ -104,6 +107,10 @@ function App () {
               <Route path="/admin-manager" element={ <AdminManager roleType = {roleType} getIProfile={getIProfile}/> }>
                 {/* <Route path="/admin-manager/user-management" element={ <UserManagement/> } /> */}
                 <Route path="/admin-manager/add-user" element={ <AddUser roleType = {roleType} getIProfile={getIProfile}/> } />
+              </Route>
+              <Route path="/schedlue/job-schedule" element={ <JobSchedule roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/schedlue" element={ <JobScheduleMain roleType = {roleType} getIProfile={getIProfile}/> }>
+                <Route path="/schedlue/job-schedule-log" element={ <JobScheduleLog /> } />
               </Route>
               <Route path="/user-management" element={ <UserManagement roleType = {roleType} getIProfile={getIProfile}/> } />
 
@@ -288,6 +295,10 @@ function App () {
                 <Route path="/admin/nft-transactions-report" element={ <NftTransactionsReport /> } />
                 <Route path="/admin/nft-transactions-report/single-transaction" element={ <NftTransactionPage /> } />
                 <Route path="/admin/block-transactions-report" element={ <BlockTransactionsReport /> } />
+              </Route>
+              <Route path="/schedlue/job-schedule" element={ <JobSchedule roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/schedlue" element={ <JobScheduleMain roleType = {roleType} getIProfile={getIProfile}/> }>
+                <Route path="/schedlue/job-schedule-log" element={ <JobScheduleLog /> } />
               </Route>
               <Route path="/admin-manager" element={ <AdminManager roleType = {roleType} getIProfile={getIProfile}/> }>
                 <Route index element={ <APILogs /> } />
