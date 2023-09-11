@@ -913,6 +913,39 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                         </div>
                     </li>
                     <li>
+                        <NavLink to="/schedlue/job-schedule">
+                            <img src={adminimg1} style ={{height:"24px"}}alt='NavIcon5' />
+                            <img src={adminimg1}style ={{height:"24px"}} alt='NavIcon5' />
+
+                            <span>Job Schedule</span>
+                        </NavLink>
+                        <div className='sidebar-subnav'>
+                            <div className='sidebar-subnav-inner'>
+                                <h4>Job Schedule</h4>
+                                <ul className='p-0 m-0 list-unstyled'>
+                                    <li>
+                                        <Link onClick={() => setMenu(!menu)} to="/schedlue/job-schedule">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            Job Scheduler
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link onClick={() => setMenu(!menu)} to="/schedlue/job-schedule-log">
+                                            <span>
+                                                <img src={SubIcon1} alt='SubIcon1' />
+                                                <img src={SubIconAct1} alt='SubIconAct1' />
+                                            </span>
+                                            Job Schedule Log
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
                         <NavLink to='/admin-manager/create-org'>
                         <img src={NavIcon5} alt='NavIcon5' />
                             <img src={NavIconAct5} alt='NavIcon5' />
