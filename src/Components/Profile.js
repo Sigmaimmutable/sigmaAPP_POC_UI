@@ -98,6 +98,7 @@ const [country, setCountry] = useState('');
         console.log("userdetail1",userprofiledetail,userprofiledetail.emailId);
         console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);
         setSelectedCountry(value);
+        setmobno(userprofiledetail.mobileNumber);
        }
        useEffect(()=>{
         if(!getIProfile)
