@@ -324,21 +324,21 @@ const MyPage = (props) => {
             </Card>
           </div> */}
 
-          <div className="col-md-4 mb-4">
+          {/* <div className="col-md-4 mb-4">
           <Card className="shadow border-0 h-100">
               <Card.Body className="p-lg-4 p-md-3 p-3">
               <h4 className="card-title text-center mb-4">Timer Until Next Job</h4>
                   <div className="progress-content justify-content-center pt-3">
-                  <Timer />
+                  <Timer /> */}
                   {/* <Row className="align-items-center">
                     <Col xs={12}> */}
                       {/* <OuterRoundPercentageBar value={remainingTime} /> */}
                     {/* </Col>
                   </Row> */}
-                </div>
+                {/* </div>
               </Card.Body>
             </Card>
-          </div>
+          </div> */}
          
 <div className="col-md-4 mb-4">
   <Card className="shadow border-0 h-100">
