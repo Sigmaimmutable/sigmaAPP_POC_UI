@@ -17,7 +17,9 @@ function ImmutableRecordJobs() {
     const [jobLists, setjobList] = useState([]);
     console.log("pending",jobLists)
     const [StartValue, setStartValue] = useState(0);
-    const [limit, setlimit] = useState(100);
+    const [limit, setlimit] = useState(10);
+
+    const [reachedLastPage, setReachedLastPage] = useState(false);
 //     const history = useNavigate();
 //     const navigate = useNavigate()
 //    // console.log("selected",roleId);
@@ -81,13 +83,20 @@ function ImmutableRecordJobs() {
         window.location.reload();
     }
 
-    const paginationProcess = async(start) =>{
+    const paginationProcess = async(start,limit) =>{
         let tnId = await getTennantId();
-        await getJobListImmutable(tnId,start,limit).then((response)=>
-        // console.log("response",response)
-        setjobList(response)
+        await getJobListImmutable(tnId,start,limit).then((response)=> {
+            // console.log("response",response)
+        setjobList(response);
+        if (response.length === 0) {
+            setReachedLastPage(true);
+        } else {
+            setReachedLastPage(false);
+        }
+        }
         
         )
+        
         setStartValue(start);
     }
     useEffect(() => {
@@ -316,7 +325,7 @@ function ImmutableRecordJobs() {
                             <li><Link className={StartValue === 40? 'active' : ''} onClick={()=>paginationProcess(40,10)}>5</Link></li>
                             <li><Link className={StartValue === 50 ? 'active' : ''} onClick={()=>paginationProcess(50,10)}>6</Link></li>
                             <li>
-                                <Link onClick={()=>paginationProcess(StartValue+10,10)} className="next">
+                                <Link onClick={()=>paginationProcess(StartValue+10,10)} className={reachedLastPage ? 'prev disabled' : "next"}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                         <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                     </svg>

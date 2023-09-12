@@ -23,7 +23,9 @@ const FavouriteDocuments= (props)=>{
     const navigate = useNavigate()
    // console.log("selected",roleId);
  
-   const [openModal, setOpenModal] = useState(false)
+   const [openModal, setOpenModal] = useState(false);
+
+   const [docName, setDocName] = useState("");
        
    const { logout } = useContext(AuthContext);
        
@@ -154,6 +156,12 @@ const FavouriteDocuments= (props)=>{
             localStorage.setItem(localStorageKey, JSON.stringify(favoriteItems));
         }
     };
+
+    const handleSearch = (event) => {
+        setDocName(event.target.value);
+        console.log(event.target.value);
+    }
+
     return ( 
         <Layout getThemeMode={() => undefined} roleType = {props.roleType} getIProfile = {props.getIProfile}>
             <div className="container-fluid">
@@ -201,6 +209,8 @@ const FavouriteDocuments= (props)=>{
                                         aria-describedby="basic-addon1"
                                         aria-label="Write something to search"
                                         placeholder="Write something to search..."
+                                        value={docName}
+                                        onChange={handleSearch}
                                     />
                                 </InputGroup>
                             </Form>
@@ -289,32 +299,66 @@ const FavouriteDocuments= (props)=>{
                             </tr>
                         </thead>
                         <tbody>
+                        {(docName !== "" ? 
+                        (favoriteData
+                            .filter((postt) => 
+                            (postt.fileName.toLowerCase().startsWith(docName.toLowerCase()))).map((postt, index) => {
+                                return(
+                            <tr key={index}>
+                            <td>
+                                <center>
+                            <Button variant="link" onClick={() => deleteFavorites(postt.docId, postt.fileName)}>
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            className="bi bi-star-fill"
+                            viewBox="0 0 16 16"
+                            >
+                            <path
+                            fillRule="evenodd"
+                            d="M8.002.165l1.955 4.859 5.405.393c.527.038.742.725.332 1.089l-3.955 3.251 1.177 5.372c.115.527-.465.926-.94.686L8 13.443l-4.926 2.323c-.475.24-1.055-.16-.94-.686l1.177-5.372L.308 6.446c-.41-.364-.195-1.05.332-1.089l5.405-.393L8.002.165zM8 11.094V3.786L5.594 6.316a.697.697 0 0 1-.51.216l-4.436.322L4.64 8.64a.705.705 0 0 1 .214.512l.321 4.431 3.27-1.538a.706.706 0 0 1 .654 0l3.27 1.538.321-4.431a.705.705 0 0 1 .214-.512l2.992-2.678-4.436-.322a.697.697 0 0 1-.51-.216L8 3.786v7.308z"
+                            />
+                            </svg>
+                            </Button>
+                            </center>
+                            </td>
+                            <td className="text-center">{postt.docId}</td>
+                            <td>{postt.fileName}</td>
+                            <td>{postt.docName}</td>
+                            <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}`}}>{postt.docStatus}</Link></td>
+                        </tr>)
+                        })) : 
+                        <>
                         {favoriteData.map((postt, index) => (
-    <tr key={index}>
-      <td><center>
-        <Button variant="link" onClick={() => deleteFavorites(postt.docId, postt.fileName)}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-star-fill"
-            viewBox="0 0 16 16"
-          >
-            <path
-              fillRule="evenodd"
-              d="M8.002.165l1.955 4.859 5.405.393c.527.038.742.725.332 1.089l-3.955 3.251 1.177 5.372c.115.527-.465.926-.94.686L8 13.443l-4.926 2.323c-.475.24-1.055-.16-.94-.686l1.177-5.372L.308 6.446c-.41-.364-.195-1.05.332-1.089l5.405-.393L8.002.165zM8 11.094V3.786L5.594 6.316a.697.697 0 0 1-.51.216l-4.436.322L4.64 8.64a.705.705 0 0 1 .214.512l.321 4.431 3.27-1.538a.706.706 0 0 1 .654 0l3.27 1.538.321-4.431a.705.705 0 0 1 .214-.512l2.992-2.678-4.436-.322a.697.697 0 0 1-.51-.216L8 3.786v7.308z"
-            />
-          </svg>
-        </Button>
-        </center>
-      </td>
-      <td className="text-center">{postt.docId}</td>
-      <td>{postt.fileName}</td>
-      <td>{postt.docName}</td>
-      <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}`}}>{postt.docStatus}</Link></td>
-    </tr>
-  ))}
+                        <tr key={index}>
+                            <td><center>
+                            <Button variant="link" onClick={() => deleteFavorites(postt.docId, postt.fileName)}>
+                             <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                 height="16"
+                                fill="currentColor"
+                                className="bi bi-star-fill"
+                                viewBox="0 0 16 16"
+                            >
+                            <path
+                            fillRule="evenodd"
+                            d="M8.002.165l1.955 4.859 5.405.393c.527.038.742.725.332 1.089l-3.955 3.251 1.177 5.372c.115.527-.465.926-.94.686L8 13.443l-4.926 2.323c-.475.24-1.055-.16-.94-.686l1.177-5.372L.308 6.446c-.41-.364-.195-1.05.332-1.089l5.405-.393L8.002.165zM8 11.094V3.786L5.594 6.316a.697.697 0 0 1-.51.216l-4.436.322L4.64 8.64a.705.705 0 0 1 .214.512l.321 4.431 3.27-1.538a.706.706 0 0 1 .654 0l3.27 1.538.321-4.431a.705.705 0 0 1 .214-.512l2.992-2.678-4.436-.322a.697.697 0 0 1-.51-.216L8 3.786v7.308z"
+                            />
+                            </svg>
+                            </Button>
+                            </center>
+                            </td>
+                            <td className="text-center">{postt.docId}</td>
+                            <td>{postt.fileName}</td>
+                            <td>{postt.docName}</td>
+                            <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}`}}>{postt.docStatus}</Link></td>
+                            </tr>
+                            ))}</>)}
+                        </tbody>
+                        
                               {/* </>)} */}
                             {/* <tr>
                                 <td></td>
@@ -351,7 +395,7 @@ const FavouriteDocuments= (props)=>{
                                 <td>Starting in Windows 8, the AppInit_DLLs infrastructure is disabled when secure boot is enabled</td>
                                 <td className="text-center">Approved</td>
                             </tr> */}
-                        </tbody>
+                        {/* </tbody> */}
                     </Table>
 
                     <Row className="mt-4">

@@ -406,6 +406,7 @@ const attend = async (id, email) => {
                                                 type='checkbox'
                                                 id= "checked"
                                                 onClick={() => checkedTicketButton(x.mailId,x.id)}
+                                                disabled={x.statuses}
                                             />
                                         </div>
                                     </td>                                  
@@ -442,6 +443,7 @@ const attend = async (id, email) => {
                                               type='checkbox'
                                               id= "checked"
                                               onClick={() => checkedTicketButton(x.mailId,x.id)}
+                                              disabled={x.statuses}
                                           />
                                       </div>
                                   </td>                                  
