@@ -20,6 +20,7 @@ function TicketManagement() {
     const [idofuser, setid] = useState();
     const [gotValue, setGotValue] = useState(false);
     const [startvalue, setstartvalue] = useState(0);
+    // const [isAssigned, setIsAssigned] = useState(false);
     
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -242,6 +243,7 @@ const paginationProcess = async(start) =>{
 const attend = async (id, email) => {
     await help1(id, email, localStorage.getItem("UserName"));
     await ticketTableFetch();
+    // setIsAssigned(true);
 }
 
     return ( 
@@ -406,6 +408,7 @@ const attend = async (id, email) => {
                                                 type='checkbox'
                                                 id= "checked"
                                                 onClick={() => checkedTicketButton(x.mailId,x.id)}
+                                                disabled={x.statuses || (x.assignee === null)}
                                             />
                                         </div>
                                     </td>                                  
@@ -442,6 +445,7 @@ const attend = async (id, email) => {
                                               type='checkbox'
                                               id= "checked"
                                               onClick={() => checkedTicketButton(x.mailId,x.id)}
+                                              disabled={x.statuses || (x.assignee === null)}
                                           />
                                       </div>
                                   </td>                                  
