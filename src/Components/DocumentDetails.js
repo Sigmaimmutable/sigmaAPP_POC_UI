@@ -485,6 +485,18 @@ function DocumentDetails() {
           </div>
         </td> */}
         <td className="text-center">
+         <Link to={{pathname: "/document-details/check",search:`?id=${postt.sigmaId}&docid=${postt.id}`}}><img src={verify} alt="verify" /><img src={arrow} style={{fillColor:"#0000FF"}}alt="arrow" /></Link>
+          {/* <Dropdown.Toggle variant="reset" id="dropdown-basic">
+                                            
+                                            </Dropdown.Toggle> */}
+                                            </td>
+         <td className="text-center">
+         <Link to={{pathname: "/document-details/single",search:`?id=${postt.sigmaId}`}}><img src={Eye} alt="Eye" /></Link>
+          {/* <Dropdown.Toggle variant="reset" id="dropdown-basic">
+                                            
+                                            </Dropdown.Toggle> */}
+                                            </td>
+        <td className="text-center">
         <Favourite
         sigmaid= {postt.sigmaId} name__v = {postt.name__v} filename__v ={postt.filename__v} status__v ={postt.status__v}
         />
@@ -503,25 +515,20 @@ function DocumentDetails() {
         <td>{postt.filename__v ? postt.filename__v : ""}</td>
         <td>{postt.name__v ? postt.name__v : ""}</td>
         <td className="text-center">
-        <Link to={{pathname: "/document-details/check",search:`?id=${postt.sigmaId}`}}>{postt.status__v ? postt.status__v : ""}</Link>
-
-          {/* <Dropdown.Toggle variant="reset" id="dropdown-basic">
-                                            
-                                            </Dropdown.Toggle> */}
-                                            </td>
-        <td className="text-center">
-
         {/* <DocumentDetailsSingle x={postt.sigmaId}/> */}
           {/* <Link to="/document-details/single">{postt.status__v ? postt.status__v : ""}</Link> */}
           {/* <Link to={`/document-details/single/${postt.sigmaId}`}>
                {postt.status__v ? postt.status__v : ""}
               </Link> */}
-              <Link to={{pathname: "/document-details/single",search:`?id=${postt.sigmaId}`}}>{postt.status__v ? postt.status__v : ""}</Link>
+             
+             {postt.status__v ? postt.status__v : ""}
+            
               {/* <Link to="/about?id=123">Go to About</Link> */}
                {/* return( 
                                     <DocumentDetailsSingle x={postt.sigmaId}/>) */}
               {/* <Link to={{ pathname: "/document-details/single", state: { allData: postt.sigmaid } }}><Button variant="blue" className='w-100'> {postt.status__v ? postt.status__v : ""}</Button></Link> */}
         </td>
+        <td className="text-center"> {postt.uuid ? "Created" : "Pending"} </td>
       </tr>
     );
   }
