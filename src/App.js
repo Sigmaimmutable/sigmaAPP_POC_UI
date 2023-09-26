@@ -10,6 +10,7 @@ import ResetPasswordSubmit from './Components/resetPasswordSubmit';
 import SignInwithEnterpriseSSO from './Components/SignInwithEnterpriseSSO';
 import Dashboard from './Components/Dashboard';
 import Profile from './Components/Profile';
+import DocUpload from './Components/DocumentUpload';
 import DocumentDetails from './Components/DocumentDetails';
 import DocumentDetailsSingle from './Components/DocumentDetailsSingle';
 import DocumentCheck from './Components/DocumentCheck';
@@ -277,6 +278,7 @@ function App () {
               {/* <Route path="/google" element={ <Google /> } /> */}
               <Route path="/account" element={ <Profile /> } />
               <Route path="/home" element={ <Dashboard roleType = {roleType} getIProfile={getIProfile}/> } />
+              <Route path="/doc-upload" element={ <DocUpload roleType = {roleType} getIProfile={getIProfile}/> } />
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path="/document-details/single" element={ <DocumentDetailsSingle /> } />

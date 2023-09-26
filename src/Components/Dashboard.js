@@ -181,27 +181,27 @@ function Dashboard(props) {
                 </Row>
 
                 <Row className="gx-3 mb-1">
-                <Col xs={6} lg={3} className="mb-3">
+                <Col xs={6} lg={4} className="mb-3">
                         <div className="info-card info-card-3 d-flex flex-column justify-content-between">
                             <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>Total Documents</span></h4>
                             <h3 className="mb-0">{documentsUploadedCount + nftsCreatedCount}</h3>
                         </div>
                     </Col>
                     
-                    <Col xs={6} lg={3} className="mb-3">
+                    <Col xs={6} lg={4} className="mb-3">
                         <div className="info-card info-card-2 d-flex flex-column justify-content-between">
-                            <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>NFTs Created</span></h4>
+                            <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>User Documents</span></h4>
                             <h3 className="mb-0">{nftsCreatedCount}</h3>
                         </div>
                     </Col>
-                    <Col xs={6} lg={3} className="mb-3">
+                    {/* <Col xs={6} lg={3} className="mb-3">
                         <div className="info-card info-card-1 d-flex flex-column justify-content-between">
                             <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>Pending Documents For NFT</span></h4>
                             <h3 className="mb-0">{documentsUploadedCount}</h3>
                         </div>
-                    </Col>
+                    </Col> */}
                     
-                    <Col xs={6} lg={3} className="mb-3">
+                    <Col xs={6} lg={4} className="mb-3">
                         <div className="info-card info-card-4 d-flex flex-column justify-content-between">
                             <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>Total Users</span></h4>
                             <h3 className="mb-0">{userCount}</h3>
