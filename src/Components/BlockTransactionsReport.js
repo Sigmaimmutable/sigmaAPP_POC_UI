@@ -6,16 +6,22 @@ import { getTennantId, getTransactionblock } from "../apifunction";
 import Check from '../asserts/images/check_icon.svg';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
+import axios from 'axios';
 
 function BlockTransactionsReport() {
     const [search, setSearch] = useState(false);
     const [reachedLastPage, setReachedLastPage] = useState(false);
-    const [StartValue, setStartValue] = useState(10);
+    const [StartValue, setStartValue] = useState(1);
     const [limit, setlimit] = useState(10);
     const [txh, setTxh] = useState([]);
     const history = useNavigate();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [transactions, setTransactions] = useState([]);
+    const [transactions1, setTransactions1] = useState([]);
+
    // console.log("selected",roleId);
+   let blockBuffer = [];
+   let CountsBuffer = [];
 
    const [openModal, setOpenModal] = useState(false)
        
@@ -57,23 +63,124 @@ function BlockTransactionsReport() {
      
       
    } 
-    const getTransc = async() =>{
-        if(limit == 10){
-            let tnId = await getTennantId();
-            let tx = await getTransactionblock(StartValue,limit,tnId);
-            console.log("blocktxn",tx)
-            setTxh(tx);
-            if (tx.length === 0) {
-                setReachedLastPage(true);
-            } else {
-                setReachedLastPage(false);
-            }
-            console.log("checktxh",txh)
-        }
+    // const getTransc = async() =>{
+    //     if(limit == 10){
+    //         let tnId = await getTennantId();
+    //         let tx = await getTransactionblock(StartValue,limit,tnId);
+    //         console.log("blocktxn",tx)
+    //         setTxh(tx);
+    //         if (tx.length === 0) {
+    //             setReachedLastPage(true);
+    //         } else {
+    //             setReachedLastPage(false);
+    //         }
+    //         console.log("checktxh",txh)
+    //     }
         
-    }
-    useEffect(() =>{getTransc()},[])
+    // }
+    // useEffect(() =>{getTransc()},[])
 
+    const getTranscAvalanche = async(value) => {
+        blockBuffer = [];
+        CountsBuffer = [];
+        let temp = [];
+        // Define the API endpoint URL
+    const apiUrl =
+    `https://api-testnet.snowtrace.io/api?module=account&action=tokennfttx&contractaddress=0x4f99E91d4839D70f31676F4119e67FfA2bd1f49a&address=0xdc61dE4fED82E2CDbC5E31156c4dA41389Ae1e22&page=${value}&offset=10&startblock=0&endblock=99999999&sort=desc&apikey=7591ca9e4ccc415faf028b9dff4c7ce2`;
+
+  // Make the GET request to the API
+  await axios
+    .get(apiUrl)
+    .then((response) => {
+      // Handle the response data here
+      console.log("Avalanche Nft transaction",response.data); // This will be the ERC-721 transactions data
+      setTransactions(response.data.result); // Assuming 'result' contains the transaction data
+      temp = [...response.data.result];
+    })
+    .catch((error) => {
+      // Handle errors
+      console.error('Error fetching data:', error);
+    });
+    console.log(transactions);
+    await makeMultipleApiRequests(10,temp);
+    }
+    useEffect(() =>{
+        getTranscAvalanche(1);
+    },[]);
+
+
+    const makeApiRequestWithDelay2 = async (blockNo) => {
+        
+        let blockNum1 = parseInt(blockNo,10);
+        let blockNum = blockNum1.toString(16);
+        const apiUrl = `https://api-testnet.snowtrace.io/api?module=proxy&action=eth_getBlockTransactionCountByNumber&tag=${blockNum}&apikey=YourApiKeyToken;`
+        try {
+          const response = await axios.get(apiUrl);
+      
+          if (response.status === 200) {
+            console.log('API Response:', response.data);
+            CountsBuffer = [...CountsBuffer,(parseInt(response.data.result,16)).toString(10)];
+          } else {
+            console.error('API request failed with status:', response.status);
+          }
+        } catch (error) {
+          console.error('Error making API request:', error);
+        }
+      };
+
+    const makeApiRequestWithDelay = async (blockNo) => {
+        
+        let blockNum1 = parseInt(blockNo,10);
+        let blockNum = blockNum1.toString(16);
+        const apiUrl = `https://api-testnet.snowtrace.io/api?module=proxy&action=eth_getBlockByNumber&tag=${blockNum}&boolean=true&apikey=7591ca9e4ccc415faf028b9dff4c7ce2;`
+        try {
+          const response = await axios.get(apiUrl);
+      
+          if (response.status === 200) {
+            console.log('API Response:', response.data);
+            blockBuffer = [...blockBuffer,response.data.result];
+          } else {
+            console.error('API request failed with status:', response.status);
+          }
+        } catch (error) {
+          console.error('Error making API request:', error);
+        }
+      };
+      
+      // Function to make multiple API requests with delays
+      const makeMultipleApiRequests = async (count,tempr) => {
+        let trans = tempr;
+        console.log("check 5",transactions);
+        console.log("Trans Ckeck : ",trans);
+        if (Array.isArray(trans) && trans.length >= count) {
+        for (let i = 0; i < count; i++) {
+          await makeApiRequestWithDelay(trans[i].blockNumber);
+        //   await new Promise((resolve) => setTimeout(resolve, 2000));
+        //   await makeApiRequestWithDelay2(trans[i].blockNumber);
+          // Adjust the delay time (in milliseconds) as needed
+        //   await new Promise((resolve) => setTimeout(resolve, 100)); // 2 seconds delay
+        }
+            console.log("Trans Check Two:",blockBuffer);
+            const combinedArray = tempr.map((item1,i) => {
+                const matchingItem2 = blockBuffer.find((item2) => item2.hash === item1.blockHash);
+                
+                const matchingItem3 = CountsBuffer[i];
+                // Check if there's a matching item in array2
+                if (matchingItem2) {
+                    let txLength =  matchingItem2.transactions.length;
+                  // Merge properties from both arrays into a new object
+                  return { ...item1, miner: matchingItem2.miner, TxCount: txLength };
+                }
+              
+                // If no matching item in array2, return item from array1 as is
+                return item1;
+              })
+            setTransactions1(combinedArray);
+            console.log("Trans Check Three:",combinedArray); 
+        }else {
+            console.error("Invalid or insufficient transaction data.");
+        }
+      };
 
     const formatTime = (time) =>{
         let date = new Date(time);
@@ -96,15 +203,18 @@ function BlockTransactionsReport() {
 
     const pagination = async(value) =>{
         setStartValue(value);
-        let tnId = await getTennantId();
-        let tx = await getTransactionblock(value,limit,tnId);
+        // let tnId = await getTennantId();
+        // let tx = await getTransactionblock(value,limit,tnId);
+
+        await getTranscAvalanche(value);
+
         // console.log("txhistory",tx)
-        setTxh(tx);
-        // if (tx.length === 0) {
-        //     setReachedLastPage(true);
-        // } else {
-        //     setReachedLastPage(false);
-        // }
+        // setTxh(tx);
+        if (transactions.length === 0) {
+            setReachedLastPage(true);
+        } else {
+            setReachedLastPage(false);
+        }
     }
 
     // const selectrow = async(value) =>{
@@ -116,7 +226,8 @@ function BlockTransactionsReport() {
 
     // }
 
-        const calculateTimeAgo = (timestamp) => {
+        const calculateTimeAgo = (timestamp1) => {
+        const timestamp = parseInt(timestamp1) * 1000;
           const currentTime = new Date();
           const previousTime = new Date(timestamp);
           const timeDifference = Math.abs(currentTime - previousTime) / 1000; // Convert milliseconds to seconds
@@ -269,10 +380,10 @@ function BlockTransactionsReport() {
                         </tr>
                     </thead>
                     <tbody>
-                        {txh[0] === null || txh[0] === "" || txh[0] === undefined || txh[0] === "undefined" ?
+                        {transactions1[0] === null || transactions1[0] === "" || transactions1[0] === undefined || transactions1[0] === "undefined" ?
                         (<></>) :
                         (<>
-                        {txh.map((r,i)=>{
+                        {transactions1.map((r,i)=>{
                             return(<>
                             <tr>
                             {/* <td width="84">
@@ -284,14 +395,16 @@ function BlockTransactionsReport() {
                                     />
                                 </div>
                             </td> */}
-                            <td className="text-center">{(r.number)}</td>
+                            <td className="text-center">{(r.blockNumber)}</td>
 
-                             <td className="text-center">{(r.hash).substring(0, 5)}...{(r.hash).substring((r.hash).length - 5)}</td>
+                             <td className="text-center">{(r.blockHash).substring(0, 5)}...{(r.hash).substring((r.blockHash).length - 5)}</td>
                              {/* <td className="text-center"><Badge pill bg="success"><img src={Check} alt="success badge" />success</Badge></td> */}
                             {/* <td className="text-center text-truncate"> {(r.blockHash).substring(0, 5)}...{(r.blockHash).substring((r.blockHash).length - 5)}</td> */}
-                            <td className="text-center">{(r.miner).substring(0, 5)}...{(r.miner).substring((r.miner).length - 5)}</td>
-                            <td className="text-center">{(r.transactionCount)}</td>
-                            <td className="text-center">{calculateTimeAgo(r.timestamp)}</td>
+                            {/* <td className="text-center">{(r.miner !== null) ? <>{(r.miner).substring(0, 5)}...{(r.miner).substring((r.miner).length - 5)}</> : "Null"}</td> */}
+                            <td className="text-center">{(r.miner !== null || r.miner !== undefined) ? r.miner : 0x0}</td>
+                            <td className="text-center">{(r.TxCount !== null || r.TxCount !== undefined) ? r.TxCount : 0}</td>
+                            {/* <td className="text-center">{(r.transactionCount)}</td> */}
+                            <td className="text-center">{calculateTimeAgo(r.timeStamp)}</td>
                             {/* <td>{r.logs[0].data}</td> */}
                             {/* <td className="text-center">{r.blockNumber}</td>
                             <td className="text-center">{r.index}</td> */}
@@ -321,20 +434,20 @@ function BlockTransactionsReport() {
                     <Col md={8} className="d-flex justify-content-md-end justify-content-center">
                         <ul className="d-flex pagination list-unstyled">
                             <li>
-                            <Link  className={StartValue !== 10 ? 'next' : StartValue === 10 ? 'prev disabled' : ''} onClick={()=>pagination(StartValue-10)}>
+                            <Link  className={StartValue !== 1 ? 'next' : StartValue === 1 ? 'prev disabled' : ''} onClick={()=>pagination(StartValue-1)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
                                         <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
                                     </svg>
                                 </Link>
                             </li>
-                            <li><Link className='active'  onClick={()=>pagination(10)} >{StartValue ? (StartValue/10) : "1"}</Link></li>
+                            <li><Link className='active'  onClick={()=>pagination(1)} >{(StartValue !== 1) ? (StartValue) : "1"}</Link></li>
                             {/* <li><Link className={StartValue === 10 ? 'active' : ''} onClick={()=>pagination(10)}>2</Link></li>
                             <li><Link className={StartValue === 20? 'active' : ''} onClick={()=>pagination(20)}>3</Link></li>
                             <li><Link className={StartValue === 30? 'active' : ''} onClick={()=>pagination(30)}>4</Link></li>
                             <li><Link className={StartValue === 40? 'active' : ''} onClick={()=>pagination(40)}>5</Link></li>
                             <li><Link className={StartValue === 50 ? 'active' : ''} onClick={()=>pagination(50)}>6</Link></li> */}
                             <li>
-                            <Link className={`next ${reachedLastPage ? 'disabled' : ''}`}onClick={() => {if (!reachedLastPage){pagination(StartValue + 10); }}}>
+                            <Link className={`next ${reachedLastPage ? 'disabled' : ''}`}onClick={() => {if (!reachedLastPage){pagination(StartValue + 1); }}}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                         <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                     </svg>
