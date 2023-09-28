@@ -7,6 +7,7 @@ import { useState,useEffect } from "react";
 import {OrgAdminmailcheckget2, getTennantId, nodeDetails,createUserVisits } from "../apifunction";
 import { useLocation, Link } from 'react-router-dom';
 import "./NftTransactionPage.css";
+import axios from 'axios';
 
 function NftTransactionPage({}) {
     const [showA, setShowA] = useState(false);
@@ -14,6 +15,7 @@ function NftTransactionPage({}) {
 
     const [nodeDetail, setnodeDetail] = useState(false);
     const [nodeDetail1, setnodeDetail1] = useState(false);
+    const [transInput, setTransInput] = useState([]);
     const location = useLocation();
     const txnHash = location.state?.object;
 
@@ -40,7 +42,8 @@ function NftTransactionPage({}) {
         }
       };
 
-      const formatDateTime = (timestamp) => {
+      const formatDateTime = (timestamp1) => {
+        const timestamp = parseInt(timestamp1) * 1000;
         const dateObj = new Date(timestamp);
         const options = {
           year: 'numeric',
@@ -56,7 +59,8 @@ function NftTransactionPage({}) {
         return formattedDateTime;
       };
 
-      const calculateTimeAgo = (timestamp) => {
+      const calculateTimeAgo = (timestamp1) => {
+        const timestamp = parseInt(timestamp1) * 1000;
         const currentTime = new Date();
         const previousTime = new Date(timestamp);
         const timeDifference = Math.abs(currentTime - previousTime) / 1000; // Convert milliseconds to seconds
@@ -91,6 +95,29 @@ function NftTransactionPage({}) {
             , trows); 
         
       }
+      const getTranscInputAvalanche = async() => {
+        // Define the API endpoint URL
+    const apiUrl =`https://api-testnet.snowtrace.io/api?module=proxy&action=eth_getTransactionByHash&txhash=${txnHash.hash}&apikey=7591ca9e4ccc415faf028b9dff4c7ce2`;
+
+  // Make the GET request to the API
+  axios
+    .get(apiUrl)
+    .then((response) => {
+      // Handle the response data here
+      console.log("Avalanche TxInput",response.data); // This will be the ERC-721 transactions data
+      setTransInput(response.data.result); // Assuming 'result' contains the transaction data
+      console.log("Checking...",transInput.input)
+    })
+    .catch((error) => {
+      // Handle errors
+      console.error('Error fetching data:', error);
+    });
+    }
+    useEffect(() =>{
+        console.log(txnHash);
+        txnHash && getTranscInputAvalanche();
+        console.log("check Input",transInput.input);
+    },[txnHash,transInput])
 
     return ( 
         <div>
@@ -167,7 +194,7 @@ function NftTransactionPage({}) {
                                 </tr>
                                 <tr>
                                     <td>Gas</td>
-                                    <td>{txnHash ? txnHash.gasProvided : ''}</td>
+                                    <td>{txnHash ? txnHash.gasUsed : ''}</td>
                                     <td>
                                         <Button variant="reset" onClick={() => {navigator.clipboard.writeText(txnHash.gasProvided); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
@@ -182,19 +209,23 @@ function NftTransactionPage({}) {
                                 </tr>
                                 <tr>
                                     <td>Timestamp</td>
-                                    <td>{txnHash? <>{formatDateTime(txnHash.timestamp)} ({calculateTimeAgo(txnHash.timestamp)}) </> : ''}</td>
+                                    <td>{txnHash? <>{formatDateTime(txnHash.timeStamp)} ({calculateTimeAgo(txnHash.timeStamp)}) </> : ''}</td>
                                     <td>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Input Data</td>
-                                    <td>{txnHash ? <textarea readOnly>{txnHash.inputBytes}</textarea> : ""}</td>
+                                    {/* <td><textarea readOnly>{transInput.input? transInput.input : "0"}</textarea></td> */}
+                                    <td>{transInput.input ? <textarea readOnly>{transInput.input}</textarea> : ""}</td>
                                     <td>
-                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(txnHash.inputBytes); toggleShowA();}}>
+                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(transInput.input); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button>
                                     </td>
                                 </tr>
+                                {/* <tr>
+                                    <td>{transInput.input}</td>
+                                </tr> */}
                             </tbody>
                         </Table>
                     </Card>
