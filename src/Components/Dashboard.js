@@ -4,7 +4,7 @@ import IconDU from '../asserts/images/card-icon-du.svg'
 import { PieChart } from "./Snippets/PieChart";
 import { BarChart } from "./Snippets/BarChart";
 import { useState,useEffect , useContext} from "react";
-import {OrgAdminmailcheckget,Userprofileupdate,getTennantId,userprofileget, userByTenantId} from "../apifunction";
+import {OrgAdminmailcheckget,Userprofileupdate,getTennantId,userprofileget, userByTenantId, getSigmaDocCountbyTid, getSigmaDocCountbyMail, getSigmaDocsbyMail} from "../apifunction";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
@@ -18,6 +18,9 @@ function Dashboard(props) {
     const [documentsUploadedCount, setDocumentsUploadedCount] = useState(0); // State for documents uploaded
     const [nftsCreatedCount, setNftsCreatedCount] = useState(0); // State for NFTs created
     const [monthlyData, setMonthlyData] = useState([]); // State for monthly data
+    const [sigmadocumentsCountbyTid, setSigmadocumentsCountbyTid] = useState(0);
+    const [sigmadocumentsCountbyUser, setSigmadocumentsCountbyUser] = useState(0);
+    const [sigmadocuments, setSigmadocuments] = useState([]);
     const [userCount,setUserCount] = useState(0);
     const [appPageCall,setAppPageCall] = useState(true);
     const[getIProfile,setgetIProfile]=useState("");  
@@ -97,6 +100,73 @@ function Dashboard(props) {
     //   // Fetch the raw data records
     //   fetchRawData('543609ec-58ba-4f50-9757-aaf149e5f187');
     // }, []);
+    function formatDate(inputDate) {
+      const months = [
+          "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      ];
+  
+      const dateObj = new Date(inputDate);
+      const year = dateObj.getFullYear();
+      const month = dateObj.getMonth();
+  
+      const formattedDate = `${months[month]}-${year}`;
+      return formattedDate;
+  }
+
+    const SigmadocumentsUploadedTid = async () => {
+      try {
+        let tnId = await getTennantId();
+        let id = tnId;
+        let [check, data2] = await getSigmaDocCountbyTid(id);
+        console.log("valid2", check, data2);
+        setSigmadocumentsCountbyTid(data2);
+        console.log(sigmadocumentsCountbyTid);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const SigmadocumentsUploadedMail = async () => {
+      try {
+        let id = localStorage.getItem('UserID');
+        let [check, data2] = await getSigmaDocCountbyMail(id);
+        console.log("valid3", check, data2);
+        setSigmadocumentsCountbyUser(data2);
+        console.log(sigmadocumentsCountbyUser);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const SigmadocumentsMail = async () => {
+      try {
+        let id = localStorage.getItem('UserID');
+        let [check, data2] = await getSigmaDocsbyMail(id);
+        console.log("valid4", check, data2);
+        let data3 = data2.map(record => {
+          let newValue = formatDate(record.createdDate);
+          return { ...record, createdDate: newValue };
+        })
+        const resultArray = data3.reduce((accumulator, currentValue) => {
+          // Check if currentValue already exists in accumulator
+          const existingItem = accumulator.find(item => item.createdDate === currentValue.createdDate);
+        
+          if (existingItem) {
+            // If it exists, increment the count
+            existingItem.count++;
+          } else {
+            // If it doesn't exist, add a new object
+            accumulator.push({ date: currentValue.createdDate, count: 1 });
+          }
+        
+          return accumulator;
+        }, []);
+        setSigmadocuments(resultArray);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     
       const documentsUploaded = async () => {
         try {
@@ -129,7 +199,7 @@ function Dashboard(props) {
           let tnId = await getTennantId();
           const id = tnId;
           const [check, data] = await OrgAdminmailcheckget(id);
-          console.log("valid1", check);
+          console.log("valid1", check, data);
       
           if (check) {
             setMonthlyData(data);
@@ -159,6 +229,8 @@ function Dashboard(props) {
       useEffect(() => {
         fetchMonthlyData(); // Fetch the monthly data
         documentsUploaded();
+        SigmadocumentsUploadedTid();
+        SigmadocumentsUploadedMail();
         usersInTenantID();
         userdata();
         if(appPageCall){
@@ -184,14 +256,14 @@ function Dashboard(props) {
                 <Col xs={6} lg={4} className="mb-3">
                         <div className="info-card info-card-3 d-flex flex-column justify-content-between">
                             <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>Total Documents</span></h4>
-                            <h3 className="mb-0">{documentsUploadedCount + nftsCreatedCount}</h3>
+                            <h3 className="mb-0">{sigmadocumentsCountbyTid}</h3>
                         </div>
                     </Col>
                     
                     <Col xs={6} lg={4} className="mb-3">
                         <div className="info-card info-card-2 d-flex flex-column justify-content-between">
                             <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>User Documents</span></h4>
-                            <h3 className="mb-0">{nftsCreatedCount}</h3>
+                            <h3 className="mb-0">{sigmadocumentsCountbyUser}</h3>
                         </div>
                     </Col>
                     {/* <Col xs={6} lg={3} className="mb-3">
@@ -216,8 +288,8 @@ function Dashboard(props) {
                             <Row className="justify-content-center h-100 align-items-center">
                                     <Col md={11}>
                             <PieChart theme={theme} data={[
-  { label: 'Pending Documents For NFT', value: documentsUploadedCount },
-  { label: 'NFTs Created', value: nftsCreatedCount }
+  { label: 'Total Documents', value: sigmadocumentsCountbyTid },
+  { label: 'User Documents', value: sigmadocumentsCountbyUser }
 ]} />
 </Col>
                                 </Row>
