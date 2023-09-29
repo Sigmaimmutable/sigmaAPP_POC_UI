@@ -86,7 +86,7 @@ function BlockTransactionsReport() {
         let temp = [];
         // Define the API endpoint URL
     const apiUrl =
-    `https://api-testnet.snowtrace.io/api?module=account&action=tokennfttx&contractaddress=0x4f99E91d4839D70f31676F4119e67FfA2bd1f49a&address=0xdc61dE4fED82E2CDbC5E31156c4dA41389Ae1e22&page=${value}&offset=10&startblock=0&endblock=99999999&sort=desc&apikey=7591ca9e4ccc415faf028b9dff4c7ce2`;
+    `https://api-goerli.basescan.org/api?module=account&action=tokennfttx&contractaddress=0x1575541142414Fa41C0354ddF1eF13E9a59eF8E6&address=0xdc61dE4fED82E2CDbC5E31156c4dA41389Ae1e22&page=${value}&offset=10&startblock=0&endblock=99999999&sort=desc&apikey=AHSJCJMCVE468EJBIJ9KC1X4ZR7JVHKJE9`;
 
   // Make the GET request to the API
   await axios
@@ -113,7 +113,7 @@ function BlockTransactionsReport() {
         
         let blockNum1 = parseInt(blockNo,10);
         let blockNum = blockNum1.toString(16);
-        const apiUrl = `https://api-testnet.snowtrace.io/api?module=proxy&action=eth_getBlockTransactionCountByNumber&tag=${blockNum}&apikey=YourApiKeyToken;`
+        const apiUrl = `https://api-goerli.basescan.org/api?module=proxy&action=eth_getBlockTransactionCountByNumber&tag=${blockNum}&apikey=YourApiKeyToken;`
         try {
           const response = await axios.get(apiUrl);
       
@@ -132,7 +132,7 @@ function BlockTransactionsReport() {
         
         let blockNum1 = parseInt(blockNo,10);
         let blockNum = blockNum1.toString(16);
-        const apiUrl = `https://api-testnet.snowtrace.io/api?module=proxy&action=eth_getBlockByNumber&tag=${blockNum}&boolean=true&apikey=7591ca9e4ccc415faf028b9dff4c7ce2;`
+        const apiUrl = `https://api-goerli.basescan.org/api?module=proxy&action=eth_getBlockByNumber&tag=${blockNum}&boolean=true&apikey=AHSJCJMCVE468EJBIJ9KC1X4ZR7JVHKJE9;`
         try {
           const response = await axios.get(apiUrl);
       

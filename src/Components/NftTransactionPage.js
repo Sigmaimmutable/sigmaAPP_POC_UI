@@ -97,7 +97,7 @@ function NftTransactionPage({}) {
       }
       const getTranscInputAvalanche = async() => {
         // Define the API endpoint URL
-    const apiUrl =`https://api-testnet.snowtrace.io/api?module=proxy&action=eth_getTransactionByHash&txhash=${txnHash.hash}&apikey=7591ca9e4ccc415faf028b9dff4c7ce2`;
+    const apiUrl =`https://api-goerli.basescan.org/api?module=proxy&action=eth_getTransactionByHash&txhash=${txnHash.hash}&apikey=AHSJCJMCVE468EJBIJ9KC1X4ZR7JVHKJE9`;
 
   // Make the GET request to the API
   axios
