@@ -210,7 +210,7 @@ const DocumentDetailsSingle= (props)=>{
                       
                       </>):(<>
                       
-                        <th className="text-center">NFT Properties</th>
+                        {/* <th className="text-center">NFT Properties</th>
                         <Table >
                 
                         <thead>
@@ -220,16 +220,16 @@ const DocumentDetailsSingle= (props)=>{
                                     <td>{nftproperties.fVar1}</td>
                                     <td></td>
                                 </tr>
-                            </thead>
+                            </thead> */}
                             {/* <tbody> */}
-                            <thead>                          
+                            {/* <thead>                          
   <tr>
     <th>Token ID</th>
     <td>{nftproperties.tokenId}</td>
     <td></td>
-  </tr></thead>
+  </tr></thead> */}
   {/* </tbody> */}
-  <thead> 
+  {/* <thead> 
   <tr>
     <th>Global_ID_SYS</th>
     <td>{nftproperties.fVar3}</td>
@@ -254,9 +254,9 @@ const DocumentDetailsSingle= (props)=>{
   <tr>
     <th>IPFS Hash</th>
      <td>    {nftproperties? (nftproperties.fVar10).substring(0, 5) : ''}...{(nftproperties? (nftproperties.fVar10).substring((nftproperties.fVar10).length - 5) : '')} </td> 
-     <td></td>
+     <td></td> */}
     {/* <td>{(nftproperties.fVar10).substring(0, 5)}...{(nftproperties.fVar10).substring((nftproperties.fVar10).length - 5)}</td> */}
-  </tr>
+  {/* </tr>
   </thead>
   <thead> 
   <tr>
@@ -265,11 +265,11 @@ const DocumentDetailsSingle= (props)=>{
      <td>    {nftproperties? (nftproperties.tokenOwner).substring(0, 8) : ''}...{(nftproperties? (nftproperties.tokenOwner).substring((nftproperties.tokenOwner).length - 5) : '')} 
     
 </td>
-<td>
+<td> */}
      {/* <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nftproperties.tokenOwner); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button> */}
-     <Button variant="reset" onClick={handleCopyClick}>
+     {/* <Button variant="reset" onClick={handleCopyClick}>
     <img src={CopyIcon} alt="CopyIcon" />
   </Button>
                                         </td>      
@@ -277,7 +277,7 @@ const DocumentDetailsSingle= (props)=>{
 
   </tr>
   </thead>
-  </Table>
+  </Table> */}
                       
                       
                       </>)}
@@ -315,7 +315,7 @@ const DocumentDetailsSingle= (props)=>{
     <th>Document ID</th>
     <td>{documentDetails?.jobId}</td>
   </tr> */}
-  <tr>
+  {/* <tr>
     <th>Version ID</th>
     <td>{documentDetails?.version_id}</td>
   </tr>
@@ -330,7 +330,7 @@ const DocumentDetailsSingle= (props)=>{
   <tr>
     <th>File Created Date</th>
     <td>{new Date(timestampToEpoch(documentDetails?.file_created_date__v)).toLocaleString()}</td>
-  </tr>
+  </tr> */}
   <tr>
     <th>Document Creation Date</th>
     <td>{new Date(timestampToEpoch(documentDetails?.document_creation_date__v)).toLocaleString()}</td>
@@ -339,18 +339,45 @@ const DocumentDetailsSingle= (props)=>{
     <th>NFT Creation Status</th>
     <td>{documentDetails?.nftCreationStatus}</td>
   </tr>
- 
-    {/* <tr>
+ <tr>
+    <th>IPFS Hash</th>
+     <td>    {(nftproperties.tokenOwner===""||nftproperties.tokenOwner===undefined||nftproperties.tokenOwner===null)?  '' : (nftproperties.fVar10).substring(0, 5)}...{((nftproperties.tokenOwner===""||nftproperties.tokenOwner===undefined||nftproperties.tokenOwner===null)?  '' : (nftproperties.fVar10).substring((nftproperties.fVar10).length - 5))} </td> 
+     <td></td>
+    {/* <td>{(nftproperties.fVar10).substring(0, 5)}...{(nftproperties.fVar10).substring((nftproperties.fVar10).length - 5)}</td> */}
+  </tr>
+    <tr>
     <th>UUID</th>
     <td>{documentDetails?.uuid}</td>
-  </tr> */}
- 
+  </tr>
+ <tr>
+    <th>Status</th>
+    <td><Badge pill bg="success"><img src={Check} alt="success badge" />{(nftproperties.tokenOwner===""||nftproperties.tokenOwner===undefined||nftproperties.tokenOwner===null) ? "null" : nftproperties.fVar4}</Badge></td>
+    <td></td>
+  </tr>
   
   <tr>
     <th>Createby</th>
     <td>{documentDetails?.createdBy}</td>
   </tr>
   <tr>
+  
+  <th>Token Owner</th>
+   <td>    {(nftproperties.tokenOwner===""||nftproperties.tokenOwner===undefined||nftproperties.tokenOwner===null)? '' :(nftproperties.tokenOwner).substring(0, 8) }...{((nftproperties.tokenOwner===""||nftproperties.tokenOwner===undefined||nftproperties.tokenOwner===null)? '' :(nftproperties.tokenOwner).substring((nftproperties.tokenOwner).length - 5) )} 
+  
+</td>
+<td>
+   {/* <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nftproperties.tokenOwner); toggleShowA();}}>
+                                          <img src={CopyIcon} alt="CopyIcon" />
+                                      </Button> */}
+   <Button variant="reset" onClick={handleCopyClick}>
+  <img src={CopyIcon} alt="CopyIcon" />
+</Button>
+                                      </td>      
+                                                      
+
+</tr>
+  <tr>
+  
     <th>Region</th>
     <td>US-East North Carolin</td>
   </tr>
@@ -358,10 +385,10 @@ const DocumentDetailsSingle= (props)=>{
     <th>Type</th>
     <td>Single</td>
   </tr>
-  <tr>
+  {/* <tr>
     <th>Title</th>
     <td>{documentDetails?.name__v}</td>
-  </tr>
+  </tr> */}
   {/* <tr>
     <th>Source Vault ID</th>
     <td>{documentDetails?.tenantId}</td>

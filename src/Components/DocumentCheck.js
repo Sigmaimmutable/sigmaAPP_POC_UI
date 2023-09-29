@@ -298,7 +298,7 @@ const DocumentVerification= (props)=>{
                 
                 <th><b>Properties</b></th>
                 <td><b>Sigma Docs Properties</b></td>
-               <td><b>Veeva Docs Properties</b></td>
+               {/* <td><b>Veeva Docs Properties</b></td> */}
                <td><b>Verification Status</b></td>
             
                 
@@ -309,7 +309,7 @@ const DocumentVerification= (props)=>{
                 
                                     <th>Document Name</th>
                                     <td>{documentDetails?.name__v}</td>
-                                   <td>{vvdocumentDetails.data[0]?.name__v}</td>
+                                   {/* <td>{vvdocumentDetails.data[0]?.name__v}</td> */}
                                    <td colSpan="4" ><center>
     {documentDetails?.name__v === vvdocumentDetails.data[0]?.name__v ? (
       <Badge bg="success">Pass</Badge>
@@ -323,7 +323,7 @@ const DocumentVerification= (props)=>{
   <tr>
     <th>Document ID</th>
     <td>{documentDetails?.id}</td>
-    <td>{vvdocumentDetails.data[0]?.id}</td>
+    {/* <td>{vvdocumentDetails.data[0]?.id}</td> */}
     <td colSpan="4"><center>
     {parseInt(documentDetails?.id) === parseInt(vvdocumentDetails.data[0]?.id) ? (
       <Badge bg="success">Pass</Badge>
@@ -333,23 +333,23 @@ const DocumentVerification= (props)=>{
   </td>
   </tr>
 
-  <tr>
+  {/* <tr>
     <th>Version ID</th>
-    <td>{documentDetails?.version_id}</td>
-    <td>{vvdocumentDetails.data[0]?.version_id}</td>
-    <td colSpan="4"><center>
+    <td>{documentDetails?.version_id}</td> */}
+    {/* <td>{vvdocumentDetails.data[0]?.version_id}</td> */}
+    {/* <td colSpan="4"><center>
     {parseInt(documentDetails?.version_id) === parseInt(vvdocumentDetails.data[0]?.version_id) ? (
       <Badge bg="success">Pass</Badge>
     ) : (
       <Badge bg="danger">Fail</Badge>
     )}</center>
   </td>
-  </tr>
-  <tr>
+  </tr> */}
+  {/* <tr>
     <th>Document Global Id</th>
-    <td>{documentDetails?.global_id__sys}</td>
-    <td>{vvdocumentDetails.data[0]?.global_id__sys}</td>
-    <td colSpan="4"><center>
+    <td>{documentDetails?.global_id__sys}</td> */}
+    {/* <td>{vvdocumentDetails.data[0]?.global_id__sys}</td> */}
+    {/* <td colSpan="4"><center>
     {documentDetails?.global_id__sys === vvdocumentDetails.data[0]?.global_id__sys
  ? (
       <Badge bg="success">Pass</Badge>
@@ -357,11 +357,11 @@ const DocumentVerification= (props)=>{
       <Badge bg="danger">Fail</Badge>
     )}</center>
   </td>
-  </tr>
+  </tr> */}
   <tr>
     <th>Document Checksum</th>
     <td>{documentDetails?.md5Checksum}</td>
-    <td>{vvdocumentDetails.md5Checksum}</td>
+    {/* <td>{vvdocumentDetails.md5Checksum}</td> */}
     <td colSpan="4"><center>
     {documentDetails?.global_id__sys === vvdocumentDetails.data[0]?.global_id__sys
  ? (
@@ -371,11 +371,11 @@ const DocumentVerification= (props)=>{
     )}</center>
   </td>
   </tr>
-  <tr>
+  {/* <tr>
     <th>File Modified Date</th>
-    <td>{new Date(timestampToEpoch(documentDetails?.file_modified_date__v)).toLocaleString()}</td>
-    <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.file_modified_date__v)).toLocaleString()}</td>
-    <td colSpan="4"><center>
+    <td>{new Date(timestampToEpoch(documentDetails?.file_modified_date__v)).toLocaleString()}</td> */}
+    {/* <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.file_modified_date__v)).toLocaleString()}</td> */}
+    {/* <td colSpan="4"><center>
     {documentDetails?.file_modified_date__v === vvdocumentDetails.data[0]?.file_modified_date__v
  ? (
       <Badge bg="success">Pass</Badge>
@@ -383,12 +383,12 @@ const DocumentVerification= (props)=>{
       <Badge bg="danger">Fail</Badge>
     )}</center>
   </td>
-  </tr>
-  <tr>
+  </tr> */}
+  {/* <tr>
     <th>File Created Date</th>
-    <td>{new Date(timestampToEpoch(documentDetails?.file_created_date__v)).toLocaleString()}</td>
-    <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.file_created_date__v)).toLocaleString()}</td>
-    <td colSpan="4"><center>
+    <td>{new Date(timestampToEpoch(documentDetails?.file_created_date__v)).toLocaleString()}</td> */}
+    {/* <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.file_created_date__v)).toLocaleString()}</td> */}
+    {/* <td colSpan="4"><center>
     {documentDetails?.file_created_date__v === vvdocumentDetails.data[0]?.file_created_date__v
  ? (
       <Badge bg="success">Pass</Badge>
@@ -396,11 +396,11 @@ const DocumentVerification= (props)=>{
       <Badge bg="danger">Fail</Badge>
     )}</center>
   </td>
-  </tr>
+  </tr> */}
   <tr>
     <th>Document Creation Date</th>
     <td>{new Date(timestampToEpoch(documentDetails?.document_creation_date__v)).toLocaleString()}</td>
-    <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.document_creation_date__v)).toLocaleString()}</td>
+    {/* <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.document_creation_date__v)).toLocaleString()}</td> */}
     <td colSpan="4"><center>
     {documentDetails?.document_creation_date__v === vvdocumentDetails.data[0]?.document_creation_date__v
  ? (
@@ -438,7 +438,7 @@ const DocumentVerification= (props)=>{
   <tr>
     <th>Title</th>
     <td>{documentDetails?.name__v}</td>
-    <td>{vvdocumentDetails.data[0]?.name__v}</td>
+    {/* <td>{vvdocumentDetails.data[0]?.name__v}</td> */}
     <td colSpan="4"><center>
     {documentDetails?.name__v === vvdocumentDetails.data[0]?.name__v
  ? (
