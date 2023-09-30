@@ -1,4 +1,4 @@
-import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal } from "react-bootstrap";
+import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal, Spinner } from "react-bootstrap";
 import Eye from '../asserts/images/eye-icon.svg'
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
@@ -100,6 +100,7 @@ function BlockTransactionsReport() {
     .catch((error) => {
       // Handle errors
       console.error('Error fetching data:', error);
+      getTranscAvalanche(value);
     });
     console.log(transactions);
     await makeMultipleApiRequests(10,temp);
@@ -144,6 +145,8 @@ function BlockTransactionsReport() {
           }
         } catch (error) {
           console.error('Error making API request:', error);
+          await makeApiRequestWithDelay(blockNo);
+          await new Promise((resolve) => setTimeout(resolve, 200));
         }
       };
       
@@ -158,7 +161,7 @@ function BlockTransactionsReport() {
         //   await new Promise((resolve) => setTimeout(resolve, 2000));
         //   await makeApiRequestWithDelay2(trans[i].blockNumber);
           // Adjust the delay time (in milliseconds) as needed
-        //   await new Promise((resolve) => setTimeout(resolve, 100)); // 2 seconds delay
+          await new Promise((resolve) => setTimeout(resolve, 200)); // 2 seconds delay
         }
             console.log("Trans Check Two:",blockBuffer);
             const combinedArray = tempr.map((item1,i) => {
@@ -205,7 +208,7 @@ function BlockTransactionsReport() {
         setStartValue(value);
         // let tnId = await getTennantId();
         // let tx = await getTransactionblock(value,limit,tnId);
-
+        setTransactions1([]); 
         await getTranscAvalanche(value);
 
         // console.log("txhistory",tx)
@@ -381,7 +384,14 @@ function BlockTransactionsReport() {
                     </thead>
                     <tbody>
                         {transactions1[0] === null || transactions1[0] === "" || transactions1[0] === undefined || transactions1[0] === "undefined" ?
-                        (<></>) :
+                        (<><tr>
+                            <td></td>
+                            <td></td>
+                            <td><div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height:'50px'}}>
+                        <Spinner animation="border" variant="dark" style={{ width: '50px', height: '50px',borderWidth:'5px' }}/>
+                      </div></td>
+                            </tr>
+                      </>) :
                         (<>
                         {transactions1.map((r,i)=>{
                             return(<>
