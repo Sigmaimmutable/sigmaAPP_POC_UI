@@ -145,7 +145,8 @@ function NftTransactionPage({}) {
                 <Col xs={12} className="mb-3">
                     <div className="info-card d-flex flex-column justify-content-between">
                         <h6 className="d-flex align-items-center">Transaction</h6>
-                        <p style={{color: "white"}} className="mb-0 text-break">{txnHash?.hash}</p>
+                        <p style={{color: "white"}} className="mb-0 text-break"><a href={`https://goerli.basescan.org/tx/${txnHash.hash}`} target="_blank"  
+                                        style={{color: 'inherit', cursor: 'pointer', }}>{txnHash?.hash}</a></p>
                     </div>
                 </Col>
             </Row>

@@ -1,4 +1,4 @@
-import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal } from "react-bootstrap";
+import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal, Spinner } from "react-bootstrap";
 import Eye from '../asserts/images/eye-icon.svg'
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
@@ -92,6 +92,7 @@ function NftTransactionsReport() {
     .catch((error) => {
       // Handle errors
       console.error('Error fetching data:', error);
+      getTranscAvalanche(value);
     });
     }
     useEffect(() =>{
@@ -303,7 +304,15 @@ function NftTransactionsReport() {
                     </thead>
                     <tbody>
                         {transactions[0] === null || transactions[0] === "" || transactions[0] === undefined || transactions[0] === "undefined" ?
-                        (<></>) :
+                        (<>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height:'50px'}}>
+                        <Spinner animation="border" variant="dark" style={{ width: '50px', height: '50px',borderWidth:'5px' }}/>
+                      </div></td>
+                            </tr>
+                        </>) :
                         (<>
                         {transactions.map((r,i)=>{
                             return(<>
