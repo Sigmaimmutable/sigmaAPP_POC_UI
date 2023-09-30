@@ -154,19 +154,19 @@ useEffect(( )=>{data()},[])
                 <Col xs={6} lg={4} className="mb-3">
                     <div className="info-card info-card-5 d-flex flex-column justify-content-between">
                         <h4 className="d-flex align-items-center">Nodes Deployed</h4>
-                        <h3 className="mb-0">{nodeDetail?.noOfNodes}</h3>
+                        <h3 className="mb-0">1</h3>
                     </div>
                 </Col>
                 <Col xs={6} lg={4} className="mb-3">
                     <div className="info-card info-card-6 d-flex flex-column justify-content-between">
                         <h4 className="d-flex align-items-center">Provider</h4>
-                        <h3 className="mb-0">{nodeDetail?.provider}</h3>
+                        <h3 className="mb-0">BASE</h3>
                     </div>
                 </Col>
                 <Col xs={12} lg={4} className="mb-3">
                     <div className="info-card info-card-7 d-flex flex-column justify-content-between">
-                        <h4 className="d-flex align-items-center">ID</h4>
-                        <h3 className="mb-0">{nodeDetail1?.id}</h3>
+                        <h4 className="d-flex align-items-center">Network Type </h4>
+                        <h3 className="mb-0">Base Mainnet</h3>
                     </div>
                 </Col>
             </Row>
@@ -179,19 +179,19 @@ useEffect(( )=>{data()},[])
                            
                                 <tr>
                                     <td>Name</td>
-                                    <td>{nodeDetail? nodeDetail.nodes[1].name : ''}</td>
+                                    <td>Base</td>
                                     <td width="50"></td>
                                 </tr>
                                 <tr>
-                                    <td>Node1 ID</td>
-                                    <td>{nodeDetail? nodeDetail.nodes[0].nodeId : ''}</td>
+                                    <td>Chain ID</td>
+                                    <td>8453</td>
                                     <td>
                                         <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nodeDetail.nodes[0].nodeId); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button>
                                     </td>
                                 </tr>
-                                <tr>
+                                {/* <tr>
                                     <td>Node2 ID</td>
                                     <td>{nodeDetail? nodeDetail.nodes[1].nodeId : ''}</td>
                                     <td>
@@ -199,16 +199,16 @@ useEffect(( )=>{data()},[])
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button>
                                     </td>
-                                </tr>
+                                </tr> */}
                                 <tr>
-                                    <td>Node size</td>
-                                    <td>{nodeDetail? nodeDetail.nodes[0].size : ''}</td>
+                                    <td>RPC</td>
+                                    <td>https://developer-access-mainnet.base.org</td>
                                     <td>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Owner</td>
-                                    <td>Default Organization</td>
+                                    <td>BASE.ORG</td>
                                     <td>
                                     </td>
                                 </tr>
@@ -226,24 +226,24 @@ useEffect(( )=>{data()},[])
                                     <td>
                                     </td>
                                 </tr>
-                                <tr>
+                                {/* <tr>
                                     <td>Region</td>
                                     <td>AWS us-east-2</td>
                                     <td>
                                     </td>
-                                </tr>
+                                </tr> */}
                                 <tr>
-                                    <td>Creation date</td>
-                                    <td>{nodeDetail? formatTime(nodeDetail.created_at) : ''}</td>
+                                    <td>Node Type</td>
+                                    <td>Public</td>
                                     <td>
                                     </td>
                                 </tr>
-                                <tr>
+                                {/* <tr>
                                     <td>Last updated date</td>
                                     <td>{nodeDetail? formatTime(nodeDetail.updated_at) : ''}</td>
                                     <td>
                                     </td>
-                                </tr>
+                                </tr> */}
                                 {/* <tr>
                                     <td>Blockchain Node ID</td>
                                     <td>Approved</td>
@@ -253,21 +253,21 @@ useEffect(( )=>{data()},[])
                                         </Button>
                                     </td>
                                 </tr> */}
-                                <tr>
+                                {/* <tr>
                                     <td>Consensus role</td>
                                     <td>{nodeDetail? nodeDetail.nodes[0].role : ''}</td>
                                     <td>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td>Consensus ID</td>
-                                    <td>{nodeDetail? nodeDetail.nodes[0].name : ''}</td>
+                                </tr> */}
+                                {/* <tr> */}
+                                    {/* <td>Consensus ID</td>
+                                    <td>{nodeDetail? nodeDetail.nodes[0].name : ''}</td> */}
                                     {/* <td>
                                         <Button variant="reset" onClick={() => {navigator.clipboard.writeText('Sigma Admin'); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button>
                                     </td> */}
-                                </tr>
+                                {/* </tr> */}
                                 {/* <tr>
                                     <td>Runtime version</td>
                                     <td>US-East North Carolin</td>
@@ -275,10 +275,10 @@ useEffect(( )=>{data()},[])
                                     </td>
                                 </tr> */}
                                 <tr>
-                                    <td>User account</td>
-                                    <td><Badge pill bg="secondary" className="text-truncate"><img src={Wallet} alt="Wallet" /> Default | { nodeDetail1? nodeDetail1.smartContractDefaultWalletAddress : ""}</Badge></td>
+                                    <td>Smart Contract Address</td>
+                                    <td><Badge pill bg="secondary" className="text-truncate"><img src={Wallet} alt="Wallet" /> Default | {"0xe57A6865Ee306143bCC2d30807cF3571A0655934"}</Badge></td>
                                     <td>
-                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nodeDetail1.smartContractDefaultWalletAddress); toggleShowA();}}>
+                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText("0xe57A6865Ee306143bCC2d30807cF3571A0655934"); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button>
                                     </td>
@@ -298,10 +298,10 @@ useEffect(( )=>{data()},[])
                                 <div className="list-icon">://</div>
                                 <div className="list-content pe-2 flex-grow-1">
                                     <h6 className="mb-1 text-truncate">JSON/RPC HTTP endpoint</h6>
-                                    <p className="text-break">{nodeDetail1? convertToConnectUrl(nodeDetail1.smartContractAccessUrl): ""}</p>
+                                    <p className="text-break">{"https://developer-access-mainnet.base.org"}</p>
                                 </div>
                                 <div className="list-copy">
-                                    <Button variant="reset" onClick={() => {navigator.clipboard.writeText( convertToConnectUrl(nodeDetail1.smartContractAccessUrl)); toggleShowA();}}>
+                                    <Button variant="reset" onClick={() => {navigator.clipboard.writeText( convertToConnectUrl("https://developer-access-mainnet.base.org")); toggleShowA();}}>
                                         <img src={CopyIcon} alt="CopyIcon" />
                                     </Button>
                                 </div>
@@ -310,15 +310,15 @@ useEffect(( )=>{data()},[])
                                 <div className="list-icon">://</div>
                                 <div className="list-content pe-2 flex-grow-1">
                                     <h6 className="mb-1 text-truncate">JSON/RPC Web socket endpoint</h6>
-                                    <p className="text-break">{nodeDetail1? convertToWebSocketUrl(nodeDetail1.smartContractAccessUrl): ""}</p>
+                                    <p className="text-break">{"https://virulent-fittest-season.base-mainnet.discover.quiknode.pro/7aa96935d524aa2148386a41e4cf89165e336b99/"}</p>
                                 </div>
                                 <div className="list-copy">
-                                    <Button variant="reset" onClick={() => {navigator.clipboard.writeText(convertToWebSocketUrl(nodeDetail1.smartContractAccessUrl)); toggleShowA();}}>
+                                    <Button variant="reset" onClick={() => {navigator.clipboard.writeText(convertToWebSocketUrl("https://virulent-fittest-season.base-mainnet.discover.quiknode.pro/7aa96935d524aa2148386a41e4cf89165e336b99/")); toggleShowA();}}>
                                         <img src={CopyIcon} alt="CopyIcon" />
                                     </Button>
                                 </div>
                             </ListGroup.Item>
-                            <ListGroup.Item className="d-flex py-3 align-items-center">
+                            {/* <ListGroup.Item className="d-flex py-3 align-items-center">
                                 <div className="list-icon"><img src={RestAPI} alt="RestAPI" /></div>
                                 <div className="list-content pe-2 flex-grow-1">
                                     <h6 className="mb-1 text-truncate">REST API Gateway</h6>
@@ -329,7 +329,7 @@ useEffect(( )=>{data()},[])
                                         <img src={CopyIcon} alt="CopyIcon" />
                                     </Button>
                                 </div>
-                            </ListGroup.Item>
+                            </ListGroup.Item> */}
                         </ListGroup>
                         {/* <Card.Footer className="d-block">
                             <Row>
