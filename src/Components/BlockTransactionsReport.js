@@ -2,7 +2,7 @@ import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal, Spin
 import Eye from '../asserts/images/eye-icon.svg'
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import { getTennantId, getTransactionblock } from "../apifunction";
+import { getTennantId, getTransactionblock, getNFTTxBase, getBlocksTxBase } from "../apifunction";
 import Check from '../asserts/images/check_icon.svg';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
@@ -80,75 +80,102 @@ function BlockTransactionsReport() {
     // }
     // useEffect(() =>{getTransc()},[])
 
-    const getTranscAvalanche = async(value) => {
-        blockBuffer = [];
-        CountsBuffer = [];
-        let temp = [];
-        // Define the API endpoint URL
-    const apiUrl =
-    `https://api.basescan.org/api?module=account&action=tokennfttx&contractaddress=0xe57A6865Ee306143bCC2d30807cF3571A0655934&address=0xdc61dE4fED82E2CDbC5E31156c4dA41389Ae1e22&page=${value}&offset=10&startblock=0&endblock=99999999&sort=desc&apikey=AHSJCJMCVE468EJBIJ9KC1X4ZR7JVHKJE9`;
+//     const getTranscAvalanche = async(value) => {
+//         blockBuffer = [];
+//         CountsBuffer = [];
+//         let temp = [];
+//         // Define the API endpoint URL
+//     const apiUrl =
+//     `https://api.basescan.org/api?module=account&action=tokennfttx&contractaddress=0xe57A6865Ee306143bCC2d30807cF3571A0655934&address=0xdc61dE4fED82E2CDbC5E31156c4dA41389Ae1e22&page=${value}&offset=10&startblock=0&endblock=99999999&sort=desc&apikey=AHSJCJMCVE468EJBIJ9KC1X4ZR7JVHKJE9`;
 
-  // Make the GET request to the API
-  await axios
-    .get(apiUrl)
-    .then((response) => {
-      // Handle the response data here
-      console.log("Avalanche Nft transaction",response.data); // This will be the ERC-721 transactions data
-      setTransactions(response.data.result); // Assuming 'result' contains the transaction data
-      temp = [...response.data.result];
-    })
-    .catch((error) => {
-      // Handle errors
-      console.error('Error fetching data:', error);
-      getTranscAvalanche(value);
-    });
-    console.log(transactions);
-    await makeMultipleApiRequests(10,temp);
+//   // Make the GET request to the API
+//   await axios
+//     .get(apiUrl)
+//     .then((response) => {
+//       // Handle the response data here
+//       console.log("Avalanche Nft transaction",response.data); // This will be the ERC-721 transactions data
+//       setTransactions(response.data.result); // Assuming 'result' contains the transaction data
+//       temp = [...response.data.result];
+//     })
+//     .catch((error) => {
+//       // Handle errors
+//       console.error('Error fetching data:', error);
+//       getTranscAvalanche(value);
+//     });
+//     console.log(transactions);
+//     await makeMultipleApiRequests(10,temp);
+//     }
+
+    const getTransactionsBase = async(value) =>{
+        try{
+            let [istrue, transactionactivity] = await getNFTTxBase(value);
+            console.log("Api aws tx 1:",transactionactivity.result);
+            setTransactions(transactionactivity.result);
+
+            await makeMultipleApiRequests(10,transactionactivity.result);
+        }
+        catch(e){
+            console.log("Api ERROR:",e);
+        }
     }
     useEffect(() =>{
-        getTranscAvalanche(1);
+        // getTranscAvalanche(1);
+        getTransactionsBase(1);
     },[]);
 
 
-    const makeApiRequestWithDelay2 = async (blockNo) => {
+    // const makeApiRequestWithDelay2 = async (blockNo) => {
         
-        let blockNum1 = parseInt(blockNo,10);
-        let blockNum = blockNum1.toString(16);
-        const apiUrl = `https://api.basescan.org/api?module=proxy&action=eth_getBlockTransactionCountByNumber&tag=${blockNum}&apikey=YourApiKeyToken;`
-        try {
-          const response = await axios.get(apiUrl);
+    //     let blockNum1 = parseInt(blockNo,10);
+    //     let blockNum = blockNum1.toString(16);
+    //     const apiUrl = `https://api.basescan.org/api?module=proxy&action=eth_getBlockTransactionCountByNumber&tag=${blockNum}&apikey=YourApiKeyToken;`
+    //     try {
+    //       const response = await axios.get(apiUrl);
       
-          if (response.status === 200) {
-            console.log('API Response:', response.data);
-            CountsBuffer = [...CountsBuffer,(parseInt(response.data.result,16)).toString(10)];
-          } else {
-            console.error('API request failed with status:', response.status);
-          }
-        } catch (error) {
-          console.error('Error making API request:', error);
-        }
-      };
+    //       if (response.status === 200) {
+    //         console.log('API Response:', response.data);
+    //         CountsBuffer = [...CountsBuffer,(parseInt(response.data.result,16)).toString(10)];
+    //       } else {
+    //         console.error('API request failed with status:', response.status);
+    //       }
+    //     } catch (error) {
+    //       console.error('Error making API request:', error);
+    //     }
+    //   };
 
-    const makeApiRequestWithDelay = async (blockNo) => {
+    // const makeApiRequestWithDelay = async (blockNo) => {
         
+    //     let blockNum1 = parseInt(blockNo,10);
+    //     let blockNum = blockNum1.toString(16);
+    //     const apiUrl = `https://api.basescan.org/api?module=proxy&action=eth_getBlockByNumber&tag=${blockNum}&boolean=true&apikey=AHSJCJMCVE468EJBIJ9KC1X4ZR7JVHKJE9;`
+    //     try {
+    //       const response = await axios.get(apiUrl);
+      
+    //       if (response.status === 200) {
+    //         console.log('API Response:', response.data);
+    //         blockBuffer = [...blockBuffer,response.data.result];
+    //       } else {
+    //         console.error('API request failed with status:', response.status);
+    //       }
+    //     } catch (error) {
+    //       console.error('Error making API request:', error);
+    //       await makeApiRequestWithDelay(blockNo);
+    //       await new Promise((resolve) => setTimeout(resolve, 200));
+    //     }
+    //   };
+
+      const makeMultipleBlockApiCalls = async(blockNo) => {
         let blockNum1 = parseInt(blockNo,10);
         let blockNum = blockNum1.toString(16);
-        const apiUrl = `https://api.basescan.org/api?module=proxy&action=eth_getBlockByNumber&tag=${blockNum}&boolean=true&apikey=AHSJCJMCVE468EJBIJ9KC1X4ZR7JVHKJE9;`
-        try {
-          const response = await axios.get(apiUrl);
-      
-          if (response.status === 200) {
-            console.log('API Response:', response.data);
-            blockBuffer = [...blockBuffer,response.data.result];
-          } else {
-            console.error('API request failed with status:', response.status);
-          }
-        } catch (error) {
-          console.error('Error making API request:', error);
-          await makeApiRequestWithDelay(blockNo);
-          await new Promise((resolve) => setTimeout(resolve, 200));
+        try{
+            let [istrue, blockTx] = await getBlocksTxBase(blockNum);
+            console.log("Api aws blocks 1:",blockTx.result);
+            blockBuffer = [...blockBuffer,blockTx.result];
         }
-      };
+        catch(e){
+            console.log("Api ERROR:", e);
+        }
+      }
       
       // Function to make multiple API requests with delays
       const makeMultipleApiRequests = async (count,tempr) => {
@@ -157,11 +184,11 @@ function BlockTransactionsReport() {
         console.log("Trans Ckeck : ",trans);
         if (Array.isArray(trans) && trans.length >= count) {
         for (let i = 0; i < count; i++) {
-          await makeApiRequestWithDelay(trans[i].blockNumber);
+          await makeMultipleBlockApiCalls(trans[i].blockNumber);
         //   await new Promise((resolve) => setTimeout(resolve, 2000));
         //   await makeApiRequestWithDelay2(trans[i].blockNumber);
           // Adjust the delay time (in milliseconds) as needed
-          await new Promise((resolve) => setTimeout(resolve, 200)); // 2 seconds delay
+        //   await new Promise((resolve) => setTimeout(resolve, 200)); // 2 seconds delay
         }
             console.log("Trans Check Two:",blockBuffer);
             const combinedArray = tempr.map((item1,i) => {
@@ -208,8 +235,8 @@ function BlockTransactionsReport() {
         setStartValue(value);
         // let tnId = await getTennantId();
         // let tx = await getTransactionblock(value,limit,tnId);
-        setTransactions([]);
-        await getTranscAvalanche(value);
+        setTransactions1([]);
+        await getTransactionsBase(value);
 
         // console.log("txhistory",tx)
         // setTxh(tx);

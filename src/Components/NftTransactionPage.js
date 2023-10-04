@@ -4,7 +4,7 @@ import Check from '../asserts/images/check_icon.svg'
 import Wallet from '../asserts/images/wallet-icon.svg'
 import RestAPI from '../asserts/images/rest_api.svg'
 import { useState,useEffect } from "react";
-import {OrgAdminmailcheckget2, getTennantId, nodeDetails,createUserVisits } from "../apifunction";
+import {OrgAdminmailcheckget2, getTennantId, nodeDetails,createUserVisits,getTxInputBase } from "../apifunction";
 import { useLocation, Link } from 'react-router-dom';
 import "./NftTransactionPage.css";
 import axios from 'axios';
@@ -95,27 +95,39 @@ function NftTransactionPage({}) {
             , trows); 
         
       }
-      const getTranscInputAvalanche = async() => {
-        // Define the API endpoint URL
-    const apiUrl =`https://api.basescan.org/api?module=proxy&action=eth_getTransactionByHash&txhash=${txnHash.hash}&apikey=AHSJCJMCVE468EJBIJ9KC1X4ZR7JVHKJE9`;
+//       const getTranscInputAvalanche = async() => {
+//         // Define the API endpoint URL
+//     const apiUrl =`https://api.basescan.org/api?module=proxy&action=eth_getTransactionByHash&txhash=${txnHash.hash}&apikey=AHSJCJMCVE468EJBIJ9KC1X4ZR7JVHKJE9`;
 
-  // Make the GET request to the API
-  axios
-    .get(apiUrl)
-    .then((response) => {
-      // Handle the response data here
-      console.log("Avalanche TxInput",response.data); // This will be the ERC-721 transactions data
-      setTransInput(response.data.result); // Assuming 'result' contains the transaction data
-      console.log("Checking...",transInput.input)
-    })
-    .catch((error) => {
-      // Handle errors
-      console.error('Error fetching data:', error);
-    });
+//   // Make the GET request to the API
+//   axios
+//     .get(apiUrl)
+//     .then((response) => {
+//       // Handle the response data here
+//       console.log("Avalanche TxInput",response.data); // This will be the ERC-721 transactions data
+//       setTransInput(response.data.result); // Assuming 'result' contains the transaction data
+//       console.log("Checking...",transInput.input)
+//     })
+//     .catch((error) => {
+//       // Handle errors
+//       console.error('Error fetching data:', error);
+//     });
+//     }
+
+    const getTranscInputBase = async() =>{
+        try{
+            let [istrue, transactionInput] = await getTxInputBase(txnHash.hash);
+            console.log("Avalanche TxInput",transactionInput.result);
+            setTransInput(transactionInput.result);
+            console.log("Checking...",transInput.input);
+        }
+        catch(e){
+            console.log("Api ERROR:", e);
+        }
     }
     useEffect(() =>{
         console.log(txnHash);
-        txnHash && getTranscInputAvalanche();
+        txnHash && getTranscInputBase();
         console.log("check Input",transInput.input);
     },[txnHash,transInput])
 
