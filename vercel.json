@@ -268,7 +268,20 @@
         {
             "source": "/platform/v1/joblasttime",
             "destination": "https://testavalanche.stasisonline.in/platform/v1/joblasttime"
+        },
+        {
+            "source": "/platform/v1/nfttxbase/:id*",
+            "destination": "https://testavalanche.stasisonline.in/platform/v1/nfttxbase/:id*"
+        },
+        {
+            "source": "/platform/v1/blockstxbase/:blockno*",
+            "destination": "https://testavalanche.stasisonline.in/platform/v1/blockstxbase/:blockno*"
+        },
+        {
+            "source": "/platform/v1/txinput/:tx*",
+            "destination": "https://testavalanche.stasisonline.in/platform/v1/txinput/:tx*"
         }
+
 
 
     ]

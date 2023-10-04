@@ -2,7 +2,7 @@ import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal, Spin
 import Eye from '../asserts/images/eye-icon.svg'
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import { getTennantId, getTransaction } from "../apifunction";
+import { getTennantId, getTransaction, getNFTTxAvalanche } from "../apifunction";
 import Check from '../asserts/images/check_icon.svg';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
@@ -76,28 +76,39 @@ function NftTransactionsReport() {
         
     }
 
-    const getTranscAvalanche = async(value) => {
-        // Define the API endpoint URL
-    const apiUrl =
-    `https://api-testnet.snowtrace.io/api?module=account&action=tokennfttx&contractaddress=0x4f99E91d4839D70f31676F4119e67FfA2bd1f49a&address=0xdc61dE4fED82E2CDbC5E31156c4dA41389Ae1e22&page=${value}&offset=10&startblock=0&endblock=99999999&sort=desc&apikey=7591ca9e4ccc415faf028b9dff4c7ce2`;
+//     const getTranscAvalanche = async(value) => {
+//         // Define the API endpoint URL
+//     const apiUrl =
+//     `https://api-testnet.snowtrace.io/api?module=account&action=tokennfttx&contractaddress=0x4f99E91d4839D70f31676F4119e67FfA2bd1f49a&address=0xdc61dE4fED82E2CDbC5E31156c4dA41389Ae1e22&page=${value}&offset=10&startblock=0&endblock=99999999&sort=desc&apikey=7591ca9e4ccc415faf028b9dff4c7ce2`;
 
-  // Make the GET request to the API
-  axios
-    .get(apiUrl)
-    .then((response) => {
-      // Handle the response data here
-      console.log("Avalanche Nft transaction",response.data); // This will be the ERC-721 transactions data
-      setTransactions(response.data.result); // Assuming 'result' contains the transaction data
-    })
-    .catch((error) => {
-      // Handle errors
-      console.error('Error fetching data:', error);
-      getTranscAvalanche(value);
-    });
+//   // Make the GET request to the API
+//   axios
+//     .get(apiUrl)
+//     .then((response) => {
+//       // Handle the response data here
+//       console.log("Avalanche Nft transaction",response.data); // This will be the ERC-721 transactions data
+//       setTransactions(response.data.result); // Assuming 'result' contains the transaction data
+//     })
+//     .catch((error) => {
+//       // Handle errors
+//       console.error('Error fetching data:', error);
+//       getTranscAvalanche(value);
+//     });
+//     }
+
+    const getTransactionsAvalanche = async(value) =>{
+        try{
+            let [istrue, transactionactivity] = await getNFTTxAvalanche(value);
+            console.log("Api aws tx 1:",transactionactivity.result);
+            setTransactions(transactionactivity.result);
+        }
+        catch(e){
+            console.log("Api ERROR:",e);
+        }
     }
     useEffect(() =>{
-        // getTransc();
-        getTranscAvalanche(1);
+        getTransactionsAvalanche(1);
+        // getTranscAvalanche(1);
     },[])
 
 
@@ -124,7 +135,7 @@ function NftTransactionsReport() {
         setStartValue(value);
         // let tnId = await getTennantId();
         // let tx = await getTransaction(value,limit,tnId);
-        await getTranscAvalanche(value);
+        await getTransactionsAvalanche(value);
 
         // console.log("txhistory",tx)
         // setTxh(tx);

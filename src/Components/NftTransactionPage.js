@@ -4,7 +4,7 @@ import Check from '../asserts/images/check_icon.svg'
 import Wallet from '../asserts/images/wallet-icon.svg'
 import RestAPI from '../asserts/images/rest_api.svg'
 import { useState,useEffect } from "react";
-import {OrgAdminmailcheckget2, getTennantId, nodeDetails,createUserVisits } from "../apifunction";
+import {OrgAdminmailcheckget2, getTennantId, nodeDetails,createUserVisits, getTxInputAvalanche } from "../apifunction";
 import { useLocation, Link } from 'react-router-dom';
 import "./NftTransactionPage.css";
 import axios from 'axios';
@@ -95,24 +95,36 @@ function NftTransactionPage({}) {
             , trows); 
         
       }
-      const getTranscInputAvalanche = async() => {
-        // Define the API endpoint URL
-    const apiUrl =`https://api-testnet.snowtrace.io/api?module=proxy&action=eth_getTransactionByHash&txhash=${txnHash.hash}&apikey=7591ca9e4ccc415faf028b9dff4c7ce2`;
+//       const getTranscInputAvalanche = async() => {
+//         // Define the API endpoint URL
+//     const apiUrl =`https://api-testnet.snowtrace.io/api?module=proxy&action=eth_getTransactionByHash&txhash=${txnHash.hash}&apikey=7591ca9e4ccc415faf028b9dff4c7ce2`;
 
-  // Make the GET request to the API
-  axios
-    .get(apiUrl)
-    .then((response) => {
-      // Handle the response data here
-      console.log("Avalanche TxInput",response.data); // This will be the ERC-721 transactions data
-      setTransInput(response.data.result); // Assuming 'result' contains the transaction data
-      console.log("Checking...",transInput.input)
-    })
-    .catch((error) => {
-      // Handle errors
-      console.error('Error fetching data:', error);
-    });
+//   // Make the GET request to the API
+//   axios
+//     .get(apiUrl)
+//     .then((response) => {
+//       // Handle the response data here
+//       console.log("Avalanche TxInput",response.data); // This will be the ERC-721 transactions data
+//       setTransInput(response.data.result); // Assuming 'result' contains the transaction data
+//       console.log("Checking...",transInput.input)
+//     })
+//     .catch((error) => {
+//       // Handle errors
+//       console.error('Error fetching data:', error);
+//     });
+//     }
+
+const getTranscInputAvalanche = async() =>{
+    try{
+        let [istrue, transactionInput] = await getTxInputAvalanche(txnHash.hash);
+        console.log("Avalanche TxInput",transactionInput.result);
+        setTransInput(transactionInput.result);
+        console.log("Checking...",transInput.input);
     }
+    catch(e){
+        console.log("Api ERROR:", e);
+    }
+}
     useEffect(() =>{
         console.log(txnHash);
         txnHash && getTranscInputAvalanche();
