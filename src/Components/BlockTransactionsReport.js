@@ -2,7 +2,7 @@ import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal, Spin
 import Eye from '../asserts/images/eye-icon.svg'
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import { getTennantId, getTransactionblock, getNFTTxBase, getBlocksTxBase } from "../apifunction";
+import { getTennantId, getTransactionblock, getNFTTxBase, getBlocksTxBase, getAllTxInputAlgorand, getAlgorandBlocks, getTxInputBase } from "../apifunction";
 import Check from '../asserts/images/check_icon.svg';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
@@ -13,13 +13,15 @@ function BlockTransactionsReport() {
     const [reachedLastPage, setReachedLastPage] = useState(false);
     const [StartValue, setStartValue] = useState(1);
     const [limit, setlimit] = useState(10);
-    const [txh, setTxh] = useState([]);
+    const [totalBlocks, setTotalBlocks] = useState();
     const history = useNavigate();
     const navigate = useNavigate();
     const [transactions, setTransactions] = useState([]);
     const [transactions1, setTransactions1] = useState([]);
+    const [blocks, setBlocks] = useState([]);
 
-   // console.log("selected",roleId);
+   console.log("blocks line 23", blocks);
+
    let blockBuffer = [];
    let CountsBuffer = [];
 
@@ -58,11 +60,9 @@ function BlockTransactionsReport() {
      } else {
        localStorage.removeItem('rememberMe');
      }
-     history('/');
-      
-     
-      
+     history('/');   
    } 
+
     // const getTransc = async() =>{
     //     if(limit == 10){
     //         let tnId = await getTennantId();
@@ -106,22 +106,29 @@ function BlockTransactionsReport() {
 //     await makeMultipleApiRequests(10,temp);
 //     }
 
-    const getTransactionsBase = async(value) =>{
-        try{
-            let [istrue, transactionactivity] = await getNFTTxBase(value);
-            console.log("Api aws tx 1:",transactionactivity.result);
-            setTransactions(transactionactivity.result);
-
-            await makeMultipleApiRequests(10,transactionactivity.result);
-        }
-        catch(e){
-            console.log("Api ERROR:",e);
-        }
-    }
-    useEffect(() =>{
-        // getTranscAvalanche(1);
-        getTransactionsBase(1);
-    },[]);
+        useEffect(() => {
+            async function getTransactionsBase() {
+              try {
+                const totalBlocksFetch = await getAllTxInputAlgorand();
+                setTotalBlocks(totalBlocksFetch);
+                const [istrue, transactionactivity] = await getTxInputBase(StartValue * 10);
+                const transactionDetailsOfAsset = transactionactivity.transactions;
+                const updatedBlocks = [];
+                await Promise.all(
+                  transactionDetailsOfAsset.map(async (txn, index) => {
+                    console.log("txn['confirmed-round']", txn['confirmed-round']);
+                    const [value, blocksFetcher] = await getAlgorandBlocks(txn['confirmed-round']);
+                    updatedBlocks.push(blocksFetcher);
+                    console.log("blocksFetcher", blocksFetcher);
+                  })
+                );
+                setBlocks(updatedBlocks);
+              } catch (e) {
+                console.log("Api ERROR:", e);
+              }
+            }
+            getTransactionsBase();
+          }, [StartValue]);
 
 
     // const makeApiRequestWithDelay2 = async (blockNo) => {
@@ -235,8 +242,8 @@ function BlockTransactionsReport() {
         setStartValue(value);
         // let tnId = await getTennantId();
         // let tx = await getTransactionblock(value,limit,tnId);
-        setTransactions1([]);
-        await getTransactionsBase(value);
+
+        // await getTransactionsBase(value);
 
         // console.log("txhistory",tx)
         // setTxh(tx);
@@ -403,14 +410,14 @@ function BlockTransactionsReport() {
                             </th> */}
                              <th className="text-center">Block</th>
                              <th className="text-center">Hash</th>
-                            <th className="text-center">Mined By</th>
+                            <th className="text-center">Sender</th>
                             <th className="text-center">Tx Count</th>
                             <th className="text-center">Date Mined</th>
                          
                         </tr>
                     </thead>
                     <tbody>
-                        {transactions1[0] === null || transactions1[0] === "" || transactions1[0] === undefined || transactions1[0] === "undefined" ?
+                        {blocks[0] === null || blocks[0] === "" || blocks[0] === undefined || blocks[0] === "undefined" ?
                         (<><tr>
                             <td></td>
                             <td></td>
@@ -420,8 +427,9 @@ function BlockTransactionsReport() {
                             </tr>
                             </>) :
                         (<>
-                        {transactions1.map((r,i)=>{
+                        {blocks && blocks.map((r,i)=>{
                             return(<>
+                            {i >= StartValue * 10 - 10 ? (<>
                             <tr>
                             {/* <td width="84">
                                 <div className="d-flex justify-content-end">
@@ -432,20 +440,20 @@ function BlockTransactionsReport() {
                                     />
                                 </div>
                             </td> */}
-                            <td className="text-center">{(r.blockNumber)}</td>
+                            <td className="text-center">{(r.round)}</td>
 
-                             <td className="text-center">{(r.blockHash).substring(0, 5)}...{(r.hash).substring((r.blockHash).length - 5)}</td>
+                           <td className="text-center">{(r.seed).substring(0, 5)}...{(r.seed).substring((r.seed).length - 5)}</td>
                              {/* <td className="text-center"><Badge pill bg="success"><img src={Check} alt="success badge" />success</Badge></td> */}
                             {/* <td className="text-center text-truncate"> {(r.blockHash).substring(0, 5)}...{(r.blockHash).substring((r.blockHash).length - 5)}</td> */}
-                            {/* <td className="text-center">{(r.miner !== null) ? <>{(r.miner).substring(0, 5)}...{(r.miner).substring((r.miner).length - 5)}</> : "Null"}</td> */}
-                            <td className="text-center">{(r.miner !== null || r.miner !== undefined) ? r.miner : 0x0}</td>
-                            <td className="text-center">{(r.TxCount !== null || r.TxCount !== undefined) ? r.TxCount : 0}</td>
+                            {/* <td className="text-center">{(r['reward']['fee-sink'] !== null) ? <>{(r['reward']['fee-sink']).substring(0, 5)}...{(r.miner).substring((r.miner).length - 5)}</> : "Null"}</td> */}
+                           <td className="text-center">{(r['transactions'][0]['sender'] !== null || r['transactions'][0]['sender'] !== undefined) ? <>{r['transactions'][0]['sender'].substring(0, 5)}...{r['transactions'][0]['sender'].substring((r['transactions'][0]['sender']).length - 5)}</> : 0x0}</td>
+                           <td className="text-center">{(r['transactions']['length'] !== null || r['transactions']['length'] !== undefined) ? r['transactions']['length'] : 0}</td>
                             {/* <td className="text-center">{(r.transactionCount)}</td> */}
-                            <td className="text-center">{calculateTimeAgo(r.timeStamp)}</td>
+                           <td className="text-center">{calculateTimeAgo(r.timestamp)}</td>
                             {/* <td>{r.logs[0].data}</td> */}
                             {/* <td className="text-center">{r.blockNumber}</td>
                             <td className="text-center">{r.index}</td> */}
-                        </tr>
+                        </tr></>) : (<></>)}
                             </>)
                         })}
                         </>)}
@@ -471,7 +479,7 @@ function BlockTransactionsReport() {
                     <Col md={8} className="d-flex justify-content-md-end justify-content-center">
                         <ul className="d-flex pagination list-unstyled">
                             <li>
-                            <Link  className={StartValue !== 1 ? 'next' : StartValue === 1 ? 'prev disabled' : ''} onClick={()=>pagination(StartValue-1)}>
+                            <Link className={StartValue !== 1 ? 'next' : StartValue === 1 ? 'prev disabled' : ''} onClick={()=>pagination(StartValue-1)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
                                         <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
                                     </svg>
@@ -484,7 +492,7 @@ function BlockTransactionsReport() {
                             <li><Link className={StartValue === 40? 'active' : ''} onClick={()=>pagination(40)}>5</Link></li>
                             <li><Link className={StartValue === 50 ? 'active' : ''} onClick={()=>pagination(50)}>6</Link></li> */}
                             <li>
-                            <Link className={`next ${reachedLastPage ? 'disabled' : ''}`}onClick={() => {if (!reachedLastPage){pagination(StartValue + 1); }}}>
+                            <Link className={`next ${StartValue * 10 >= totalBlocks ? 'disabled' : ''}`} onClick={() => {pagination(StartValue + 1)}}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                         <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                     </svg>
