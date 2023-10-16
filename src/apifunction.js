@@ -2125,34 +2125,3 @@ export const getTxInputBase = async (id) => {
     return [false, ""];
   }
 };
-
-export const getAllTxInputAlgorand = async () => {
-  try {
-    let response2 = await fetch(`/platform/v1/txinput/1000000`);
-    if (!response2.ok) {
-      throw new Error(`Request failed with status: ${response2.status}`);
-    }
-    const data2 = await response2.json();
-    console.log("Api inside aws block tx", data2);
-    let lengthOfData = data2.transactions.length;
-    return lengthOfData;
-  } catch (err) {
-    console.log("vercelerrro", err);
-  }
-};
-
-export const getAlgorandBlocks = async (blockNumber) => {
-  try {
-    let response2 = await fetch(`https://testnet-idx.algonode.cloud/v2/blocks/${blockNumber}`);
-    if (!response2.ok) {
-      throw new Error(`Request failed with status: ${response2.status}`);
-    }
-    const data2 = await response2.json();
-    console.log("Api inside aws block tx", data2);
-    let lengthOfData = data2.transactions.length;
-    return [true, data2];
-  } catch (err) {
-    console.log("vercelerrro", err);
-    return [false, ""];
-  }
-};

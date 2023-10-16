@@ -2,7 +2,7 @@ import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal, Spin
 import Eye from '../asserts/images/eye-icon.svg'
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import { getTennantId, getTransaction, getTxInputBase, getAllTxInputAlgorand } from "../apifunction";
+import { getTennantId, getTransaction, getNFTTxBase } from "../apifunction";
 import Check from '../asserts/images/check_icon.svg';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
@@ -10,10 +10,9 @@ import axios from 'axios';
 
 function NftTransactionsReport() {
     const [search, setSearch] = useState(false);
-    const [reachedLastPage, setReachedLastPage] = useState(false);
+ const [reachedLastPage, setReachedLastPage] = useState(false);
     const [StartValue, setStartValue] = useState(1);
     const [limit, setlimit] = useState(10);
-    const [totalTxns, setTotalTxns] = useState();
     const [txh, setTxh] = useState([]);
     const [transactions, setTransactions] = useState([]);
 
@@ -23,9 +22,9 @@ function NftTransactionsReport() {
    // console.log("selected",roleId);
 
    const [openModal, setOpenModal] = useState(false)
-
+       
    const { logout } = useContext(AuthContext);
-
+       
    const handleIdle = () => {
        setOpenModal(true);
    }
@@ -40,7 +39,6 @@ function NftTransactionsReport() {
        logout()
        setOpenModal(false)
    } 
-
    const logout3 = async () =>
    {  
        
@@ -58,7 +56,10 @@ function NftTransactionsReport() {
        localStorage.removeItem('rememberMe');
      }
      history('/');
-   }
+
+
+
+   } 
     const getTransc = async() =>{
         if(limit == 10){
             let tnId = await getTennantId();
@@ -73,12 +74,10 @@ function NftTransactionsReport() {
         }
         
     }
-
 //     const getTranscAvalanche = async(value) => {
 //         // Define the API endpoint URL
 //     const apiUrl =
 //     `https://api.basescan.org/api?module=account&action=tokennfttx&contractaddress=0xe57A6865Ee306143bCC2d30807cF3571A0655934&address=0xdc61dE4fED82E2CDbC5E31156c4dA41389Ae1e22&page=${value}&offset=10&startblock=0&endblock=99999999&sort=desc&apikey=AHSJCJMCVE468EJBIJ9KC1X4ZR7JVHKJE9`;
-
 //   // Make the GET request to the API
 //   axios
 //     .get(apiUrl)
@@ -96,26 +95,21 @@ function NftTransactionsReport() {
 
     const getTransactionsBase = async(value) =>{
         try{
-            let [istrue, transactionactivity] = await getTxInputBase(value);
+            let [istrue, transactionactivity] = await getNFTTxBase(value);
             console.log("Api aws tx 1:",transactionactivity.result);
-            setTransactions(transactionactivity.transactions);
-            let transactionLength = await getAllTxInputAlgorand();
-            console.log("transactionLength", transactionLength);
-            setTotalTxns(transactionLength);
+            setTransactions(transactionactivity.result);
         }
         catch(e){
             console.log("Api ERROR:",e);
         }
     }
     useEffect(() =>{
-        getTransactionsBase(10);
+        getTransactionsBase(1);
         // getTranscAvalanche(1);
     },[])
 
-
     const formatTime = (time) =>{
         let date = new Date(time);
-
         // Format the date and time using the toLocaleString method
         let formatted = date.toLocaleString("en-US", {
         year: "numeric",
@@ -126,17 +120,15 @@ function NftTransactionsReport() {
         second: "numeric",
         timeZoneName: "short"
         });
-
         // Display the formatted date and time
         // console.log(formatted);
         return formatted;
     }
-
     const pagination = async(value) =>{
         setStartValue(value);
         // let tnId = await getTennantId();
         // let tx = await getTransaction(value,limit,tnId);
-        await getTransactionsBase(value * 10);
+        await getTransactionsBase(value);
 
         // console.log("txhistory",tx)
         // setTxh(tx);
@@ -146,16 +138,13 @@ function NftTransactionsReport() {
             setReachedLastPage(false);
         }
     }
-
     // const selectrow = async(value) =>{
     //     let tx = await getTransaction(StartValue,value,"543609ec-58ba-4f50-9757-aaf149e5f187");
     //     // console.log("txhistory",tx)
     //     setTxh(tx);
     //     // setlimit(value);
     //     selectrow(true);
-
     // }
-
         const calculateTimeAgo = (timestamp1) => {
             const timestamp = parseInt(timestamp1) * 1000;
           const currentTime = new Date();
@@ -181,13 +170,11 @@ function NftTransactionsReport() {
             return `${years} year${years !== 1 ? 's' : ''} ago`;
           }
         };
-
         const NftTransactionPage = (index) => {
             // console.log("nftTransactionPage", txh[index]);
             let txnHash = transactions[index];
             navigate("/admin/nft-transactions-report/single-transaction/", { state: { object: txnHash } });
         }
-
     return ( 
         <div>
             <Row className="mb-20">
@@ -195,7 +182,6 @@ function NftTransactionsReport() {
                     <h4 className="page-title mb-0">Nft Transactions Report</h4>
                 </Col>
             </Row>
-
             <Row className="mb-3 align-items-center" style={{minHeight: '40px'}}>
                 <Col xs={10} md={4} lg={3}>
                     {search && (
@@ -299,7 +285,6 @@ function NftTransactionsReport() {
                                             </div>
                                         </Dropdown.Menu>
                                     </Dropdown>
-
                                     <Form.Check
                                         className="mb-0 check-single"
                                         type='checkbox'
@@ -310,7 +295,7 @@ function NftTransactionsReport() {
                             <th className="text-center">Transaction</th>
                             <th className="text-center">Status</th>
                             <th className="text-center">Address</th>
-                            <th className="text-center">Round</th>
+                            <th className="text-center">To</th>
                             <th className="text-center">Time</th>
                         </tr>
                     </thead>
@@ -328,28 +313,26 @@ function NftTransactionsReport() {
                         (<>
                         {transactions.map((r,i)=>{
                             return(<>
-                            {i >= StartValue * 10 - 10 ? <>
-                                <tr>
-                                    {/* <td width="84">
-                                        <div className="d-flex justify-content-end">
-                                            <Form.Check
-                                                className="mb-0 check-single"
-                                                type='checkbox'
-                                                id={`default-9`}
-                                            />
-                                        </div>
-                                    </td> */}
-                                     <td onClick={() => NftTransactionPage(i)} className="text-center txn_hash txn_hash_hover" style={{color: "#3366CC "}}>{(r.id).substring(0, 5)}...{(r.id).substring((r.id).length - 5)}</td>
-                                     <td className="text-center"><Badge pill bg="success"><img src={Check} alt="success badge" />success</Badge></td>
-                                    {/* <td className="text-center text-truncate"> {(r.blockHash).substring(0, 5)}...{(r.blockHash).substring((r.blockHash).length - 5)}</td> */}
-                                    <td className="text-center">{(r.sender).substring(0, 5)}...{(r.sender).substring((r.sender).length - 5)}</td>
-                                    <td className="text-center">{(r['confirmed-round'])}</td>
-                                    <td className="text-center">{calculateTimeAgo(r['round-time'])}</td>
-                                    {/* <td>{r.logs[0].data}</td> */}
-                                    {/* <td className="text-center">{r.blockNumber}</td>
-                                    <td className="text-center">{r.index}</td> */}
-                                </tr>
-                            </> : <></>}
+                            <tr>
+                            {/* <td width="84">
+                                <div className="d-flex justify-content-end">
+                                    <Form.Check
+                                        className="mb-0 check-single"
+                                        type='checkbox'
+                                        id={`default-9`}
+                                    />
+                                </div>
+                            </td> */}
+                             <td onClick={() => NftTransactionPage(i)} className="text-center txn_hash txn_hash_hover" style={{color: "#3366CC "}}>{(r.hash).substring(0, 5)}...{(r.hash).substring((r.hash).length - 5)}</td>
+                             <td className="text-center"><Badge pill bg="success"><img src={Check} alt="success badge" />success</Badge></td>
+                            {/* <td className="text-center text-truncate"> {(r.blockHash).substring(0, 5)}...{(r.blockHash).substring((r.blockHash).length - 5)}</td> */}
+                            <td className="text-center">{(r.from).substring(0, 5)}...{(r.from).substring((r.from).length - 5)}</td>
+                            <td className="text-center">{(r.to).substring(0, 5)}...{(r.to).substring((r.to).length - 5)}</td>
+                            <td className="text-center">{calculateTimeAgo(r.timeStamp)}</td>
+                            {/* <td>{r.logs[0].data}</td> */}
+                            {/* <td className="text-center">{r.blockNumber}</td>
+                            <td className="text-center">{r.index}</td> */}
+                        </tr>
                             </>)
                         })}
                         </>)}
@@ -357,7 +340,6 @@ function NftTransactionsReport() {
                         
                     </tbody>
                 </Table>
-
                 <Row className="mt-4">
                     <Col md={4} className="mb-md-0 mb-3 d-flex align-items-center">
                         {/* <h6 className="me-2 mb-0 text-muted">Showing 10 of 10:</h6>
@@ -388,7 +370,7 @@ function NftTransactionsReport() {
                             <li><Link className={StartValue === 40? 'active' : ''} onClick={()=>pagination(40)}>5</Link></li>
                             <li><Link className={StartValue === 50 ? 'active' : ''} onClick={()=>pagination(50)}>6</Link></li> */}
                             <li>
-                            <Link className={`next ${StartValue * 10 >= totalTxns ? 'disabled' : ''}`}onClick={() => {if (!reachedLastPage){pagination(StartValue + 1); }}}>
+                            <Link className={`next ${reachedLastPage ? 'disabled' : ''}`}onClick={() => {if (!reachedLastPage){pagination(StartValue + 1); }}}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                         <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                     </svg>
@@ -419,5 +401,4 @@ function NftTransactionsReport() {
         </div>
      );
 }
-
 export default NftTransactionsReport;

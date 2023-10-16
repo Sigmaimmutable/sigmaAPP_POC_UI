@@ -2,26 +2,23 @@ import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal, Spin
 import Eye from '../asserts/images/eye-icon.svg'
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import { getTennantId, getTransactionblock, getNFTTxBase, getBlocksTxBase, getAllTxInputAlgorand, getAlgorandBlocks, getTxInputBase } from "../apifunction";
+import { getTennantId, getTransactionblock, getNFTTxBase, getBlocksTxBase } from "../apifunction";
 import Check from '../asserts/images/check_icon.svg';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
 import axios from 'axios';
-
 function BlockTransactionsReport() {
     const [search, setSearch] = useState(false);
     const [reachedLastPage, setReachedLastPage] = useState(false);
     const [StartValue, setStartValue] = useState(1);
     const [limit, setlimit] = useState(10);
-    const [totalBlocks, setTotalBlocks] = useState();
+    const [txh, setTxh] = useState([]);
     const history = useNavigate();
     const navigate = useNavigate();
     const [transactions, setTransactions] = useState([]);
     const [transactions1, setTransactions1] = useState([]);
-    const [blocks, setBlocks] = useState([]);
 
-   console.log("blocks line 23", blocks);
-
+   // console.log("selected",roleId);
    let blockBuffer = [];
    let CountsBuffer = [];
 
@@ -43,7 +40,6 @@ function BlockTransactionsReport() {
        logout()
        setOpenModal(false)
    } 
-
    const logout3 = async () =>
    {  
        
@@ -60,9 +56,11 @@ function BlockTransactionsReport() {
      } else {
        localStorage.removeItem('rememberMe');
      }
-     history('/');   
-   } 
+     history('/');
 
+
+
+   } 
     // const getTransc = async() =>{
     //     if(limit == 10){
     //         let tnId = await getTennantId();
@@ -79,7 +77,6 @@ function BlockTransactionsReport() {
         
     // }
     // useEffect(() =>{getTransc()},[])
-
 //     const getTranscAvalanche = async(value) => {
 //         blockBuffer = [];
 //         CountsBuffer = [];
@@ -87,7 +84,6 @@ function BlockTransactionsReport() {
 //         // Define the API endpoint URL
 //     const apiUrl =
 //     `https://api.basescan.org/api?module=account&action=tokennfttx&contractaddress=0xe57A6865Ee306143bCC2d30807cF3571A0655934&address=0xdc61dE4fED82E2CDbC5E31156c4dA41389Ae1e22&page=${value}&offset=10&startblock=0&endblock=99999999&sort=desc&apikey=AHSJCJMCVE468EJBIJ9KC1X4ZR7JVHKJE9`;
-
 //   // Make the GET request to the API
 //   await axios
 //     .get(apiUrl)
@@ -106,29 +102,22 @@ function BlockTransactionsReport() {
 //     await makeMultipleApiRequests(10,temp);
 //     }
 
-        useEffect(() => {
-            async function getTransactionsBase() {
-              try {
-                const totalBlocksFetch = await getAllTxInputAlgorand();
-                setTotalBlocks(totalBlocksFetch);
-                const [istrue, transactionactivity] = await getTxInputBase(StartValue * 10);
-                const transactionDetailsOfAsset = transactionactivity.transactions;
-                const updatedBlocks = [];
-                await Promise.all(
-                  transactionDetailsOfAsset.map(async (txn, index) => {
-                    console.log("txn['confirmed-round']", txn['confirmed-round']);
-                    const [value, blocksFetcher] = await getAlgorandBlocks(txn['confirmed-round']);
-                    updatedBlocks.push(blocksFetcher);
-                    console.log("blocksFetcher", blocksFetcher);
-                  })
-                );
-                setBlocks(updatedBlocks);
-              } catch (e) {
-                console.log("Api ERROR:", e);
-              }
-            }
-            getTransactionsBase();
-          }, [StartValue]);
+    const getTransactionsBase = async(value) =>{
+        try{
+            let [istrue, transactionactivity] = await getNFTTxBase(value);
+            console.log("Api aws tx 1:",transactionactivity.result);
+            setTransactions(transactionactivity.result);
+
+            await makeMultipleApiRequests(10,transactionactivity.result);
+        }
+        catch(e){
+            console.log("Api ERROR:",e);
+        }
+    }
+    useEffect(() =>{
+        // getTranscAvalanche(1);
+        getTransactionsBase(1);
+    },[]);
 
 
     // const makeApiRequestWithDelay2 = async (blockNo) => {
@@ -149,7 +138,6 @@ function BlockTransactionsReport() {
     //       console.error('Error making API request:', error);
     //     }
     //   };
-
     // const makeApiRequestWithDelay = async (blockNo) => {
         
     //     let blockNum1 = parseInt(blockNo,10);
@@ -170,7 +158,6 @@ function BlockTransactionsReport() {
     //       await new Promise((resolve) => setTimeout(resolve, 200));
     //     }
     //   };
-
       const makeMultipleBlockApiCalls = async(blockNo) => {
         let blockNum1 = parseInt(blockNo,10);
         let blockNum = blockNum1.toString(16);
@@ -218,10 +205,8 @@ function BlockTransactionsReport() {
             console.error("Invalid or insufficient transaction data.");
         }
       };
-
     const formatTime = (time) =>{
         let date = new Date(time);
-
         // Format the date and time using the toLocaleString method
         let formatted = date.toLocaleString("en-US", {
         year: "numeric",
@@ -232,18 +217,16 @@ function BlockTransactionsReport() {
         second: "numeric",
         timeZoneName: "short"
         });
-
         // Display the formatted date and time
         // console.log(formatted);
         return formatted;
     }
-
     const pagination = async(value) =>{
         setStartValue(value);
         // let tnId = await getTennantId();
         // let tx = await getTransactionblock(value,limit,tnId);
-
-        // await getTransactionsBase(value);
+        setTransactions1([]);
+        await getTransactionsBase(value);
 
         // console.log("txhistory",tx)
         // setTxh(tx);
@@ -253,16 +236,13 @@ function BlockTransactionsReport() {
             setReachedLastPage(false);
         }
     }
-
     // const selectrow = async(value) =>{
     //     let tx = await getTransaction(StartValue,value,"543609ec-58ba-4f50-9757-aaf149e5f187");
     //     // console.log("txhistory",tx)
     //     setTxh(tx);
     //     // setlimit(value);
     //     selectrow(true);
-
     // }
-
         const calculateTimeAgo = (timestamp1) => {
         const timestamp = parseInt(timestamp1) * 1000;
           const currentTime = new Date();
@@ -288,7 +268,6 @@ function BlockTransactionsReport() {
             return `${years} year${years !== 1 ? 's' : ''} ago`;
           }
         };
-
     return ( 
         <div>
             <Row className="mb-20">
@@ -296,7 +275,6 @@ function BlockTransactionsReport() {
                     <h4 className="page-title mb-0">Block Transactions Report</h4>
                 </Col>
             </Row>
-
             <Row className="mb-3 align-items-center" style={{minHeight: '40px'}}>
                 <Col xs={10} md={4} lg={3}>
                     {search && (
@@ -400,7 +378,6 @@ function BlockTransactionsReport() {
                                             </div>
                                         </Dropdown.Menu>
                                     </Dropdown>
-
                                     <Form.Check
                                         className="mb-0 check-single"
                                         type='checkbox'
@@ -410,14 +387,14 @@ function BlockTransactionsReport() {
                             </th> */}
                              <th className="text-center">Block</th>
                              <th className="text-center">Hash</th>
-                            <th className="text-center">Sender</th>
+                            <th className="text-center">Mined By</th>
                             <th className="text-center">Tx Count</th>
                             <th className="text-center">Date Mined</th>
-                         
+
                         </tr>
                     </thead>
                     <tbody>
-                        {blocks[0] === null || blocks[0] === "" || blocks[0] === undefined || blocks[0] === "undefined" ?
+                        {transactions1[0] === null || transactions1[0] === "" || transactions1[0] === undefined || transactions1[0] === "undefined" ?
                         (<><tr>
                             <td></td>
                             <td></td>
@@ -427,9 +404,8 @@ function BlockTransactionsReport() {
                             </tr>
                             </>) :
                         (<>
-                        {blocks && blocks.map((r,i)=>{
+                        {transactions1.map((r,i)=>{
                             return(<>
-                            {i >= StartValue * 10 - 10 ? (<>
                             <tr>
                             {/* <td width="84">
                                 <div className="d-flex justify-content-end">
@@ -440,20 +416,20 @@ function BlockTransactionsReport() {
                                     />
                                 </div>
                             </td> */}
-                            <td className="text-center">{(r.round)}</td>
+                            <td className="text-center">{(r.blockNumber)}</td>
 
-                           <td className="text-center">{(r.seed).substring(0, 5)}...{(r.seed).substring((r.seed).length - 5)}</td>
+                             <td className="text-center">{(r.blockHash).substring(0, 5)}...{(r.hash).substring((r.blockHash).length - 5)}</td>
                              {/* <td className="text-center"><Badge pill bg="success"><img src={Check} alt="success badge" />success</Badge></td> */}
                             {/* <td className="text-center text-truncate"> {(r.blockHash).substring(0, 5)}...{(r.blockHash).substring((r.blockHash).length - 5)}</td> */}
-                            {/* <td className="text-center">{(r['reward']['fee-sink'] !== null) ? <>{(r['reward']['fee-sink']).substring(0, 5)}...{(r.miner).substring((r.miner).length - 5)}</> : "Null"}</td> */}
-                           <td className="text-center">{(r['transactions'][0]['sender'] !== null || r['transactions'][0]['sender'] !== undefined) ? <>{r['transactions'][0]['sender'].substring(0, 5)}...{r['transactions'][0]['sender'].substring((r['transactions'][0]['sender']).length - 5)}</> : 0x0}</td>
-                           <td className="text-center">{(r['transactions']['length'] !== null || r['transactions']['length'] !== undefined) ? r['transactions']['length'] : 0}</td>
+                            {/* <td className="text-center">{(r.miner !== null) ? <>{(r.miner).substring(0, 5)}...{(r.miner).substring((r.miner).length - 5)}</> : "Null"}</td> */}
+                            <td className="text-center">{(r.miner !== null || r.miner !== undefined) ? r.miner : 0x0}</td>
+                            <td className="text-center">{(r.TxCount !== null || r.TxCount !== undefined) ? r.TxCount : 0}</td>
                             {/* <td className="text-center">{(r.transactionCount)}</td> */}
-                           <td className="text-center">{calculateTimeAgo(r.timestamp)}</td>
+                            <td className="text-center">{calculateTimeAgo(r.timeStamp)}</td>
                             {/* <td>{r.logs[0].data}</td> */}
                             {/* <td className="text-center">{r.blockNumber}</td>
                             <td className="text-center">{r.index}</td> */}
-                        </tr></>) : (<></>)}
+                        </tr>
                             </>)
                         })}
                         </>)}
@@ -461,7 +437,6 @@ function BlockTransactionsReport() {
                         
                     </tbody>
                 </Table>
-
                 <Row className="mt-4">
                     <Col md={4} className="mb-md-0 mb-3 d-flex align-items-center">
                         {/* <h6 className="me-2 mb-0 text-muted">Showing 10 of 10:</h6>
@@ -479,7 +454,7 @@ function BlockTransactionsReport() {
                     <Col md={8} className="d-flex justify-content-md-end justify-content-center">
                         <ul className="d-flex pagination list-unstyled">
                             <li>
-                            <Link className={StartValue !== 1 ? 'next' : StartValue === 1 ? 'prev disabled' : ''} onClick={()=>pagination(StartValue-1)}>
+                            <Link  className={StartValue !== 1 ? 'next' : StartValue === 1 ? 'prev disabled' : ''} onClick={()=>pagination(StartValue-1)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
                                         <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
                                     </svg>
@@ -492,7 +467,7 @@ function BlockTransactionsReport() {
                             <li><Link className={StartValue === 40? 'active' : ''} onClick={()=>pagination(40)}>5</Link></li>
                             <li><Link className={StartValue === 50 ? 'active' : ''} onClick={()=>pagination(50)}>6</Link></li> */}
                             <li>
-                            <Link className={`next ${StartValue * 10 >= totalBlocks ? 'disabled' : ''}`} onClick={() => {pagination(StartValue + 1)}}>
+                            <Link className={`next ${reachedLastPage ? 'disabled' : ''}`}onClick={() => {if (!reachedLastPage){pagination(StartValue + 1); }}}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                         <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                     </svg>
@@ -523,5 +498,4 @@ function BlockTransactionsReport() {
         </div>
      );
 }
-
 export default BlockTransactionsReport;
