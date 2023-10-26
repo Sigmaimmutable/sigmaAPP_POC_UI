@@ -4,7 +4,7 @@ import IconDU from '../asserts/images/card-icon-du.svg'
 import { PieChart } from "./Snippets/PieChart";
 import { BarChart } from "./Snippets/BarChart";
 import { useState,useEffect , useContext} from "react";
-import {OrgAdminmailcheckget,Userprofileupdate,getTennantId,userprofileget, userByTenantId} from "../apifunction";
+import {OrgAdminmailcheckget,Userprofileupdate,getTennantId,userprofileget, userByTenantId, getSigmaDocCountbyTid, getSigmaDocCountbyMail, getSigmaDocsbyMail, getDocbyTid} from "../apifunction";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
@@ -18,9 +18,12 @@ function Dashboard(props) {
     const [documentsUploadedCount, setDocumentsUploadedCount] = useState(0); // State for documents uploaded
     const [nftsCreatedCount, setNftsCreatedCount] = useState(0); // State for NFTs created
     const [monthlyData, setMonthlyData] = useState([]); // State for monthly data
+    const [monthlyData3, setMonthlyData3] = useState([]);
     const [userCount,setUserCount] = useState(0);
     const [appPageCall,setAppPageCall] = useState(true);
     const[getIProfile,setgetIProfile]=useState("");  
+    const[tenantDocCount,setTenantDocCount]=useState(0);
+    const[userDocCount,setUserDocCount]=useState(0);
 
     console.log("profileDashboard", props);
    
@@ -129,7 +132,7 @@ function Dashboard(props) {
           let tnId = await getTennantId();
           const id = tnId;
           const [check, data] = await OrgAdminmailcheckget(id);
-          console.log("valid1", check);
+          console.log("valid1che", check,data);
       
           if (check) {
             setMonthlyData(data);
@@ -156,16 +159,78 @@ function Dashboard(props) {
         }
       };
 
+      const tdocCount = async () => {
+        let tnId = await getTennantId();
+        let [istrue, data2] = await getSigmaDocCountbyTid(tnId);
+        console.log("tdoc data check", data2);
+        setTenantDocCount(data2);
+      
+        const emailId = localStorage.getItem("UserID");
+        let [istrue1, data3] = await getSigmaDocCountbyMail(emailId);
+        console.log("udoc data check", data3);
+        setUserDocCount(data3);
+      
+        let [istrue2, data4] = await getDocbyTid(tnId, data2);
+        let [istrue3, data5] = await getSigmaDocsbyMail(emailId);
+      
+        const monthlyData2 = {}; // Initialize monthlyData2
+        const monthlyData5 = {}; // Initialize monthlyData5
+      
+        data4.forEach(item => {
+          const createdDate = new Date(item.createdDate);
+          const monthYear =
+            createdDate.toLocaleString("default", { month: "short" }) +
+            "-" +
+            createdDate.getFullYear();
+      
+          if (!monthlyData2[monthYear]) {
+            monthlyData2[monthYear] = 0;
+          }
+      
+          monthlyData2[monthYear]++;
+        });
+      
+        data5.forEach(item => {
+          const createdDate = new Date(item.createdDate);
+          const monthYear =
+            createdDate.toLocaleString("default", { month: "short" }) +
+            "-" +
+            createdDate.getFullYear();
+      
+          if (!monthlyData5[monthYear]) {
+            monthlyData5[monthYear] = 0;
+          }
+      
+          monthlyData5[monthYear]++;
+        });
+      
+        // Combine counts from both data4 and data5 into formattedData
+        const formattedData = Object.keys(monthlyData2).map(monthYear => ({
+          bw: null,
+          iRecDocs: monthlyData2[monthYear],
+          monthYear,
+          rawDocs: monthlyData5[monthYear] || 0, // Use count from data5, or 0 if not available
+          start: null,
+        }));
+      
+        setMonthlyData3(formattedData);
+        console.log("Revised data:", formattedData);
+      };
+      
+
       useEffect(() => {
         fetchMonthlyData(); // Fetch the monthly data
         documentsUploaded();
         usersInTenantID();
         userdata();
+        tdocCount();
         if(appPageCall){
           (<App />);
           setAppPageCall(false);
         }
       }, []);
+
+      
 
       if(localStorage.getItem('Login') === false || localStorage.getItem('Login') === null || localStorage.getItem('Login') === undefined || localStorage.getItem('Login') === "" || localStorage.getItem('Login') === "false"){            
         return <>{history("/")}</>;
@@ -184,14 +249,14 @@ function Dashboard(props) {
                 <Col xs={6} lg={4} className="mb-3">
                         <div className="info-card info-card-3 d-flex flex-column justify-content-between">
                             <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>Total Documents</span></h4>
-                            <h3 className="mb-0">{documentsUploadedCount + nftsCreatedCount}</h3>
+                            <h3 className="mb-0">{tenantDocCount}</h3>
                         </div>
                     </Col>
                     
                     <Col xs={6} lg={4} className="mb-3">
                         <div className="info-card info-card-2 d-flex flex-column justify-content-between">
                             <h4 className="d-flex align-items-center"><img src={IconDU} alt="IconDU" /> <span>User Documents</span></h4>
-                            <h3 className="mb-0">{nftsCreatedCount}</h3>
+                            <h3 className="mb-0">{userDocCount}</h3>
                         </div>
                     </Col>
                     {/* <Col xs={6} lg={3} className="mb-3">
@@ -216,8 +281,8 @@ function Dashboard(props) {
                             <Row className="justify-content-center h-100 align-items-center">
                                     <Col md={11}>
                             <PieChart theme={theme} data={[
-  { label: 'Pending Documents For NFT', value: documentsUploadedCount },
-  { label: 'NFTs Created', value: nftsCreatedCount }
+  { label: 'Total Documents', value: tenantDocCount-userDocCount },
+  { label: 'User Documents', value: userDocCount }
 ]} />
 </Col>
                                 </Row>
@@ -229,7 +294,7 @@ function Dashboard(props) {
                             <Card.Body className="p-lg-4 p-md-3 p-2">
                             <Row className="justify-content-center h-100 align-items-center">
                                     <Col md={10}>
-                            <BarChart theme={theme} monthlyData={monthlyData} />
+                            <BarChart theme={theme} monthlyData={monthlyData3} />
                             </Col>
                                 </Row>
                             </Card.Body>

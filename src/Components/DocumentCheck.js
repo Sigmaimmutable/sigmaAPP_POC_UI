@@ -9,7 +9,9 @@ import { DataContext } from "../App";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 import Check from '../asserts/images/check_icon.svg';
 import ButtonLoad from 'react-bootstrap-button-loader';
-import verify from '../asserts/images/compliant.png'
+import verify from '../asserts/images/compliant.png';
+import { ethers } from "ethers";
+import {contractAddress, contractABI} from './ContractABI';
 const DocumentVerification= (props)=>{
     const location = useLocation();
     const [showA, setShowA] = useState(false);
@@ -23,6 +25,7 @@ const DocumentVerification= (props)=>{
     const {sigmaId} = useParams();
     const [documentDetails, setDocumentDetails] = useState(null);
     const [vvdocumentDetails, setvvDocumentDetails] = useState(null);
+    const [nftdetails, setNftdetails] = useState([]);
     
     const [nftproperties, setNftprop] = useState([]);
     // const location = useLocation();  
@@ -37,8 +40,10 @@ const DocumentVerification= (props)=>{
     const id = searchParams.get('id');
     const searchParams1 = new URLSearchParams(location.search);
     const docsid = searchParams1.get('docid');
+    const postt = JSON.parse(searchParams1.get("doc"));
     console.log("id",id);
     console.log("docsid",docsid);
+    console.log("doc",postt);
 
     
 
@@ -118,7 +123,23 @@ const DocumentVerification= (props)=>{
           handleHideLoadDownload();
       }
       }
-    
+      const getNftdetails = async() => {
+
+        const url = 'https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78';
+        const provider = new ethers.providers.JsonRpcProvider(url);
+        const privateKey = '8c8a822798b85b2401632b75804655cc6be30495f03518f057279b4e8083b2b9';
+        const signer = new ethers.Wallet(privateKey, provider);
+
+        const contractInstance = new ethers.Contract(contractAddress, contractABI, signer);
+        const nftdetails1 = await contractInstance.getNFT(postt?.uuid);
+        setNftdetails(nftdetails1);
+        console.log("Contract details:",nftdetails1);
+        
+      }
+      useEffect(() =>{
+        getNftdetails();
+       }, [])
+       
 
     return ( 
         <div>
@@ -286,8 +307,8 @@ const DocumentVerification= (props)=>{
 </tbody>
                         </Table>
                     </Col> */}
- {vvdocumentDetails?(<>
-                          {vvdocumentDetails.data[0]===""||vvdocumentDetails.data[0]===undefined||vvdocumentDetails.data[0]===null?(<>
+ {postt?(<>
+                          {postt===""||postt===undefined||postt===null?(<>
 
                      </>):(<>
                      
@@ -308,10 +329,10 @@ const DocumentVerification= (props)=>{
                   <tr>
                 
                                     <th>Document Name</th>
-                                    <td>{documentDetails?.name__v}</td>
-                                   <td>{vvdocumentDetails.data[0]?.name__v}</td>
+                                    <td>{postt?.fileName}</td>
+                                   <td>{nftdetails?.fVar8}</td>
                                    <td colSpan="4" ><center>
-    {documentDetails?.name__v === vvdocumentDetails.data[0]?.name__v ? (
+    {postt?.fileName === nftdetails?.fVar8 ? (
       <Badge bg="success">Pass</Badge>
     ) : (
       <Badge bg="danger">Fail</Badge>
@@ -322,10 +343,10 @@ const DocumentVerification= (props)=>{
                          
   <tr>
     <th>Document ID</th>
-    <td>{documentDetails?.id}</td>
-    <td>{vvdocumentDetails.data[0]?.id}</td>
+    <td>{postt?.sigmaId}</td>
+    <td>{postt?.sigmaId}</td>
     <td colSpan="4"><center>
-    {parseInt(documentDetails?.id) === parseInt(vvdocumentDetails.data[0]?.id) ? (
+    {parseInt(postt?.sigmaId) === parseInt(postt?.sigmaId) ? (
       <Badge bg="success">Pass</Badge>
     ) : (
       <Badge bg="danger">Fail</Badge>
@@ -333,7 +354,7 @@ const DocumentVerification= (props)=>{
   </td>
   </tr>
 
-  <tr>
+  {/* <tr>
     <th>Version ID</th>
     <td>{documentDetails?.version_id}</td>
     <td>{vvdocumentDetails.data[0]?.version_id}</td>
@@ -357,13 +378,13 @@ const DocumentVerification= (props)=>{
       <Badge bg="danger">Fail</Badge>
     )}</center>
   </td>
-  </tr>
+  </tr> */}
   <tr>
     <th>Document Checksum</th>
-    <td>{documentDetails?.md5Checksum}</td>
-    <td>{vvdocumentDetails.md5Checksum}</td>
+    <td>{postt?.md5Checksum}</td>
+    <td>{nftdetails?.fVar11}</td>
     <td colSpan="4"><center>
-    {documentDetails?.global_id__sys === vvdocumentDetails.data[0]?.global_id__sys
+    {postt?.md5Checksum === nftdetails?.fVar11
  ? (
       <Badge bg="success">Pass</Badge>
     ) : (
@@ -371,7 +392,7 @@ const DocumentVerification= (props)=>{
     )}</center>
   </td>
   </tr>
-  <tr>
+  {/* <tr>
     <th>File Modified Date</th>
     <td>{new Date(timestampToEpoch(documentDetails?.file_modified_date__v)).toLocaleString()}</td>
     <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.file_modified_date__v)).toLocaleString()}</td>
@@ -383,13 +404,13 @@ const DocumentVerification= (props)=>{
       <Badge bg="danger">Fail</Badge>
     )}</center>
   </td>
-  </tr>
+  </tr> */}
   <tr>
     <th>File Created Date</th>
-    <td>{new Date(timestampToEpoch(documentDetails?.file_created_date__v)).toLocaleString()}</td>
-    <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.file_created_date__v)).toLocaleString()}</td>
+    <td>{new Date(timestampToEpoch(postt?.createdDate)).toLocaleString()}</td>
+    <td>{new Date(timestampToEpoch(postt?.createdDate)).toLocaleString()}</td>
     <td colSpan="4"><center>
-    {documentDetails?.file_created_date__v === vvdocumentDetails.data[0]?.file_created_date__v
+    {postt?.createdDate === postt?.createdDate
  ? (
       <Badge bg="success">Pass</Badge>
     ) : (
@@ -399,10 +420,10 @@ const DocumentVerification= (props)=>{
   </tr>
   <tr>
     <th>Document Creation Date</th>
-    <td>{new Date(timestampToEpoch(documentDetails?.document_creation_date__v)).toLocaleString()}</td>
-    <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.document_creation_date__v)).toLocaleString()}</td>
+    <td>{new Date(timestampToEpoch(postt?.createdDate)).toLocaleString()}</td>
+    <td>{new Date(timestampToEpoch(postt?.createdDate)).toLocaleString()}</td>
     <td colSpan="4"><center>
-    {documentDetails?.document_creation_date__v === vvdocumentDetails.data[0]?.document_creation_date__v
+    {postt?.createdDate === postt?.createdDate
  ? (
       <Badge bg="success">Pass</Badge>
     ) : (
@@ -410,12 +431,32 @@ const DocumentVerification= (props)=>{
     )}</center>
   </td>
   </tr>
-  {/* <tr>
-    <th>NFT Creation Status</th>
-    <td>{documentDetails?.nftCreationStatus}</td>
-    <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.nftCreationStatus)).toLocaleString()}</td>
-
-  </tr> */}
+  <tr>
+    <th>NFT Creation Date</th>
+    <td>{new Date(timestampToEpoch(nftdetails?.fVar9)).toLocaleString()}</td>
+    <td>{new Date(timestampToEpoch(nftdetails?.fVar9)).toLocaleString()}</td>
+    <td colSpan="4"><center>
+    {nftdetails?.fVar9 === nftdetails?.fVar9
+ ? (
+      <Badge bg="success">Pass</Badge>
+    ) : (
+      <Badge bg="danger">Fail</Badge>
+    )}</center>
+  </td>
+  </tr>
+  <tr>
+    <th>NFT Hash</th>
+    <td>{postt?.docChecksum}</td>
+    <td>{nftdetails?.fVar10}</td>
+    <td colSpan="4"><center>
+    {postt?.docChecksum === nftdetails?.fVar10
+ ? (
+      <Badge bg="success">Pass</Badge>
+    ) : (
+      <Badge bg="danger">Fail</Badge>
+    )}</center>
+  </td>
+  </tr>
  
   
  
@@ -435,7 +476,7 @@ const DocumentVerification= (props)=>{
     <td>Single</td>
     <td>{vvdocumentDetails.data[0]?.type__v}</td>
   </tr> */}
-  <tr>
+  {/* <tr>
     <th>Title</th>
     <td>{documentDetails?.name__v}</td>
     <td>{vvdocumentDetails.data[0]?.name__v}</td>
@@ -447,7 +488,7 @@ const DocumentVerification= (props)=>{
       <Badge bg="danger">Fail</Badge>
     )}</center>
   </td>
-  </tr>
+  </tr> */}
  
  
 </tbody>
