@@ -10,8 +10,9 @@ import useIdle from "./useIdleTimeout";
 import { useContext } from "react"
 import { Container, Modal } from "react-bootstrap";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
-import { fetchSigmadocByTid,fetchSigmadocdetails,addToFavorites,deleteFavorite, getTennantId,NotificationPost,getNotificationById,handleWriteToDocumentlist} from '../apifunction';
+import { fetchSigmadocByTid,fetchSigmadocdetails,addToFavorites,deleteFavorite, getTennantId,NotificationPost,getNotificationById,handleWriteToDocumentlist, getDocbyTid} from '../apifunction';
 import ButtonLoad from 'react-bootstrap-button-loader';
+import { saveAs } from 'file-saver';
 
 function DocumentDetails() {
     const history = useNavigate()
@@ -25,6 +26,7 @@ function DocumentDetails() {
     const [searchQuery, setSearchQuery] = useState(false);
     const [searchDetails, setsearchDetails] = useState([]);
     const[loaderDownload, setLoaderDownload] = useState(false);
+    const[sigmaDoc, setSigmaDoc] = useState([]);
 
     const handleShowLoadDownload = () => setLoaderDownload(true);
     const handleHideLoadDownload = () => setLoaderDownload(false);
@@ -35,8 +37,8 @@ function DocumentDetails() {
         }
         else{
             setSearchQuery(true)
-            const filteredJobLists = postDetails.filter((r) =>
-              r.name__v.toLowerCase().includes(searchQuer.toLowerCase())
+            const filteredJobLists = sigmaDoc.filter((r) =>
+              r.fileName.toLowerCase().includes(searchQuer.toLowerCase())
             );
             setsearchDetails(filteredJobLists);
         }
@@ -230,6 +232,34 @@ function DocumentDetails() {
         handleHideLoadDownload();
     }
     }
+
+    const getsigmaDoc = async() =>{
+      const tid = await getTennantId()
+      const[istrue,data] = await getDocbyTid(tid,limit);
+      setSigmaDoc(data);
+      console.log("getsigma check:",istrue,data);
+    }
+    useEffect(() => {
+      getsigmaDoc()
+    },[limit]);
+
+    const downloadlist = async() =>{
+      handleShowLoadDownload();
+      if (sigmaDoc && sigmaDoc.length > 0) {
+        const csvData = [
+          "Document Name,Document ID,Document Creation Date,NFT Creation Status,",
+          ...sigmaDoc.map(row => (
+            `"${row.fileName}","${row.sigmaId}","${row.createdDate}","${row.nftCreationStatus === 0 ? 'Pending' : row.nftCreationStatus === 1 ? 'Approved' : ''}"`
+          )),
+        ].join('\n');
+    
+        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
+        saveAs(blob, 'document_list.csv');
+      }
+      toast.success("Downloaded  successfully");
+      handleHideLoadDownload();
+      
+    }
       return ( 
         <div>
                                  <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
@@ -259,7 +289,7 @@ function DocumentDetails() {
                     onClick={() => handleFilterClick('7Days')}> 7 Days
                     </Button> */}
                     {/* <Button variant="outline-gray" className="me-2 mb-1 px-3"  onClick={() => handleFilterClick('30Days')}>30 Days</Button> */}
-                    <ButtonLoad loading={loaderDownload} variant="gray" className="btn-gray-black me-2 mb-1 px-3" onClick={() => downloaddoc()}>
+                    <ButtonLoad loading={loaderDownload} variant="gray" className="btn-gray-black me-2 mb-1 px-3" onClick={() => downloadlist()}>
                     Download
                       </ButtonLoad>
                     <Dropdown size="sm">
@@ -392,17 +422,17 @@ function DocumentDetails() {
                         <th className="text-center">View</th>
                         <th className="text-center">Favourite</th>
                         <th className="text-center">ID</th>
-                        <th className="text-center">File Name</th>
+                        {/* <th className="text-center">File Name</th> */}
                         <th className="text-center">Document Name</th>
-                        <th className="text-center">Status</th>
+                        {/* <th className="text-center">Status</th> */}
                         <th className="text-center">NFT Status</th>
                     </tr>
                 </thead>
                 <tbody>
 
                     {searchQuery === false ? (<>
-                        {postDetails[0]===null||postDetails[0]===""||postDetails[0]===undefined?(<></>):(<>                
-                    {postDetails.map((postt, index) => {
+                        {sigmaDoc[0]===null||sigmaDoc[0]===""||sigmaDoc[0]===undefined?(<></>):(<>                
+                    {sigmaDoc.map((postt, index) => {
   if (index < limit) {
     
     return (
@@ -417,13 +447,13 @@ function DocumentDetails() {
           </div>
         </td> */}
         <td className="text-center">
-         <Link to={{pathname: "/document-details/check",search:`?id=${postt.sigmaId}&docid=${postt.id}`}}><img src={verify} alt="verify" /><img src={arrow} style={{fillColor:"#0000FF"}}alt="arrow" /></Link>
+         <Link to={{pathname: "/document-details/check",search:`?id=${postt.sigmaId}&docid=${postt.sigmaId}&doc=${encodeURIComponent(JSON.stringify(postt))}`}}><img src={verify} alt="verify" /><img src={arrow} style={{fillColor:"#0000FF"}}alt="arrow" /></Link>
           {/* <Dropdown.Toggle variant="reset" id="dropdown-basic">
                                             
                                             </Dropdown.Toggle> */}
                                             </td>
          <td className="text-center">
-         <Link to={{pathname: "/document-details/single",search:`?id=${postt.sigmaId}`}}><img src={Eye} alt="Eye" /></Link>
+         <Link to={{pathname: "/document-details/single",search:`?id=${postt.sigmaId}&doc=${encodeURIComponent(JSON.stringify(postt))}`}}><img src={Eye} alt="Eye" /></Link>
           {/* <Dropdown.Toggle variant="reset" id="dropdown-basic">
                                             
                                             </Dropdown.Toggle> */}
@@ -431,7 +461,7 @@ function DocumentDetails() {
         <td className="text-center">
           
         <Favourite
-        sigmaid= {postt.sigmaId} name__v = {postt.name__v} filename__v ={postt.filename__v} status__v ={postt.status__v}
+        sigmaid= {postt.sigmaId} name__v = {postt.fileName} filename__v ={postt.fileName} status__v ={postt.nftCreationStatus}
         />
           {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill={isFavorite ? 'currentColor' : 'none'} viewBox="0 0 16 16"
           style={{ cursor: 'pointer', transition: 'fill 0.3s' }}
@@ -445,22 +475,22 @@ function DocumentDetails() {
           </svg> */}
         </td>
         <td className="text-center">{postt.sigmaId ? postt.sigmaId : ""}</td>
-        <td>{postt.filename__v ? postt.filename__v : ""}</td>
-        <td>{postt.name__v ? postt.name__v : ""}</td>
-        <td className="text-center">
+        {/* <td>{postt.filename__v ? postt.filename__v : ""}</td> */}
+        <td>{postt.fileName ? postt.fileName : ""}</td>
+        {/* <td className="text-center"> */}
         {/* <DocumentDetailsSingle x={postt.sigmaId}/> */}
           {/* <Link to="/document-details/single">{postt.status__v ? postt.status__v : ""}</Link> */}
           {/* <Link to={`/document-details/single/${postt.sigmaId}`}>
                {postt.status__v ? postt.status__v : ""}
               </Link> */}
              
-             {postt.status__v ? postt.status__v : ""}
+             {/* {postt.status__v ? postt.status__v : ""} */}
             
               {/* <Link to="/about?id=123">Go to About</Link> */}
                {/* return( 
                                     <DocumentDetailsSingle x={postt.sigmaId}/>) */}
               {/* <Link to={{ pathname: "/document-details/single", state: { allData: postt.sigmaid } }}><Button variant="blue" className='w-100'> {postt.status__v ? postt.status__v : ""}</Button></Link> */}
-        </td>
+        {/* </td> */}
         <td className="text-center"> {postt.uuid ? "Created" : "Pending"} </td>
       </tr>
     );
@@ -485,20 +515,20 @@ function DocumentDetails() {
           </div>
         </td> */}
         <td className="text-center">
-         <Link to={{pathname: "/document-details/check",search:`?id=${postt.sigmaId}&docid=${postt.id}`}}><img src={verify} alt="verify" /><img src={arrow} style={{fillColor:"#0000FF"}}alt="arrow" /></Link>
+        <Link to={{pathname: "/document-details/check",search:`?id=${postt.sigmaId}&docid=${postt.sigmaId}&doc=${encodeURIComponent(JSON.stringify(postt))}`}}><img src={verify} alt="verify" /><img src={arrow} style={{fillColor:"#0000FF"}}alt="arrow" /></Link>
           {/* <Dropdown.Toggle variant="reset" id="dropdown-basic">
                                             
                                             </Dropdown.Toggle> */}
                                             </td>
          <td className="text-center">
-         <Link to={{pathname: "/document-details/single",search:`?id=${postt.sigmaId}`}}><img src={Eye} alt="Eye" /></Link>
+         <Link to={{pathname: "/document-details/single",search:`?id=${postt.sigmaId}&doc=${encodeURIComponent(JSON.stringify(postt))}`}}><img src={Eye} alt="Eye" /></Link>
           {/* <Dropdown.Toggle variant="reset" id="dropdown-basic">
                                             
                                             </Dropdown.Toggle> */}
                                             </td>
         <td className="text-center">
         <Favourite
-        sigmaid= {postt.sigmaId} name__v = {postt.name__v} filename__v ={postt.filename__v} status__v ={postt.status__v}
+         sigmaid= {postt.sigmaId} name__v = {postt.fileName} filename__v ={postt.fileName} status__v ={postt.nftCreationStatus}
         />
           {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill={isFavorite ? 'currentColor' : 'none'} viewBox="0 0 16 16"
           style={{ cursor: 'pointer', transition: 'fill 0.3s' }}
@@ -512,22 +542,22 @@ function DocumentDetails() {
           </svg> */}
         </td>
         <td className="text-center">{postt.sigmaId ? postt.sigmaId : ""}</td>
-        <td>{postt.filename__v ? postt.filename__v : ""}</td>
-        <td>{postt.name__v ? postt.name__v : ""}</td>
-        <td className="text-center">
+        <td>{postt.fileName ? postt.fileName : ""}</td>
+        {/* <td>{postt.name__v ? postt.name__v : ""}</td> */}
+        {/* <td className="text-center"> */}
         {/* <DocumentDetailsSingle x={postt.sigmaId}/> */}
           {/* <Link to="/document-details/single">{postt.status__v ? postt.status__v : ""}</Link> */}
           {/* <Link to={`/document-details/single/${postt.sigmaId}`}>
                {postt.status__v ? postt.status__v : ""}
               </Link> */}
              
-             {postt.status__v ? postt.status__v : ""}
+             {/* {postt.status__v ? postt.status__v : ""} */}
             
               {/* <Link to="/about?id=123">Go to About</Link> */}
                {/* return( 
                                     <DocumentDetailsSingle x={postt.sigmaId}/>) */}
               {/* <Link to={{ pathname: "/document-details/single", state: { allData: postt.sigmaid } }}><Button variant="blue" className='w-100'> {postt.status__v ? postt.status__v : ""}</Button></Link> */}
-        </td>
+        {/* </td> */}
         <td className="text-center"> {postt.uuid ? "Created" : "Pending"} </td>
       </tr>
     );

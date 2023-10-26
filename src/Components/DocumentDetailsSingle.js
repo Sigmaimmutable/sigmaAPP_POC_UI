@@ -9,6 +9,8 @@ import { DataContext } from "../App";
 import { ToastContainer, Zoom, Bounce, toast} from 'react-toastify';
 import Check from '../asserts/images/check_icon.svg';
 import ButtonLoad from 'react-bootstrap-button-loader';
+import { ethers } from "ethers";
+import {contractAddress, contractABI} from './ContractABI';
 const DocumentDetailsSingle= (props)=>{
     const location = useLocation();
     const [showA, setShowA] = useState(false);
@@ -22,6 +24,7 @@ const DocumentDetailsSingle= (props)=>{
     const {sigmaId} = useParams();
     const [documentDetails, setDocumentDetails] = useState(null);
     const [nftproperties, setNftprop] = useState([]);
+    const [nftdetails, setNftdetails] = useState([]);
     // const location = useLocation();  
     // const [sigmaId, setSigmaId] = useState(''); // State variable for sigmaId
 
@@ -32,8 +35,10 @@ const DocumentDetailsSingle= (props)=>{
     const searchParams = new URLSearchParams(location.search);
     console.log("all",searchParams);
     const id = searchParams.get('id');
+    const postt = JSON.parse(searchParams.get("doc"));
    
     console.log("id",id)
+    console.log("doc",postt)
 
     
 
@@ -102,7 +107,7 @@ const DocumentDetailsSingle= (props)=>{
       }
       }
       const handleCopyClick = () => {
-        navigator.clipboard.writeText(nftproperties.tokenOwner)
+        navigator.clipboard.writeText(nftdetails.tokenOwner)
           .then(() => {
             toggleShowA();
             toast.success('Copied successfully!', {
@@ -117,6 +122,70 @@ const DocumentDetailsSingle= (props)=>{
             // Handle the error if needed
           });
       };
+
+      const handleCopyClick2 = () => {
+        navigator.clipboard.writeText(nftdetails?.fVar10)
+          .then(() => {
+            toggleShowA();
+            toast.success('Copied successfully!', {
+              position: 'bottom-right',
+              autoClose: 4000,
+              closeButton: false,
+              draggable: false,
+            });
+          })
+          .catch((error) => {
+            console.error('Error copying text: ', error);
+            // Handle the error if needed
+          });
+      };
+
+      const handleCopyClick3 = () => {
+        navigator.clipboard.writeText(nftdetails?.fVar11)
+          .then(() => {
+            toggleShowA();
+            toast.success('Copied successfully!', {
+              position: 'bottom-right',
+              autoClose: 4000,
+              closeButton: false,
+              draggable: false,
+            });
+          })
+          .catch((error) => {
+            console.error('Error copying text: ', error);
+            // Handle the error if needed
+          });
+      };
+
+      const getNftdetails = async() => {
+
+        const url = 'https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78';
+        const provider = new ethers.providers.JsonRpcProvider(url);
+        const privateKey = '8c8a822798b85b2401632b75804655cc6be30495f03518f057279b4e8083b2b9';
+        const signer = new ethers.Wallet(privateKey, provider);
+
+        const contractInstance = new ethers.Contract(contractAddress, contractABI, signer);
+        const nftdetails1 = await contractInstance.getNFT(postt?.uuid);
+        setNftdetails(nftdetails1);
+        console.log("Contract details:",nftdetails1);
+        
+      }
+      useEffect(() =>{
+        getNftdetails();
+       }, [])
+       const handleDownload = () => {
+        // Create the download URL by combining the gateway URL and CID
+        const downloadUrl = `http://13.58.159.144:8080/ipfs/${postt.docChecksum}?download=true&filename=${postt.fileName}`;
+      
+        // Create an anchor element and trigger a click to download the document
+        const downloadLink = document.createElement('a');
+        downloadLink.href = downloadUrl;
+      
+        // Set the desired filename for the downloaded document
+        downloadLink.download = `${postt.fileName}`; // Specify the desired filename
+      
+        downloadLink.click();
+      }
 
     return ( 
         <div>
@@ -149,13 +218,13 @@ const DocumentDetailsSingle= (props)=>{
                             
                         </Dropdown.Menu> 
                     </Dropdown> */} 
-                    {documentDetails?(<>
-                     {documentDetails.docChecksum === null || documentDetails.docChecksum === "" || documentDetails.docChecksum === undefined ?(<>
-                    <ButtonLoad loading={loaderDownload} variant="gray" className="disabled" onClick={() => downloaddoc()}>
+                    {postt?(<>
+                     {postt.docChecksum === null || postt.docChecksum === "" || postt.docChecksum === undefined ?(<>
+                    <ButtonLoad loading={loaderDownload} variant="gray" className="disabled" onClick={() => handleDownload()}>
                     Download
                                                     </ButtonLoad>
                     </>):(<>
-                      <ButtonLoad loading={loaderDownload}variant="gray" className="btn-gray-black" onClick={() => downloaddoc()}>
+                      <ButtonLoad loading={loaderDownload}variant="gray" className="btn-gray-black" onClick={() => handleDownload()}>
                     Download
                                                     </ButtonLoad>
                                
@@ -203,10 +272,10 @@ const DocumentDetailsSingle= (props)=>{
                                 <img src={SiteLogo} alt="SiteLogo" className="img-fluid" />
                             </Card.Body>
                         </Card>
-                        {documentDetails?(<>
-                          {documentDetails.uuid===""||documentDetails.uuid===undefined||documentDetails.uuid===null?(<>
+                        {postt?(<>
+                          {postt.uuid===""||postt.uuid===undefined||postt.uuid===null?(<>
                      </>):(<>
-                      {nftproperties.tokenOwner===""||nftproperties.tokenOwner===undefined||nftproperties.tokenOwner===null?(<>
+                      {/* {nftproperties.tokenOwner===""||nftproperties.tokenOwner===undefined||nftproperties.tokenOwner===null?(<>
                       
                       </>):(<>
                       
@@ -220,16 +289,16 @@ const DocumentDetailsSingle= (props)=>{
                                     <td>{nftproperties.fVar1}</td>
                                     <td></td>
                                 </tr>
-                            </thead>
+                            </thead> */}
                             {/* <tbody> */}
-                            <thead>                          
+                            {/* <thead>                          
   <tr>
     <th>Token ID</th>
     <td>{nftproperties.tokenId}</td>
     <td></td>
-  </tr></thead>
+  </tr></thead> */}
   {/* </tbody> */}
-  <thead> 
+  {/* <thead> 
   <tr>
     <th>Global_ID_SYS</th>
     <td>{nftproperties.fVar3}</td>
@@ -254,9 +323,9 @@ const DocumentDetailsSingle= (props)=>{
   <tr>
     <th>IPFS Hash</th>
      <td>    {nftproperties? (nftproperties.fVar10).substring(0, 5) : ''}...{(nftproperties? (nftproperties.fVar10).substring((nftproperties.fVar10).length - 5) : '')} </td> 
-     <td></td>
+     <td></td> */}
     {/* <td>{(nftproperties.fVar10).substring(0, 5)}...{(nftproperties.fVar10).substring((nftproperties.fVar10).length - 5)}</td> */}
-  </tr>
+  {/* </tr>
   </thead>
   <thead> 
   <tr>
@@ -265,11 +334,11 @@ const DocumentDetailsSingle= (props)=>{
      <td>    {nftproperties? (nftproperties.tokenOwner).substring(0, 8) : ''}...{(nftproperties? (nftproperties.tokenOwner).substring((nftproperties.tokenOwner).length - 5) : '')} 
     
 </td>
-<td>
+<td> */}
      {/* <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nftproperties.tokenOwner); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button> */}
-     <Button variant="reset" onClick={handleCopyClick}>
+     {/* <Button variant="reset" onClick={handleCopyClick}>
     <img src={CopyIcon} alt="CopyIcon" />
   </Button>
                                         </td>      
@@ -280,7 +349,7 @@ const DocumentDetailsSingle= (props)=>{
   </Table>
                       
                       
-                      </>)}
+                      </>)} */}
 
                       
                      
@@ -302,53 +371,95 @@ const DocumentDetailsSingle= (props)=>{
                   <tr>
                 
                                     <th>Document Name</th>
-                                    <td>{documentDetails?.name__v}</td>
+                                    <td>{postt?.fileName}</td>
                                     
                                 </tr>
                             </thead>
                             <tbody>
   <tr>
     <th>Document ID</th>
-    <td>{documentDetails?.id}</td>
+    <td>{postt?.sigmaId}</td>
   </tr>
   {/* <tr>
     <th>Document ID</th>
     <td>{documentDetails?.jobId}</td>
   </tr> */}
-  <tr>
+  {/* <tr>
     <th>Version ID</th>
     <td>{documentDetails?.version_id}</td>
-  </tr>
-  <tr>
+  </tr> */}
+  {/* <tr>
     <th>Document Date</th>
-    <td>{new Date((documentDetails?.createdDate)/1).toLocaleString()}</td>
-  </tr>
-  <tr>
+    <td>{new Date((postt?.createdDate)).toLocaleString()}</td>
+  </tr> */}
+  {/* <tr>
     <th>File Modified Date</th>
     <td>{new Date(timestampToEpoch(documentDetails?.file_modified_date__v)).toLocaleString()}</td>
-  </tr>
-  <tr>
+  </tr> */}
+  {/* <tr>
     <th>File Created Date</th>
-    <td>{new Date(timestampToEpoch(documentDetails?.file_created_date__v)).toLocaleString()}</td>
-  </tr>
+    <td>{new Date(timestampToEpoch(postt?.createdDate)).toLocaleString()}</td>
+  </tr> */}
   <tr>
     <th>Document Creation Date</th>
-    <td>{new Date(timestampToEpoch(documentDetails?.document_creation_date__v)).toLocaleString()}</td>
+    <td>{new Date(timestampToEpoch(postt?.createdDate)).toLocaleString()}</td>
   </tr>
   <tr>
     <th>NFT Creation Status</th>
-    <td>{documentDetails?.nftCreationStatus}</td>
+    <td>{postt?.nftCreationStatus}</td>
   </tr>
- 
-    {/* <tr>
+  <tr>
+    <th>NFT Creation Date</th>
+    <td>{new Date(timestampToEpoch(nftdetails?.fVar9)).toLocaleString()}</td>
+  </tr>
+  <tr>
+    <th>tokenId</th>
+    <td>{parseInt(nftdetails?.tokenId,10)}</td>
+  </tr>
+    <tr>
     <th>UUID</th>
-    <td>{documentDetails?.uuid}</td>
-  </tr> */}
+    <td>{postt?.uuid}</td>
+  </tr>
  
   
   <tr>
     <th>Createby</th>
-    <td>{documentDetails?.createdBy}</td>
+    <td>{postt?.createdBy}</td>
+  </tr>
+  <tr>
+  
+    <th>Token Owner</th>
+     <td>    {nftdetails.tokenOwner} 
+    
+</td>
+<td>
+    
+     <Button variant="reset" onClick={handleCopyClick}>
+    <img src={CopyIcon} alt="CopyIcon" />
+  </Button>
+                                        </td>      
+                                                        
+
+  </tr>
+  <tr>
+    <th>IPFS Hash</th>
+     <td>    {postt? (postt.docChecksum).substring(0, 5) : ''}...{(postt? (postt.docChecksum).substring((postt.docChecksum).length - 5) : '')} </td> 
+     <td>
+    
+     <Button variant="reset" onClick={handleCopyClick2}>
+     <img src={CopyIcon} alt="CopyIcon" />
+     </Button>
+  </td> 
+  </tr>
+  <tr>
+    <th>md5 Checksum</th>
+     <td>{nftdetails?.fVar11}</td> 
+     <td>
+    
+     <Button variant="reset" onClick={handleCopyClick3}>
+     <img src={CopyIcon} alt="CopyIcon" />
+     </Button>
+  </td> 
   </tr>
   <tr>
     <th>Region</th>
@@ -360,7 +471,7 @@ const DocumentDetailsSingle= (props)=>{
   </tr>
   <tr>
     <th>Title</th>
-    <td>{documentDetails?.name__v}</td>
+    <td>{nftdetails?.fVar8}</td>
   </tr>
   {/* <tr>
     <th>Source Vault ID</th>

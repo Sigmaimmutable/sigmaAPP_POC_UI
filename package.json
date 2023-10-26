@@ -2,7 +2,7 @@
   "name": "sigma-web-app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://testapi2.stasisonline.in",
+  "proxy": "https://testpolygon.stasisonline.in",
   "dependencies": {
     "@okta/okta-auth-js": "^7.3.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -11,6 +11,7 @@
     "axios": "^1.4.0",
     "bootstrap": "^5.3.0",
     "chart.js": "^4.3.0",
+    "ethers": "^5.7.2",
     "file-saver": "^2.0.5",
     "moment": "^2.29.4",
     "react": "^18.2.0",

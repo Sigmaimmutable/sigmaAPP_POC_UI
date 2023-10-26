@@ -53,13 +53,13 @@ export function BarChart({theme,monthlyData}) {
           labels: labels,
           datasets: [
             {
-              label: 'Pending Documents For NFT',
-              data: rawDocsData,
+              label: 'Total Documents',
+              data: iRecDocsData,
               backgroundColor: getChartBackgroundColor1(),
             },
             {
-              label: 'NFTs Created',
-              data: iRecDocsData,
+              label: 'User Documents',
+              data: rawDocsData,
               backgroundColor: getChartBackgroundColor2(),
             },
           ],

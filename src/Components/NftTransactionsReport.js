@@ -1,8 +1,8 @@
-import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal } from "react-bootstrap";
+import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal, Spinner } from "react-bootstrap";
 import Eye from '../asserts/images/eye-icon.svg'
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import { getTennantId, getTransaction } from "../apifunction";
+import { getTennantId, getTransaction, getNFTTxPolygon } from "../apifunction";
 import Check from '../asserts/images/check_icon.svg';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
@@ -10,9 +10,10 @@ import useIdle from "./useIdleTimeout";
 function NftTransactionsReport() {
     const [search, setSearch] = useState(false);
  const [reachedLastPage, setReachedLastPage] = useState(false);
-    const [StartValue, setStartValue] = useState(0);
+    const [StartValue, setStartValue] = useState(1);
     const [limit, setlimit] = useState(10);
     const [txh, setTxh] = useState([]);
+    const [transactions, setTransactions] = useState([]);
 
     // const navigate = useNavigate();
     const history = useNavigate();
@@ -59,21 +60,36 @@ function NftTransactionsReport() {
      
       
    } 
-    const getTransc = async() =>{
-        if(limit == 10){
-            let tnId = await getTennantId();
-            let tx = await getTransaction(StartValue,limit,tnId);
-            // console.log("txhistory",tx)
-            setTxh(tx);
-            if (tx.length === 0) {
-                setReachedLastPage(true);
-            } else {
-                setReachedLastPage(false);
-            }
-        }
+    // const getTransc = async() =>{
+    //     if(limit == 10){
+    //         let tnId = await getTennantId();
+    //         // let tx = await getTransaction(StartValue,limit,tnId);
+    //         let tx = await getNFTTxPolygon(1);
+    //         // console.log("txhistory",tx)
+    //         setTxh(tx);
+    //         if (tx.length === 0) {
+    //             setReachedLastPage(true);
+    //         } else {
+    //             setReachedLastPage(false);
+    //         }
+    //     }
         
+    // }
+    const getTransactionsPolygon = async(value) =>{
+        try{
+            let [istrue, transactionactivity] = await getNFTTxPolygon(value);
+            console.log("Api aws tx 1:",transactionactivity.result);
+            setTransactions(transactionactivity.result);
+        }
+        catch(e){
+            console.log("Api ERROR:",e);
+        }
     }
-    useEffect(() =>{getTransc()},[])
+    useEffect(() =>{
+        getTransactionsPolygon(1);
+        // getTranscAvalanche(1);
+    },[])
+    // useEffect(() =>{getTransc()},[])
 
 
     const formatTime = (time) =>{
@@ -97,15 +113,14 @@ function NftTransactionsReport() {
 
     const pagination = async(value) =>{
         setStartValue(value);
-        let tnId = await getTennantId();
-        let tx = await getTransaction(value,limit,tnId);
+        await getTransactionsPolygon(value);
         // console.log("txhistory",tx)
-        setTxh(tx);
-        // if (tx.length === 0) {
-        //     setReachedLastPage(true);
-        // } else {
-        //     setReachedLastPage(false);
-        // }
+        // setTxh(tx);
+        if (transactions.length === 0) {
+            setReachedLastPage(true);
+        } else {
+            setReachedLastPage(false);
+        }
     }
 
     // const selectrow = async(value) =>{
@@ -117,7 +132,8 @@ function NftTransactionsReport() {
 
     // }
 
-        const calculateTimeAgo = (timestamp) => {
+        const calculateTimeAgo = (timestamp1) => {
+            const timestamp = parseInt(timestamp1) * 1000;
           const currentTime = new Date();
           const previousTime = new Date(timestamp);
           const timeDifference = Math.abs(currentTime - previousTime) / 1000; // Convert milliseconds to seconds
@@ -144,7 +160,7 @@ function NftTransactionsReport() {
 
         const NftTransactionPage = (index) => {
             // console.log("nftTransactionPage", txh[index]);
-            let txnHash = txh[index];
+            let txnHash = transactions[index];
             navigate("/admin/nft-transactions-report/single-transaction/", { state: { object: txnHash } });
         }
 
@@ -275,10 +291,17 @@ function NftTransactionsReport() {
                         </tr>
                     </thead>
                     <tbody>
-                        {txh[0] === null || txh[0] === "" || txh[0] === undefined || txh[0] === "undefined" ?
-                        (<></>) :
+                        {transactions[0] === null || transactions[0] === "" || transactions[0] === undefined || transactions[0] === "undefined"  ?
                         (<>
-                        {txh.map((r,i)=>{
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height:'50px'}}>
+                        <Spinner animation="border" variant="dark" style={{ width: '50px', height: '50px',borderWidth:'5px' }}/>
+                      </div></td>
+                            </tr></>) :
+                        (<>
+                        {transactions.map((r,i)=>{
                             return(<>
                             <tr>
                             {/* <td width="84">
@@ -295,7 +318,7 @@ function NftTransactionsReport() {
                             {/* <td className="text-center text-truncate"> {(r.blockHash).substring(0, 5)}...{(r.blockHash).substring((r.blockHash).length - 5)}</td> */}
                             <td className="text-center">{(r.from).substring(0, 5)}...{(r.from).substring((r.from).length - 5)}</td>
                             <td className="text-center">{(r.to).substring(0, 5)}...{(r.to).substring((r.to).length - 5)}</td>
-                            <td className="text-center">{calculateTimeAgo(r.timestamp)}</td>
+                            <td className="text-center">{calculateTimeAgo(r.timeStamp)}</td>
                             {/* <td>{r.logs[0].data}</td> */}
                             {/* <td className="text-center">{r.blockNumber}</td>
                             <td className="text-center">{r.index}</td> */}
@@ -325,20 +348,20 @@ function NftTransactionsReport() {
                     <Col md={8} className="d-flex justify-content-md-end justify-content-center">
                         <ul className="d-flex pagination list-unstyled">
                             <li>
-                            <Link  className={StartValue !== 0 ? 'next' : StartValue === 0 ? 'prev disabled' : ''} onClick={()=>pagination(StartValue-10)}>
+                            <Link  className={StartValue !== 1 ? 'next' : StartValue === 1 ? 'prev disabled' : ''} onClick={()=>pagination(StartValue-1)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
                                         <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
                                     </svg>
                                 </Link>
                             </li>
-                            <li><Link className='active'  onClick={()=>pagination(0)} >{StartValue ? (StartValue/10)+1 : "1"}</Link></li>
+                            <li><Link className='active'  onClick={()=>pagination(1)} >{(StartValue !== 1) ? (StartValue) : "1"}</Link></li>
                             {/* <li><Link className={StartValue === 10 ? 'active' : ''} onClick={()=>pagination(10)}>2</Link></li>
                             <li><Link className={StartValue === 20? 'active' : ''} onClick={()=>pagination(20)}>3</Link></li>
                             <li><Link className={StartValue === 30? 'active' : ''} onClick={()=>pagination(30)}>4</Link></li>
                             <li><Link className={StartValue === 40? 'active' : ''} onClick={()=>pagination(40)}>5</Link></li>
                             <li><Link className={StartValue === 50 ? 'active' : ''} onClick={()=>pagination(50)}>6</Link></li> */}
                             <li>
-                            <Link className={`next ${reachedLastPage ? 'disabled' : ''}`}onClick={() => {if (!reachedLastPage){pagination(StartValue + 10); }}}>
+                            <Link className={`next ${reachedLastPage ? 'disabled' : ''}`}onClick={() => {if (!reachedLastPage){pagination(StartValue + 1); }}}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
                                         <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
                                     </svg>

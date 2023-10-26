@@ -3,7 +3,7 @@ import Eye from '../asserts/images/eye-icon.svg'
 import { Link,useLocation,useParams,useNavigate } from "react-router-dom";
 import { useState,useEffect,useContext } from "react";
 import Layout from "./Snippets/Layout";
-import { fetchFavoriteDetails,deleteFavorite,fetchSigmadocdetails,createUserVisits ,getNotificationById, getTennantId} from "../apifunction";
+import { fetchFavoriteDetails,deleteFavorite,fetchSigmadocdetails,createUserVisits ,getNotificationById, getTennantId, getDocbyTid} from "../apifunction";
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
 const FavouriteDocuments= (props)=>{
@@ -17,6 +17,7 @@ const FavouriteDocuments= (props)=>{
     const {sigmaId} = useParams();
     const [documentDetails, setDocumentDetails] = useState(null);
     const [notifydata, setnotifyData] = useState([]);
+    const[sigmaDoc, setSigmaDoc] = useState([]);
 
     const [search, setSearch] = useState(false);
     const history = useNavigate();
@@ -162,6 +163,16 @@ const FavouriteDocuments= (props)=>{
         console.log(event.target.value);
     }
 
+    const getsigmaDoc = async() =>{
+        const tid = await getTennantId()
+        const[istrue,data] = await getDocbyTid(tid,1000);
+        setSigmaDoc(data);
+        console.log("getsigma check:",istrue,data);
+      }
+      useEffect(() => {
+        getsigmaDoc()
+      },[]);
+
     return ( 
         <Layout getThemeMode={() => undefined} roleType = {props.roleType} getIProfile = {props.getIProfile}>
             <div className="container-fluid">
@@ -303,6 +314,7 @@ const FavouriteDocuments= (props)=>{
                         (favoriteData
                             .filter((postt) => 
                             (postt.fileName.toLowerCase().startsWith(docName.toLowerCase()))).map((postt, index) => {
+                                const matchingSigmaDoc = sigmaDoc.find(postt1 => postt1.sigmaId === postt.docId); 
                                 return(
                             <tr key={index}>
                             <td>
@@ -327,11 +339,14 @@ const FavouriteDocuments= (props)=>{
                             <td className="text-center">{postt.docId}</td>
                             <td>{postt.fileName}</td>
                             <td>{postt.docName}</td>
-                            <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}`}}>{postt.docStatus}</Link></td>
+                            <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}&doc=${encodeURIComponent(JSON.stringify(matchingSigmaDoc))}`}}>{postt.docStatus}</Link></td>
                         </tr>)
                         })) : 
                         <>
-                        {favoriteData.map((postt, index) => (
+                        {favoriteData.map((postt, index) => {
+                           const matchingSigmaDoc = sigmaDoc.find(postt1 => postt1.sigmaId === postt.docId); 
+                            return(
+                            
                         <tr key={index}>
                             <td><center>
                             <Button variant="link" onClick={() => deleteFavorites(postt.docId, postt.fileName)}>
@@ -354,9 +369,9 @@ const FavouriteDocuments= (props)=>{
                             <td className="text-center">{postt.docId}</td>
                             <td>{postt.fileName}</td>
                             <td>{postt.docName}</td>
-                            <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}`}}>{postt.docStatus}</Link></td>
+                            <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}&doc=${encodeURIComponent(JSON.stringify(matchingSigmaDoc))}`}}>{postt.docStatus}</Link></td>
                             </tr>
-                            ))}</>)}
+                            )})}</>)}
                         </tbody>
                         
                               {/* </>)} */}

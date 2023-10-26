@@ -4,7 +4,7 @@ import Check from '../asserts/images/check_icon.svg'
 import Wallet from '../asserts/images/wallet-icon.svg'
 import RestAPI from '../asserts/images/rest_api.svg'
 import { useState,useEffect } from "react";
-import {OrgAdminmailcheckget2, getTennantId, nodeDetails,createUserVisits } from "../apifunction";
+import {OrgAdminmailcheckget2, getTennantId, nodeDetails,createUserVisits, getTxInputPolygon } from "../apifunction";
 import { useLocation, Link } from 'react-router-dom';
 import "./NftTransactionPage.css";
 
@@ -14,6 +14,7 @@ function NftTransactionPage({}) {
 
     const [nodeDetail, setnodeDetail] = useState(false);
     const [nodeDetail1, setnodeDetail1] = useState(false);
+    const [transInput, setTransInput] = useState([]);
     const location = useLocation();
     const txnHash = location.state?.object;
 
@@ -40,7 +41,8 @@ function NftTransactionPage({}) {
         }
       };
 
-      const formatDateTime = (timestamp) => {
+      const formatDateTime = (timestamp1) => {
+        const timestamp = parseInt(timestamp1) * 1000;
         const dateObj = new Date(timestamp);
         const options = {
           year: 'numeric',
@@ -56,7 +58,8 @@ function NftTransactionPage({}) {
         return formattedDateTime;
       };
 
-      const calculateTimeAgo = (timestamp) => {
+      const calculateTimeAgo = (timestamp1) => {
+        const timestamp = parseInt(timestamp1) * 1000;
         const currentTime = new Date();
         const previousTime = new Date(timestamp);
         const timeDifference = Math.abs(currentTime - previousTime) / 1000; // Convert milliseconds to seconds
@@ -92,6 +95,23 @@ function NftTransactionPage({}) {
         
       }
 
+      const getTranscInputPolygon = async() =>{
+        try{
+            let [istrue, transactionInput] = await getTxInputPolygon(txnHash.hash);
+            console.log("Avalanche TxInput",transactionInput.result);
+            setTransInput(transactionInput.result);
+            console.log("Checking...",transInput.input);
+        }
+        catch(e){
+            console.log("Api ERROR:", e);
+        }
+    }
+        useEffect(() =>{
+            console.log(txnHash);
+            txnHash && getTranscInputPolygon();
+            console.log("check Input",transInput.input);
+        },[txnHash,transInput])
+
     return ( 
         <div>
               
@@ -118,7 +138,8 @@ function NftTransactionPage({}) {
                 <Col xs={12} className="mb-3">
                     <div className="info-card d-flex flex-column justify-content-between">
                         <h6 className="d-flex align-items-center">Transaction</h6>
-                        <p style={{color: "white"}} className="mb-0 text-break">{txnHash?.hash}</p>
+                        <p style={{color: "white"}} className="mb-0 text-break"><a href={`https://mumbai.polygonscan.com/tx/${txnHash.hash}`} target="_blank"  
+                                        style={{color: 'inherit', cursor: 'pointer', }}>{txnHash?.hash}</a></p>
                     </div>
                 </Col>
             </Row>
@@ -167,7 +188,7 @@ function NftTransactionPage({}) {
                                 </tr>
                                 <tr>
                                     <td>Gas</td>
-                                    <td>{txnHash ? txnHash.gasProvided : ''}</td>
+                                    <td>{txnHash ? txnHash.gasUsed : ''}</td>
                                     <td>
                                         <Button variant="reset" onClick={() => {navigator.clipboard.writeText(txnHash.gasProvided); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
@@ -182,19 +203,23 @@ function NftTransactionPage({}) {
                                 </tr>
                                 <tr>
                                     <td>Timestamp</td>
-                                    <td>{txnHash? <>{formatDateTime(txnHash.timestamp)} ({calculateTimeAgo(txnHash.timestamp)}) </> : ''}</td>
+                                    <td>{txnHash? <>{formatDateTime(txnHash.timeStamp)} ({calculateTimeAgo(txnHash.timeStamp)}) </> : ''}</td>
                                     <td>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Input Data</td>
-                                    <td>{txnHash ? <textarea readOnly>{txnHash.inputBytes}</textarea> : ""}</td>
+                                    {/* <td><textarea readOnly>{transInput.input? transInput.input : "0"}</textarea></td> */}
+                                    <td>{transInput.input ? <textarea readOnly>{transInput.input}</textarea> : ""}</td>
                                     <td>
-                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(txnHash.inputBytes); toggleShowA();}}>
+                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(transInput.input); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button>
                                     </td>
                                 </tr>
+                                {/* <tr>
+                                    <td>{transInput.input}</td>
+                                </tr> */}
                             </tbody>
                         </Table>
                     </Card>
