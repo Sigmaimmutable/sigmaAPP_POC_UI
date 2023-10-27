@@ -333,7 +333,7 @@ const DocumentVerification= (props)=>{
   </td>
   </tr>
 
-  <tr>
+  {/* <tr>
     <th>Version ID</th>
     <td>{documentDetails?.version_id}</td>
     <td>{vvdocumentDetails.data[0]?.version_id}</td>
@@ -344,8 +344,8 @@ const DocumentVerification= (props)=>{
       <Badge bg="danger">Fail</Badge>
     )}</center>
   </td>
-  </tr>
-  <tr>
+  </tr> */}
+  {/* <tr>
     <th>Document Global Id</th>
     <td>{documentDetails?.global_id__sys}</td>
     <td>{vvdocumentDetails.data[0]?.global_id__sys}</td>
@@ -357,13 +357,13 @@ const DocumentVerification= (props)=>{
       <Badge bg="danger">Fail</Badge>
     )}</center>
   </td>
-  </tr>
+  </tr> */}
   <tr>
     <th>Document Checksum</th>
     <td>{documentDetails?.md5Checksum}</td>
     <td>{vvdocumentDetails.md5Checksum}</td>
     <td colSpan="4"><center>
-    {documentDetails?.global_id__sys === vvdocumentDetails.data[0]?.global_id__sys
+    {documentDetails?.md5Checksum === vvdocumentDetails.md5Checksum
  ? (
       <Badge bg="success">Pass</Badge>
     ) : (

@@ -250,8 +250,15 @@ const DocumentDetailsSingle= (props)=>{
     <td>{parseInt(nftdetails.tokenId,10)}</td>
     <td></td>
   </tr></thead>
-  {/* </tbody> */}
   <thead> 
+  <tr>
+    <th>Document ID</th>
+    <td>{nftdetails.fVar6}</td>
+    <td></td>
+  </tr>
+  </thead>
+  {/* </tbody> */}
+  {/* <thead> 
   <tr>
     <th>Global_ID_SYS</th>
     <td>{nftdetails.fVar3}</td>
@@ -264,11 +271,18 @@ const DocumentDetailsSingle= (props)=>{
     <td>{nftdetails.fVar2}</td>
     <td></td>
   </tr>
+  </thead> */}
+  <thead> 
+  <tr>
+    <th>md5 Checksum</th>
+    <td>{nftdetails.fVar11}</td>
+    <td></td>
+  </tr>
   </thead>
   <thead> 
   <tr>
     <th>Status</th>
-    <td><Badge pill bg="success"><img src={Check} alt="success badge" />{nftdetails.fVar4}</Badge></td>
+    <td><Badge pill bg="success"><img src={Check} alt="success badge" />{nftdetails ? "Created":""}</Badge></td>
     <td></td>
   </tr>
   </thead>
