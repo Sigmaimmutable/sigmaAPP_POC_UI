@@ -283,7 +283,23 @@
         },
         {
             "source": "/platform/v1/singlefileupload/:id/:id1/:id2",
-            "destination": "https://testpolygon.stasisonline.in/platform/v1/sigmacompdocbymail/id*/id1*/id2*"
+            "destination": "https://testpolygon.stasisonline.in/platform/v1/singlefileupload/id*/id1*/id2*"
+        },
+        {
+            "source": "/platform/v1/nfttxbase/:id",
+            "destination": "https://testpolygon.stasisonline.in/platform/v1/nfttxbase/id*"
+        },
+        {
+            "source": "/platform/v1/blockstxbase/:id",
+            "destination": "https://testpolygon.stasisonline.in/platform/v1/blockstxbase/id*"
+        },
+        {
+            "source": "/platform/v1/txinput/:id",
+            "destination": "https://testpolygon.stasisonline.in/platform/v1/txinput/id*"
+        },
+        {
+            "source": "/platform/v1/sigmacompdocbytid/:id/:id1",
+            "destination": "https://testpolygon.stasisonline.in/platform/v1/sigmacompdocbytid/id*/id1*"
         }
 
 

@@ -319,7 +319,7 @@ const DocumentVerification= (props)=>{
                 
                 <th><b>Properties</b></th>
                 <td><b>Sigma Docs Properties</b></td>
-               <td><b>Veeva Docs Properties</b></td>
+               <td><b>NFT Properties</b></td>
                <td><b>Verification Status</b></td>
             
                 
