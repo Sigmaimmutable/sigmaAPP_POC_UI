@@ -302,7 +302,7 @@ const FavouriteDocuments= (props)=>{
                         {(docName !== "" ? 
                         (favoriteData
                             .filter((postt) => 
-                            (postt.fileName.toLowerCase().startsWith(docName.toLowerCase()))).map((postt, index) => {
+                            (postt.docName.toLowerCase().startsWith(docName.toLowerCase()))).map((postt, index) => {
                                 return(
                             <tr key={index}>
                             <td>
