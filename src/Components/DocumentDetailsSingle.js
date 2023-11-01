@@ -102,7 +102,7 @@ const DocumentDetailsSingle= (props)=>{
       }
       }
       const handleCopyClick = () => {
-        navigator.clipboard.writeText(nftproperties.tokenOwner)
+        navigator.clipboard.writeText(nftproperties?.tokenOwner)
           .then(() => {
             toggleShowA();
             toast.success('Copied successfully!', {
@@ -204,9 +204,9 @@ const DocumentDetailsSingle= (props)=>{
                             </Card.Body>
                         </Card>
                         {documentDetails?(<>
-                          {documentDetails.uuid===""||documentDetails.uuid===undefined||documentDetails.uuid===null?(<>
+                          {documentDetails?.uuid===""||documentDetails?.uuid===undefined||documentDetails?.uuid===null?(<>
                      </>):(<>
-                      {nftproperties.tokenOwner===""||nftproperties.tokenOwner===undefined||nftproperties.tokenOwner===null?(<>
+                      {nftproperties?.tokenOwner===""||nftproperties?.tokenOwner===undefined||nftproperties?.tokenOwner===null?(<>
                       
                       </>):(<>
                       

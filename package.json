@@ -2,7 +2,7 @@
   "name": "sigma-web-app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://testalgorand.stasisonline.in",
+  "proxy": "https://testhederahashgraph.stasisonline.in",
   "dependencies": {
     "@okta/okta-auth-js": "^7.3.0",
     "@testing-library/jest-dom": "^5.16.5",

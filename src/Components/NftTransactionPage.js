@@ -4,10 +4,12 @@ import Check from '../asserts/images/check_icon.svg'
 import Wallet from '../asserts/images/wallet-icon.svg'
 import RestAPI from '../asserts/images/rest_api.svg'
 import { useState,useEffect } from "react";
-import {OrgAdminmailcheckget2, getTennantId, nodeDetails,createUserVisits,getTxInputBase } from "../apifunction";
+import {OrgAdminmailcheckget2, getTennantId, nodeDetails,createUserVisits,getTxInputBase, getHederaContracts } from "../apifunction";
 import { useLocation, Link } from 'react-router-dom';
 import "./NftTransactionPage.css";
 import base64 from 'base-64';
+import HederaBlockNumber from './Snippets/HederaBlockNumber';
+import HederaContractDetails from './Snippets/HederaContractDetails';
 
 function NftTransactionPage({}) {
     const [showA, setShowA] = useState(false);
@@ -15,7 +17,7 @@ function NftTransactionPage({}) {
 
     const [noteDecodeStatus, setNoteDecodeStatus] = useState(false);
     const [noteDecoded, setNoteDecoded] = useState("");
-    const [transInput, setTransInput] = useState([]);
+    const [functionParameter, setFunctionParameter] = useState();
     const location = useLocation();
     const txnHash = location.state?.object;
 
@@ -149,6 +151,12 @@ function NftTransactionPage({}) {
     //     console.log("check Input",transInput.input);
     // },[txnHash,transInput])
 
+    const getFunctionParameter = async () => {
+        let time = "1698757546.326183232";
+        let parameter = await getHederaContracts(time);
+        setFunctionParameter(parameter);
+    }
+
     return ( 
         <div>
               
@@ -175,8 +183,8 @@ function NftTransactionPage({}) {
                 <Col xs={12} className="mb-3">
                     <div className="info-card d-flex flex-column justify-content-between">
                         <h6 className="d-flex align-items-center">Transaction</h6>
-                        <p style={{color: "white"}} className="mb-0 text-break"><a href={`https://testnet.algoexplorer.io/tx/${txnHash.id}`} target="_blank"  
-                                        style={{color: 'inherit', cursor: 'pointer', }}>{txnHash?.id}</a></p>
+                        <p style={{color: "white"}} className="mb-0 text-break"><a href={`https://hashscan.io/testnet/transaction/${txnHash.transaction_id}`} target="_blank" rel="noreferrer" 
+                                        style={{color: 'inherit', cursor: 'pointer', }}>{txnHash?.transaction_id}</a></p>
                     </div>
                 </Col>
             </Row>
@@ -189,27 +197,27 @@ function NftTransactionPage({}) {
                            
                                 <tr>
                                     <td>Hash</td>
-                                    <td className="text-break" title={txnHash? txnHash.id : ''}>{txnHash? txnHash.id : ''}</td>
+                                    <td className="text-break" title={txnHash? txnHash.transaction_id : ''}>{txnHash? txnHash.transaction_id : ''}</td>
                                     <td width="50">
-                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(txnHash.id); toggleShowA();}}>
+                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(txnHash.transaction_id); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Block</td>
-                                    <td>{txnHash? txnHash['confirmed-round'] : ''}</td>
+                                    <td>{txnHash? <HederaBlockNumber timestamp = {txnHash['consensus_timestamp']}/> : ''}</td>
                                     <td>
-                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(txnHash['confirmed-round']); toggleShowA();}}>
+                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(<HederaBlockNumber timestamp = {txnHash['consensus_timestamp']}/>); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>From</td>
-                                    <td><Badge pill bg="secondary" className="text-truncate"><img src={Wallet} alt="Wallet" /> Default | { txnHash ? txnHash.sender : ""}</Badge></td>
+                                    <td><Badge pill bg="secondary" className="text-truncate"><img src={Wallet} alt="Wallet" /> Default | { txnHash ? "0.0.5701067" : ""}</Badge></td>
                                     <td>
-                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(txnHash.sender); toggleShowA();}}>
+                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText("0.0.5701067"); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button>
                                     </td>
@@ -225,9 +233,9 @@ function NftTransactionPage({}) {
                                 </tr> */}
                                 <tr>
                                     <td>Fee</td>
-                                    <td>{txnHash ? txnHash.fee : ''}</td>
+                                    <td>{txnHash ? txnHash.charged_tx_fee / 1e8 : ''}</td>
                                     <td>
-                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(txnHash.fee); toggleShowA();}}>
+                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(txnHash.charged_tx_fee / 1e8); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button>
                                     </td>
@@ -240,41 +248,25 @@ function NftTransactionPage({}) {
                                 </tr>
                                 <tr>
                                     <td>Timestamp</td>
-                                    <td>{txnHash? <>{formatDateTime(txnHash['round-time'])} ({calculateTimeAgo(txnHash['round-time'])}) </> : ''}</td>
+                                    <td>{txnHash? <>{formatDateTime(txnHash['consensus_timestamp'])} ({calculateTimeAgo(Math.floor(txnHash['consensus_timestamp']))}) </> : ''}</td>
                                     <td>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Input Data</td>
-                                    {noteDecodeStatus ? (
-                                        <>
-                                            <td>
-                                                <Button variant="secondary" className="me-2" onClick={() => decodeText()}>
-                                                    Base64
-                                                </Button>
-                                                <textarea readOnly value={noteDecoded}></textarea>
-                                            </td>
-                                            <td>
-                                                <Button variant="reset" onClick={() => {navigator.clipboard.writeText(noteDecoded); toggleShowA();}}>
-                                                    <img src={CopyIcon} alt="CopyIcon" />
-                                                </Button>
-                                            </td>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <td>
-                                                <Button variant="secondary" className="me-2" onClick={() => decodeBase64(txnHash.note)}>
-                                                    Text
-                                                </Button>
-                                                <textarea readOnly value={txnHash.note || ''}></textarea>
-                                            </td>
-                                            <td>
-                                                <Button variant="reset" onClick={() => {navigator.clipboard.writeText(txnHash.note); toggleShowA();}}>
-                                                    <img src={CopyIcon} alt="CopyIcon" />
-                                                </Button>
-                                            </td>
-                                        </>
-                                    )}
+                                    <td>
+                                        {functionParameter ? <>
+                                            <textarea readOnly value={functionParameter || ''}></textarea>
+                                        </> : <>
+                                            <Button variant="secondary" onClick={getFunctionParameter}>Get Input</Button>
+                                        </>}
+                                    </td>
+                                    <td>
+                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(functionParameter); toggleShowA();}}>
+                                            <img src={CopyIcon} alt="CopyIcon" />
+                                        </Button>
+                                    </td>
+
                                 </tr>
                                 {/* <tr>
                                     <td>{transInput.input}</td>

@@ -2,11 +2,11 @@ import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal, Spin
 import Eye from '../asserts/images/eye-icon.svg'
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import { getTennantId, getTransaction, getTxInputBase, getAllTxInputAlgorand } from "../apifunction";
+import { getTennantId, getTransaction, getTxInputBase, getAllTxInputAlgorand, getHederaBlocks } from "../apifunction";
 import Check from '../asserts/images/check_icon.svg';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
-import axios from 'axios';
+import HederaBlockNumber from './Snippets/HederaBlockNumber';
 
 function NftTransactionsReport() {
     const [search, setSearch] = useState(false);
@@ -339,12 +339,12 @@ function NftTransactionsReport() {
                                             />
                                         </div>
                                     </td> */}
-                                     <td onClick={() => NftTransactionPage(i)} className="text-center txn_hash txn_hash_hover" style={{color: "#3366CC "}}>{(r.id).substring(0, 5)}...{(r.id).substring((r.id).length - 5)}</td>
+                                     <td onClick={() => NftTransactionPage(i)} className="text-center txn_hash txn_hash_hover" style={{color: "#3366CC "}}>{r.transaction_id}</td>
                                      <td className="text-center"><Badge pill bg="success"><img src={Check} alt="success badge" />success</Badge></td>
                                     {/* <td className="text-center text-truncate"> {(r.blockHash).substring(0, 5)}...{(r.blockHash).substring((r.blockHash).length - 5)}</td> */}
-                                    <td className="text-center">{(r.sender).substring(0, 5)}...{(r.sender).substring((r.sender).length - 5)}</td>
-                                    <td className="text-center">{(r['confirmed-round'])}</td>
-                                    <td className="text-center">{calculateTimeAgo(r['round-time'])}</td>
+                                    <td className="text-center txn_hash txn_hash_hover" style={{color: "#3366CC "}}><a href="https://hashscan.io/testnet/account/0.0.5701067" target="_blank" rel="noreferrer">0.0.5701067</a></td>
+                                    <td className="text-center"><HederaBlockNumber timestamp = {r['consensus_timestamp']}/></td>
+                                    <td className="text-center">{calculateTimeAgo(Math.floor(r['consensus_timestamp']))}</td>
                                     {/* <td>{r.logs[0].data}</td> */}
                                     {/* <td className="text-center">{r.blockNumber}</td>
                                     <td className="text-center">{r.index}</td> */}

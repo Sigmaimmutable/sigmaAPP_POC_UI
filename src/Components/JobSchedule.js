@@ -98,18 +98,18 @@ const JobSchedule = (props) => {
         let secondjob = await getJobsCountByType("MAKE_IREC");
         let lasttimejobrunned = await getLatestJObTime();
         let lasttimejobrunned1 = await joblasttime();
-        setjobtime(lasttimejobrunned1[0].activity);
+        setjobtime(lasttimejobrunned1[0]?.activity);
         console.log("docssigmacount11", lasttimejobrunned1[0]);
-        console.log("docssigmacount1", lasttimejobrunned1[0].loginTime);
+        console.log("docssigmacount1", lasttimejobrunned1[0]?.loginTime);
         setfjob(firstjob);
         setsjob(secondjob);
         let tnId = await getTennantId();
         let [check, data2] = await OrgAdminmailcheckget(tnId);
         console.log("OrgAdminmailcheckget", lasttimejobrunned)
-        const utcDate = new Date(lasttimejobrunned1[0].loginTime);
+        const utcDate = new Date(lasttimejobrunned1[0]?.loginTime);
     const istDate = new Date(utcDate.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
    
-    console.log("datechecker", lasttimejobrunned1[0].loginTime,istDate);
+    console.log("datechecker", lasttimejobrunned1[0]?.loginTime,istDate);
 
         setEpochTimeState(timestampToEpoch(istDate));
         console.log("OrgAdminmailcheckget1", epochTimeState)

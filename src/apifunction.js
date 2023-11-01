@@ -2156,3 +2156,54 @@ export const getAlgorandBlocks = async (blockNumber) => {
     return [false, ""];
   }
 };
+
+export const getHederaBlocks = async (timestamp) => {
+  try {
+    let response2 = await fetch(`https://testnet.mirrornode.hedera.com/api/v1/blocks?limit=1&order=asc&timestamp=gte:${timestamp}`);
+    if (!response2.ok) {
+      throw new Error(`Request failed with status: ${response2.status}`);
+    }
+    const data2 = await response2.json();
+    console.log("block from txid", data2.blocks[0].number);
+    let blockNumber = await data2.blocks[0].number;
+    return blockNumber;
+  } catch (err) {
+    console.log("vercelerrro", err);
+    return 0;
+  }
+};
+
+export const getHederaContracts = async (timestamp) => {
+  console.log("timestamp getHederaContracts", timestamp);
+  try {
+    const response = await fetch(`https://testnet.mirrornode.hedera.com/api/v1/contracts/results?timestamp=${timestamp}`);
+    
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    const argsFromInput = await data.results[0].function_parameters;
+
+    return argsFromInput;
+  } catch (err) {
+    console.error("Error fetching contract results", err);
+    return {};
+  }
+};
+
+export const getHederaBlockDetails = async (timestamp) => {
+  try {
+    let response2 = await fetch(`https://testnet.mirrornode.hedera.com/api/v1/blocks?limit=1&order=asc&timestamp=gte:${timestamp}`);
+    if (!response2.ok) {
+      throw new Error(`Request failed with status: ${response2.status}`);
+    }
+    const data2 = await response2.json();
+    console.log("block from txid", data2.blocks[0]);
+    let blockNumber = await data2.blocks[0];
+    return blockNumber;
+  } catch (err) {
+    console.log("vercelerrro", err);
+    return 0;
+  }
+};

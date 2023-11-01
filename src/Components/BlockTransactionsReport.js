@@ -2,7 +2,7 @@ import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal, Spin
 import Eye from '../asserts/images/eye-icon.svg'
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import { getTennantId, getTransactionblock, getNFTTxBase, getBlocksTxBase, getAllTxInputAlgorand, getAlgorandBlocks, getTxInputBase } from "../apifunction";
+import { getTennantId, getTransactionblock, getNFTTxBase, getBlocksTxBase, getAllTxInputAlgorand, getAlgorandBlocks, getTxInputBase, getHederaBlocks, getHederaBlockDetails } from "../apifunction";
 import Check from '../asserts/images/check_icon.svg';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
@@ -116,8 +116,8 @@ function BlockTransactionsReport() {
                 const updatedBlocks = [];
                 await Promise.all(
                   transactionDetailsOfAsset.map(async (txn, index) => {
-                    console.log("txn['confirmed-round']", txn['confirmed-round']);
-                    const [value, blocksFetcher] = await getAlgorandBlocks(txn['confirmed-round']);
+                    console.log("txn['confirmed-round']", txn);
+                    const blocksFetcher = await getHederaBlockDetails(txn['consensus_timestamp']);
                     updatedBlocks.push(blocksFetcher);
                     console.log("blocksFetcher", blocksFetcher);
                   })
@@ -440,16 +440,16 @@ function BlockTransactionsReport() {
                                     />
                                 </div>
                             </td> */}
-                            <td className="text-center">{(r.round)}</td>
+                            <td className="text-center">{(r.number)}</td>
 
-                           <td className="text-center">{(r.seed).substring(0, 5)}...{(r.seed).substring((r.seed).length - 5)}</td>
+                           <td className="text-center">{(r.hash).substring(0, 5)}...{(r.hash).substring((r.hash).length - 5)}</td>
                              {/* <td className="text-center"><Badge pill bg="success"><img src={Check} alt="success badge" />success</Badge></td> */}
                             {/* <td className="text-center text-truncate"> {(r.blockHash).substring(0, 5)}...{(r.blockHash).substring((r.blockHash).length - 5)}</td> */}
                             {/* <td className="text-center">{(r['reward']['fee-sink'] !== null) ? <>{(r['reward']['fee-sink']).substring(0, 5)}...{(r.miner).substring((r.miner).length - 5)}</> : "Null"}</td> */}
-                           <td className="text-center">{(r['transactions'][0]['sender'] !== null || r['transactions'][0]['sender'] !== undefined) ? <>{r['transactions'][0]['sender'].substring(0, 5)}...{r['transactions'][0]['sender'].substring((r['transactions'][0]['sender']).length - 5)}</> : 0x0}</td>
-                           <td className="text-center">{(r['transactions']['length'] !== null || r['transactions']['length'] !== undefined) ? r['transactions']['length'] : 0}</td>
+                           <td className="text-center">0.0.5701067</td>
+                           <td className="text-center">{(r.count !== null || r.count !== undefined) ? r.count : 0}</td>
                             {/* <td className="text-center">{(r.transactionCount)}</td> */}
-                           <td className="text-center">{calculateTimeAgo(r.timestamp)}</td>
+                           <td className="text-center">{calculateTimeAgo(r.timestamp.to)}</td>
                             {/* <td>{r.logs[0].data}</td> */}
                             {/* <td className="text-center">{r.blockNumber}</td>
                             <td className="text-center">{r.index}</td> */}

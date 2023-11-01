@@ -89,7 +89,7 @@ const MyPage = (props) => {
         let secondjob = await getJobsCountByType("MAKE_IREC");
         let lasttimejobrunned = await getLatestJObTime();
         let lasttimejobrunned1 = await joblasttime();
-        setjobtime(lasttimejobrunned1[0].activity);
+        setjobtime(lasttimejobrunned1[0]?.activity);
         console.log("docssigmacount11", lasttimejobrunned1[0]);
         console.log("docssigmacount1", lasttimejobrunned1[0].loginTime);
         setfjob(firstjob);
