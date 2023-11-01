@@ -123,7 +123,7 @@ const DocumentDetailsSingle= (props)=>{
       };
       const getNftdetails = async() => {
 
-        const url = 'https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78';
+        const url = 'https://rpc.ankr.com/polygon_zkevm_testnet/884b91b8a3ec3998cb7798d59c398843cef32fdbd73f839d8013e369341b81a1';
         const provider = new ethers.providers.JsonRpcProvider(url);
         const privateKey = '8c8a822798b85b2401632b75804655cc6be30495f03518f057279b4e8083b2b9';
         const signer = new ethers.Wallet(privateKey, provider);
