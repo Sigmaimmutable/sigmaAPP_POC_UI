@@ -3,12 +3,14 @@ import Eye from '../asserts/images/eye-icon.svg'
 import SiteLogo from '../asserts/images/site-logo-xxl.svg'
 import { Link,useParams,useLocation  } from "react-router-dom";
 import { useState,useEffect, useContext } from "react";
-import { fetchSigmadocdetails,getNFTProp,getTennantId,handleWriteToFile} from '../apifunction';
+import { fetchSigmadocdetails,getAlgorandAsset,getNFTProp,getTennantId,handleWriteToFile} from '../apifunction';
 import CopyIcon from '../asserts/images/copy-icon.svg'
 import { DataContext } from "../App";
 import { ToastContainer, Zoom, Bounce, toast} from 'react-toastify';
 import Check from '../asserts/images/check_icon.svg';
 import ButtonLoad from 'react-bootstrap-button-loader';
+import base64 from 'base-64';
+
 const DocumentDetailsSingle= (props)=>{
     const location = useLocation();
     const [showA, setShowA] = useState(false);
@@ -58,12 +60,16 @@ const DocumentDetailsSingle= (props)=>{
       const getNFTproperties= async() =>{
         const [success, data] = await fetchSigmadocdetails(id);
         setDocumentDetails(data);
-            let tnId = await getTennantId();
+        console.log("data setDocumentDetails", data);
             if(data.uuid){
-              let tx = await getNFTProp(data.uuid,tnId);
-              // console.log("txhistory",tx)
-              setNftprop(tx.output);
-              console.log("nftprop",tx)
+              let [value, note] = await getAlgorandAsset(data.uuid);
+              
+              // console.log("note", note);
+              const decoded = base64.decode(note);
+              let decodedNote = JSON.parse(decoded);
+              decodedNote.uuid = data.uuid;
+              console.log("decoded", decodedNote);
+              setNftprop(decodedNote);
             }
            
         
@@ -102,7 +108,7 @@ const DocumentDetailsSingle= (props)=>{
       }
       }
       const handleCopyClick = () => {
-        navigator.clipboard.writeText(nftproperties.tokenOwner)
+        navigator.clipboard.writeText(nftproperties?.tokenOwner)
           .then(() => {
             toggleShowA();
             toast.success('Copied successfully!', {
@@ -206,8 +212,8 @@ const DocumentDetailsSingle= (props)=>{
                         {documentDetails?(<>
                           {documentDetails.uuid===""||documentDetails.uuid===undefined||documentDetails.uuid===null?(<>
                      </>):(<>
-                      {nftproperties.tokenOwner===""||nftproperties.tokenOwner===undefined||nftproperties.tokenOwner===null?(<>
-                      
+                      {nftproperties?.tokenKey===""||nftproperties?.tokenKey===undefined||nftproperties?.tokenKey===null?(<>
+
                       </>):(<>
                       
                         <th className="text-center">NFT Properties</th>
@@ -225,7 +231,7 @@ const DocumentDetailsSingle= (props)=>{
                             <thead>                          
   <tr>
     <th>Token ID</th>
-    <td>{nftproperties.tokenId}</td>
+    <td>{nftproperties.uuid}</td>
     <td></td>
   </tr></thead>
   {/* </tbody> */}
@@ -262,7 +268,7 @@ const DocumentDetailsSingle= (props)=>{
   <tr>
   
     <th>Token Owner</th>
-     <td>    {nftproperties? (nftproperties.tokenOwner).substring(0, 8) : ''}...{(nftproperties? (nftproperties.tokenOwner).substring((nftproperties.tokenOwner).length - 5) : '')} 
+     <td>    {nftproperties? (nftproperties?.tokenKey).substring(0, 8) : ''}...{(nftproperties? (nftproperties?.tokenKey).substring((nftproperties?.tokenKey).length - 5) : '')} 
     
 </td>
 <td>

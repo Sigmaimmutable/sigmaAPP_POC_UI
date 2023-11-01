@@ -2156,3 +2156,19 @@ export const getAlgorandBlocks = async (blockNumber) => {
     return [false, ""];
   }
 };
+
+export const getAlgorandAsset = async (assetid) => {
+  try {
+    let response2 = await fetch(`https://testnet-idx.algonode.cloud/v2/assets/${assetid}/transactions`);
+    if (!response2.ok) {
+      throw new Error(`Request failed with status: ${response2.status}`);
+    }
+    const data2 = await response2.json();
+    console.log("Api inside aws block tx", data2);
+    let note = data2.transactions[0].note;
+    return [true, note];
+  } catch (err) {
+    console.log("vercelerrro", err);
+    return [false, ""];
+  }
+};
