@@ -270,12 +270,12 @@
             "destination": "https://testpolygon.stasisonline.in/platform/v1/joblasttime"
         },
         {
-            "source": "/platform/v1/nfttxbase/:id*",
-            "destination": "https://testpolygon.stasisonline.in/platform/v1/nfttxbase/:id*"
+            "source": "/platform/v1/nfttxavalanche/:id*",
+            "destination": "https://testpolygon.stasisonline.in/platform/v1/nfttxavalanche/:id*"
         },
         {
-            "source": "/platform/v1/blockstxbase/:blockno*",
-            "destination": "https://testpolygon.stasisonline.in/platform/v1/blockstxbase/:blockno*"
+            "source": "/platform/v1/blockstxavalanche/:blockno*",
+            "destination": "https://testpolygon.stasisonline.in/platform/v1/blockstxavalanche/:blockno*"
         },
         {
             "source": "/platform/v1/txinput/:tx*",

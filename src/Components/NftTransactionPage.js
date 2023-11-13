@@ -150,7 +150,7 @@ function NftTransactionPage({}) {
                 <Col xs={12} className="mb-3">
                     <div className="info-card d-flex flex-column justify-content-between">
                         <h6 className="d-flex align-items-center">Transaction</h6>
-                        <p style={{color: "white"}} className="mb-0 text-break"><a href={`https://basescan.org/tx/${txnHash.hash}`} target="_blank"  
+                        <p style={{color: "white"}} className="mb-0 text-break"><a href={`https://mumbai.polygonscan.com/tx/${txnHash.hash}`} target="_blank"  
                                         style={{color: 'inherit', cursor: 'pointer', }}>{txnHash?.hash}</a></p>
                     </div>
                 </Col>
@@ -201,7 +201,7 @@ function NftTransactionPage({}) {
                                     <td>Gas</td>
                                     <td>{txnHash ? txnHash.gasUsed : ''}</td>
                                     <td>
-                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(txnHash.gasProvided); toggleShowA();}}>
+                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(txnHash.gasUsed); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button>
                                     </td>

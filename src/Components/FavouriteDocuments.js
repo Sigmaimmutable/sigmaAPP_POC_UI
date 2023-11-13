@@ -334,7 +334,7 @@ const FavouriteDocuments= (props)=>{
                         {favoriteData.map((postt, index) => (
                         <tr key={index}>
                             <td><center>
-                            <Button variant="link" onClick={() => deleteFavorites(postt.docId, postt.fileName)}>
+                            <Button variant="link" onClick={() => deleteFavorites(postt.docId, postt.docName)}>
                              <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="16"

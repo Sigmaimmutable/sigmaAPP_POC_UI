@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Modal, Table } from "react-bootstrap";
+import { Button, Form, Modal, Table , Row, Col} from "react-bootstrap";
+import ButtonLoad from 'react-bootstrap-button-loader';
 import { getTennantId, getNotificationById1, getNotificationById2, getNotificationById3, getNotificationById4,OrgTenentcheckget } from '../apifunction';
 import Question from '../asserts/images/question-icon.svg';
 import { ToastContainer, Zoom, toast} from 'react-toastify';
@@ -17,6 +18,9 @@ function NotifyDetails() {
   const [deleteEmail, setDeleteEmail] = useState();
   const [pageSize, setPageSize] = useState(0);  
   const[user,setUser]  = useState();
+  const[loaderVerify, setLoaderVerify] = useState(false);
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false);
 
   const handleUpdateUserButtonClick = () => {
     setShowUpdateUserPopup(true);
@@ -85,7 +89,9 @@ useEffect(() => {
 //     }
 //   };
 const newUsers = async () => {
-    
+
+    try{
+                handleShowLoadVerify();
       const matchingUser = user.find((r) => r.emailId === email);
   
       if (matchingUser) {
@@ -94,6 +100,7 @@ const newUsers = async () => {
         let orguser = await getNotificationById2(email, tennantId);
         console.log("Orguser", orguser);
         setEmail('');
+        toast.success("User added successfully");
         handleClose();
       } else {
       
@@ -101,6 +108,13 @@ const newUsers = async () => {
         toast.error("The emailId does not belong to our organization");
         handleClose();
     }
+    handleHideLoadVerify();
+  }catch(e){
+          console.log(e);
+          handleHideLoadVerify();
+      }
+    await memberTableFetch();
+
 }
        
        
@@ -109,6 +123,7 @@ const newUsers = async () => {
 
   const Deleteorguser1 = async (userId) => {
     try {
+      handleShowLoadVerify();
       let orguserdelete = await getNotificationById4(userId);
       console.log("deleteOrguser", orguserdelete);
       const emailId = localStorage.getItem("UserID");
@@ -118,14 +133,18 @@ const newUsers = async () => {
         setUserManage(data);
       }
       setShowButton(false);
+      handleHideLoadVerify();
+      toast.success("User removed successfully");
       handleClose2();
     } catch (err) {
       console.error(err);
+      handleHideLoadVerify();
     }
   };
 
   const attend1 = async (userId) => {
     try {
+      handleShowLoadVerify();
       const emailId = localStorage.getItem("UserID");
       const tennantId = await getTennantId(emailId);
       await getNotificationById3(userId,email, tennantId);
@@ -134,13 +153,17 @@ const newUsers = async () => {
         setUserManage(data);
       }
       setShowButton(false);
+      handleHideLoadVerify();
+      toast.success("User update successful");
       handlePopupClose();
+
     } catch (err) {
       console.error(err);
+      handleHideLoadVerify();
     }
   };
 
-  const memberTableFetch = async (start) => {
+  const memberTableFetch = async () => {
     if (!localStorage.getItem("UserID")) {
       // Handle when UserID is not available
       return;
@@ -180,6 +203,13 @@ const newUsers = async () => {
   return (
     <div className="container-fluid">
            <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
+           <br/>
+           <Row className="mb-20">
+                <Col md={6} xl={4} xxl={3}>
+                    <h4 className="page-title mb-0">Notification Details</h4>
+                </Col>
+            </Row>
+
       <>
       <div className="d-flex align-items-center justify-content-end mb-3">
         <Button variant="gray" className="btn-gray-black rounded-pill me-2" onClick={handleShow}>
@@ -209,7 +239,7 @@ const newUsers = async () => {
               value={email}
               onChange={handleEmailChange}
             />&nbsp;&nbsp;&nbsp;
-          <Button type="submit" variant="dark" className="btn-button btn-sm" onClick={()=>newUsers()}>Submit</Button> &nbsp;&nbsp;
+          <ButtonLoad type="submit" variant="dark" className="btn-button btn-sm" loading={loaderVerify} onClick={()=>newUsers()}>Submit</ButtonLoad> &nbsp;&nbsp;
           <Button variant="dark"  className="btn-button btn-sm" onClick={handleClose}>Cancel</Button>
           </div>
         </Modal.Body>
@@ -228,7 +258,7 @@ const newUsers = async () => {
               value={email}
               onChange={handleEmailChange}
             />&nbsp;&nbsp;&nbsp;
-          <Button type="submit" variant="dark" className="btn-button btn-sm" onClick={()=>attend1(deleteEmail)}>Submit</Button> &nbsp;&nbsp;
+          <ButtonLoad type="submit" variant="dark" className="btn-button btn-sm" loading={loaderVerify} onClick={()=>attend1(deleteEmail)}>Submit</ButtonLoad> &nbsp;&nbsp;
           <Button variant="dark"  className="btn-button btn-sm" onClick={handlePopupClose}>Cancel</Button>
           </div>
         </Modal.Body>
@@ -244,7 +274,7 @@ const newUsers = async () => {
           
           
                  <div className="d-flex pt-4 align-items-center justify-content-center">
-            <Button type="submit" variant="dark" className="btn-button btn-sm" onClick={() => Deleteorguser1(deleteEmail)}>Yes</Button>
+            <ButtonLoad type="submit" variant="dark" className="btn-button btn-sm" loading={loaderVerify} onClick={() => Deleteorguser1(deleteEmail)}>Yes</ButtonLoad>
             <Button type="reset" variant="outline-dark" className="btn-button btn-sm ms-3" onClick={handleClose2}>No</Button>
           </div>
         

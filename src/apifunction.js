@@ -140,7 +140,8 @@ export const CreateOrguserrolepost = async (emailid, name, role, tenentid) =>
             'password':"",
             'roleType': `${role}`,
             'method':"",
-            'tennantId':`${tenentid}`
+            'tennantId':`${tenentid}`,
+            'otp':""
         }
       };
       try {
@@ -477,7 +478,7 @@ export const addToFavorites = async (emailId, sigmaId, name__v, filename__v, sta
     const response = await axios(options);
     const result = response.data;
     const title = 'Favourites';
-    const description = `${filename__v} is added to favourites.`;
+    const description = `${name__v} is added to favourites.`;
     const tennat_id = tenantId;
     const statuses = false;
   
@@ -514,7 +515,7 @@ export const fetchFavoriteDetails = async (emailId,limit) => {
   }
 };
 
-export const deleteFavorite = async (emailId, sigmaId, filename_v, tenantId) => {
+export const deleteFavorite = async (emailId, sigmaId, name_v, tenantId) => {
   const url = `/platform/v1/favourite/${emailId}/${sigmaId}`;
   const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
 
@@ -533,7 +534,7 @@ export const deleteFavorite = async (emailId, sigmaId, filename_v, tenantId) => 
     const responsed = await axios(options);
     console.log('Responsed:', responsed);
     const title = 'Favourites';
-    const description = `${filename_v} is removed from favourites.`;
+    const description = `${name_v} is removed from favourites.`;
     const tennat_id = tenantId;
     const statuses = false;
   
@@ -558,7 +559,7 @@ export const forgetPasswordMailVerification = async(email) =>{
     await axios.request(options2).then(async function (response2) {
      console.log("response",response2);
      let present = await userDetailWithEmail(email)
-     MailVerify = present[0];
+      MailVerify = present[0];
     //  window.location.reload();
     }).catch(function (error) {
         console.error("done2",error);
@@ -895,9 +896,15 @@ export const userDetailWithEmail = async (emailid) =>
     // console.log("response",tentidresponse)
       
     const data2 = await response2.json();
-    // console.log("Api inside", data2)
+    console.log("Api inside", data2)
     // return {data2};
-    return [true, data2];
+    if(!data2 || (Array.isArray(data2) && data2.length === 0)){
+      return [false, ""];
+    }
+    else{
+      return [true, data2];
+    }
+    
   }catch(err){
     console.log("vercelerrro",err)
     return [false, ""];
@@ -1779,7 +1786,7 @@ export const handleWriteToDocumentlist = async (start, limit,tennantId) => {
     const csvData = [
       "Document Name,Document ID,Version ID,Document Creation Date,File Modified Date,File Created Date,Document Status,NFT Creation Status,",
       ...sigmadocData.map(row => (
-        `"${row.filename__v}","${row.sigmaId}","${row.jobId}","${row.document_creation_date__v}","${row.file_modified_date__v}","${row.file_created_date__v}","${row.status__v}","${row.nftCreationStatus === '0' ? 'Pending' : row.nftCreationStatus === '1' ? 'Approved' : ''}"`
+        `"${row.name__v}","${row.sigmaId}","${row.jobId}","${row.document_creation_date__v}","${row.file_modified_date__v}","${row.file_created_date__v}","${row.status__v}","${row.nftCreationStatus === '0' ? 'Pending' : row.nftCreationStatus === '1' ? 'Approved' : ''}"`
       )),
     ].join('\n');
 
@@ -1960,7 +1967,7 @@ export const getoriginaldoccount = async (tennatId) => {
   try {
     const response = await axios(options2);
     docscount = response.data;
-    console.log('Response:', docscount);
+    console.log('Response api doc count:', docscount);
   } catch (error) {
     console.error("Error:", error);
   }
@@ -2064,7 +2071,7 @@ export const getNFTTxBase = async (id) => {
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   //Get method start
   try {
-    let response2 = await fetch(`/platform/v1/nfttxbase/${id}`,
+    let response2 = await fetch(`/platform/v1/nfttxavalanche/${id}`,
       {
         headers: {
           'x-api-key': `${key}`
@@ -2086,7 +2093,7 @@ export const getBlocksTxBase = async (id) => {
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   //Get method start
   try {
-    let response2 = await fetch(`/platform/v1/blockstxbase/${id}`,
+    let response2 = await fetch(`/platform/v1/blockstxavalanche/${id}`,
       {
         headers: {
           'x-api-key': `${key}`
