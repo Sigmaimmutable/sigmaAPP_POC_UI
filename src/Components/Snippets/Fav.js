@@ -41,7 +41,7 @@ function Favourite(sigmaId) {
                 const deleted = await deleteFavorite(
                     emailId,
                     sigmaId.sigmaid,
-                    sigmaId.filename__v,
+                    sigmaId.name__v,
                     tenantId
                 );
 

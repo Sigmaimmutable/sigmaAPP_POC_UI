@@ -425,7 +425,7 @@ const handlePopupShow = () => {
                                 <Form.Control
                                     aria-describedby="basic-addon1"
                                     aria-label="Write something to search"
-                                    placeholder="Search by User name..."
+                                    placeholder="Search by MailId..."
                                     onChange={(e) => {handleSearch(e.target.value)}}
                                 />
                             </InputGroup>
@@ -655,7 +655,7 @@ const handlePopupShow = () => {
                                     </svg>
                                 </Link>
                             </li>
-                            <li><Link className="active" onClick={()=>{paginationProcess(pageSize+10)}}>{pageSize?(pageSize/10)+1:'1'}</Link></li>
+                            <li><Link className="active" onClick={()=>{paginationProcess(0)}}>{pageSize?(pageSize/10)+1:'1'}</Link></li>
                             {/*<li><Link to="/">2</Link></li>
                             <li><Link to="/">3</Link></li>
                             <li><Link to="/">4</Link></li>
