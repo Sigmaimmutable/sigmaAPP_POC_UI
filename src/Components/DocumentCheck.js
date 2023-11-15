@@ -310,12 +310,14 @@ const DocumentVerification= (props)=>{
                                     <th>Document Name</th>
                                     <td>{documentDetails?.name__v}</td>
                                    <td>{vvdocumentDetails.data[0]?.name__v}</td>
-                                   <td colSpan="4" ><center>
+                                   <td colSpan="4"  >
+                                    <div style={{marginLeft:"40px"}}>
     {documentDetails?.name__v === vvdocumentDetails.data[0]?.name__v ? (
       <Badge bg="success">Pass</Badge>
     ) : (
       <Badge bg="danger">Fail</Badge>
-    )}</center>
+    )}
+    </div>
   </td>
                                 </tr>
                             
@@ -324,12 +326,14 @@ const DocumentVerification= (props)=>{
     <th>Document ID</th>
     <td>{documentDetails?.id}</td>
     <td>{vvdocumentDetails.data[0]?.id}</td>
-    <td colSpan="4"><center>
+    <td colSpan="4">
+    <div style={{marginLeft:"40px"}}>
     {parseInt(documentDetails?.id) === parseInt(vvdocumentDetails.data[0]?.id) ? (
       <Badge bg="success">Pass</Badge>
     ) : (
       <Badge bg="danger">Fail</Badge>
-    )}</center>
+    )}
+    </div>
   </td>
   </tr>
 
@@ -362,52 +366,52 @@ const DocumentVerification= (props)=>{
     <th>Document Checksum</th>
     <td>{documentDetails?.md5Checksum}</td>
     <td>{vvdocumentDetails.md5Checksum}</td>
-    <td colSpan="4"><center>
+    <td colSpan="4"><div style={{marginLeft:"40px"}}>
     {documentDetails?.md5Checksum === vvdocumentDetails.md5Checksum
  ? (
       <Badge bg="success">Pass</Badge>
     ) : (
       <Badge bg="danger">Fail</Badge>
-    )}</center>
+    )}</div>
   </td>
   </tr>
   <tr>
     <th>File Modified Date</th>
     <td>{new Date(timestampToEpoch(documentDetails?.file_modified_date__v)).toLocaleString()}</td>
     <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.file_modified_date__v)).toLocaleString()}</td>
-    <td colSpan="4"><center>
+    <td colSpan="4"><div style={{marginLeft:"40px"}}>
     {documentDetails?.file_modified_date__v === vvdocumentDetails.data[0]?.file_modified_date__v
  ? (
       <Badge bg="success">Pass</Badge>
     ) : (
       <Badge bg="danger">Fail</Badge>
-    )}</center>
+    )}</div>
   </td>
   </tr>
   <tr>
     <th>File Created Date</th>
     <td>{new Date(timestampToEpoch(documentDetails?.file_created_date__v)).toLocaleString()}</td>
     <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.file_created_date__v)).toLocaleString()}</td>
-    <td colSpan="4"><center>
+    <td colSpan="4"><div style={{marginLeft:"40px"}}>
     {documentDetails?.file_created_date__v === vvdocumentDetails.data[0]?.file_created_date__v
  ? (
       <Badge bg="success">Pass</Badge>
     ) : (
       <Badge bg="danger">Fail</Badge>
-    )}</center>
+    )}</div>
   </td>
   </tr>
   <tr>
     <th>Document Creation Date</th>
     <td>{new Date(timestampToEpoch(documentDetails?.document_creation_date__v)).toLocaleString()}</td>
     <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.document_creation_date__v)).toLocaleString()}</td>
-    <td colSpan="4"><center>
+    <td colSpan="4"><div style={{marginLeft:"40px"}}>
     {documentDetails?.document_creation_date__v === vvdocumentDetails.data[0]?.document_creation_date__v
  ? (
       <Badge bg="success">Pass</Badge>
     ) : (
       <Badge bg="danger">Fail</Badge>
-    )}</center>
+    )}</div>
   </td>
   </tr>
   {/* <tr>
@@ -439,13 +443,13 @@ const DocumentVerification= (props)=>{
     <th>Title</th>
     <td>{documentDetails?.name__v}</td>
     <td>{vvdocumentDetails.data[0]?.name__v}</td>
-    <td colSpan="4"><center>
+    <td colSpan="4"><div style={{marginLeft:"40px"}}>
     {documentDetails?.name__v === vvdocumentDetails.data[0]?.name__v
  ? (
       <Badge bg="success">Pass</Badge>
     ) : (
       <Badge bg="danger">Fail</Badge>
-    )}</center>
+    )}</div>
   </td>
   </tr>
  

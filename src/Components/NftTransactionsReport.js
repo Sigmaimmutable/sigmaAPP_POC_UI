@@ -179,7 +179,7 @@ function NftTransactionsReport() {
         <div>
             <Row className="mb-20">
                 <Col md={6} xl={4} xxl={3}>
-                    <h4 className="page-title mb-0">Nft Transactions Report</h4>
+                    <h4 className="page-title mb-0">NFT Transactions Report</h4>
                 </Col>
             </Row>
             <Row className="mb-3 align-items-center" style={{minHeight: '40px'}}>
