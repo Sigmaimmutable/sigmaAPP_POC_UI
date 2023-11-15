@@ -293,9 +293,9 @@ const FavouriteDocuments= (props)=>{
                                 </th> */}
                                 <th className="text-center">Unfavourite</th>
                                 <th className="text-center">ID</th>
-                                <th className="text-center">File Name</th>
+                                {/* <th className="text-center">File Name</th> */}
                                 <th className="text-center">Document Name</th>
-                                <th className="text-center">Status</th>
+                                {/* <th className="text-center">Status</th> */}
                             </tr>
                         </thead>
                         <tbody>
@@ -325,9 +325,9 @@ const FavouriteDocuments= (props)=>{
                             </center>
                             </td>
                             <td className="text-center">{postt.docId}</td>
-                            <td>{postt.fileName}</td>
-                            <td>{postt.docName}</td>
-                            <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}`}}>{postt.docStatus}</Link></td>
+                            {/* <td>{postt.fileName}</td> */}
+                            <td className="text-center">{postt.docName}</td>
+                            {/* <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}`}}>{postt.docStatus}</Link></td> */}
                         </tr>)
                         })) : 
                         <>
@@ -352,9 +352,9 @@ const FavouriteDocuments= (props)=>{
                             </center>
                             </td>
                             <td className="text-center">{postt.docId}</td>
-                            <td>{postt.fileName}</td>
-                            <td>{postt.docName}</td>
-                            <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}`}}>{postt.docStatus}</Link></td>
+                            {/* <td>{postt.fileName}</td> */}
+                            <td className="text-center">{postt.docName}</td>
+                            {/* <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}`}}>{postt.docStatus}</Link></td> */}
                             </tr>
                             ))}</>)}
                         </tbody>

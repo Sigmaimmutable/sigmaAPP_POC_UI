@@ -264,7 +264,7 @@ const attend = async (id, email) => {
             <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
             <Row className="mb-20">
                 <Col md={6} xl={4} xxl={3}>
-                    <h4 className="page-title mb-0">Ticket Details</h4>
+                    <h4 className="page-title mb-0">Ticket Management</h4>
                 </Col>
             </Row>
 

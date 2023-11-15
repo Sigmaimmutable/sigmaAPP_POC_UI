@@ -351,10 +351,10 @@ const DocumentDetailsSingle= (props)=>{
     <th>Document ID</th>
     <td>{documentDetails?.jobId}</td>
   </tr> */}
-  <tr>
+  {/* <tr>
     <th>Version ID</th>
     <td>{documentDetails?.version_id}</td>
-  </tr>
+  </tr> */}
   <tr>
     <th>Document Date</th>
     <td>{new Date((documentDetails?.createdDate)/1).toLocaleString()}</td>
