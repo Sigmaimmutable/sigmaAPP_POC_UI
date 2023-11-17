@@ -1,11 +1,11 @@
 export const nodeDetails = {
-    Provider: "Polygon",
-    NetworkType: "Polygon Testnet",
+    Provider: "OPBNB",
+    NetworkType: "OPBNB PRIVATE",
     ChainId: "80001",
-    RPC:"https://rpc-mumbai.maticvigil.com/",
-    Owner:"POLYGON ORG",
-    NodeType:"Public",
+    RPC:"https://opbnb-testnet.nodereal.io/v1/<API-KEY>",
+    Owner:"NodeReal",
+    NodeType:"PRIVATE",
     SmartContract:"0xBc0d6D21B33B96fc4ae34a9C7690Fb94dB2477A2",
-    HttpEnpoint:"https://rpc-mumbai.maticvigil.com/",
-    WebSocketEndpoint:"wss://polygon-mumbai.infura.io/ws/v3/<API-KEY>",
+    HttpEnpoint:"https://opbnb-testnet.nodereal.io/v1/<API-KEY>",
+    WebSocketEndpoint:"wss://opbnb-testnet.nodereal.io/ws/v1/<API-KEY>",
 };
