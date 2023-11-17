@@ -29,6 +29,7 @@ function JobDetails() {
     const [reachedLastPage, setReachedLastPage] = useState(false);
     const [selectedStatusFilter, setSelectedStatusFilter] = useState("");
     const [selectedfetch, setSelectedfetch] = useState(false);
+    const[originalList,setOriginalList] = useState([""]);
     console.log("details",searchDetails);
     console.log("ch",selectedStatus)
 console.log("Selectedcolm",Selectedcolm)
@@ -178,7 +179,7 @@ const [resetclear, setResetclear] = useState(true);
             
             // Filter jobs by status
             if (status !== "") {
-                const filteredJobs = jobLists.filter((job) => job.status === status);
+                const filteredJobs = originalList.filter((job) => job.status === status);
                 setFilteredJobs(filteredJobs);
                 
                 if (filteredJobs.length === 0) {
@@ -203,6 +204,7 @@ const [resetclear, setResetclear] = useState(true);
 
                 // Apply filters to the job list based on selectedStatus and selectedJobType
                 let filteredList = response;
+                setOriginalList(response);
 
                 if (selectedStatusFilter !== "") {
                     filteredList = filteredList.filter(job => job.status === selectedStatusFilter);
@@ -330,10 +332,10 @@ const [resetclear, setResetclear] = useState(true);
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="dropdown-filter">
                         <Dropdown.Item onClick={()=>resetColumn("23R1")} >23R1</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>resetColumn("Veeva v2")} >Veeva v2</Dropdown.Item>
+                            {/* <Dropdown.Item onClick={()=>resetColumn("Veeva v2")} >Veeva v2</Dropdown.Item>
                             <Dropdown.Item onClick={()=>resetColumn("Veeva v3")} >Veeva v3</Dropdown.Item>
                             <Dropdown.Item onClick={()=>resetColumn("Veeva v4")} >Veeva v4</Dropdown.Item>
-                            <Dropdown.Item onClick={()=>resetColumn("Veeva v5")} >Veeva v5</Dropdown.Item>
+                            <Dropdown.Item onClick={()=>resetColumn("Veeva v5")} >Veeva v5</Dropdown.Item> */}
                         </Dropdown.Menu>
                     </Dropdown>
                 </Col>

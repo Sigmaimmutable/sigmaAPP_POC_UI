@@ -510,7 +510,7 @@ const attend = async (id, email) => {
                                     </svg>
                                 </Link>
                             </li>
-                             <li><Link className="active" onClick={()=>{paginationProcess(startvalue+10)}}>{startvalue?(startvalue/10)+1:'1'}</Link></li>
+                            <li><Link className="active" onClick={()=>{paginationProcess(0)}}>{startvalue?(startvalue/10)+1:'1'}</Link></li>
                            {/* <li><Link to="/">2</Link></li>
                             <li><Link to="/">3</Link></li>
                             <li><Link to="/">4</Link></li>

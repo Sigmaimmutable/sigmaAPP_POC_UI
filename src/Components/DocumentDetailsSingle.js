@@ -9,6 +9,8 @@ import { DataContext } from "../App";
 import { ToastContainer, Zoom, Bounce, toast} from 'react-toastify';
 import Check from '../asserts/images/check_icon.svg';
 import ButtonLoad from 'react-bootstrap-button-loader';
+import { ethers } from "ethers";
+import {contractAddress, contractABI} from './ContractABI';
 const DocumentDetailsSingle= (props)=>{
     const location = useLocation();
     const [showA, setShowA] = useState(false);
@@ -22,6 +24,7 @@ const DocumentDetailsSingle= (props)=>{
     const {sigmaId} = useParams();
     const [documentDetails, setDocumentDetails] = useState(null);
     const [nftproperties, setNftprop] = useState([]);
+    const [nftdetails, setNftdetails] = useState([]);
     // const location = useLocation();  
     // const [sigmaId, setSigmaId] = useState(''); // State variable for sigmaId
 
@@ -58,14 +61,14 @@ const DocumentDetailsSingle= (props)=>{
       const getNFTproperties= async() =>{
         const [success, data] = await fetchSigmadocdetails(id);
         setDocumentDetails(data);
-            let tnId = await getTennantId();
-            if(data.uuid){
-              let tx = await getNFTProp(data.uuid,tnId);
-              // console.log("txhistory",tx)
-              setNftprop(tx.output);
-              console.log("nftprop",tx)
-            }
-           
+            // let tnId = await getTennantId();
+            // if(data.uuid){
+            //   let tx = await getNFTProp(data.uuid,tnId);
+            //   // console.log("txhistory",tx)
+            //   setNftprop(tx.output);
+            //   console.log("nftprop",tx)
+            // }
+           console.log("Document data:",data);
         
         
     }
@@ -102,7 +105,7 @@ const DocumentDetailsSingle= (props)=>{
       }
       }
       const handleCopyClick = () => {
-        navigator.clipboard.writeText(nftproperties.tokenOwner)
+        navigator.clipboard.writeText(nftdetails.tokenOwner)
           .then(() => {
             toggleShowA();
             toast.success('Copied successfully!', {
@@ -117,6 +120,25 @@ const DocumentDetailsSingle= (props)=>{
             // Handle the error if needed
           });
       };
+
+      const getNftdetails = async() => {
+
+        const url = 'https://virulent-fittest-season.base-mainnet.discover.quiknode.pro/7aa96935d524aa2148386a41e4cf89165e336b99/';
+        const provider = new ethers.providers.JsonRpcProvider(url);
+        const privateKey = 'a15c005a621f521fbcf03c3207534b9e84e913f2b1f7b0aed0e9f0ee072fba86';
+        const signer = new ethers.Wallet(privateKey, provider);
+
+        const contractInstance = new ethers.Contract(contractAddress, contractABI, signer);
+        const nftdetails1 = await contractInstance.getNFT(documentDetails.uuid);
+        setNftdetails(nftdetails1);
+        console.log("Contract details:",nftdetails1);
+        
+      }
+      useEffect(() =>{
+        if(documentDetails){
+        getNftdetails();
+        }
+       }, [documentDetails])
 
     return ( 
         <div>
@@ -204,9 +226,9 @@ const DocumentDetailsSingle= (props)=>{
                             </Card.Body>
                         </Card>
                         {documentDetails?(<>
-                          {documentDetails.uuid===""||documentDetails.uuid===undefined||documentDetails.uuid===null?(<>
+                          {(documentDetails.uuid===""||documentDetails.uuid===undefined||documentDetails.uuid===null) || documentDetails.nftCreationStatus==="0" ?(<>
                      </>):(<>
-                      {nftproperties.tokenOwner===""||nftproperties.tokenOwner===undefined||nftproperties.tokenOwner===null?(<>
+                      {nftdetails.tokenOwner===""||nftdetails.tokenOwner===undefined||nftdetails.tokenOwner===null?(<>
                       
                       </>):(<>
                       
@@ -217,7 +239,7 @@ const DocumentDetailsSingle= (props)=>{
                   <tr>
                 
                                     <th>Document Title</th>
-                                    <td>{nftproperties.fVar1}</td>
+                                    <td>{nftdetails.fVar1}</td>
                                     <td></td>
                                 </tr>
                             </thead>
@@ -225,35 +247,35 @@ const DocumentDetailsSingle= (props)=>{
                             <thead>                          
   <tr>
     <th>Token ID</th>
-    <td>{nftproperties.tokenId}</td>
+    <td>{parseInt(nftdetails.tokenId,10)}</td>
     <td></td>
   </tr></thead>
   {/* </tbody> */}
   <thead> 
   <tr>
     <th>Global_ID_SYS</th>
-    <td>{nftproperties.fVar3}</td>
+    <td>{nftdetails.fVar3}</td>
     <td></td>
   </tr>
   </thead>
   <thead> 
   <tr>
     <th>Version ID</th>
-    <td>{nftproperties.fVar2}</td>
+    <td>{nftdetails.fVar2}</td>
     <td></td>
   </tr>
   </thead>
   <thead> 
   <tr>
     <th>Status</th>
-    <td><Badge pill bg="success"><img src={Check} alt="success badge" />{nftproperties.fVar4}</Badge></td>
+    <td><Badge pill bg="success"><img src={Check} alt="success badge" />{nftdetails.fVar4}</Badge></td>
     <td></td>
   </tr>
   </thead>
   <thead> 
   <tr>
     <th>IPFS Hash</th>
-     <td>    {nftproperties? (nftproperties.fVar10).substring(0, 5) : ''}...{(nftproperties? (nftproperties.fVar10).substring((nftproperties.fVar10).length - 5) : '')} </td> 
+     <td>    {nftdetails? (nftdetails.fVar10).substring(0, 5) : ''}...{(nftdetails? (nftdetails.fVar10).substring((nftdetails.fVar10).length - 5) : '')} </td> 
      <td></td>
     {/* <td>{(nftproperties.fVar10).substring(0, 5)}...{(nftproperties.fVar10).substring((nftproperties.fVar10).length - 5)}</td> */}
   </tr>
@@ -262,7 +284,7 @@ const DocumentDetailsSingle= (props)=>{
   <tr>
   
     <th>Token Owner</th>
-     <td>    {nftproperties? (nftproperties.tokenOwner).substring(0, 8) : ''}...{(nftproperties? (nftproperties.tokenOwner).substring((nftproperties.tokenOwner).length - 5) : '')} 
+     <td>    {nftdetails? (nftdetails.tokenOwner).substring(0, 8) : ''}...{(nftdetails? (nftdetails.tokenOwner).substring((nftdetails.tokenOwner).length - 5) : '')} 
     
 </td>
 <td>

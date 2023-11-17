@@ -1,6 +1,7 @@
 import { Link,useHistory,useNavigate,Redirect,Navigate} from 'react-router-dom';
 import React,{ useEffect ,useState} from "react";
 import { Button, Form, OverlayTrigger, Tooltip,Alert } from 'react-bootstrap';
+import ButtonLoad from 'react-bootstrap-button-loader';
 import Logo from '../asserts/images/logo.svg'
 import Google from '../asserts/images/google-icon.svg'
 import SSO from '../asserts/images/sso-icon.svg'
@@ -8,6 +9,8 @@ import SSO from '../asserts/images/sso-icon.svg'
 import { GoogleLoginButton } from "react-social-login-buttons";
 import { LoginSocialGoogle } from "reactjs-social-login";
 import {Orguserlogincheck,Sessionloginpost,Orgadminsignup,OrgAdminmailcheckget1,Sessionstatusget,userprofileget,getNotificationById,NotificationPost,getTennantId} from '../apifunction';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 function SignIn() {
     const [pass, setPass] = useState(true);
@@ -19,6 +22,10 @@ function SignIn() {
     const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
     const [Logtime, setLogtime] = useState("")
     const [rememberMe, setRememberMe] = useState(false);
+    const [showpassword, setShowpassword] = useState(false);
+    const[loaderVerify, setLoaderVerify] = useState(false);
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false);
     console.log("currentDateTime",currentDateTime);
     
     const navigate = useNavigate()
@@ -42,6 +49,8 @@ function SignIn() {
     
     const LogIn = async () =>
     {  
+      try{
+        handleShowLoadVerify();
         console.log("Logtime12",currentDateTime);
        let loginorgcheck= await Orguserlogincheck(emailRef,passwordRef);
 
@@ -90,6 +99,12 @@ function SignIn() {
           else{
           setError("Failed to log in,Invalid EmailID or  Password!");
           }
+        }catch(e){
+          console.log("Erroe:",e);
+          
+        }finally{
+          handleHideLoadVerify();
+        }
        
     }
     useEffect(() => {
@@ -134,6 +149,10 @@ function SignIn() {
         
        }
       
+       const togglePasswordVisibility = () => {
+        setShowpassword(!showpassword); // Toggle the password visibility
+      };
+
     useEffect(()=>{
         const LoggedNot=async()=>{
             
@@ -168,9 +187,17 @@ function SignIn() {
                                 <Link className='order-1 btn-link' to="/reset-password">Forgot your password?</Link>
                                 <Form.Label className='text-muted'>Password</Form.Label>
                             </div>
-                            <Form.Control type="password" onChange={event => setPasswordRef(event.target.value)}  placeholder="Enter your password" 
+                            <div className="input-group">
+                            <Form.Control type={showpassword ? "text" : "password"} onChange={event => setPasswordRef(event.target.value)}  placeholder="Enter your password" 
                             ></Form.Control> 
-                           
+                            <Button variant="secondary" onClick={togglePasswordVisibility}>
+                            {showpassword ? (
+                              <FontAwesomeIcon icon={faEyeSlash} />
+                            ) : (
+                              <FontAwesomeIcon icon={faEye}/>
+                            )}
+                          </Button>
+                           </div>
                         </Form.Group>
                         {/* mb-3 */}
                         <div className='mb-3'>
@@ -183,7 +210,7 @@ function SignIn() {
                             />
                         </div>
                         {/* mb-3 */}
-                        <Button className='btn-button w-100' variant="dark" onClick={()=>{LogIn()}}>Sign in</Button>
+                        <ButtonLoad className='btn-button w-100' variant="dark" loading={loaderVerify} onClick={()=>{LogIn()}}>Sign in</ButtonLoad>
     
                         <div className='divider d-flex align-items-center'><span className='mx-auto'>Or</span></div>
     

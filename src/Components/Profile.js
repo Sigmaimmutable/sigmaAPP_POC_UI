@@ -1,4 +1,5 @@
 import { Button, Col, Form, Row } from "react-bootstrap";
+import ButtonLoad from 'react-bootstrap-button-loader';
 import Avatar from "../asserts/images/avartar.png"
 import ProfileHeader from "./Snippets/ProfileHeader";
 import React, { useEffect,useState, useMemo } from 'react'
@@ -19,7 +20,10 @@ function Profile() {
     const [language,setlanguage] = useState(""); 
     const[loader, setLoader] = useState(false);
     const handleShowLoad = () => setLoader(true);
-    const handleHideLoad = () => setLoader(false);  
+    const handleHideLoad = () => setLoader(false); 
+    const[loaderVerify, setLoaderVerify] = useState(false);
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false); 
     const navigate = useNavigate()
 
     const [UserName,setUserName] = useState("");
@@ -107,6 +111,8 @@ const [country, setCountry] = useState('');
 
 
     const Save = async() =>{
+        try{
+            handleShowLoadVerify();
         if (getIProfile.emailId){
 
         // if(lastname === null || lastname === "" || lastname === undefined){
@@ -126,6 +132,10 @@ const [country, setCountry] = useState('');
               handleHideLoad();
               return; // Exit the function since mobile number is required
             }
+          }
+          else if(gender ==- "" || gender === null || gender === undefined){
+            toast.warning(`please select gender`,{autoClose:5000})
+            handleHideLoad()
           }
         else if(country === "" || country === null || country === undefined){
                                            
@@ -168,6 +178,13 @@ const [country, setCountry] = useState('');
         else{
           toast.error("EmailId not found")
         }
+    }catch(e){
+        console.log(e);
+        
+    }
+    finally{
+        handleHideLoadVerify();
+    }
     }   
     const clearImage = () =>{
         setImg("")
@@ -730,7 +747,7 @@ defaultOptionLabel= {getIProfile.state}
                                 <Col className="mb-2" sm={6}>
                                     <Row>
                                         <Col xs={6}>
-                                            <Button variant="dark" className="w-100 btn-button" onClick={()=>{Save()}}>Update</Button>
+                                            <ButtonLoad variant="dark" className="w-100 btn-button" loading={loaderVerify} onClick={()=>{Save()}}>Update</ButtonLoad>
                                         </Col>
                                         <Col xs={6}>
                                             <Button variant="outline-dark" className="w-100 btn-button"onClick={()=>{setEditprofile(false)}}>Cancel</Button>

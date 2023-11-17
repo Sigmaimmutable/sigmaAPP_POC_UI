@@ -1,5 +1,6 @@
 // import { Link } from 'react-router-dom';
 import { Button, Col, Form, OverlayTrigger, Row, Tooltip ,Alert} from 'react-bootstrap';
+import ButtonLoad from 'react-bootstrap-button-loader';
 import Logo from '../asserts/images/logo.svg'
 import Google from '../asserts/images/google-icon.svg'
 import SSO from '../asserts/images/sso-icon.svg'
@@ -18,7 +19,8 @@ import reportWebVitals from './reportWebVitals';
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 
 import {CreateOrganizationPost,CreateOrguserrolepost,userprofileget,OrgAdminmailcheckget1,Orgadminsignup,OrgAdminmailcheckget,Userprofileupload,Orguserlogincheck,OrgPwdCheck} from '../apifunction';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 
 function SignUp() {
@@ -30,9 +32,24 @@ function SignUp() {
     const [passwordconfirm, setPasswordconfirm] = useState("");
     const [firstName, setfirstName] = useState("");
     const [lastname, setlastName] = useState("");
+    const [showpassword, setShowpassword] = useState(false);
+    const [showconfirmpassword, setShowConfirmpassword] = useState(false);
+    const[loaderVerify, setLoaderVerify] = useState(false);
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false);
+
+    const togglePasswordVisibility = () => {
+      setShowpassword(!showpassword); // Toggle the password visibility
+    };
+
+    const toggleConfirmPasswordVisibility = () => {
+      setShowConfirmpassword(!showconfirmpassword); // Toggle the password visibility
+    };
+
     const submit = async () =>
     {       
-      
+      try{
+        handleShowLoadVerify();
      
          let [emailvalid,data2] = await OrgAdminmailcheckget1(email);
         //  console.log("pwdget1",emailvalid);
@@ -87,7 +104,12 @@ function SignUp() {
           } else {
             setError("Your user account has not been created. Please contact the Business Administrator or System Administrator to add your account to the platform");
           }
-
+        }catch(e){
+          console.log("Erroe:",e);
+          
+        }finally{
+          handleHideLoadVerify();
+        }
           
     }
     const getprofiledetails = async(email) =>{
@@ -137,14 +159,32 @@ function SignUp() {
                     {/* mb-2 */}
                     <Form.Group className="mb-4" controlId="form.ControlInput4">
                         <Form.Label className='text-muted'>Password</Form.Label>
-                        <Form.Control type="password"  onChange={event => setPassword(event.target.value)} placeholder="Choose a password (min 10 characters)" />
-                    </Form.Group>
+                        <div className="input-group">
+                        <Form.Control type={showpassword ? "text" : "password"}  onChange={event => setPassword(event.target.value)} placeholder="Choose a password (min 10 characters)" />
+                        <Button variant="secondary" onClick={togglePasswordVisibility}>
+                            {showpassword ? (
+                              <FontAwesomeIcon icon={faEyeSlash} />
+                            ) : (
+                              <FontAwesomeIcon icon={faEye}/>
+                            )}
+                          </Button>
+                          </div>
+                        </Form.Group>
                     <Form.Group className="mb-4" controlId="form.ControlInput4">
                         <Form.Label className='text-muted'>Confirm Password</Form.Label>
-                        <Form.Control type="password"  onChange={event => setPasswordconfirm(event.target.value)} placeholder="Enter your repeat password" />
-                    </Form.Group>
+                        <div className="input-group">
+                        <Form.Control type={showconfirmpassword ? "text" : "password"}  onChange={event => setPasswordconfirm(event.target.value)} placeholder="Enter your repeat password" />
+                        <Button variant="secondary" onClick={toggleConfirmPasswordVisibility}>
+                            {showconfirmpassword ? (
+                              <FontAwesomeIcon icon={faEyeSlash} />
+                            ) : (
+                              <FontAwesomeIcon icon={faEye}/>
+                            )}
+                          </Button>
+                          </div>
+                        </Form.Group>
                     {/* mb-2 */}
-                    <Button className='btn-button w-100' variant="dark"onClick={()=>{submit()}}>Sign up</Button>
+                    <ButtonLoad className='btn-button w-100' variant="dark" loading={loaderVerify} onClick={()=>{submit()}}>Sign up</ButtonLoad>
 
                     <div className='divider d-flex align-items-center'><span className='mx-auto'>Or</span></div>
 

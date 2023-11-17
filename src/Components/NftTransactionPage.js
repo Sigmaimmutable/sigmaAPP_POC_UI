@@ -119,7 +119,7 @@ function NftTransactionPage({}) {
             let [istrue, transactionInput] = await getTxInputBase(txnHash.hash);
             console.log("Avalanche TxInput",transactionInput.result);
             setTransInput(transactionInput.result);
-            console.log("Checking...",transInput.input);
+            console.log("Checking...",transactionInput.result.input);
         }
         catch(e){
             console.log("Api ERROR:", e);

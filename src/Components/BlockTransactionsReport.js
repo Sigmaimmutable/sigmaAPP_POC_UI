@@ -182,9 +182,9 @@ function BlockTransactionsReport() {
         let trans = tempr;
         console.log("check 5",transactions);
         console.log("Trans Ckeck : ",trans);
-        if (Array.isArray(trans) && trans.length >= count) {
-        for (let i = 0; i < count; i++) {
-          await makeMultipleBlockApiCalls(trans[i].blockNumber);
+        if (Array.isArray(trans) && trans.length !== 0) {
+        for (let i = 0; i < trans.length; i++) {
+          await makeMultipleBlockApiCalls(parseInt(trans[i].blockNumber));
         //   await new Promise((resolve) => setTimeout(resolve, 2000));
         //   await makeApiRequestWithDelay2(trans[i].blockNumber);
           // Adjust the delay time (in milliseconds) as needed

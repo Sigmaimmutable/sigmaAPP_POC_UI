@@ -1,4 +1,5 @@
 import { Button, Col, Dropdown, Form, InputGroup, Modal, Row, Table } from "react-bootstrap";
+import ButtonLoad from 'react-bootstrap-button-loader';
 import Layout from "./Snippets/Layout";
 import Eye from '../asserts/images/eye-icon.svg'
 import Question from '../asserts/images/question-icon.svg'
@@ -40,6 +41,9 @@ function UserManagement(props) {
     const [selectedCheckboxId, setSelectedCheckboxId] = useState(null);
     const [selectedDeleteCheckboxId, setSelectedDeleteCheckboxId] = useState(null);
     const [selectedDeleteEmail, setSelectedDeleteEmail] = useState(null);
+    const[loaderVerify, setLoaderVerify] = useState(false);
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false);
     
     const checkedUpdateButton = (userId) => {
         console.log("setemailcheck",userId);
@@ -183,6 +187,7 @@ function UserManagement(props) {
 
         const Deleteorguser = async (emailid) => {
             try{
+                handleShowLoadVerify();
                 console.log("emailconsole",emailid);
                 let orguserdelete=await DeleteOrgUser(emailid);            
                 console.log("deleteOrguser",orguserdelete);
@@ -196,6 +201,8 @@ function UserManagement(props) {
                 handleClose();
             }catch(err){
                 toast.error(err);
+            }finally{
+                handleHideLoadVerify();
             }
             }
 
@@ -207,7 +214,9 @@ function UserManagement(props) {
 // }
       
 const Updateuser = async (emailId, roleType) => {
-    await updateuser(emailId, roleType); 
+    try{
+        handleShowLoadVerify();
+        await updateuser(emailId, roleType); 
     // Close the popup
     handlePopupClose();
     // Optionally, you can update the user's role in the UI.
@@ -221,6 +230,11 @@ const Updateuser = async (emailId, roleType) => {
     });
     setUserManage(updatedUserList); // Update the state to reflect the change
     toast.success("User role updated successfully"); // Show a success toast
+    }catch(e){
+        toast.error("User update failed");
+    }finally{
+        handleHideLoadVerify();
+    }
 };
 
 const Updateuser1 = async (emailId,roleType,start) => {
@@ -371,14 +385,15 @@ const handlePopupShow = () => {
       </select>
 
         <div className="d-flex">
-          <Button
+          <ButtonLoad
             type="submit"
             variant="dark"
             className="btn-button btn-sm"
+            loading={loaderVerify}
             onClick={() => Updateuser(deleteEmail1, email)}
           >
             Update
-          </Button>
+          </ButtonLoad>
           <Button
             variant="dark"
             className="btn-button btn-sm"
@@ -481,7 +496,7 @@ const handlePopupShow = () => {
                     
                     <div className="d-flex pt-4 align-items-center justify-content-center">
                   
-                        <Button type="submit" variant="dark" className="btn-button btn-sm" onClick={() => Deleteorguser(updateUserEmail)}>Yes</Button>
+                        <ButtonLoad type="submit" variant="dark" className="btn-button btn-sm" loading={loaderVerify} onClick={() => Deleteorguser(updateUserEmail)}>Yes</ButtonLoad>
                         <Button type="reset" variant="outline-dark" className="btn-button btn-sm ms-3" onClick={handleClose}>No</Button>
                     </div>
                 </Modal.Body>
@@ -655,7 +670,7 @@ const handlePopupShow = () => {
                                     </svg>
                                 </Link>
                             </li>
-                            <li><Link className="active" onClick={()=>{paginationProcess(pageSize+10)}}>{pageSize?(pageSize/10)+1:'1'}</Link></li>
+                            <li><Link className="active" onClick={()=>{paginationProcess(0)}}>{pageSize?(pageSize/10)+1:'1'}</Link></li>
                             {/*<li><Link to="/">2</Link></li>
                             <li><Link to="/">3</Link></li>
                             <li><Link to="/">4</Link></li>

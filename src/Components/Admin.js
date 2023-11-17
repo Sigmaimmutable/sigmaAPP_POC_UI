@@ -8,6 +8,7 @@ import { useState,useEffect,useContext } from "react";
 import {   OrgAdminmailcheckget2, getTennantId, nodeDetails,createUserVisits } from "../apifunction";
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout"; 
+import { nodeDetails as networknodeDetails } from "./NodeDetails";
 function Admin() {
     const [showA, setShowA] = useState(false);
     const toggleShowA = () => setShowA(!showA);
@@ -151,22 +152,22 @@ useEffect(( )=>{data()},[])
             </Row>
 
             <Row className="gx-3 mb-lg-4 mb-2">
-                <Col xs={6} lg={4} className="mb-3">
+            <Col xs={6} lg={4} className="mb-3">
                     <div className="info-card info-card-5 d-flex flex-column justify-content-between">
-                        <h4 className="d-flex align-items-center">Nodes Deployed</h4>
-                        <h3 className="mb-0">1</h3>
+                        <h4 className="d-flex align-items-center">Chain ID</h4>
+                        <h3 className="mb-0">{networknodeDetails.ChainId}</h3>
                     </div>
                 </Col>
                 <Col xs={6} lg={4} className="mb-3">
                     <div className="info-card info-card-6 d-flex flex-column justify-content-between">
                         <h4 className="d-flex align-items-center">Provider</h4>
-                        <h3 className="mb-0">BASE</h3>
+                        <h3 className="mb-0">{networknodeDetails.Provider}</h3>
                     </div>
                 </Col>
                 <Col xs={12} lg={4} className="mb-3">
                     <div className="info-card info-card-7 d-flex flex-column justify-content-between">
                         <h4 className="d-flex align-items-center">Network Type </h4>
-                        <h3 className="mb-0">Base Mainnet</h3>
+                        <h3 className="mb-0">{networknodeDetails.NetworkType}</h3>
                     </div>
                 </Col>
             </Row>
@@ -179,14 +180,14 @@ useEffect(( )=>{data()},[])
                            
                                 <tr>
                                     <td>Name</td>
-                                    <td>Base</td>
+                                    <td>{networknodeDetails.Provider}</td>
                                     <td width="50"></td>
                                 </tr>
                                 <tr>
                                     <td>Chain ID</td>
-                                    <td>8453</td>
+                                    <td>{networknodeDetails.ChainId}</td>
                                     <td>
-                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nodeDetail.nodes[0].nodeId); toggleShowA();}}>
+                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(networknodeDetails.ChainId); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button>
                                     </td>
@@ -202,20 +203,20 @@ useEffect(( )=>{data()},[])
                                 </tr> */}
                                 <tr>
                                     <td>RPC</td>
-                                    <td>https://developer-access-mainnet.base.org</td>
+                                    <td>{networknodeDetails.RPC}</td>
                                     <td>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Owner</td>
-                                    <td>BASE.ORG</td>
+                                    <td>{networknodeDetails.Owner}</td>
                                     <td>
                                     </td>
                                 </tr>
-                                <tr>
+                                {/* <tr>
                                 
                                     <td>Status</td>
-                                    <td><Badge pill bg="success"><img src={Check} alt="Check" /> Started</Badge></td>
+                                    <td><Badge pill bg="success"><img src={Check} alt="Check" /> Started</Badge></td> */}
                                    {/* {nodeDetail ? (<>
                                    {nodeDetail.nodes[0].state === "started" ? (<>
                                    
@@ -223,9 +224,9 @@ useEffect(( )=>{data()},[])
                                    </>)}
                                    </>):(<></>)} */}
                                     
-                                    <td>
+                                    {/* <td>
                                     </td>
-                                </tr>
+                                </tr> */}
                                 {/* <tr>
                                     <td>Region</td>
                                     <td>AWS us-east-2</td>
@@ -234,7 +235,7 @@ useEffect(( )=>{data()},[])
                                 </tr> */}
                                 <tr>
                                     <td>Node Type</td>
-                                    <td>Public</td>
+                                    <td>{networknodeDetails.NodeType}</td>
                                     <td>
                                     </td>
                                 </tr>
@@ -276,9 +277,9 @@ useEffect(( )=>{data()},[])
                                 </tr> */}
                                 <tr>
                                     <td>Smart Contract Address</td>
-                                    <td><Badge pill bg="secondary" className="text-truncate"><img src={Wallet} alt="Wallet" /> Default | {"0xe57A6865Ee306143bCC2d30807cF3571A0655934"}</Badge></td>
+                                    <td><Badge pill bg="secondary" className="text-truncate"><img src={Wallet} alt="Wallet" /> Default | {networknodeDetails.SmartContract}</Badge></td>
                                     <td>
-                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText("0xe57A6865Ee306143bCC2d30807cF3571A0655934"); toggleShowA();}}>
+                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText(networknodeDetails.SmartContract); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button>
                                     </td>
@@ -298,10 +299,10 @@ useEffect(( )=>{data()},[])
                                 <div className="list-icon">://</div>
                                 <div className="list-content pe-2 flex-grow-1">
                                     <h6 className="mb-1 text-truncate">JSON/RPC HTTP endpoint</h6>
-                                    <p className="text-break">{"https://developer-access-mainnet.base.org"}</p>
+                                    <p className="text-break">{networknodeDetails.HttpEnpoint}</p>
                                 </div>
                                 <div className="list-copy">
-                                    <Button variant="reset" onClick={() => {navigator.clipboard.writeText( convertToConnectUrl("https://developer-access-mainnet.base.org")); toggleShowA();}}>
+                                    <Button variant="reset" onClick={() => {navigator.clipboard.writeText( convertToConnectUrl(networknodeDetails.HttpEnpoint)); toggleShowA();}}>
                                         <img src={CopyIcon} alt="CopyIcon" />
                                     </Button>
                                 </div>
@@ -310,10 +311,10 @@ useEffect(( )=>{data()},[])
                                 <div className="list-icon">://</div>
                                 <div className="list-content pe-2 flex-grow-1">
                                     <h6 className="mb-1 text-truncate">JSON/RPC Web socket endpoint</h6>
-                                    <p className="text-break">{"https://virulent-fittest-season.base-mainnet.discover.quiknode.pro/7aa96935d524aa2148386a41e4cf89165e336b99/"}</p>
+                                    <p className="text-break">{networknodeDetails.WebSocketEndpoint}</p>
                                 </div>
                                 <div className="list-copy">
-                                    <Button variant="reset" onClick={() => {navigator.clipboard.writeText(convertToWebSocketUrl("https://virulent-fittest-season.base-mainnet.discover.quiknode.pro/7aa96935d524aa2148386a41e4cf89165e336b99/")); toggleShowA();}}>
+                                    <Button variant="reset" onClick={() => {navigator.clipboard.writeText(convertToWebSocketUrl(networknodeDetails.WebSocketEndpoint)); toggleShowA();}}>
                                         <img src={CopyIcon} alt="CopyIcon" />
                                     </Button>
                                 </div>

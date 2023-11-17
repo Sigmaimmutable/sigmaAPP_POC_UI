@@ -1,4 +1,5 @@
 import { Button, Col, Form, Row, Modal} from "react-bootstrap";
+import ButtonLoad from 'react-bootstrap-button-loader';
 import React,{ useEffect ,useState,useContext} from "react";
 import Layout from "./Snippets/Layout";
 import {HelpandsupportPost,createUserVisits,getTennantId} from '../apifunction';
@@ -24,6 +25,9 @@ function HelpSupport(props) {
         const history = useNavigate();
         const navigate = useNavigate()
        // console.log("selected",roleId);
+       const[loaderVerify, setLoaderVerify] = useState(false);
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false);
      
        const [openModal, setOpenModal] = useState(false)
            
@@ -71,7 +75,8 @@ function HelpSupport(props) {
         }
         const CreateTicket =async()=>{
             
-      
+            try{
+                handleShowLoadVerify();
           if(name === null || name === "" || name === undefined){
             toast.warn(`Please Enter an First Name`);  
             console.log("checkname");
@@ -114,6 +119,12 @@ function HelpSupport(props) {
           
            
             }
+        }catch(e){
+            console.log(e);
+            
+        }finally{
+            handleHideLoadVerify();
+        }
        
     
     
@@ -201,7 +212,7 @@ function HelpSupport(props) {
                                 <Col sm="9">
                                     <Row>
                                         <Col xs={6}>
-                                            <Button  variant="dark" className="w-100 btn-button"onClick={()=>{CreateTicket()}}>Submit</Button>
+                                        <ButtonLoad  variant="dark" className="w-100 btn-button" loading={loaderVerify} onClick={()=>{CreateTicket()}}>Submit</ButtonLoad>
                                         </Col>
                                         <Col xs={6}>
                                             <Button type="reset" variant="outline-dark" className="w-100 btn-button"onClick={()=>{Reset()}}>Reset</Button>
