@@ -20,8 +20,6 @@ function BlockTransactionsReport() {
     const [transactions1, setTransactions1] = useState([]);
     const [blocks, setBlocks] = useState([]);
 
-   console.log("blocks line 23", blocks);
-
    let blockBuffer = [];
    let CountsBuffer = [];
 
@@ -122,6 +120,7 @@ function BlockTransactionsReport() {
                     console.log("blocksFetcher", blocksFetcher);
                   })
                 );
+                updatedBlocks.sort((a, b) => b.timestamp - a.timestamp);
                 setBlocks(updatedBlocks);
               } catch (e) {
                 console.log("Api ERROR:", e);
