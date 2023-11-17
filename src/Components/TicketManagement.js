@@ -1,4 +1,5 @@
 import { Button, Col, Dropdown, Form, InputGroup, Modal, Row, Table } from "react-bootstrap";
+import ButtonLoad from 'react-bootstrap-button-loader';
 import Eye from '../asserts/images/eye-icon.svg'
 import Question from '../asserts/images/question-icon.svg'
 import { Link,useNavigate } from "react-router-dom";
@@ -32,6 +33,9 @@ function TicketManagement() {
     const [searchDetails, setsearchDetails] = useState([]);
     const [userManage, setUserManage] = useState([""]);
     const [hasMoreRecords, setHasMoreRecords] = useState(true);
+    const[loaderVerify, setLoaderVerify] = useState(false);
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false);
 
     const decrementBLSize=()=>{
       if(pageBLSize >= 4){
@@ -241,9 +245,18 @@ const paginationProcess = async(start) =>{
 
 }
 const attend = async (id, email) => {
+    try{
+    handleShowLoadVerify();
     await help1(id, email, localStorage.getItem("UserName"));
     await ticketTableFetch();
     // setIsAssigned(true);
+    handleHideLoadVerify();
+    }
+    catch(e){
+        console.log(e);
+    }finally {
+        handleHideLoadVerify();
+      }
 }
 
     return ( 
@@ -251,18 +264,18 @@ const attend = async (id, email) => {
             <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
             <Row className="mb-20">
                 <Col md={6} xl={4} xxl={3}>
-                    <h4 className="page-title mb-0">Ticket Details</h4>
+                    <h4 className="page-title mb-0">Ticket Management</h4>
                 </Col>
             </Row>
 
             <Row className="mb-20" style={{minHeight: '40px'}}>
                 <Col xs={6} className="ms-md-0 d-flex align-items-center justify-content-end ms-auto order-md-1">
                     {/* <Link to="/admin-manager/add-user" className="btn-gray-black btn btn-gray rounded-pill me-2">Add user</Link> */}
-                    <Button variant="outline-gray" className={`me-2 btn-outline-gray-black ${!showButton && 'disabled'}`} onClick={() => ResolvedTicket(sendEmail,idofuser)}>
+                    <ButtonLoad variant="outline-gray" className={`me-2 btn-outline-gray-black ${!showButton && 'disabled'}`} loading={loaderVerify} onClick={() => ResolvedTicket(sendEmail,idofuser)}>
                     Resolve Ticket  {/* <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="d-block" viewBox="0 0 16 16">
                             <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
                         </svg> */}
-                    </Button>
+                    </ButtonLoad>
                     <Button variant="outline-gray" className="me-0" onClick={() => {setSearch(!search); handleSearch("")}}>
                         {search ? (
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="d-block" viewBox="0 0 16 16">
@@ -422,7 +435,7 @@ const attend = async (id, email) => {
                                   <td className="text-center">{x.ticketRaisetime}</td>
                                   <td className="text-center">{x.statuses?<>Resolved</>:<>Pending</>}</td>
                                   {/* <td className="text-center">{showButton && sendEmail === x.mailId && id === x.id ? assignee : null}</td> */}
-                                  <td className="text-center">{x.assignee === null ? <> <Button variant="outline-gray" className="me-2 btn-outline-gray-black" onClick={() => attend(x.id, x.mailId)}>Attend</Button></>:<> {x.assignee} </>}</td>
+                                  <td className="text-center">{x.assignee === null ? <> <ButtonLoad variant="outline-gray" className="me-2 btn-outline-gray-black" loader={loaderVerify} onClick={() => attend(x.id, x.mailId)}>Attend</ButtonLoad></>:<> {x.assignee} </>}</td>
                                   {/* <td>  <ButtonLoad loading={loader} className='w-100 btn-blue mb-3' onClick={()=>{Deleteorguser(x.emailId)}}>Delete user</ButtonLoad> </td>       */}
 
                                   {/* <td>{x.networkName}</td> */}
@@ -510,7 +523,7 @@ const attend = async (id, email) => {
                                     </svg>
                                 </Link>
                             </li>
-                             <li><Link className="active" onClick={()=>{paginationProcess(startvalue+10)}}>{startvalue?(startvalue/10)+1:'1'}</Link></li>
+                             <li><Link className="active" onClick={()=>{paginationProcess(0)}}>{startvalue?(startvalue/10)+1:'1'}</Link></li>
                            {/* <li><Link to="/">2</Link></li>
                             <li><Link to="/">3</Link></li>
                             <li><Link to="/">4</Link></li>

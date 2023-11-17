@@ -293,16 +293,16 @@ const FavouriteDocuments= (props)=>{
                                 </th> */}
                                 <th className="text-center">Unfavourite</th>
                                 <th className="text-center">ID</th>
-                                <th className="text-center">File Name</th>
+                                {/* <th className="text-center">File Name</th> */}
                                 <th className="text-center">Document Name</th>
-                                <th className="text-center">Status</th>
+                                {/* <th className="text-center">Status</th> */}
                             </tr>
                         </thead>
                         <tbody>
                         {(docName !== "" ? 
                         (favoriteData
                             .filter((postt) => 
-                            (postt.fileName.toLowerCase().startsWith(docName.toLowerCase()))).map((postt, index) => {
+                            (postt.docName.toLowerCase().startsWith(docName.toLowerCase()))).map((postt, index) => {
                                 return(
                             <tr key={index}>
                             <td>
@@ -325,16 +325,16 @@ const FavouriteDocuments= (props)=>{
                             </center>
                             </td>
                             <td className="text-center">{postt.docId}</td>
-                            <td>{postt.fileName}</td>
-                            <td>{postt.docName}</td>
-                            <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}`}}>{postt.docStatus}</Link></td>
+                            {/* <td>{postt.fileName}</td> */}
+                            <td className="text-center">{postt.docName}</td>
+                            {/* <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}`}}>{postt.docStatus}</Link></td> */}
                         </tr>)
                         })) : 
                         <>
                         {favoriteData.map((postt, index) => (
                         <tr key={index}>
                             <td><center>
-                            <Button variant="link" onClick={() => deleteFavorites(postt.docId, postt.fileName)}>
+                            <Button variant="link" onClick={() => deleteFavorites(postt.docId, postt.docName)}>
                              <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="16"
@@ -352,9 +352,9 @@ const FavouriteDocuments= (props)=>{
                             </center>
                             </td>
                             <td className="text-center">{postt.docId}</td>
-                            <td>{postt.fileName}</td>
-                            <td>{postt.docName}</td>
-                            <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}`}}>{postt.docStatus}</Link></td>
+                            {/* <td>{postt.fileName}</td> */}
+                            <td className="text-center">{postt.docName}</td>
+                            {/* <td className="text-center"> <Link to={{pathname: "/document-details/single",search:`?id=${postt.docId}`}}>{postt.docStatus}</Link></td> */}
                             </tr>
                             ))}</>)}
                         </tbody>
