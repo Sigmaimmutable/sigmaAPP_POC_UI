@@ -253,15 +253,15 @@ const ticketTableFetch = async () => {
         </thead>
         <tbody>
           {/* ... (other JSX code) */}
-          {searchQuery ? (
+          {/* {searchQuery ? (
             searchDetails.map((x) => (
               <tr key={x.id}>
                 <td className="text-center">{x.id}</td>
                 <td className="text-center">{x.mailId}</td>
                 <td className="text-center">{x.roleType}</td>
-                <td className="text-center">
+                <td className="text-center"> */}
                   {/* ... (other td elements) */}
-                  {!uservisit1.find((visit) => visit.algoAddress === x.mailId) && x.activity}
+                  {/* {!uservisit1.find((visit) => visit.algoAddress === x.mailId) && x.activity}
                   {uservisit1.find((visit) => visit.algoAddress === x.mailId) && (
                     <div>
                       Wallet Type: {uservisit1.find((visit) => visit.algoAddress === x.mailId).walletType}
@@ -286,10 +286,10 @@ const ticketTableFetch = async () => {
                 <td className="text-center">{x.id}</td>
                 <td className="text-center">{x.mailId}</td>
                 <td className="text-center">{x.roleType}</td>
-                <td className="text-center">
+                <td className="text-center"> */}
                   {/* ... (other td elements) */}
                   
-                    <div>
+                    {/* <div>
                       {x.activity}
                     </div>
                  
@@ -304,11 +304,11 @@ const ticketTableFetch = async () => {
               </tr>
             ))
            
-          )}
-        {outputManage?(
+          )} */}
+        {outputManage[0] !== null && outputManage[0] !== "" && outputManage[0] !== undefined && outputManage[0] !== "undefined"?(
           outputManage.map((x,i) => (
             <tr key={startvalue+i}>
-            <td className="text-center">{startvalue > 1 ? (parseInt(startvalue+10)+1)+i : (startvalue+11)+i}</td>
+            <td className="text-center">{startvalue > 1 ? (parseInt(startvalue+1))+i : (startvalue+1)+i}</td>
               <td className="text-center">{x.mailId}</td>
               <td className="text-center">{x.roleType}</td>
               <td className="text-center">
@@ -349,7 +349,7 @@ const ticketTableFetch = async () => {
        
  
         <Row className="mt-4">
-          <Col md={8} className="d-flex justify-content-md-end justify-content-center">
+          <Col md={7} className="d-flex justify-content-md-end justify-content-center">
             <ul className="d-flex pagination list-unstyled">
               <li>
                 <Link className={startvalue !== 0 ? 'next' : startvalue === 0 ? 'prev disabled' : ''} onClick={() => { pagination(startvalue - 10) }}>
@@ -358,7 +358,7 @@ const ticketTableFetch = async () => {
                   </svg>
                 </Link>
               </li>
-              <li><Link className="active" onClick={() => { pagination(startvalue + 10) }}>{startvalue ? (startvalue / 10) + 1 : '1'}</Link></li>
+              <li><Link className="active" onClick={() => { pagination(0) }}>{startvalue ? (startvalue / 10) + 1 : '1'}</Link></li>
               <li>
                 <Link className="next" onClick={() => { pagination(startvalue + 10) }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-right-fill" viewBox="0 0 16 16">

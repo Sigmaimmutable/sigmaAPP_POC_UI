@@ -140,7 +140,8 @@ export const CreateOrguserrolepost = async (emailid, name, role, tenentid) =>
             'password':"",
             'roleType': `${role}`,
             'method':"",
-            'tennantId':`${tenentid}`
+            'tennantId':`${tenentid}`,
+            'otp':""
         }
       };
       try {
@@ -897,7 +898,12 @@ export const userDetailWithEmail = async (emailid) =>
     const data2 = await response2.json();
     // console.log("Api inside", data2)
     // return {data2};
-    return [true, data2];
+    if(!data2 || (Array.isArray(data2) && data2.length === 0)){
+      return [false, ""];
+    }
+    else{
+      return [true, data2];
+    }
   }catch(err){
     console.log("vercelerrro",err)
     return [false, ""];

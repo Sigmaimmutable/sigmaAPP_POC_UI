@@ -106,7 +106,7 @@ const DocumentDetailsSingle= (props)=>{
       }
       }
       const handleCopyClick = () => {
-        navigator.clipboard.writeText(nftproperties.tokenOwner)
+        navigator.clipboard.writeText(nftdetails.tokenOwner)
           .then(() => {
             toggleShowA();
             toast.success('Copied successfully!', {

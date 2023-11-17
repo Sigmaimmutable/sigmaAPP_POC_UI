@@ -1,4 +1,5 @@
 import { Badge, Button, Card, Col, ListGroup, Row, Table,Form,Modal} from "react-bootstrap";
+import ButtonLoad from 'react-bootstrap-button-loader';
 import React,{ useEffect ,useState, useContext} from "react";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 import {CreateOrganizationPost,CreateOrguserrolepost,createUserVisits} from '../apifunction';
@@ -23,6 +24,9 @@ const CreateOrg = () => {
         const[orgname,setorgname]=useState("");
         const[emailid,setEmail]=useState("");
         const[role,setRole]=useState("");
+        const[loaderVerify, setLoaderVerify] = useState(false);
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false);
     //     const history = useNavigate();
     //     const navigate = useNavigate()
     //    // console.log("selected",roleId);
@@ -73,7 +77,8 @@ const CreateOrg = () => {
         }
         const CreateOrganization =async()=>{
             
-      
+            try{
+                handleShowLoadVerify();
           if(name === null || name === "" || name === undefined){
             toast.warn(`Please Enter an Name`);  
             console.log("checkname");
@@ -110,7 +115,12 @@ const CreateOrg = () => {
           
            
             }
-       
+        }catch(e){
+            console.log(e);
+            
+        }finally{
+            handleHideLoadVerify();
+        }
     
     
         }
@@ -202,7 +212,7 @@ const CreateOrg = () => {
                             <Col sm="9">
                                 <Row>
                                     <Col xs={6}>
-                                        <Button  variant="dark" className="w-100 btn-button" onClick={()=>{CreateOrganization()}}>Submit</Button>
+                                        <ButtonLoad  variant="dark" className="w-100 btn-button" loading={loaderVerify} onClick={()=>{CreateOrganization()}}>Submit</ButtonLoad>
                                     </Col>
                                     <Col xs={6}>
                                         <Button type="reset" variant="outline-dark" className="w-100 btn-button" onClick={()=>{Reset()}}>Reset</Button>
