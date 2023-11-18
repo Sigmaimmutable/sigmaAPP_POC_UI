@@ -1,7 +1,7 @@
 export const nodeDetails = {
     Provider: "OPBNB",
     NetworkType: "OPBNB PRIVATE",
-    ChainId: "80001",
+    ChainId: "5611",
     RPC:"https://opbnb-testnet.nodereal.io/v1/<API-KEY>",
     Owner:"NodeReal",
     NodeType:"PRIVATE",
