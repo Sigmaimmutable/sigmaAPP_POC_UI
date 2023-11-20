@@ -362,10 +362,18 @@ const DocumentDetailsSingle= (props)=>{
     <th>Title</th>
     <td>{documentDetails?.name__v}</td>
   </tr>
-  {/* <tr>
-    <th>Source Vault ID</th>
-    <td>{documentDetails?.tenantId}</td>
-  </tr> */}
+  <tr>
+  <th>IPFS Hash</th>
+  <td>{documentDetails?.docChecksum}</td>
+  <td>
+    <Button variant="reset" onClick={() => {
+      navigator.clipboard.writeText(documentDetails?.docChecksum);
+      toggleShowA();
+    }}>
+      <img src={CopyIcon} alt="CopyIcon" />
+    </Button>
+  </td>
+</tr>
 </tbody>
                         </Table>
                     </Col>
