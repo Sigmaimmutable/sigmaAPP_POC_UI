@@ -122,6 +122,7 @@ function BlockTransactionsReport() {
                     console.log("blocksFetcher", blocksFetcher);
                   })
                 );
+                updatedBlocks.sort((a, b) => b.timestamp.to - a.timestamp.to);
                 setBlocks(updatedBlocks);
               } catch (e) {
                 console.log("Api ERROR:", e);

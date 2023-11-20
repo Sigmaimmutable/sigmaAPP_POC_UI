@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Col, Form, InputGroup, Row, Table } from "react-bootstrap";
+import { Button, Col, Form, InputGroup, Row, Table, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Sessionstatusget1, uservisitrecords,userByTenantIdAll,getTennantId } from "../apifunction";
 import ButtonLoad from 'react-bootstrap-button-loader';
@@ -74,6 +74,7 @@ function Audit(props) {
     
       console.log("output",output)
       console.log("outputss",output.slice(0,10));
+      console.log("outputssd",output.slice(start,start+10));
       
       
     } catch (error) {
@@ -139,6 +140,7 @@ const ticketTableFetch = async () => {
     }
   }
   const pagination = async (start) => {
+    setUserOutput([]);
     setstartvalue(start);
     await Users(start);
   }
@@ -253,15 +255,15 @@ const ticketTableFetch = async () => {
         </thead>
         <tbody>
           {/* ... (other JSX code) */}
-          {searchQuery ? (
+          {/* {searchQuery ? (
             searchDetails.map((x) => (
               <tr key={x.id}>
                 <td className="text-center">{x.id}</td>
                 <td className="text-center">{x.mailId}</td>
                 <td className="text-center">{x.roleType}</td>
-                <td className="text-center">
+                <td className="text-center"> */}
                   {/* ... (other td elements) */}
-                  {!uservisit1.find((visit) => visit.algoAddress === x.mailId) && x.activity}
+                  {/* {!uservisit1.find((visit) => visit.algoAddress === x.mailId) && x.activity}
                   {uservisit1.find((visit) => visit.algoAddress === x.mailId) && (
                     <div>
                       Wallet Type: {uservisit1.find((visit) => visit.algoAddress === x.mailId).walletType}
@@ -286,10 +288,10 @@ const ticketTableFetch = async () => {
                 <td className="text-center">{x.id}</td>
                 <td className="text-center">{x.mailId}</td>
                 <td className="text-center">{x.roleType}</td>
-                <td className="text-center">
+                <td className="text-center"> */}
                   {/* ... (other td elements) */}
                   
-                    <div>
+                    {/* <div>
                       {x.activity}
                     </div>
                  
@@ -304,11 +306,11 @@ const ticketTableFetch = async () => {
               </tr>
             ))
            
-          )}
-        {outputManage?(
+          )} */}
+        {outputManage[0] !== null && outputManage[0] !== "" && outputManage[0] !== undefined && outputManage[0] !== "undefined" ?(
           outputManage.map((x,i) => (
             <tr key={startvalue+i}>
-            <td className="text-center">{startvalue > 1 ? (parseInt(startvalue+10)+1)+i : (startvalue+11)+i}</td>
+            <td className="text-center">{startvalue > 1 ? (parseInt(startvalue)+1)+i : (startvalue + 1)+i}</td>
               <td className="text-center">{x.mailId}</td>
               <td className="text-center">{x.roleType}</td>
               <td className="text-center">
@@ -336,7 +338,15 @@ const ticketTableFetch = async () => {
                 )}
               </td> */}
             </tr>
-          ))):(<></>)}
+          ))):(<>
+          <tr>
+            <td></td>
+            <td></td>
+            <td><div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height:'50px'}}>
+                        <Spinner animation="border" variant="dark" style={{ width: '50px', height: '50px',borderWidth:'5px' }}/>
+                      </div></td>
+          </tr>
+          </>)}
            {!searchQuery && !Array.isArray(userManage) && (
             <tr>
                 <td colSpan="6" className="text-center">
@@ -358,7 +368,7 @@ const ticketTableFetch = async () => {
                   </svg>
                 </Link>
               </li>
-              <li><Link className="active" onClick={() => { pagination(startvalue + 10) }}>{startvalue ? (startvalue / 10) + 1 : '1'}</Link></li>
+              <li><Link className="active" onClick={() => { pagination(0) }}>{startvalue ? (startvalue / 10) + 1 : '1'}</Link></li>
               <li>
                 <Link className="next" onClick={() => { pagination(startvalue + 10) }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-caret-right-fill" viewBox="0 0 16 16">

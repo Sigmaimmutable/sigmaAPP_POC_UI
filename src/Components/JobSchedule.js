@@ -98,18 +98,18 @@ const JobSchedule = (props) => {
         let secondjob = await getJobsCountByType("MAKE_IREC");
         let lasttimejobrunned = await getLatestJObTime();
         let lasttimejobrunned1 = await joblasttime();
-        setjobtime(lasttimejobrunned1[0]?.activity);
+        setjobtime(lasttimejobrunned1[0].activity);
         console.log("docssigmacount11", lasttimejobrunned1[0]);
-        console.log("docssigmacount1", lasttimejobrunned1[0]?.loginTime);
+        console.log("docssigmacount1", lasttimejobrunned1[0].loginTime);
         setfjob(firstjob);
         setsjob(secondjob);
         let tnId = await getTennantId();
         let [check, data2] = await OrgAdminmailcheckget(tnId);
         console.log("OrgAdminmailcheckget", lasttimejobrunned)
-        const utcDate = new Date(lasttimejobrunned1[0]?.loginTime);
+        const utcDate = new Date(lasttimejobrunned1[0].loginTime);
     const istDate = new Date(utcDate.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
    
-    console.log("datechecker", lasttimejobrunned1[0]?.loginTime,istDate);
+    console.log("datechecker", lasttimejobrunned1[0].loginTime,istDate);
 
         setEpochTimeState(timestampToEpoch(istDate));
         console.log("OrgAdminmailcheckget1", epochTimeState)
@@ -272,6 +272,7 @@ const JobSchedule = (props) => {
 
       const Jobtimechange = async () => {
         try{
+          handleShowLoadVerify();
             let tnId = await getTennantId();
             let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
             console.log("app.js role", (data[0]).roleType);
@@ -283,6 +284,7 @@ const JobSchedule = (props) => {
             
             // let Jobrecheduleruser=await jobschedulardetailpost();    
             // console.log("Jobrecheduleruser",Jobrecheduleruser);
+            handleHideLoadVerify();
             toast.success("Rescheduled  successfully");
             // await ticketTableFetch();
             setShowButton(!showButton);
@@ -290,6 +292,7 @@ const JobSchedule = (props) => {
             // window.location.reload();
         }catch(err){
             toast.error(err);
+            handleHideLoadVerify();
         }
         }
 
@@ -411,9 +414,9 @@ const JobSchedule = (props) => {
           <h6>Are you sure you want to reschedule JobRun time to {selectedHours} hours ?</h6>
 
           <div className="d-flex pt-4 align-items-center justify-content-center">
-            <Button type="submit" variant="dark" className="btn-button btn-sm"  onClick={()=>Jobtimechange()}>
+            <ButtonLoad type="submit" variant="dark" className="btn-button btn-sm"  loading={loaderVerify} onClick={()=>Jobtimechange()}>
               Yes
-            </Button>
+            </ButtonLoad>
             <Button type="reset" variant="outline-dark" className="btn-button btn-sm ms-3" onClick={handleClose}>
               No
             </Button>
