@@ -1,4 +1,5 @@
 import { Button, Col, Form, Row, Modal} from "react-bootstrap";
+import ButtonLoad from 'react-bootstrap-button-loader';
 import React,{ useEffect ,useState,useContext} from "react";
 import Layout from "./Snippets/Layout";
 import {HelpandsupportPost,createUserVisits,getTennantId} from '../apifunction';
@@ -21,6 +22,9 @@ function HelpSupport(props) {
         const[emailid,setEmail]=useState("");
         const[selecticket,setTicket]=useState("");
         const[descriptionofissuse,setDescription]=useState("");
+        const[loaderVerify, setLoaderVerify] = useState(false);
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false);
         const history = useNavigate();
         const navigate = useNavigate()
        // console.log("selected",roleId);
@@ -71,7 +75,8 @@ function HelpSupport(props) {
         }
         const CreateTicket =async()=>{
             
-      
+            try{
+                handleShowLoadVerify();
           if(name === null || name === "" || name === undefined){
             toast.warn(`Please Enter an First Name`);  
             console.log("checkname");
@@ -89,7 +94,7 @@ function HelpSupport(props) {
                                                              
         }
         else if(descriptionofissuse === null || descriptionofissuse === "" || descriptionofissuse === undefined){
-            toast.warn(`Please Enter Last Name`); 
+            toast.warn(`Please Enter your Query`); 
                                                  
                 }
         else if(emailid === null || emailid === "" || emailid === undefined){
@@ -114,7 +119,12 @@ function HelpSupport(props) {
           
            
             }
-       
+        }catch(e){
+            console.log(e);
+            
+        }finally{
+            handleHideLoadVerify();
+        }
     
     
         }
@@ -201,7 +211,7 @@ function HelpSupport(props) {
                                 <Col sm="9">
                                     <Row>
                                         <Col xs={6}>
-                                            <Button  variant="dark" className="w-100 btn-button"onClick={()=>{CreateTicket()}}>Submit</Button>
+                                        <ButtonLoad  variant="dark" className="w-100 btn-button" loading={loaderVerify} onClick={()=>{CreateTicket()}}>Submit</ButtonLoad>
                                         </Col>
                                         <Col xs={6}>
                                             <Button type="reset" variant="outline-dark" className="w-100 btn-button"onClick={()=>{Reset()}}>Reset</Button>

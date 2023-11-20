@@ -1,5 +1,6 @@
 import React, { useEffect, useState,useContext} from "react";
 import { Button, Col, Form, Row, Dropdown,Modal} from "react-bootstrap";
+import ButtonLoad from 'react-bootstrap-button-loader';
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 import { OrgAdminmailcheckget1, CreateOrguserrolepost,getTennantId,NotificationPost,getNotificationById } from "../apifunction";
 import { Link } from "react-router-dom";
@@ -12,6 +13,9 @@ function AddUser() {
     const[emailid,setEmail]=useState("");
     const[role,setRole]=useState("");
     const [roleId,setRoleId] = useState("");
+    const[loaderVerify, setLoaderVerify] = useState(false);
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false);
     // const history = useNavigate();
      const navigate = useNavigate()
     // // console.log("selected",roleId);
@@ -79,16 +83,32 @@ function AddUser() {
 
     const Addusertoorganization = async () => {
         try{
-            let [check, tenentid] = await OrgAdminmailcheckget1(localStorage.getItem('UserID'));
-            // setRoleId(tenentid.roleType);
-            console.log("tenetid",tenentid);
-            let orguser = await CreateOrguserrolepost(emailid, name, role, tenentid.tennantId);            
-            // console.log("----------Orguser",emailid, name, role);
-            toast.success("User added successfully");
-            await sleep(5000);
-            navigate("/user-management");
+            handleShowLoadVerify();
+            if (name === "" || name === null || name === undefined) {
+                toast.error("Please enter your Name!");
+              } 
+              else if (emailid === null || emailid === "" || emailid === undefined) {
+                toast.error("Please enter an Email ID!");
+              }
+               else if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailid))) {
+                toast.error("Please enter a valid Email ID!");
+              }
+              else if (role === null || role === "" || role === undefined) {
+                toast.error("Please select a Role!");
+              }else{
+                let [check, tenentid] = await OrgAdminmailcheckget1(localStorage.getItem('UserID'));
+                // setRoleId(tenentid.roleType);
+                console.log("tenetid",tenentid);
+                let orguser = await CreateOrguserrolepost(emailid, name, role, tenentid.tennantId);            
+                // console.log("----------Orguser",emailid, name, role);
+                toast.success("User added successfully");
+                await sleep(5000);
+                navigate("/user-management");
+              } 
         }catch(err){
             toast.error(err);
+        }finally{
+            handleHideLoadVerify();
         }
     }
     const resetFields = () => {
@@ -151,7 +171,7 @@ function AddUser() {
                             <Col sm="9">
                                 <Row>
                                     <Col xs={6}>
-                                        <Button variant="dark" className="w-100 btn-button" onClick={() => Addusertoorganization()}>Submit</Button>
+                                    <ButtonLoad variant="dark" className="w-100 btn-button" loading={loaderVerify} onClick={() => Addusertoorganization()}>Submit</ButtonLoad>
                                         
                                     </Col>
                                     <Col xs={6}>

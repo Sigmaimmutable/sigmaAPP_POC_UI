@@ -1,4 +1,5 @@
 import { Button, Col, Dropdown, Form, InputGroup, Modal, Row, Table } from "react-bootstrap";
+import ButtonLoad from 'react-bootstrap-button-loader';
 import Eye from '../asserts/images/eye-icon.svg'
 import Question from '../asserts/images/question-icon.svg'
 import { Link, useNavigate } from "react-router-dom";
@@ -18,6 +19,10 @@ function ImmutableRecordJobs() {
     console.log("pending",jobLists)
     const [StartValue, setStartValue] = useState(0);
     const [limit, setlimit] = useState(10);
+    const[loaderVerify, setLoaderVerify] = useState(false);
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false);
+
 
     const [reachedLastPage, setReachedLastPage] = useState(false);
 //     const history = useNavigate();
@@ -78,9 +83,17 @@ function ImmutableRecordJobs() {
     }, [])
 
     const runJob = async() =>{
-        await executeJobListImmutable();
+        try{
+            handleShowLoadVerify();
+            await executeJobListImmutable();
         handleClose();
         window.location.reload();
+        }catch(e){
+            console.log(e);
+        }finally{
+            handleHideLoadVerify();
+        } 
+        
     }
 
     const paginationProcess = async(start,limit) =>{
@@ -169,7 +182,7 @@ function ImmutableRecordJobs() {
                     <h6>Are you sure you want to execute this action?</h6>
 
                     <div className="d-flex pt-4 align-items-center justify-content-center">
-                        <Button type="submit" variant="dark" className="btn-button btn-sm" onClick={()=>runJob()}>Yes</Button>
+                        <ButtonLoad type="submit" variant="dark" className="btn-button btn-sm" loading={loaderVerify} onClick={()=>runJob()}>Yes</ButtonLoad>
                         <Button type="reset" variant="outline-dark" className="btn-button btn-sm ms-3" onClick={handleClose}>No</Button>
                     </div>
                 </Modal.Body>
