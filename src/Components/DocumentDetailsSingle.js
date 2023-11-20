@@ -121,6 +121,22 @@ const DocumentDetailsSingle= (props)=>{
             // Handle the error if needed
           });
       };
+      const handleCopyClick1 = () => {
+        navigator.clipboard.writeText(nftdetails.fVar10)
+          .then(() => {
+            toggleShowA();
+            toast.success('Copied successfully!', {
+              position: 'bottom-right',
+              autoClose: 4000,
+              closeButton: false,
+              draggable: false,
+            });
+          })
+          .catch((error) => {
+            console.error('Error copying text: ', error);
+            // Handle the error if needed
+          });
+      };
       const getNftdetails = async() => {
 
         const url = 'https://rpc.ankr.com/polygon_zkevm_testnet/884b91b8a3ec3998cb7798d59c398843cef32fdbd73f839d8013e369341b81a1';
@@ -290,7 +306,11 @@ const DocumentDetailsSingle= (props)=>{
   <tr>
     <th>IPFS Hash</th>
      <td>    {nftdetails? (nftdetails.fVar10).substring(0, 5) : ''}...{(nftdetails? (nftdetails.fVar10).substring((nftdetails.fVar10).length - 5) : '')} </td> 
-     <td></td>
+     <td>
+      <Button variant="reset" onClick={handleCopyClick1}>
+    <img src={CopyIcon} alt="CopyIcon" />
+  </Button>
+     </td>
     {/* <td>{(nftproperties.fVar10).substring(0, 5)}...{(nftproperties.fVar10).substring((nftproperties.fVar10).length - 5)}</td> */}
   </tr>
   </thead>
