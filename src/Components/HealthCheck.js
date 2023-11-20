@@ -259,21 +259,21 @@ const MyPage = (props) => {
     <Layout getThemeMode={() => undefined} roleType = {props.roleType} getIProfile = {props.getIProfile}>
     <div className="container-fluid">
       <h3 style={{ marginBottom: '30px' }}>Health Check-up</h3>
+      <br/><br/><br/><br/>
       <div className="">
         <div className="row justify-content-center">
           <div className="col-md-4 mb-4">
             <Card className="shadow border-0 h-100">
               <Card.Body className="p-lg-4 p-md-3 p-3">
-                <h4 className="card-title">Document Health</h4>
+                <h4 className="card-title">Document NFT Health</h4>
                 <div className="progress-content pt-3">
                   <Row className="align-items-center">
                     <Col xs={6}>
-                      <OuterRoundProgressBar value={documentsUploadedCount ? calculatePercentageDifference(documentsUploadedCount + nftsCreatedCount, documentsUploadedCount) : "0"} />
-                    </Col>
+                    <OuterRoundProgressBar value={documentsUploadedCount === 0|| documentsUploadedCount === "0" ||documentsUploadedCount === undefined || documentsUploadedCount === null||documentsUploadedCount === "undefined" ?  "0" : calculatePercentageDifference(documentsUploadedCount + nftsCreatedCount, documentsUploadedCount)} />                    </Col>
                     <Col xs={6}>
                       <div className="additional-info">
-                        <p><b>Total Documents Fetched:</b> {documentsUploadedCount + nftsCreatedCount}</p>
-                        <p><b>Total Documents to be Uploaded:</b> {documentsUploadedCount}</p>
+                        <p><b>Total Veeva Documents Fetched:</b> {documentsUploadedCount + nftsCreatedCount}</p>
+                        <p><b>Total No. of  NFTs to be Created:</b> {documentsUploadedCount}</p>
                       </div>
                     </Col>
                   </Row>
@@ -282,7 +282,7 @@ const MyPage = (props) => {
             </Card>
           </div>
 
-          <div className="col-md-4 mb-4">
+          {/* <div className="col-md-4 mb-4">
           <Card className="shadow border-0 h-100">
               <Card.Body className="p-lg-4 p-md-3 p-3">
                 <h4 className="card-title">Documents NFT Health</h4>
@@ -301,7 +301,7 @@ const MyPage = (props) => {
                 </div>
               </Card.Body>
             </Card>
-          </div>
+          </div> */}
 
           {/* <div className="col-md-4 mb-4">
             <Card className="shadow border-0 h-100">
