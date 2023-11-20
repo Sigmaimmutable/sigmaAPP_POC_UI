@@ -140,7 +140,8 @@ export const CreateOrguserrolepost = async (emailid, name, role, tenentid) =>
             'password':"",
             'roleType': `${role}`,
             'method':"",
-            'tennantId':`${tenentid}`
+            'tennantId':`${tenentid}`,
+            'otp': ""
         }
       };
       try {
