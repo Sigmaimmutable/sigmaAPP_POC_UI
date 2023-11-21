@@ -61,7 +61,7 @@ function ResetPasswordSubmit() {
         else if(newPassword === reNewPassword)
         {
             setErr(false);
-            let result = await resetPasswordSubmit(email, newPassword, otp);
+            let result = await resetPasswordSubmit(email, newPassword, otp, "restPasswordSubmit");
             if(result === true)
             {
                 toast.success("Password updated. Redirecting to sign-in");

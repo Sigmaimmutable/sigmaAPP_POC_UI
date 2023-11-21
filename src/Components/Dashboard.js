@@ -100,9 +100,9 @@ function Dashboard(props) {
     
       const documentsUploaded = async () => {
         try {
-          let tnId = await getTennantId();
+          let tnId = await getTennantId("Dashboard");
           let id = tnId;
-          let [check, data2] = await OrgAdminmailcheckget(id);
+          let [check, data2] = await OrgAdminmailcheckget(id,"Dashboard");
           console.log("valid1", check);
     
           if (check) {
@@ -126,7 +126,7 @@ function Dashboard(props) {
       
       const fetchMonthlyData = async () => {
         try {
-          let tnId = await getTennantId();
+          let tnId = await getTennantId("Dashboard");
           const id = tnId;
           const [check, data] = await OrgAdminmailcheckget(id);
           console.log("valid1", check);
@@ -141,9 +141,9 @@ function Dashboard(props) {
 
       const usersInTenantID = async () => {
         try {
-          let tnId = await getTennantId();
+          let tnId = await getTennantId("Dashboard");
           let id = tnId;
-          let [check, data2] = await userByTenantId(id);
+          let [check, data2] = await userByTenantId(id,"Dashboard");
           // console.log("valid1", check);
     
           if (check) {

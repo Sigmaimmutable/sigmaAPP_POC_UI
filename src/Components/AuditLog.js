@@ -49,18 +49,18 @@ function Audit(props) {
 
   const Users = async (start) => {
     try {
-      let tnId = await getTennantId();
+      let tnId = await getTennantId("AuditLog");
       let id = tnId;
       const roleTypeMap = {};
-      let  data3 = await userByTenantIdAll(id);
+      let  data3 = await userByTenantIdAll(id,"AuditLog");
       console.log("valid1", data3);
-      let [check, data] = await Sessionstatusget1(start);
+      let [check, data] = await Sessionstatusget1(start,"AuditLog");
       setUserManage(data);
       console.log("ticket1", data);
       data3.forEach((item) => {
         roleTypeMap[item.emailId] = item.roleType;
       });
-      let [check1, data2] = await uservisitrecords();
+      let [check1, data2] = await uservisitrecords("AuditLog");
       const output = data2.map((item) => {
         return {
           mailId: item.algoAddress,
@@ -89,7 +89,7 @@ function Audit(props) {
       let currentPage = 0;
 
       while (true) {
-        const [check, data] = await Sessionstatusget1(currentPage * pageSize);
+        const [check, data] = await Sessionstatusget1(currentPage * pageSize,"AuditLog");
         if (!check || data.length === 0) {
           break;
         }
@@ -132,7 +132,7 @@ const ticketTableFetch = async () => {
 
   const uservisit = async () => {
     try {
-      let [check, data2] = await uservisitrecords();
+      let [check, data2] = await uservisitrecords("AuditLog");
       setUservisit(data2);
       console.log("uservistitss",data2);
     } catch (err) {

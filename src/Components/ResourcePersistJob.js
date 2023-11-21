@@ -48,8 +48,8 @@ function ResourcePersistJob() {
         console.log("selecetd",selvalues)
         setSelectedColumns(selvalues)
         setShow(false);
-        let tnId = await getTennantId();
-        let response = await getJobList(tnId,StartValue,limit);
+        let tnId = await getTennantId("ResourePersistJob");
+        let response = await getJobList(tnId,StartValue,limit,"ResourePersistJob");
             // console.log("response",response)
         setjobList(response)
         
@@ -115,12 +115,12 @@ function ResourcePersistJob() {
     const paginationProcess = async(start,limit) =>{
         setStartValue(start);
         if(selectedValues[0]){
-            let tnId = await getTennantId();
-            let joblisted = await getJobList(tnId,start,limit);
+            let tnId = await getTennantId("ResourePersistJob");
+            let joblisted = await getJobList(tnId,start,limit,"ResourePersistJob");
             await handlefatchforPagination(selectedValues,joblisted);
        }
-       let tnId = await getTennantId();
-        await getJobList(tnId,start,limit).then((response)=>
+       let tnId = await getTennantId("ResourePersistJob");
+        await getJobList(tnId,start,limit,"ResourePersistJob").then((response)=>
         // console.log("response",response)
         setjobList(response)
         )
@@ -182,8 +182,8 @@ function ResourcePersistJob() {
 
     useEffect(() =>{
         const jobfetch = async() =>{
-            let tnId = await getTennantId();
-            await getJobList(tnId,StartValue,limit).then((response)=>
+            let tnId = await getTennantId("ResourePersistJob");
+            await getJobList(tnId,StartValue,limit,"ResourePersistJob").then((response)=>
             // console.log("response",response)
             setjobList(response)
 

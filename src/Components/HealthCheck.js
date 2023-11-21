@@ -85,17 +85,17 @@ const MyPage = (props) => {
        
     } 
     const fetchjobcount = async() =>{
-        let firstjob = await getJobsCountByType("DOC_FETCH");
-        let secondjob = await getJobsCountByType("MAKE_IREC");
-        let lasttimejobrunned = await getLatestJObTime();
-        let lasttimejobrunned1 = await joblasttime();
+        let firstjob = await getJobsCountByType("DOC_FETCH","HealthCheck");
+        let secondjob = await getJobsCountByType("MAKE_IREC","HealthCheck");
+        let lasttimejobrunned = await getLatestJObTime("HealthCheck");
+        let lasttimejobrunned1 = await joblasttime("HealthCheck");
         setjobtime(lasttimejobrunned1[0].activity);
         console.log("docssigmacount11", lasttimejobrunned1[0]);
         console.log("docssigmacount1", lasttimejobrunned1[0].loginTime);
         setfjob(firstjob);
         setsjob(secondjob);
-        let tnId = await getTennantId();
-        let [check, data2] = await OrgAdminmailcheckget(tnId);
+        let tnId = await getTennantId("HealthCheck");
+        let [check, data2] = await OrgAdminmailcheckget(tnId,"HealthCheck");
         console.log("OrgAdminmailcheckget", lasttimejobrunned)
         const utcDate = new Date(lasttimejobrunned1[0].loginTime);
     const istDate = new Date(utcDate.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
@@ -116,9 +116,9 @@ const MyPage = (props) => {
     const getvvdoccount = async () => {
       try {
         
-        let tnId = await getTennantId();
-        const vvdoccount = await getoriginaldoccount(tnId);
-        let firstjob = await getJobsCountByType("DOC_FETCH");
+        let tnId = await getTennantId("HealthCheck");
+        const vvdoccount = await getoriginaldoccount(tnId,"HealthCheck");
+        let firstjob = await getJobsCountByType("DOC_FETCH","HealthCheck");
         // setsigmadocCount(parseInt(documentsUploadedCount + nftsCreatedCount));
         setVvDocumentCount(vvdoccount.totalcount); // Update vvDocumentCount state
         console.log("docscounts", vvdoccount.totalcount);
@@ -259,12 +259,13 @@ const MyPage = (props) => {
     <Layout getThemeMode={() => undefined} roleType = {props.roleType} getIProfile = {props.getIProfile}>
     <div className="container-fluid">
       <h3 style={{ marginBottom: '30px' }}>Health Check-up</h3>
+      <br/><br/><br/><br/>
       <div className="">
         <div className="row justify-content-center">
           <div className="col-md-4 mb-4">
             <Card className="shadow border-0 h-100">
               <Card.Body className="p-lg-4 p-md-3 p-3">
-                <h4 className="card-title">Document Health</h4>
+                <h4 className="card-title">Document NFT Health</h4>
                 <div className="progress-content pt-3">
                   <Row className="align-items-center">
                     <Col xs={6}>
@@ -272,8 +273,8 @@ const MyPage = (props) => {
                     </Col>
                     <Col xs={6}>
                       <div className="additional-info">
-                        <p><b>Total Documents Fetched:</b> {documentsUploadedCount + nftsCreatedCount}</p>
-                        <p><b>Total Documents to be Uploaded:</b> {documentsUploadedCount}</p>
+                        <p><b>Total Veeva Documents Fetched:</b> {documentsUploadedCount + nftsCreatedCount}</p>
+                        <p><b>Total No.of NFTs to be Created:</b> {documentsUploadedCount}</p>
                       </div>
                     </Col>
                   </Row>
@@ -282,7 +283,7 @@ const MyPage = (props) => {
             </Card>
           </div>
 
-          <div className="col-md-4 mb-4">
+          {/* <div className="col-md-4 mb-4">
           <Card className="shadow border-0 h-100">
               <Card.Body className="p-lg-4 p-md-3 p-3">
                 <h4 className="card-title">Documents NFT Health</h4>
@@ -301,7 +302,7 @@ const MyPage = (props) => {
                 </div>
               </Card.Body>
             </Card>
-          </div>
+          </div> */}
 
           {/* <div className="col-md-4 mb-4">
             <Card className="shadow border-0 h-100">

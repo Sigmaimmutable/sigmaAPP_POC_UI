@@ -109,10 +109,10 @@ function HelpSupport(props) {
         
             else{
             console.log("checkpass");
-            let tenentid = await getTennantId();
+            let tenentid = await getTennantId("HelpSupport");
             console.log("tenetid",tenentid);
           
-            let orguser=await HelpandsupportPost(selecticket,descriptionofissuse,name,lastname,emailid,tenentid,0);            
+            let orguser=await HelpandsupportPost(selecticket,descriptionofissuse,name,lastname,emailid,tenentid,0,"HelpSupport");            
             console.log("Orguser",orguser);
             await Reset();
             toast.success(`Ticket Raised successfully`);  

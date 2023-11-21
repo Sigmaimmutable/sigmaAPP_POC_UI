@@ -280,6 +280,10 @@
         {
             "source": "/platform/v1/txinput/:tx*",
             "destination": "https://testpolygon.stasisonline.in/platform/v1/txinput/:tx*"
+        },
+        {
+            "source": "/platform/v1/apilog",
+            "destination": "https://testpolygon.stasisonline.in/platform/v1/apilog"
         }
 
 

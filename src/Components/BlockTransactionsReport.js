@@ -104,7 +104,7 @@ function BlockTransactionsReport() {
 
     const getTransactionsBase = async(value) =>{
         try{
-            let [istrue, transactionactivity] = await getNFTTxBase(value);
+            let [istrue, transactionactivity] = await getNFTTxBase(value,"BlockTransactionsReport");
             console.log("Api aws tx 1:",transactionactivity.result);
             setTransactions(transactionactivity.result);
 
@@ -162,7 +162,7 @@ function BlockTransactionsReport() {
         let blockNum1 = parseInt(blockNo,10);
         let blockNum = blockNum1.toString(16);
         try{
-            let [istrue, blockTx] = await getBlocksTxBase(blockNum);
+            let [istrue, blockTx] = await getBlocksTxBase(blockNum,"BlockTransactionsReport");
             console.log("Api aws blocks 1:",blockTx.result);
             blockBuffer = [...blockBuffer,blockTx.result];
         }

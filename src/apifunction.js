@@ -1,6 +1,6 @@
 import axios from "axios";
 import { saveAs } from 'file-saver';
-export const OrgAdminmailcheckget = async (id) => {
+export const OrgAdminmailcheckget = async (id,page) => {
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   //Get method start
   try {
@@ -15,6 +15,7 @@ export const OrgAdminmailcheckget = async (id) => {
     const data2 = await response2.json();
     console.log("Api inside", data2);
     // return {data2};
+    const iscalled = await CreatApiLog("GET",page,"sigmadocsummary",localStorage.getItem("UserID"));
     return [true, data2];
   } catch (err) {
     console.log("vercelerrro", err);
@@ -22,7 +23,7 @@ export const OrgAdminmailcheckget = async (id) => {
   }
 };
 
-export const OrgAdminmailcheckget1 = async(email) =>{
+export const OrgAdminmailcheckget1 = async(email,page) =>{
    console.log("mailcheck",email)
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
@@ -46,6 +47,7 @@ export const OrgAdminmailcheckget1 = async(email) =>{
         
       const data2 = await response2.json();
       console.log("Api inside", data2[0]);
+      const iscalled = await CreatApiLog("GET",page,"userdetail",localStorage.getItem("UserID"));
       // return {data2};
       if ((data2[0]) === "" || (data2[0]) === null || (data2[0]) === undefined) {
         return [false,""];
@@ -61,7 +63,7 @@ export const OrgAdminmailcheckget1 = async(email) =>{
     }
      
 }
-export const OrgAdminmailcheckget2 = async(id) =>{
+export const OrgAdminmailcheckget2 = async(id,page) =>{
    
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
@@ -80,6 +82,7 @@ export const OrgAdminmailcheckget2 = async(id) =>{
         
       const data2 = await response2.json();
       console.log("Api inside1", data2)
+      const iscalled = await CreatApiLog("GET",page,"networkbytennatid",localStorage.getItem("UserID"));
       // return {data2};
       return [true,data2];
     }catch(err){
@@ -89,7 +92,7 @@ export const OrgAdminmailcheckget2 = async(id) =>{
      
 }
 
-export const CreateOrganizationPost = async (name, organizationname) =>
+export const CreateOrganizationPost = async (name, organizationname, page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -114,6 +117,7 @@ export const CreateOrganizationPost = async (name, organizationname) =>
       try {
      let response = await axios.request(options2);
      tentidresponse= await response.data;
+     const iscalled = await CreatApiLog("POST",page,"org",localStorage.getItem("UserID"));
      console.log("response",tentidresponse);
       }catch(error){
         console.error("done2",error);
@@ -126,7 +130,7 @@ export const CreateOrganizationPost = async (name, organizationname) =>
      
       return tentidresponse;
 }
-export const CreateOrguserrolepost = async (emailid, name, role, tenentid) =>
+export const CreateOrguserrolepost = async (emailid, name, role, tenentid,page) =>
 {         
     axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
     //console.log("done1",response.data);
@@ -152,15 +156,16 @@ export const CreateOrguserrolepost = async (emailid, name, role, tenentid) =>
         const tennat_id = tenentid;
         const statuses = false;
       
-        await NotificationPost(title, description, localStorage.getItem("UserID"), tennat_id, statuses);
+        await NotificationPost(title, description, localStorage.getItem("UserID"), tennat_id, statuses, "userdtail");
         console.log('Response:', result);
+        const iscalled = await CreatApiLog("POST",page,"userdetail",localStorage.getItem("UserID"));
         return result;
       } catch (error) {
         console.error('Error:', error);
         return null;
       }
 }
-export const Orgadminsignup = async (emailid,Pwd,signInMethod) =>
+export const Orgadminsignup = async (emailid,Pwd,signInMethod,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -188,6 +193,7 @@ export const Orgadminsignup = async (emailid,Pwd,signInMethod) =>
       try {
         let response = await axios.request(options2);
         let statuscheck= await response.data;
+        const iscalled = await CreatApiLog("PUT",page,"userdetail",localStorage.getItem("UserID"));
         console.log("response",statuscheck);
          }catch(error){
            console.error("done2",error);
@@ -207,7 +213,7 @@ export const Orgadminsignup = async (emailid,Pwd,signInMethod) =>
 }
 
 
-export const updateuser = async (emailId,roleType) =>
+export const updateuser = async (emailId,roleType,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
@@ -229,6 +235,7 @@ export const updateuser = async (emailId,roleType) =>
       try {
         let response = await axios.request(options2);
         let statuscheck= await response.data;
+        const iscalled = await CreatApiLog("PUT",page,"userdetail{id}",localStorage.getItem("UserID"));
         console.log("response",statuscheck);
          }catch(error){
            console.error("done2",error);
@@ -237,7 +244,7 @@ export const updateuser = async (emailId,roleType) =>
          return usercheck;
 }
 
-export const Orguserlogincheck = async (emailid,pwd) =>
+export const Orguserlogincheck = async (emailid,pwd,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -264,6 +271,7 @@ export const Orguserlogincheck = async (emailid,pwd) =>
       try {
      let response = await axios.request(options2);
      userlogincheck= await response.data;
+     const iscalled = await CreatApiLog("POST",page,"userdetailsid",localStorage.getItem("UserID"));
      console.log("response",userlogincheck);
       }catch(error){
         console.error("done2",error);
@@ -273,7 +281,7 @@ export const Orguserlogincheck = async (emailid,pwd) =>
       return userlogincheck;
     
 }
-export const Sessionloginpost = async (currentDateTime,logouttime,userlogstatus,tenentid,role,email) =>
+export const Sessionloginpost = async (currentDateTime,logouttime,userlogstatus,tenentid,role,email,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -306,8 +314,9 @@ export const Sessionloginpost = async (currentDateTime,logouttime,userlogstatus,
       }).catch(function (error) {
           console.error("done2",error);
       });
+      const iscalled = await CreatApiLog("POST",page,"session",localStorage.getItem("UserID"));
 }
-export const Sessionstatusget= async(email) =>{
+export const Sessionstatusget= async(email,page) =>{
    
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
@@ -325,7 +334,8 @@ export const Sessionstatusget= async(email) =>{
       // console.log("response",tentidresponse)
         
       const data2 = await response2.json();
-      console.log("Api inside", data2)
+      console.log("Api inside", data2);
+      const iscalled = await CreatApiLog("GET",page,"session{id}",localStorage.getItem("UserID"));
       // return {data2};
       return [true,data2];
     }catch(err){
@@ -335,7 +345,7 @@ export const Sessionstatusget= async(email) =>{
 }
 
 
-export const Sessionstatusget1 = async (id) => {
+export const Sessionstatusget1 = async (id,page) => {
   console.log("getticket",id)
   const url = `/platform/v1/session/${id}`;
   const key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
@@ -346,7 +356,7 @@ export const Sessionstatusget1 = async (id) => {
         'x-api-key': key,
       },
     });
-
+    const iscalled = await CreatApiLog("GET",page,"session{id}",localStorage.getItem("UserID"));
     if (response.ok) {
       const data = await response.json();
       return [true, data];
@@ -360,7 +370,7 @@ export const Sessionstatusget1 = async (id) => {
 };
 
 
-export const Sessionstatusupdate = async (logintime,logouttime,logstatus,email) =>
+export const Sessionstatusupdate = async (logintime,logouttime,logstatus,email,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -391,6 +401,7 @@ export const Sessionstatusupdate = async (logintime,logouttime,logstatus,email) 
       try {
      let response = await axios.request(options2);
      userlogincheck= await response.data;
+     const iscalled = await CreatApiLog("PUT",page,"session",localStorage.getItem("UserID"));
      console.log("response",userlogincheck);
       }catch(error){
         console.error("done2",error);
@@ -400,7 +411,7 @@ export const Sessionstatusupdate = async (logintime,logouttime,logstatus,email) 
       return userlogincheck;
     
 }
-export const fetchSigmadocByTid = async (start, limit, tenantId) => {
+export const fetchSigmadocByTid = async (start, limit, tenantId,page) => {
   const url = '/platform/v1/sigmadocbytid';
   const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
   
@@ -424,13 +435,14 @@ export const fetchSigmadocByTid = async (start, limit, tenantId) => {
     const response = await axios(options);
     const sigmadocData = response.data;
     console.log('Response:', sigmadocData);
+    const iscalled = await CreatApiLog("POST",page,"sigmadocbytid",localStorage.getItem("UserID"));
     return sigmadocData;
   } catch (error) {
     console.error('Error:', error);
     return null;
   }
 };
-export const fetchSigmadocdetails = async (sigmaId) => {
+export const fetchSigmadocdetails = async (sigmaId,page) => {
   console.log("id", sigmaId);
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   try {
@@ -442,6 +454,7 @@ export const fetchSigmadocdetails = async (sigmaId) => {
     console.log("response", response3);
 
     const data = await response3.json();
+    const iscalled = await CreatApiLog("GET",page,"sigmadoc{id}",localStorage.getItem("UserID"));
     console.log("Api inside", data);
     return [true, data];
   } catch (err) {
@@ -450,7 +463,7 @@ export const fetchSigmadocdetails = async (sigmaId) => {
   }
 };
 
-export const addToFavorites = async (emailId, sigmaId, name__v, filename__v, status__v, tenantId) => {
+export const addToFavorites = async (emailId, sigmaId, name__v, filename__v, status__v, tenantId,page) => {
   const url = '/platform/v1/favourite';
   const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
 
@@ -482,8 +495,9 @@ export const addToFavorites = async (emailId, sigmaId, name__v, filename__v, sta
     const tennat_id = tenantId;
     const statuses = false;
   
-    await NotificationPost(title, description, emailId, tennat_id, statuses);
+    await NotificationPost(title, description, emailId, tennat_id, statuses,"favourite");
     console.log('Response:', result);
+    const iscalled = await CreatApiLog("POST",page,"favourite",localStorage.getItem("UserID"));
     return result;
   } catch (error) {
     console.error('Error:', error);
@@ -491,7 +505,7 @@ export const addToFavorites = async (emailId, sigmaId, name__v, filename__v, sta
   }
 };
 
-export const fetchFavoriteDetails = async (emailId,limit) => {
+export const fetchFavoriteDetails = async (emailId,limit,page) => {
   console.log("mail",emailId)
   const url = `/platform/v1/favourite/${emailId}/${limit}`;
   const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
@@ -508,6 +522,7 @@ export const fetchFavoriteDetails = async (emailId,limit) => {
     // Assuming the response data is in the 'data' field
     const data = response.data;
     console.log('fetchFavoriteDetails:', data);
+    const iscalled = await CreatApiLog("GET",page,"favourite{id}{id1}",localStorage.getItem("UserID"));
     return [true, data];
   } catch (error) {
     console.error('Error fetching favorite details:', error);
@@ -515,7 +530,7 @@ export const fetchFavoriteDetails = async (emailId,limit) => {
   }
 };
 
-export const deleteFavorite = async (emailId, sigmaId, name_v, tenantId) => {
+export const deleteFavorite = async (emailId, sigmaId, name_v, tenantId,page) => {
   const url = `/platform/v1/favourite/${emailId}/${sigmaId}`;
   const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
 
@@ -538,7 +553,8 @@ export const deleteFavorite = async (emailId, sigmaId, name_v, tenantId) => {
     const tennat_id = tenantId;
     const statuses = false;
   
-    await NotificationPost(title, description, emailId, tennat_id, statuses);
+    await NotificationPost(title, description, emailId, tennat_id, statuses,"favourite{id}{id1}");
+    const iscalled = await CreatApiLog("DELETE",page,"favourite{id}{id1}",localStorage.getItem("UserID"));
     return responsed;
   } catch (error) {
     console.error('Error:', error);
@@ -546,7 +562,7 @@ export const deleteFavorite = async (emailId, sigmaId, name_v, tenantId) => {
   }
 };
 
-export const forgetPasswordMailVerification = async(email) =>{
+export const forgetPasswordMailVerification = async(email,page) =>{
 
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   //console.log("done1",response.data);
@@ -558,17 +574,18 @@ export const forgetPasswordMailVerification = async(email) =>{
     let MailVerify = false;
     await axios.request(options2).then(async function (response2) {
      console.log("response",response2);
-     let present = await userDetailWithEmail(email)
+     let present = await userDetailWithEmail(email,"resetpassword{id}")
       MailVerify = present[0];
     //  window.location.reload();
     }).catch(function (error) {
         console.error("done2",error);
         MailVerify = false;
     });
+    const iscalled = await CreatApiLog("POST",page,"resetpassword{id}",localStorage.getItem("UserID"));
  return MailVerify;
 }
 
-export const resetPasswordSubmit = async (email, password, otp) =>
+export const resetPasswordSubmit = async (email, password, otp, page) =>
 {       
 let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
 // let userID = localStorage.getItem('UserID');
@@ -603,6 +620,7 @@ axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
       else{
         MailVerify=true;
       }
+      const iscalled = await CreatApiLog("PUT",page,"resetpassword{id}",localStorage.getItem("UserID"));
     console.log("response",response.data);
   }catch(error){
     console.error("done2",error);
@@ -611,7 +629,7 @@ axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
  
   return MailVerify;
 }
-export const Userprofileupload = async (Firstname,lastname,emailid) =>
+export const Userprofileupload = async (Firstname,lastname,emailid,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -647,6 +665,7 @@ export const Userprofileupload = async (Firstname,lastname,emailid) =>
       try {
      let response = await axios.request(options2);
      userlogincheck= await response.data;
+     const iscalled = await CreatApiLog("POST",page,"userprofile",localStorage.getItem("UserID"));
      console.log("response",userlogincheck);
       }catch(error){
         console.error("done2",error);
@@ -657,7 +676,7 @@ export const Userprofileupload = async (Firstname,lastname,emailid) =>
     
 }
 
-export const Userprofileupdate = async (Firstname,lastname,mobno,Img,gender,state,selectedCountry,launguage,timezone,emailid) =>
+export const Userprofileupdate = async (Firstname,lastname,mobno,Img,gender,state,selectedCountry,launguage,timezone,emailid,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -693,6 +712,7 @@ export const Userprofileupdate = async (Firstname,lastname,mobno,Img,gender,stat
       try {
      let response = await axios.request(options2);
      userlogincheck= await response.data;
+     const iscalled = await CreatApiLog("PUT",page,"userprofile",localStorage.getItem("UserID"));
      console.log("response",userlogincheck);
       }catch(error){
         console.error("done2",error);
@@ -703,7 +723,7 @@ export const Userprofileupdate = async (Firstname,lastname,mobno,Img,gender,stat
     
 }
 
-export const userprofileget = async(email) =>{
+export const userprofileget = async(email,page) =>{
    
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
@@ -723,6 +743,7 @@ export const userprofileget = async(email) =>{
       const data2 = await response2.json();
       console.log("Api inside", data2)
       // return {data2};
+      const iscalled = await CreatApiLog("GET",page,"userprofile{id}",localStorage.getItem("UserID"));
       return [true,data2];
     }catch(err){
       console.log("vercelerrro",err)
@@ -731,7 +752,7 @@ export const userprofileget = async(email) =>{
      
 }
 
-export const getSigmafieldConfig = async (tennatid) =>
+export const getSigmafieldConfig = async (tennatid,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -754,6 +775,7 @@ export const getSigmafieldConfig = async (tennatid) =>
     const data2 = await response2.json();
     // console.log("Api inside", data2)
     // return {data2};
+    const iscalled = await CreatApiLog("GET",page,"sigmafieldconf{id}",localStorage.getItem("UserID"));
     return [true,data2];
   }catch(err){
     console.log("vercelerrro",err)
@@ -762,7 +784,7 @@ export const getSigmafieldConfig = async (tennatid) =>
     
 }
 
-export const getJobList = async (tennatid,start,limit) =>
+export const getJobList = async (tennatid,start,limit,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -790,6 +812,7 @@ export const getJobList = async (tennatid,start,limit) =>
       try {
         const response = await axios(options2);
          jobsList = response.data;
+         const iscalled = await CreatApiLog("POST",page,"job",localStorage.getItem("UserID"));
         console.log('Responsejob:', jobsList);
       }catch(error){
         console.error("done2",error);
@@ -800,7 +823,7 @@ export const getJobList = async (tennatid,start,limit) =>
     
 }
 
-export const getJobListImmutable = async (tennatid,start,limit) =>
+export const getJobListImmutable = async (tennatid,start,limit,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -834,6 +857,7 @@ export const getJobListImmutable = async (tennatid,start,limit) =>
           }
           console.log("datasr",jobsList)
          })
+         const iscalled = await CreatApiLog("POST",page,"job",localStorage.getItem("UserID"));
         // console.log('Response:', jobsList);
       }catch(error){
         console.error("done2",error);
@@ -844,7 +868,7 @@ export const getJobListImmutable = async (tennatid,start,limit) =>
     
 }
 
-export const executeJobListImmutable = async () =>
+export const executeJobListImmutable = async (page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -870,7 +894,7 @@ export const executeJobListImmutable = async () =>
       try {
         const response = await axios(options2);
         jobsList = response.data;
-         
+        const iscalled = await CreatApiLog("POST",page,"finalisedocs",localStorage.getItem("UserID"));
         console.log('Response:', jobsList);
       }catch(error){
         console.error("done2",error);
@@ -881,7 +905,7 @@ export const executeJobListImmutable = async () =>
     
 }
 
-export const userDetailWithEmail = async (emailid) =>
+export const userDetailWithEmail = async (emailid,page) =>
 {       
   try{
     let cancelToken;
@@ -896,6 +920,7 @@ export const userDetailWithEmail = async (emailid) =>
     // console.log("response",tentidresponse)
       
     const data2 = await response2.json();
+    const iscalled = await CreatApiLog("GET",page,"userdetail{id}",localStorage.getItem("UserID"));
     console.log("Api inside", data2)
     // return {data2};
     if(!data2 || (Array.isArray(data2) && data2.length === 0)){
@@ -911,7 +936,7 @@ export const userDetailWithEmail = async (emailid) =>
   }
 }
 
-export const OrgTenentcheckget = async(tenentId, pageSize) =>{
+export const OrgTenentcheckget = async(tenentId, pageSize, page) =>{
    console.log("orgTenant", tenentId);
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
@@ -936,6 +961,7 @@ export const OrgTenentcheckget = async(tenentId, pageSize) =>{
       const data2 = await response2.json();
       console.log("orgTenant check", data2);
       // return {data2};
+      const iscalled = await CreatApiLog("GET",page,"userdetailsid{id}{id1}",localStorage.getItem("UserID"));
       return [true,data2];
     }catch(err){
       console.log("vercelerrro",err)
@@ -944,7 +970,7 @@ export const OrgTenentcheckget = async(tenentId, pageSize) =>{
      
 }
 
-export const DeleteOrgUser = async (emailid) =>
+export const DeleteOrgUser = async (emailid,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -971,10 +997,11 @@ export const DeleteOrgUser = async (emailid) =>
         const title = 'User Deletion';
         const description = `User with email ${emailid} has been deleted.`;
         
-        const tennat_id = await getTennantId(); // Assuming tenentid is defined
+        const tennat_id = await getTennantId("userdetail{id}"); // Assuming tenentid is defined
         const statuses = false;
   console.log("tennat_id",tennat_id);
-        await NotificationPost(title, description, localStorage.getItem("UserID"), tennat_id, statuses);
+        await NotificationPost(title, description, localStorage.getItem("UserID"), tennat_id, statuses,"userdetail{id}");
+        const iscalled = await CreatApiLog("DELETE",page,"userdetail{id}",localStorage.getItem("UserID"));
       }
   
       return response2;
@@ -992,7 +1019,7 @@ export const DeleteOrgUser = async (emailid) =>
       }
 }
 
-export const getTransaction = async (start,limit,tennatId) =>
+export const getTransaction = async (start,limit,tennatId,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -1020,7 +1047,7 @@ export const getTransaction = async (start,limit,tennatId) =>
       try {
         const response = await axios(options2);
         jobsList = response.data;
-         
+        const iscalled = await CreatApiLog("POST",page,"tx",localStorage.getItem("UserID"));
         console.log('Response:', jobsList);
       }catch(error){
         console.error("done2",error);
@@ -1030,7 +1057,7 @@ export const getTransaction = async (start,limit,tennatId) =>
       return jobsList;
     
 }
-export const getTransactionblock = async (start,limit,tennatId) =>
+export const getTransactionblock = async (start,limit,tennatId,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -1058,7 +1085,7 @@ export const getTransactionblock = async (start,limit,tennatId) =>
       try {
         const response = await axios(options2);
         jobsList = response.data;
-         
+        const iscalled = await CreatApiLog("POST",page,"blocks",localStorage.getItem("UserID"));
         console.log('Response:', jobsList);
       }catch(error){
         console.error("done2",error);
@@ -1068,7 +1095,7 @@ export const getTransactionblock = async (start,limit,tennatId) =>
       return jobsList;
     
 }
-export const nodeDetails = async (tenantId) =>
+export const nodeDetails = async (tenantId,page) =>
 {       
   try{
     let response2 = await fetch(`/platform/v1/sigmanodesummary/${tenantId}`)
@@ -1080,6 +1107,7 @@ export const nodeDetails = async (tenantId) =>
     const data2 = await response2.json();
     // console.log("Api inside", data2)
     // return {data2};
+    const iscalled = await CreatApiLog("GET",page,"sigmanodesummary{id}",localStorage.getItem("UserID"));
     return [true, data2];
   }catch(err){
     console.log("vercelerrro",err)
@@ -1090,7 +1118,7 @@ export const nodeDetails = async (tenantId) =>
 
 
 
-export const getTennantId = async () =>
+export const getTennantId = async (page) =>
 {       
   let usermailid = localStorage.getItem("UserID");
   
@@ -1104,6 +1132,7 @@ export const getTennantId = async () =>
     const data2 = await response2.json();
     console.log("getTennantId", data2)
     // return {data2};
+    const iscalled = await CreatApiLog("GET",page,"userdetail{id}",localStorage.getItem("UserID"));
     return  (data2[0]).tennantId;
   }catch(err){
     console.log("vercelerrro",err)
@@ -1144,9 +1173,10 @@ const options2 = {
     }).catch(function (error) {
         console.error("done2",error);
     });
+    const iscalled = await CreatApiLog("POST",page,"uservisitrecord",localStorage.getItem("UserID"));
     
 }
-export const NotificationPost = async(title, description, email_id, tennat_id, statuses) => {
+export const NotificationPost = async(title, description, email_id, tennat_id, statuses, page) => {
 
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   let data = {
@@ -1164,7 +1194,7 @@ export const NotificationPost = async(title, description, email_id, tennat_id, s
   url: '/platform/v1/notification',
   data: data
   };
-  
+  const iscalled = await CreatApiLog("POST",page,"notification",localStorage.getItem("UserID"));
   axios.request(options2).then(function (response2) {
   console.log("notification", response2);
   return [true, response2];
@@ -1174,7 +1204,7 @@ export const NotificationPost = async(title, description, email_id, tennat_id, s
 });
 }
 
-export const NotificationSingle = async(id, email_id, status) => {
+export const NotificationSingle = async(id, email_id, status,page) => {
   console.log("status", status);
 if(status != true)
 {
@@ -1191,7 +1221,7 @@ if(status != true)
   url: '/platform/v1/notificationbyid',
   data: data
   };
-  
+  const iscalled = await CreatApiLog("PUT",page,"notificationbyid",localStorage.getItem("UserID"));
   axios.request(options2).then(function (response2) {
   console.log("notification", response2);
   return [true, response2];
@@ -1202,7 +1232,7 @@ if(status != true)
 }
 }
 
-export const NotificationAll = async(email_id) => {
+export const NotificationAll = async(email_id,page) => {
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   let data = {   
     "mailId": email_id,
@@ -1214,7 +1244,7 @@ export const NotificationAll = async(email_id) => {
   url: '/platform/v1/notification',
   data: data
   };
-  
+  const iscalled = await CreatApiLog("PUT",page,"notification",localStorage.getItem("UserID"));
   axios.request(options2).then(function (response2) {
   console.log("notification", response2);
   return [true, response2];
@@ -1225,26 +1255,27 @@ export const NotificationAll = async(email_id) => {
 
 }
 
-export const getNotificationById = async (emailid) => {
+export const getNotificationById = async (emailid,page) => {
   console.log("mailnotify",emailid)
   const url = `/platform/v1/notification/${emailid}`;
 
   try {
     const response = await fetch(url);
-
+    const iscalled = await CreatApiLog("GET",page,"notification{id}",localStorage.getItem("UserID"));
     if (response.ok) {
       const data = await response.json();
       return [true, data];
     } else {
       return [false, 'Error occurred while fetching data'];
     }
+    
   } catch (error) {
     console.log('Error:', error);
     return [false, 'Error occurred while making the request'];
   }
 };
 
-export const userByTenantId = async (tenantId) => {
+export const userByTenantId = async (tenantId,page) => {
   const url = `platform/v1/userdetailbytennantall/${tenantId}`;
 
   try {
@@ -1253,13 +1284,14 @@ export const userByTenantId = async (tenantId) => {
     const data2 = await response.json();
     console.log("userdetailbytennant", data2)
     // return {data2};
+    const iscalled = await CreatApiLog("GET",page,"userdetailbytennantall{id}",localStorage.getItem("UserID"));
     return [true, data2.length];
   }catch(err){
     console.log("userdetailbytennant",err)
     return [false,""];
   }
 };
-export const HelpandsupportPost = async(Ticket,Description,firstname,lastname,emailid,TennatId,statuse) =>{
+export const HelpandsupportPost = async(Ticket,Description,firstname,lastname,emailid,TennatId,statuse,page) =>{
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   let datas = {
@@ -1282,7 +1314,7 @@ export const HelpandsupportPost = async(Ticket,Description,firstname,lastname,em
   },
   data: datas
   };
-  
+  const iscalled = await CreatApiLog("POST",page,"helpandsupport",localStorage.getItem("UserID"));
   axios.request(options2).then(function (response2) {
   console.log("notification",response2);
   
@@ -1292,7 +1324,7 @@ export const HelpandsupportPost = async(Ticket,Description,firstname,lastname,em
 });
 }
 
-export const getTicketsById = async (pageno) => {
+export const getTicketsById = async (pageno,page) => {
   console.log("getticket",pageno)
   const url = `/platform/v1/helpandsupport/${pageno}`;
   const key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
@@ -1303,7 +1335,7 @@ export const getTicketsById = async (pageno) => {
         'x-api-key': key,
       },
     });
-
+    const iscalled = await CreatApiLog("GET",page,"helpandsupport{id}",localStorage.getItem("UserID"));
     if (response.ok) {
       const data = await response.json();
       return [true, data];
@@ -1316,7 +1348,7 @@ export const getTicketsById = async (pageno) => {
   }
 };
 
-export const ResolveTicket = async(email_id,id,tenantId) => {
+export const ResolveTicket = async(email_id,id,tenantId,page) => {
   console.log("email",email_id,id,tenantId);
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   let data = { 
@@ -1338,7 +1370,8 @@ export const ResolveTicket = async(email_id,id,tenantId) => {
     const tennat_id = tenantId;
     const statuses = false;
   
-    await NotificationPost(title, description, email_id, tennat_id, statuses);
+    await NotificationPost(title, description, email_id, tennat_id, statuses,"helpandsupport");
+    const iscalled = await CreatApiLog("PUT",page,"helpandsupport",localStorage.getItem("UserID"));
     console.log('Response:', result);
     return result;
   } catch (error) {
@@ -1354,7 +1387,7 @@ export const ResolveTicket = async(email_id,id,tenantId) => {
 // });
 
 }
-export const getNFTProp = async (id,tennatId) =>
+export const getNFTProp = async (id,tennatId,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -1381,7 +1414,7 @@ export const getNFTProp = async (id,tennatId) =>
       try {
         const response = await axios(options2);
         jobsList = response.data;
-         
+        const iscalled = await CreatApiLog("POST",page,"nftdetails{id}",localStorage.getItem("UserID"));
         console.log('Response:', jobsList);
       }catch(error){
         console.error("done2",error);
@@ -1392,7 +1425,7 @@ export const getNFTProp = async (id,tennatId) =>
     
 }
 
-export const getJobsCountByType = async (type) => {
+export const getJobsCountByType = async (type,page) => {
   const url = `/platform/v1/jobsfetch/${type}`;
   const key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
 
@@ -1402,7 +1435,7 @@ export const getJobsCountByType = async (type) => {
         'x-api-key': key,
       },
     });
-
+    const iscalled = await CreatApiLog("GET",page,"jobsfetch{id}",localStorage.getItem("UserID"));
     if (response.ok) {
       const data = await response.json();
       return  data;
@@ -1414,7 +1447,7 @@ export const getJobsCountByType = async (type) => {
     return 0;
   }
 };
-export const getLatestJObTime = async () => {
+export const getLatestJObTime = async (page) => {
   const url = `/platform/v1/jobsfetch`;
   const key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
 
@@ -1424,6 +1457,7 @@ export const getLatestJObTime = async () => {
         'x-api-key': key,
       },
     });
+    const iscalled = await CreatApiLog("GET",page,"jobsfetch",localStorage.getItem("UserID"));
   console.log("timeresponse", response);
     if (response.ok) {
       const data = await response.text();
@@ -1440,7 +1474,7 @@ export const getLatestJObTime = async () => {
 };
 
 
-export const help1 = async(id,email_id,assignee) => {
+export const help1 = async(id,email_id,assignee,page) => {
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   let data = { 
     "id": id,  
@@ -1454,7 +1488,7 @@ export const help1 = async(id,email_id,assignee) => {
   url: '/platform/v1/helpandsupportstatus',
   data: data
   };
-  
+  const iscalled = await CreatApiLog("PUT",page,"helpandsupportstatus",localStorage.getItem("UserID"));
   axios.request(options2).then(function (response2) {
   console.log("notification1", response2);
   return [true, response2];
@@ -1464,14 +1498,14 @@ export const help1 = async(id,email_id,assignee) => {
 });
 
 };
-export const getNotificationById1 = async (id) => {
+export const getNotificationById1 = async (id,page) => {
   
   console.log("hi",id)
   const url = `/platform/v1/jobs/${id}`;
 
   try {
     const response = await fetch(url);
-
+    const iscalled = await CreatApiLog("GET",page,"jobs{id}",localStorage.getItem("UserID"));
     if (response.ok) {
       const data = await response.json();
       return [true, data];
@@ -1486,7 +1520,7 @@ export const getNotificationById1 = async (id) => {
 
 
 
-export const getNotificationById2 = async(emailId,tenantId) =>{
+export const getNotificationById2 = async(emailId,tenantId,page) =>{
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   let datas = {
@@ -1505,7 +1539,7 @@ export const getNotificationById2 = async(emailId,tenantId) =>{
   },
   data: datas
   };
-  
+  const iscalled = await CreatApiLog("POST",page,"jobs",localStorage.getItem("UserID"));
   axios.request(options2).then(function (response2) {
   console.log("notification1",response2);
   
@@ -1517,7 +1551,7 @@ export const getNotificationById2 = async(emailId,tenantId) =>{
 
 
 
-export const getNotificationById3 = async (userId, emailId, tenantId) => {
+export const getNotificationById3 = async (userId, emailId, tenantId,page) => {
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   let data = {
     "userId": userId,
@@ -1534,6 +1568,7 @@ export const getNotificationById3 = async (userId, emailId, tenantId) => {
   try {
     const response2 = await axios.request(options2);
     console.log("notification2", response2);
+    const iscalled = await CreatApiLog("PUT",page,"jobs",localStorage.getItem("UserID"));
     return [true, response2];
   } catch (error) {
     console.error("done2", error);
@@ -1542,7 +1577,7 @@ export const getNotificationById3 = async (userId, emailId, tenantId) => {
 };
 
 
-export const getNotificationById4 = async (userId) =>
+export const getNotificationById4 = async (userId,page) =>
 
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
@@ -1563,7 +1598,7 @@ export const getNotificationById4 = async (userId) =>
             
         }
       };
-      
+      const iscalled = await CreatApiLog("DELETE",page,"jobsremove",localStorage.getItem("UserID"));
       axios.request(options2).then(function (response2) {
        console.log("response",response2);
        return response2;
@@ -1573,7 +1608,7 @@ export const getNotificationById4 = async (userId) =>
       });
 }
 
-export const jobschedulardetailpost = async (email,role,tenentid,userlogstatus) =>
+export const jobschedulardetailpost = async (email,role,tenentid,userlogstatus,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -1596,7 +1631,7 @@ export const jobschedulardetailpost = async (email,role,tenentid,userlogstatus) 
             'activity':`${userlogstatus}`
         }
       };
-      
+      const iscalled = await CreatApiLog("POST",page,"jobschedule",localStorage.getItem("UserID"));
       axios.request(options2).then(function (response2) {
        console.log("responsepost",response2);
        return response2;
@@ -1634,7 +1669,7 @@ export const jobschedulardetailpost = async (email,role,tenentid,userlogstatus) 
 // }
 
 
-export const jobreschedulardetail = async (schduletime,email,role,tenentid,userlogstatus) =>
+export const jobreschedulardetail = async (schduletime,email,role,tenentid,userlogstatus,page) =>
 {         
     axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
     //console.log("done1",response.data);
@@ -1653,7 +1688,8 @@ export const jobreschedulardetail = async (schduletime,email,role,tenentid,userl
         const tennat_id = tenentid;
         const usersettime = userlogstatus;
       
-        await jobschedulardetailpost(localStorage.getItem("UserID"),roletype,tennat_id, usersettime);
+        await jobschedulardetailpost(localStorage.getItem("UserID"),roletype,tennat_id, usersettime,"updatedelay{id}");
+        const iscalled = await CreatApiLog("POST",page,"updatedelay{id}",localStorage.getItem("UserID"));
         console.log('Response:', result);
         return result;
       } catch (error) {
@@ -1661,7 +1697,7 @@ export const jobreschedulardetail = async (schduletime,email,role,tenentid,userl
         return null;
       }
 }
-export const jobschedulardetailget= async() =>{
+export const jobschedulardetailget= async(page) =>{
    
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
@@ -1680,6 +1716,7 @@ export const jobschedulardetailget= async() =>{
         
       const data2 = await response2.json();
       console.log("Api inside", data2)
+      const iscalled = await CreatApiLog("GET",page,"jobschedule",localStorage.getItem("UserID"));
       // return {data2};
       return [true,data2];
     }catch(err){
@@ -1689,7 +1726,7 @@ export const jobschedulardetailget= async() =>{
      
 }
 
-export const jobschedulardetailgetbyid= async(tennantId) =>{
+export const jobschedulardetailgetbyid= async(tennantId,page) =>{
    
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
@@ -1709,6 +1746,7 @@ export const jobschedulardetailgetbyid= async(tennantId) =>{
       const data2 = await response2.json();
       console.log("Api inside", data2)
       // return {data2};
+      const iscalled = await CreatApiLog("GET",page,"jobschedule{id}",localStorage.getItem("UserID"));
       return [true,data2];
     }catch(err){
       console.log("vercelerrro",err)
@@ -1716,7 +1754,7 @@ export const jobschedulardetailgetbyid= async(tennantId) =>{
     }
      
 }
-export const handleWriteToFile = async(tennantId,ipfshash) => {
+export const handleWriteToFile = async(tennantId,ipfshash,page) => {
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
  
   
@@ -1741,6 +1779,7 @@ export const handleWriteToFile = async(tennantId,ipfshash) => {
        
         const response = await axios(options2);
         console.log("reponsecheck",response);
+        const iscalled = await CreatApiLog("POST",page,"restdownload",localStorage.getItem("UserID"));
         let datavalue = response.data;
         const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/pdf' }));
         const link = document.createElement('a');
@@ -1756,7 +1795,7 @@ export const handleWriteToFile = async(tennantId,ipfshash) => {
         
     
 }
-export const handleWriteToDocumentlist = async (start, limit,tennantId) => {
+export const handleWriteToDocumentlist = async (start, limit,tennantId,page) => {
   const url = '/platform/v1/sigmadocbytid';
   const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
   
@@ -1780,7 +1819,7 @@ export const handleWriteToDocumentlist = async (start, limit,tennantId) => {
     const response = await axios(options);
   const sigmadocData = response.data;
   console.log('Response:', sigmadocData);
-
+  const iscalled = await CreatApiLog("POST",page,"sigmadocbytid",localStorage.getItem("UserID"));
   // Download the data as CSV
   if (sigmadocData && sigmadocData.length > 0) {
     const csvData = [
@@ -1800,7 +1839,7 @@ export const handleWriteToDocumentlist = async (start, limit,tennantId) => {
   return null;
 }
 };
-export const jobstatusupdate = async (tennantId,jobtype,jobstatus) =>
+export const jobstatusupdate = async (tennantId,jobtype,jobstatus,page) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   // let userID = localStorage.getItem('UserID');
@@ -1822,6 +1861,7 @@ export const jobstatusupdate = async (tennantId,jobtype,jobstatus) =>
       try {
      let response = await axios.request(options2);
      userlogincheck= await response.data;
+     const iscalled = await CreatApiLog("PUT",page,"jobhandle{id}{id1}{id2}",localStorage.getItem("UserID"));
      console.log("response",userlogincheck);
       }catch(error){
         console.error("done2",error);
@@ -1834,7 +1874,7 @@ export const jobstatusupdate = async (tennantId,jobtype,jobstatus) =>
     
 }
 
-export const Jobstatusget= async() =>{
+export const Jobstatusget= async(page) =>{
    
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
@@ -1854,6 +1894,7 @@ export const Jobstatusget= async() =>{
       const data2 = await response2.json();
       console.log("Api inside", data2)
       // return {data2};
+      const iscalled = await CreatApiLog("GET",page,"jobhandle",localStorage.getItem("UserID"));
       return [true,data2];
     }catch(err){
       console.log("vercelerrro",err)
@@ -1861,7 +1902,7 @@ export const Jobstatusget= async() =>{
     }
      
 }
-export const uservisitrecord= async(id) =>{
+export const uservisitrecord= async(id,page) =>{
    
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
@@ -1879,6 +1920,7 @@ export const uservisitrecord= async(id) =>{
       // console.log("response",tentidresponse)
         
       const data2 = await response2.json();
+      const iscalled = await CreatApiLog("GET",page,"uservisitrecord{id}",localStorage.getItem("UserID"));
       console.log("Api inside", data2)
       // return {data2};
       return [true,data2];
@@ -1890,7 +1932,7 @@ export const uservisitrecord= async(id) =>{
 }
 
 
-export const uservisitrecords= async(id) =>{
+export const uservisitrecords= async(id,page) =>{
    
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
@@ -1910,6 +1952,7 @@ export const uservisitrecords= async(id) =>{
       const data2 = await response2.json();
       console.log("Api inside", data2)
       // return {data2};
+      const iscalled = await CreatApiLog("GET",page,"uservisitrecord",localStorage.getItem("UserID"));
       return [true,data2];
     }catch(err){
       console.log("vercelerrro",err)
@@ -1917,7 +1960,7 @@ export const uservisitrecords= async(id) =>{
     }
      
 }
-export const getoriginaldocprop = async (tennatId, docid) => {       
+export const getoriginaldocprop = async (tennatId, docid,page) => {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
@@ -1939,6 +1982,7 @@ export const getoriginaldocprop = async (tennatId, docid) => {
     const response = await axios(options2);
     docsList = response.data;
     console.log('Response:', docsList);
+    const iscalled = await CreatApiLog("GET",page,"veevadocs{id}{id1}",localStorage.getItem("UserID"));
   } catch (error) {
     console.error("Error:", error);
   }
@@ -1946,7 +1990,7 @@ export const getoriginaldocprop = async (tennatId, docid) => {
   return docsList;
 }
 
-export const getoriginaldoccount = async (tennatId) => {       
+export const getoriginaldoccount = async (tennatId,page) => {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
@@ -1968,13 +2012,14 @@ export const getoriginaldoccount = async (tennatId) => {
     const response = await axios(options2);
     docscount = response.data;
     console.log('Response api doc count:', docscount);
+    const iscalled = await CreatApiLog("POST",page,"doccount{id}",localStorage.getItem("UserID"));
   } catch (error) {
     console.error("Error:", error);
   }
   
   return docscount;
 }
-export const OrgPwdCheck = async(email) =>{
+export const OrgPwdCheck = async(email,page) =>{
    
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
@@ -1993,7 +2038,7 @@ export const OrgPwdCheck = async(email) =>{
         )
  
         const data2 = await response2.text(); // Get the raw response text
-        
+        const iscalled = await CreatApiLog("GET",page,"pwdcheck{id}",localStorage.getItem("UserID"));
         console.log("PWD check", data2);
         return data2;
       // return {data2};
@@ -2008,7 +2053,7 @@ export const OrgPwdCheck = async(email) =>{
      
 }
 
-export const userByTenantIdAll = async (tenantId) => {
+export const userByTenantIdAll = async (tenantId,page) => {
   const url = `platform/v1/userdetailbytennantall/${tenantId}`;
   console.log("url", url)
   let tidall;
@@ -2022,7 +2067,7 @@ export const userByTenantIdAll = async (tenantId) => {
     },
    
     };
-    
+    const iscalled = await CreatApiLog("GET",page,"userdetailbytennantall{id}",localStorage.getItem("UserID"));
     await axios.request(options2).then(function (response2) {
     console.log("notification",response2);
     let dt =  response2.data;
@@ -2039,7 +2084,7 @@ export const userByTenantIdAll = async (tenantId) => {
   }
   return tidall;
 };
-export const joblasttime= async() =>{
+export const joblasttime= async(page) =>{
    
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
     //Get method start
@@ -2059,6 +2104,7 @@ export const joblasttime= async() =>{
       const data2 = await response2.json();
       console.log("Api inside", data2)
       // return {data2};
+      const iscalled = await CreatApiLog("GET",page,"joblasttime",localStorage.getItem("UserID"));
       return data2;
     }catch(err){
       console.log("vercelerrro",err)
@@ -2067,7 +2113,7 @@ export const joblasttime= async() =>{
      
 }
 
-export const getNFTTxBase = async (id) => {
+export const getNFTTxBase = async (id,page) => {
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   //Get method start
   try {
@@ -2082,6 +2128,7 @@ export const getNFTTxBase = async (id) => {
     const data2 = await response2.json();
     console.log("Api inside aws nft tx", data2);
     // return {data2};
+    const iscalled = await CreatApiLog("GET",page,"nfttxavalanche{id}",localStorage.getItem("UserID"));
     return [true, data2];
   } catch (err) {
     console.log("vercelerrro", err);
@@ -2089,7 +2136,7 @@ export const getNFTTxBase = async (id) => {
   }
 };
 
-export const getBlocksTxBase = async (id) => {
+export const getBlocksTxBase = async (id,page) => {
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   //Get method start
   try {
@@ -2104,6 +2151,7 @@ export const getBlocksTxBase = async (id) => {
     const data2 = await response2.json();
     console.log("Api inside aws block tx", data2);
     // return {data2};
+    const iscalled = await CreatApiLog("GET",page,"blockstxavalanche{id}",localStorage.getItem("UserID"));
     return [true, data2];
   } catch (err) {
     console.log("vercelerrro", err);
@@ -2111,7 +2159,7 @@ export const getBlocksTxBase = async (id) => {
   }
 };
 
-export const getTxInputBase = async (id) => {
+export const getTxInputBase = async (id,page) => {
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   //Get method start
   try {
@@ -2126,9 +2174,50 @@ export const getTxInputBase = async (id) => {
     const data2 = await response2.json();
     console.log("Api inside aws block tx", data2);
     // return {data2};
+    const iscalled = await CreatApiLog("GET",page,"txinput{id}",localStorage.getItem("UserID"));
     return [true, data2];
   } catch (err) {
     console.log("vercelerrro", err);
     return [false, ""];
   }
 };
+
+export const CreatApiLog = async (method, page, apiName, mailId) =>
+{       
+  const res = await fetch('https://geolocation-db.com/json/')
+  // console.log("ipv4",await res.json())
+  let k = (await res.json()).IPv4;
+  console.log("ipv4",k);
+
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+
+  
+    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+   
+      const options2 = {
+        method: 'POST',
+        url: '/platform/v1/apilog',
+        headers: {
+          'x-api-key': `${key}`    
+        },
+        data: {
+          "ipAddress": `${k}`,
+          "method": `${method}`,
+          "page": `${page}`,
+          "apiName": `${apiName}`,
+          "mailId": `${mailId}`
+        }
+      };
+      
+      try {
+     let response = await axios.request(options2);
+     let tentidresponse= await response.data;
+     console.log("response",tentidresponse);
+     return true;
+      }catch(error){
+        console.error("API error:",error);
+        return false;
+      }
+     
+      
+}

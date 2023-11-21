@@ -52,9 +52,9 @@ function SignUp() {
       try{
         handleShowLoadVerify();
      
-         let [emailvalid,data2] = await OrgAdminmailcheckget1(email);
+         let [emailvalid,data2] = await OrgAdminmailcheckget1(email,"SignUP");
         //  console.log("pwdget1",emailvalid);
-         let pwdget = await OrgPwdCheck(email);
+         let pwdget = await OrgPwdCheck(email,"SignUp");
          console.log("pwdget",pwdget);
          if (firstName === "" || firstName === null || firstName === undefined) {
             setError("Please enter your First Name!");
@@ -86,11 +86,11 @@ function SignUp() {
                 let signupuser = await Orgadminsignup(email, passwordnew);
                 console.log("checksignup", signupuser);
 
-                let signupuser1 = await Orgadminsignup(localStorage.getItem('UserID'), data2.password ,"Google");
+                let signupuser1 = await Orgadminsignup(localStorage.getItem('UserID'), data2.password ,"Google","SignUp");
                 console.log("checksignup1", signupuser1);
                 if (signupuser === true) {
                   console.log("validcheck23");
-                  let userprofileuploading1 = await Userprofileupload(firstName,lastname,email);
+                  let userprofileuploading1 = await Userprofileupload(firstName,lastname,email,"SignUp");
                   console.log(userprofileuploading1,userprofileuploading1)
                   toast.success("Account created Successfully");
                   navigate('/');
@@ -116,7 +116,7 @@ function SignUp() {
     const getprofiledetails = async(email) =>{
       localStorage.setItem("Login",true)
       localStorage.setItem("UserID",email);
-        let [data,userprofiledetail]=await userprofileget(email);
+        let [data,userprofiledetail]=await userprofileget(email,"SignUp");
         localStorage.setItem("UserName",userprofiledetail.firstName);
       
        
@@ -207,7 +207,7 @@ function SignUp() {
     onResolve={async ({ provider, data }) => {
       console.log("provider", provider, data.email);
       try {
-        let [emailvalid, data2] = await OrgAdminmailcheckget1(data.email);
+        let [emailvalid, data2] = await OrgAdminmailcheckget1(data.email,"SignUp");
         console.log("emailvalid1", emailvalid);
         
         // if (emailvalid === true) {

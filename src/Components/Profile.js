@@ -97,7 +97,7 @@ const [country, setCountry] = useState('');
         }
     }; 
     const getprofiledetails = async() =>{
-        let [data,userprofiledetail]=await userprofileget(localStorage.getItem("UserID"));
+        let [data,userprofiledetail]=await userprofileget(localStorage.getItem("UserID"),"Profile");
         setgetIProfile(userprofiledetail);
         console.log("userdetail1",userprofiledetail,userprofiledetail.emailId);
         console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);
@@ -166,7 +166,7 @@ const [country, setCountry] = useState('');
             console.log("datapass",getIProfile.firstName,getIProfile.lastName,getIProfile.emailId,mobno,gender,country,region,timezoneselected.label
             ,language,Img);
             let Profileupdate= await Userprofileupdate(getIProfile.firstName,getIProfile.lastName,mobno,Img,gender,region,country,"English",timezoneselected.label
-                ,getIProfile.emailId);
+                ,getIProfile.emailId,"Profile");
             console.log("updated successfully",Profileupdate);
             toast.success(`updated successfully`,{autoClose:3000});  
             navigate('/')

@@ -94,17 +94,17 @@ const JobSchedule = (props) => {
        
     } 
     const fetchjobcount = async() =>{
-        let firstjob = await getJobsCountByType("DOC_FETCH");
-        let secondjob = await getJobsCountByType("MAKE_IREC");
-        let lasttimejobrunned = await getLatestJObTime();
-        let lasttimejobrunned1 = await joblasttime();
+        let firstjob = await getJobsCountByType("DOC_FETCH","JobSchedule");
+        let secondjob = await getJobsCountByType("MAKE_IREC","JobSchedule");
+        let lasttimejobrunned = await getLatestJObTime("HealthCheck");
+        let lasttimejobrunned1 = await joblasttime("JobSchedule");
         setjobtime(lasttimejobrunned1[0].activity);
         console.log("docssigmacount11", lasttimejobrunned1[0]);
         console.log("docssigmacount1", lasttimejobrunned1[0].loginTime);
         setfjob(firstjob);
         setsjob(secondjob);
-        let tnId = await getTennantId();
-        let [check, data2] = await OrgAdminmailcheckget(tnId);
+        let tnId = await getTennantId("JobSchedule");
+        let [check, data2] = await OrgAdminmailcheckget(tnId,"JobSchedule");
         console.log("OrgAdminmailcheckget", lasttimejobrunned)
         const utcDate = new Date(lasttimejobrunned1[0].loginTime);
     const istDate = new Date(utcDate.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
@@ -125,9 +125,9 @@ const JobSchedule = (props) => {
     const getvvdoccount = async () => {
       try {
         
-        let tnId = await getTennantId();
-        const vvdoccount = await getoriginaldoccount(tnId);
-        let firstjob = await getJobsCountByType("DOC_FETCH");
+        let tnId = await getTennantId("JobSchedule");
+        const vvdoccount = await getoriginaldoccount(tnId,"HealthCheck");
+        let firstjob = await getJobsCountByType("DOC_FETCH","JobSchedule");
         // setsigmadocCount(parseInt(documentsUploadedCount + nftsCreatedCount));
         setVvDocumentCount(vvdoccount.totalcount); // Update vvDocumentCount state
         console.log("docscounts", vvdoccount.totalcount);
@@ -273,11 +273,11 @@ const JobSchedule = (props) => {
       const Jobtimechange = async () => {
         try{
           handleShowLoadVerify();
-            let tnId = await getTennantId();
-            let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
+            let tnId = await getTennantId("JobSchedule");
+            let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"),"JobSchedule");
             console.log("app.js role", (data[0]).roleType);
             console.log("hoursvalue1", milliseconds);
-            let recheduledtime=await jobreschedulardetail(milliseconds,localStorage.getItem("UserID"),(data[0]).roleType,tnId,selectedHours);    
+            let recheduledtime=await jobreschedulardetail(milliseconds,localStorage.getItem("UserID"),(data[0]).roleType,tnId,selectedHours,"JobSchedule");    
                     
             console.log("recheduledtime",recheduledtime);
             console.log("hoursvalue2", milliseconds);

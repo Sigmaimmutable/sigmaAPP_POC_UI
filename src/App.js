@@ -52,7 +52,7 @@ function App () {
   const fetchRole = async () => {
     if(localStorage.getItem("UserID"))
     {
-    let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
+    let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"),"App");
     console.log("app.js role", (data[0]).roleType);
     setRoleType((data[0]).roleType);
 
@@ -67,7 +67,7 @@ function App () {
   }, [roleType]);
 
   const getprofiledetails = async() =>{
-    let [data,userprofiledetail] = await userprofileget(localStorage.getItem("UserID"));
+    let [data,userprofiledetail] = await userprofileget(localStorage.getItem("UserID"),"App");
     setgetIProfile(userprofiledetail);
     // console.log("userdetail1",userprofiledetail,userprofiledetail.emailId);
     // console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);

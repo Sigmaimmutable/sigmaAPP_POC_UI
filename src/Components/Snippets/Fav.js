@@ -22,7 +22,7 @@ function Favourite(sigmaId) {
         setClicked(true);
         try {
             const emailId = localStorage.getItem("UserID");
-            const tenantId = await getTennantId(emailId);
+            const tenantId = await getTennantId(emailId,"Fav");
 
             if (!fav) {
                 const added = await addToFavorites(
@@ -31,7 +31,8 @@ function Favourite(sigmaId) {
                     sigmaId.name__v,
                     sigmaId.filename__v,
                     sigmaId.status__v,
-                    tenantId
+                    tenantId,
+                    "Fav"
                 );
 
                 if (added) {
@@ -42,7 +43,8 @@ function Favourite(sigmaId) {
                     emailId,
                     sigmaId.sigmaid,
                     sigmaId.name__v,
-                    tenantId
+                    tenantId,
+                    "Fav"
                 );
 
                 if (deleted) {

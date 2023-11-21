@@ -200,8 +200,8 @@ const [resetclear, setResetclear] = useState(true);
         const jobfetch = async () => {
             try {
                 // Fetch job list
-                const tnId = await getTennantId();
-                const response = await getJobList(tnId, StartValue, limit);
+                const tnId = await getTennantId("JobDetails");
+                const response = await getJobList(tnId, StartValue, limit,"JobDetails");
 
                 // Apply filters to the job list based on selectedStatus and selectedJobType
                 let filteredList = response;
@@ -261,13 +261,13 @@ const [resetclear, setResetclear] = useState(true);
     const paginationProcess = async (start, limit) => {
         setStartValue(start);
         if (selectedValues[0]) {
-            let tnId = await getTennantId();
-            let joblisted = await getJobList(tnId, start, limit);
+            let tnId = await getTennantId("JobDetails");
+            let joblisted = await getJobList(tnId, start, limit,"JobDetails");
             await handlefatchforPagination(selectedValues, joblisted);
         }
-        let tnId = await getTennantId();
+        let tnId = await getTennantId("JobDetails");
         try {
-            const response = await getJobList(tnId, start, limit);
+            const response = await getJobList(tnId, start, limit,"JobDetails");
             setjobList(response);
             if (response.length === 0) {
                 setReachedLastPage(true);

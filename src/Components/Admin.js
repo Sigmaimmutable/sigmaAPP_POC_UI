@@ -67,13 +67,13 @@ function Admin() {
     const data = async()=>
 {
   
-    let tnId = await getTennantId();
+    let tnId = await getTennantId("Admin");
     let id = tnId;
-    let [check, data2] = await nodeDetails(id);
+    let [check, data2] = await nodeDetails(id,"Admin");
     console.log("data2", data2);
     setnodeDetail(data2);
 
-    let [check1, data21] = await OrgAdminmailcheckget2(id);
+    let [check1, data21] = await OrgAdminmailcheckget2(id,"Admin");
     console.log("valid2", data21);
     setnodeDetail1(data21[0])
   

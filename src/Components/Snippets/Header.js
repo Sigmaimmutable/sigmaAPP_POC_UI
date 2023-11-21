@@ -32,7 +32,7 @@ const Header = ({getIProfile}) => {
 
     const notification = async () => {
         try{
-        let [value, allNotificationFetch] = await getNotificationById(localStorage.getItem("UserID"));
+        let [value, allNotificationFetch] = await getNotificationById(localStorage.getItem("UserID"),"Header");
         if(value)
         {
             let r=[];
@@ -80,7 +80,7 @@ const Header = ({getIProfile}) => {
 
     const singleRead = async (id, mailid, status) => {
         try{
-            await NotificationSingle(id, mailid, status);
+            await NotificationSingle(id, mailid, status,"Header");
             await notification();
         }catch(err){
             console.error(err);
@@ -90,7 +90,7 @@ const Header = ({getIProfile}) => {
     const allRead = async (mailid) => {
         try{
             handleShowLoadVerify();
-            await NotificationAll(mailid);
+            await NotificationAll(mailid,"Header");
             await notification();
             
         }catch(err){
@@ -106,10 +106,10 @@ const Header = ({getIProfile}) => {
         console.log("Logtime12",currentDateTime);
         let email=localStorage.getItem('UserID')
         console.log("emailid",email)
-        let [checklogin,loginstauscheck] = await  Sessionstatusget(email);
+        let [checklogin,loginstauscheck] = await  Sessionstatusget(email,"Header");
        setLoginstatus(loginstauscheck);
        console.log("logincheck",loginstatus);
-       let sessionlogin= await Sessionstatusupdate("","","Logout",email);
+       let sessionlogin= await Sessionstatusupdate("","","Logout",email,"Header");
        console.log("sessionstatus",sessionlogin);
        localStorage.setItem("Login",false)
        localStorage.removeItem('Login');

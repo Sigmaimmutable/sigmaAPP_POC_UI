@@ -59,7 +59,7 @@ const DocumentDetailsSingle= (props)=>{
 
      
       const getNFTproperties= async() =>{
-        const [success, data] = await fetchSigmadocdetails(id);
+        const [success, data] = await fetchSigmadocdetails(id,"DocumentCheck");
         setDocumentDetails(data);
         console.log("docs",data);
             // let tnId = await getTennantId();
@@ -82,13 +82,13 @@ const DocumentDetailsSingle= (props)=>{
     const downloaddoc = async () => {
       try{
         handleShowLoadDownload();
-          let tnId = await getTennantId();
+          let tnId = await getTennantId("DocumentDetailsSingle");
           // let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
           // console.log("app.js role", data.roleType);
           // console.log("hoursvalue1", milliseconds);
           console.log("tnId",tnId);
           console.log("docdetails",documentDetails.docChecksum);
-          let downloadtapi=await handleWriteToFile(tnId,documentDetails.docChecksum);    
+          let downloadtapi=await handleWriteToFile(tnId,documentDetails.docChecksum,"DocumentDetailsSingle");    
                   
           console.log("recheduldownloadtapiedtime",downloadtapi);
           // console.log("hoursvalue2", milliseconds);
@@ -121,19 +121,21 @@ const DocumentDetailsSingle= (props)=>{
             // Handle the error if needed
           });
       };
-      const getNftdetails = async() => {
 
-        const url = 'https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78';
-        const provider = new ethers.providers.JsonRpcProvider(url);
-        const privateKey = '8c8a822798b85b2401632b75804655cc6be30495f03518f057279b4e8083b2b9';
-        const signer = new ethers.Wallet(privateKey, provider);
-
-        const contractInstance = new ethers.Contract(contractAddress, contractABI, signer);
-        const nftdetails1 = await contractInstance.getNFT(documentDetails.uuid);
-        setNftdetails(nftdetails1);
-        console.log("Contract details:",nftdetails1);
-        
-      }
+      const getNftdetails = async () => {
+        try {
+            const url = 'https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78';
+            const provider = new ethers.providers.JsonRpcProvider(url);
+    
+            const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);
+            const nftdetails1 = await contractInstance.getNFT(documentDetails.uuid);
+            
+            setNftdetails(nftdetails1);
+            console.log("Contract details:", nftdetails1);
+        } catch (error) {
+            console.error("Error fetching NFT details:", error.message);
+        }
+    }
       useEffect(() =>{
         if(documentDetails){
         getNftdetails();
