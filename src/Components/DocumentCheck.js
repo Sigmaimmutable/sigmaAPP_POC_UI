@@ -62,12 +62,12 @@ const DocumentVerification= (props)=>{
 
      
       const getNFTproperties= async() =>{
-        const [success, data] = await fetchSigmadocdetails(id);
+        const [success, data] = await fetchSigmadocdetails(id,"DocumentCheck");
         setDocumentDetails(data);
         console.log("datasigma",data);
-            let tnId = await getTennantId();
+            let tnId = await getTennantId("DocumentCheck");
             if(data.uuid){
-              let tx = await getNFTProp(data.uuid,tnId);
+              let tx = await getNFTProp(data.uuid,tnId,"DocumentCheck");
               // console.log("txhistory",tx)
               setNftprop(tx.output);
               console.log("nftprop",tx)
@@ -79,8 +79,8 @@ const DocumentVerification= (props)=>{
     useEffect(() =>{getNFTproperties()},[])
 
     const getvvproperties= async() =>{
-      let tnId = await getTennantId();
-      const vvdocs = await getoriginaldocprop(tnId,docsid);
+      let tnId = await getTennantId("DocumentCheck");
+      const vvdocs = await getoriginaldocprop(tnId,docsid,"DocumentCheck");
       setvvDocumentDetails(vvdocs);
       console.log("vvdocs",vvdocs)
   
@@ -97,11 +97,11 @@ const DocumentVerification= (props)=>{
     const downloaddoc = async () => {
       try{
         handleShowLoadDownload();
-          let tnId = await getTennantId();
+          let tnId = await getTennantId("DocumentCheck");
           // let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
           // console.log("app.js role", data.roleType);
           // console.log("hoursvalue1", milliseconds);
-          let downloadtapi=await handleWriteToFile(tnId,documentDetails.docChecksum);    
+          let downloadtapi=await handleWriteToFile(tnId,documentDetails.docChecksum,"DocumentCheck");    
                   
           console.log("recheduldownloadtapiedtime",downloadtapi);
           // console.log("hoursvalue2", milliseconds);

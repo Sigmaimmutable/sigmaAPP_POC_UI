@@ -110,7 +110,7 @@ function NftTransactionPage({}) {
 
     const getTranscInputBase = async() =>{
         try{
-            let [istrue, transactionInput] = await getTxInputBase(txnHash.hash);
+            let [istrue, transactionInput] = await getTxInputBase(txnHash.hash,"NftTransactionPage");
             console.log("Avalanche TxInput",transactionInput.result);
             setTransInput(transactionInput.result);
             console.log("Checking...",transInput.input);
@@ -121,7 +121,9 @@ function NftTransactionPage({}) {
     }
     useEffect(() =>{
         console.log(txnHash);
+        if(transInput.input == null || transInput.input == "" || transInput.input == undefined){
         txnHash && getTranscInputBase();
+        }
         console.log("check Input",transInput.input);
     },[txnHash,transInput])
 

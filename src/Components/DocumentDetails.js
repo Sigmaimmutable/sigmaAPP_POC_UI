@@ -93,14 +93,14 @@ function DocumentDetails() {
   
         if (!isFavorite) {
           // Add to favorites
-          const added = await addToFavorites(emailId, sigmaId, name__v, filename__v, status__v);
+          const added = await addToFavorites(emailId, sigmaId, name__v, filename__v, status__v,"DocumentDetails");
   
           if (added) {
             setIsFavorite(true);
           }
         } else {
           // Remove from favorites
-          const deleted = await deleteFavorite(emailId, sigmaId);
+          const deleted = await deleteFavorite(emailId, sigmaId,"DocumentDetails");
   
           if (deleted) {
             setIsFavorite(false);
@@ -116,11 +116,11 @@ function DocumentDetails() {
    
       const fetchSigmaDoc = async() =>{
         const start = '0'; // Provide the desired value for start
-        let tnId = await getTennantId();
+        let tnId = await getTennantId("DocumentDetails");
         console.log("tnid",tnId)
         const tenantId = tnId; // Provide the desired value for tenantId
     
-       await fetchSigmadocByTid(start, limit, tenantId)
+       await fetchSigmadocByTid(start, limit, tenantId,"DocumentDetails")
           .then(response => {
             console.log("err", response);
             // Assuming the response contains the POST method details in the 'data' field
@@ -185,7 +185,7 @@ function DocumentDetails() {
      
       
       const userdata = async () => {
-        let tnid = await getTennantId();
+        let tnid = await getTennantId("DocumentDetails");
         let getCurrentEpochTime =
           Math.floor(Date.now() / 1000); // Dividing by 1000 to convert milliseconds to seconds
           console.log("ep",getCurrentEpochTime)
@@ -198,7 +198,7 @@ function DocumentDetails() {
         let statuses = 0;
       
         try {
-          await NotificationPost(title,descriptions,mailId,epochtime,tennatId,statuses );
+          await NotificationPost(title,descriptions,mailId,tennatId,statuses,"DocumentDetails" );
           console.log("Update successful9");
         } catch (error) {
           console.error("Error updating:", error);
@@ -208,12 +208,12 @@ function DocumentDetails() {
   const downloaddoc = async () => {
     try{
       handleShowLoadDownload();
-        let tnId = await getTennantId();
+        let tnId = await getTennantId("DocumentDetails");
         const start = '0'; 
         // let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
         // console.log("app.js role", data.roleType);
         // console.log("hoursvalue1", milliseconds);
-        let downloadtapi=await handleWriteToDocumentlist(start,limit,tnId);    
+        let downloadtapi=await handleWriteToDocumentlist(start,limit,tnId,"DocumentDetails");    
                 
         console.log("recheduldownloadtapiedtime",downloadtapi);
         // console.log("hoursvalue2", milliseconds);

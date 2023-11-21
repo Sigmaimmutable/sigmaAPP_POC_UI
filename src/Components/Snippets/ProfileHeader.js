@@ -12,7 +12,7 @@ function ProfileHeader() {
     const [allNotification, setAllNotification] = useState([]);
     const navigate = useNavigate()
     const getprofiledetails = async() =>{
-        let [data,userprofiledetail]=await userprofileget(localStorage.getItem("UserID"));
+        let [data,userprofiledetail]=await userprofileget(localStorage.getItem("UserID"),"ProfileHeader");
         setgetIProfile(userprofiledetail);
         console.log("userdetail1",userprofiledetail,userprofiledetail.emailId);
         console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);
@@ -26,10 +26,10 @@ function ProfileHeader() {
            console.log("Logtime12",currentDateTime);
            let email=localStorage.getItem('UserID')
            console.log("emailid",email)
-           let [checklogin,loginstauscheck] = await  Sessionstatusget(email);
+           let [checklogin,loginstauscheck] = await  Sessionstatusget(email,"ProfileHeader");
           setLoginstatus(loginstauscheck);
           console.log("logincheck",loginstatus);
-          let sessionlogin= await Sessionstatusupdate("","","Logout",email);
+          let sessionlogin= await Sessionstatusupdate("","","Logout",email,"ProfileHeader");
           console.log("sessionstatus",sessionlogin);
           localStorage.setItem("Login",false)
           localStorage.removeItem('Login');
@@ -46,7 +46,7 @@ function ProfileHeader() {
 
        const notification = async () => {
         try{
-        let [value, allNotificationFetch] = await getNotificationById(localStorage.getItem("UserID"));
+        let [value, allNotificationFetch] = await getNotificationById(localStorage.getItem("UserID"),"ProfileHeader");
         if(value)
         {
             let r=[];
@@ -94,7 +94,7 @@ function ProfileHeader() {
 
     const singleRead = async (id, mailid, status) => {
         try{
-            await NotificationSingle(id, mailid, status);
+            await NotificationSingle(id, mailid, status, "ProfileHeader");
             await notification();
         }catch(err){
             console.error(err);
@@ -103,7 +103,7 @@ function ProfileHeader() {
 
     const allRead = async (mailid) => {
         try{
-            await NotificationAll(mailid);
+            await NotificationAll(mailid,"ProfileHeader");
             await notification();
         }catch(err){
             console.error(err);

@@ -154,8 +154,8 @@ function JobHandling() {
         // handleShowLoad();
         await showloader(jobtype,statusjob,true);
         try{
-            let tnId = await getTennantId();
-            let recheduledjobstatus= await jobstatusupdate(tnId,jobtype,statusjob);
+            let tnId = await getTennantId("JobHandling");
+            let recheduledjobstatus= await jobstatusupdate(tnId,jobtype,statusjob,"JobHandling");
             await ticketTableFetch();
             
             
@@ -178,7 +178,7 @@ const ticketlisting =async()=>{
     let r=[];
     let countlist=0;
     try {          
-        let [check, data] = await Jobstatusget();
+        let [check, data] = await Jobstatusget("JobHandling");
         if (check) {  
             setUserManage(data);
       }
@@ -201,7 +201,7 @@ useEffect(() => {
           let r=[];
           let countlist=0;
       try {          
-        let [check, data] = await Jobstatusget();
+        let [check, data] = await Jobstatusget("JobHandling");
         if (check) {  
             setUserManage(data);
             console.log("datass",data);
@@ -248,7 +248,7 @@ const paginationProcess = async(start) =>{
     await ticketlisting(start);
 }
 const attend = async (id, email) => {
-    await help1(id, email, localStorage.getItem("UserName"));
+    await help1(id, email, localStorage.getItem("UserName","JobHandling"));
     await ticketTableFetch();
 }
 

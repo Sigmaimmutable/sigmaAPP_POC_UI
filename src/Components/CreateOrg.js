@@ -108,7 +108,7 @@ const CreateOrg = () => {
             console.log("checkpass");
             let tenentid = await CreateOrganizationPost(name,orgname);
             console.log("tenetid",tenentid);
-            let orguser=await CreateOrguserrolepost(emailid,name,role,tenentid.tenantId);            
+            let orguser=await CreateOrguserrolepost(emailid,name,role,tenentid.tenantId,"CreateOrg");            
             console.log("Orguser",orguser);
             await Reset();
             toast.success(`Access ID created successfully`);  

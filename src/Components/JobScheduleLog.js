@@ -122,11 +122,11 @@ function JobScheduleLog() {
       };
     const Jobtimechange = async () => {
         try{
-            let tnId = await getTennantId();
-            let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
+            let tnId = await getTennantId("JobScheduleLog");
+            let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"),"JobScheduleLog");
             console.log("app.js role", (data[0]).roleType);
             console.log("hoursvalue1", milliseconds);
-            let recheduledtime=await jobreschedulardetail(milliseconds,localStorage.getItem("UserID"),(data[0]).roleType,tnId,selectedHours);    
+            let recheduledtime=await jobreschedulardetail(milliseconds,localStorage.getItem("UserID"),(data[0]).roleType,tnId,selectedHours,"JobScheduleLog");    
                     
             console.log("recheduledtime",recheduledtime);
             console.log("hoursvalue2", milliseconds);
@@ -149,7 +149,7 @@ const ticketlisting =async()=>{
     let r=[];
     let countlist=0;
     try {          
-        let [check, data] = await jobschedulardetailget();
+        let [check, data] = await jobschedulardetailget("JobScheduleLog");
         if (check) {  
             setUserManage(data);
       }
@@ -172,7 +172,7 @@ useEffect(() => {
           let r=[];
           let countlist=0;
       try {          
-        let [check, data] = await jobschedulardetailget();
+        let [check, data] = await jobschedulardetailget("JobScheduleLog");
         if (check) {  
             setUserManage(data);
       }
@@ -260,7 +260,7 @@ const paginationProcess = async(start) =>{
     await ticketlisting(start);
 }
 const attend = async (id, email) => {
-    await help1(id, email, localStorage.getItem("UserName"));
+    await help1(id, email, localStorage.getItem("UserName"),"JobScheduleLog");
     await ticketTableFetch();
 }
 

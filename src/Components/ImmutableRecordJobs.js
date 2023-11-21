@@ -67,8 +67,8 @@ function ImmutableRecordJobs() {
 
     useEffect(() =>{
         const jobfetch = async() =>{
-            let tnId = await getTennantId();
-            await getJobListImmutable(tnId,StartValue,limit).then((response)=>
+            let tnId = await getTennantId("ImmutableRecordJobs");
+            await getJobListImmutable(tnId,StartValue,limit,"ImmutableRecordJobs").then((response)=>
             // console.log("response",response)
             setjobList(response)
 
@@ -78,14 +78,14 @@ function ImmutableRecordJobs() {
     }, [])
 
     const runJob = async() =>{
-        await executeJobListImmutable();
+        await executeJobListImmutable("ImmutableRecordJobs");
         handleClose();
         window.location.reload();
     }
 
     const paginationProcess = async(start,limit) =>{
-        let tnId = await getTennantId();
-        await getJobListImmutable(tnId,start,limit).then((response)=> {
+        let tnId = await getTennantId("ImmutableRecordJobs");
+        await getJobListImmutable(tnId,start,limit,"ImmutableRecordJobs").then((response)=> {
             // console.log("response",response)
         setjobList(response);
         if (response.length === 0) {

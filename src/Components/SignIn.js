@@ -57,23 +57,23 @@ function SignIn() {
       try{
         handleShowLoadVerify();
         console.log("Logtime12",currentDateTime);
-       let loginorgcheck= await Orguserlogincheck(emailRef,passwordRef);
+       let loginorgcheck= await Orguserlogincheck(emailRef,passwordRef,"SignIn");
 
        if(loginorgcheck.result === "Y"){
             
             localStorage.setItem("Login",true)
             localStorage.setItem("UserID",emailRef);
            
-            let signupuser1 = await Orgadminsignup(localStorage.getItem('UserID'), passwordRef ,"Inline Login");
+            let signupuser1 = await Orgadminsignup(localStorage.getItem('UserID'), passwordRef ,"Inline Login","SignIn");
             console.log("checksignup1", signupuser1);
             
-            let [data,userprofiledetail]=await userprofileget(emailRef);
+            let [data,userprofiledetail]=await userprofileget(emailRef,"SignIn");
            
             localStorage.setItem("UserName",userprofiledetail.firstName);
-            let [check,rolecheck] = await  OrgAdminmailcheckget1(emailRef);
-            let sessionlogin= await Sessionloginpost("","","Login",rolecheck.tennantId,rolecheck.roleType,emailRef);
+            let [check,rolecheck] = await  OrgAdminmailcheckget1(emailRef,"SignIn");
+            let sessionlogin= await Sessionloginpost("","","Login",rolecheck.tennantId,rolecheck.roleType,emailRef,"SignIn");
             console.log("sessionstatus",sessionlogin);
-            let [checklogin,loginstauscheck] = await  Sessionstatusget(emailRef);
+            let [checklogin,loginstauscheck] = await  Sessionstatusget(emailRef,"SignIn");
             console.log("sessionstatuscheck",loginstauscheck.activity);
             setLoginstatus(loginstauscheck);
             if (rememberMe) {
@@ -119,7 +119,7 @@ function SignIn() {
       
      
       const userdata = async () => {
-        let tnid = await getTennantId();
+        let tnid = await getTennantId("SignIn");
         let getCurrentEpochTime =
           Math.floor(Date.now() / 1000); // Dividing by 1000 to convert milliseconds to seconds
           console.log("ep",getCurrentEpochTime)
@@ -132,7 +132,7 @@ function SignIn() {
         let statuses = 0;
       
         try {
-          await NotificationPost(title,descriptions,mailId,epochtime,tennatId,statuses );
+          await NotificationPost(title,descriptions,mailId,tennatId,statuses,"SignIn" );
           console.log("Update successful9");
         } catch (error) {
           console.error("Error updating:", error);
@@ -142,7 +142,7 @@ function SignIn() {
     const getprofiledetails = async(email) =>{
       localStorage.setItem("Login",true)
       localStorage.setItem("UserID",email);
-        let [data,userprofiledetail]=await userprofileget(email);
+        let [data,userprofiledetail]=await userprofileget(email,"SignIn");
         localStorage.setItem("UserName",userprofiledetail.firstName);
       
        
@@ -225,7 +225,7 @@ function SignIn() {
     onResolve={async ({ provider, data }) => {
       console.log("provider", provider, data.email);
       try {
-        let [emailvalid, data2] = await OrgAdminmailcheckget1(data.email);
+        let [emailvalid, data2] = await OrgAdminmailcheckget1(data.email,"SignIn");
         console.log("emailvalid1", emailvalid);
         
         if (emailvalid === true) {

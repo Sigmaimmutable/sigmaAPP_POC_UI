@@ -96,7 +96,7 @@ const FavouriteDocuments= (props)=>{
     }, []);
     const fetchData = async () => {
         const emailId = localStorage.getItem("UserID")
-        const [check1, data] = await fetchFavoriteDetails(emailId,limit);
+        const [check1, data] = await fetchFavoriteDetails(emailId,limit,"FavouritDocuments");
         console.log("valid2", data);
         setFavoriteData(data);
     };
@@ -119,7 +119,7 @@ const FavouriteDocuments= (props)=>{
       };
     const deleteFavorites = async(docId, filename) => {
         const emailId = localStorage.getItem("UserID")
-        const tenantId = await getTennantId(emailId);
+        const tenantId = await getTennantId(emailId,"FavoutiteDocuments");
         // Perform the deletion logic here
         // You can use the docId to identify the document to delete
         // Update the favoriteData state to remove the deleted document
@@ -129,7 +129,7 @@ const FavouriteDocuments= (props)=>{
         setFavoriteData(updatedFavorites);
         console.log("docid",docId)
         removeFavoriteFromLocalStorage(emailId, docId);
-        const deleted = await deleteFavorite(emailId, docId, filename, tenantId);
+        const deleted = await deleteFavorite(emailId, docId, filename, tenantId,"FavouiteDocuments");
       
       };
       useEffect(() => {
@@ -137,7 +137,7 @@ const FavouriteDocuments= (props)=>{
     }, []);
     const getnotify = async () => {
         const emailId = localStorage.getItem("UserID")
-        const [check1, data] = await getNotificationById(emailId);
+        const [check1, data] = await getNotificationById(emailId,"FavouiteDocuments");
         console.log("getdata", data);
         setnotifyData(data);
     }; 

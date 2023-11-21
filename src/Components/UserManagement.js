@@ -184,11 +184,11 @@ function UserManagement(props) {
         const Deleteorguser = async (emailid) => {
             try{
                 console.log("emailconsole",emailid);
-                let orguserdelete=await DeleteOrgUser(emailid);            
+                let orguserdelete=await DeleteOrgUser(emailid,"UserManagement");            
                 console.log("deleteOrguser",orguserdelete);
                 toast.success("Deleted user successfully");
-                let tenantid = await getTennantId(localStorage.getItem('UserID'));
-                let [value, data] = await OrgTenentcheckget(tenantid, pageSize);  
+                let tenantid = await getTennantId(localStorage.getItem('UserID'),"UserManagement");
+                let [value, data] = await OrgTenentcheckget(tenantid, pageSize,"UserManagement");  
                 if (value) {  
                       setUserManage(data);
                 }
@@ -207,7 +207,7 @@ function UserManagement(props) {
 // }
       
 const Updateuser = async (emailId, roleType) => {
-    await updateuser(emailId, roleType); 
+    await updateuser(emailId, roleType,"UserManagement"); 
     // Close the popup
     handlePopupClose();
     // Optionally, you can update the user's role in the UI.
@@ -226,9 +226,9 @@ const Updateuser = async (emailId, roleType) => {
 const Updateuser1 = async (emailId,roleType,start) => {
     try {
        
-        await updateuser(emailId,roleType); 
-        let tenantid = await getTennantId(localStorage.getItem('UserID'));
-        let [value, data] = await OrgTenentcheckget(tenantid, start);
+        await updateuser(emailId,roleType,"UserMangement"); 
+        let tenantid = await getTennantId(localStorage.getItem('UserID'),"UserManagement");
+        let [value, data] = await OrgTenentcheckget(tenantid, start,"UserManagement");
         if (value) {
           setUserManage(data);
         }
@@ -245,11 +245,11 @@ const Updateuser1 = async (emailId,roleType,start) => {
         else{
           let r = [];
       try {          
-        let tenantid = await getTennantId(localStorage.getItem('UserID'));
+        let tenantid = await getTennantId(localStorage.getItem('UserID'),"UserManagement");
       
         // settenentid(tenentid.tenantId);
         console.log("tenetidnew",tenantid);
-          let [value, data] = await OrgTenentcheckget(tenantid, start);  
+          let [value, data] = await OrgTenentcheckget(tenantid, start,"UserManagement");  
           if (value) {  
                 setUserManage(data);
                 if (data.length === 0) {

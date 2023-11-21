@@ -26,7 +26,7 @@ function ResetPassword() {
             handleShowLoadVerify();
         if(captcha)
         {
-        let result = await forgetPasswordMailVerification(email);
+        let result = await forgetPasswordMailVerification(email,"resetPassword");
         // console.log("result", result);
         if(result === true)
             toast.success("Please check your E-mail");

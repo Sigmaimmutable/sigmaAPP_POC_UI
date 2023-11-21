@@ -52,8 +52,8 @@ function NotifyDetails() {
 
   const Users = async () => {
     try{
-        let tenantid = await getTennantId(localStorage.getItem('UserID'));
-        let [value, data] = await OrgTenentcheckget(tenantid, pageSize);  
+        let tenantid = await getTennantId(localStorage.getItem('UserID'),"NotifyDetails");
+        let [value, data] = await OrgTenentcheckget(tenantid, pageSize, "NotifyDetails");  
 
     setUser(data);
 
@@ -96,8 +96,8 @@ const newUsers = async () => {
   
       if (matchingUser) {
         const emailId = localStorage.getItem("UserID");
-       const tennantId = await getTennantId(emailId);
-        let orguser = await getNotificationById2(email, tennantId);
+       const tennantId = await getTennantId(emailId,"NotifyDetails");
+        let orguser = await getNotificationById2(email, tennantId,"NotifyDetails");
         console.log("Orguser", orguser);
         setEmail('');
         toast.success("User added successfully");
@@ -124,11 +124,11 @@ const newUsers = async () => {
   const Deleteorguser1 = async (userId) => {
     try {
       handleShowLoadVerify();
-      let orguserdelete = await getNotificationById4(userId);
+      let orguserdelete = await getNotificationById4(userId,"NotifyDetails");
       console.log("deleteOrguser", orguserdelete);
       const emailId = localStorage.getItem("UserID");
-      const tenantId = await getTennantId(emailId);
-      let [value, data] = await getNotificationById1(tenantId);
+      const tenantId = await getTennantId(emailId,"NotifyDetails");
+      let [value, data] = await getNotificationById1(tenantId,"NotifyDetails");
       if (value) {
         setUserManage(data);
       }
@@ -146,9 +146,9 @@ const newUsers = async () => {
     try {
       handleShowLoadVerify();
       const emailId = localStorage.getItem("UserID");
-      const tennantId = await getTennantId(emailId);
-      await getNotificationById3(userId,email, tennantId);
-      let [value, data] = await getNotificationById1(tennantId);
+      const tennantId = await getTennantId(emailId,"NotifyDetails");
+      await getNotificationById3(userId,email, tennantId,"NotifyDetails");
+      let [value, data] = await getNotificationById1(tennantId,"NotifyDetails");
       if (value) {
         setUserManage(data);
       }
@@ -171,8 +171,8 @@ const newUsers = async () => {
 
     try {
       const emailId = localStorage.getItem("UserID");
-      const tenantId = await getTennantId(emailId);
-      let [value, data] = await getNotificationById1(tenantId);
+      const tenantId = await getTennantId(emailId,"NotifyDetails");
+      let [value, data] = await getNotificationById1(tenantId,"NotifyDetails");
       if (value) {
         setUserManage(data);
       }

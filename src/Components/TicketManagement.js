@@ -75,22 +75,25 @@ function TicketManagement() {
       };
     const ResolvedTicket = async (getemails,getids) => {
         try{
+            handleShowLoadVerify();
             console.log("sendemail",getemails,getids);
-            const tenantId = await getTennantId(getemails);
-            let resolvedticket=await ResolveTicket(getemails,getids,tenantId);            
+            const tenantId = await getTennantId(getemails,"TicketManagement");
+            let resolvedticket=await ResolveTicket(getemails,getids,tenantId,"TicketManagement");            
             console.log("deleteOrguser",resolvedticket);
             toast.success("Resolved  successfully");
             await ticketTableFetch();
             setShowButton(!showButton);
         }catch(err){
             toast.error(err);
+        }finally{
+            handleHideLoadVerify();
         }
         }
 const ticketlisting =async(firstvalue)=>{
     let r=[];
     let countlist=0;
     try {          
-        let [check, data] = await getTicketsById(firstvalue);
+        let [check, data] = await getTicketsById(firstvalue,"TicketMangement");
         if (check) {  
             setUserManage(data);
             if (data.length === 0) {
@@ -155,7 +158,7 @@ const ticketlisting =async(firstvalue)=>{
           let r=[];
           let countlist=0;
       try {          
-        let [check, data] = await getTicketsById(startvalue);
+        let [check, data] = await getTicketsById(startvalue,"TicketMangement");
         if (check) {  
             setUserManage(data);
       }
@@ -247,7 +250,7 @@ const paginationProcess = async(start) =>{
 const attend = async (id, email) => {
     try{
     handleShowLoadVerify();
-    await help1(id, email, localStorage.getItem("UserName"));
+    await help1(id, email, localStorage.getItem("UserName"),"TicketManagement");
     await ticketTableFetch();
     // setIsAssigned(true);
     handleHideLoadVerify();
@@ -471,7 +474,7 @@ const attend = async (id, email) => {
                                 <td className="text-center">{x.descriptions}</td>
                                 <td className="text-center">{x.ticketRaisetime}</td>
                                 <td className="text-center">{x.statuses?<>Resolved</>:<>Pending</>}</td>
-                                <td className="text-center">{x.assignee === null ? <> <Button variant="outline-gray" className="me-2 btn-outline-gray-black" onClick={() => attend(x.id, x.mailId)}>Attend</Button></>:<> {x.assignee} </>}</td>
+                                <td className="text-center">{x.assignee === null ? <> <ButtonLoad variant="outline-gray" className="me-2 btn-outline-gray-black" loading={loaderVerify} onClick={() => attend(x.id, x.mailId)}>Attend</ButtonLoad></>:<> {x.assignee} </>}</td>
 
 
                                 {/* <td>  <ButtonLoad loading={loader} className='w-100 btn-blue mb-3' onClick={()=>{Deleteorguser(x.emailId)}}>Delete user</ButtonLoad> </td>       */}

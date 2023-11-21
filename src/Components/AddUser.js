@@ -65,7 +65,7 @@ function AddUser() {
 
     const roleFetch = async () => {
         try{
-            let [check, tenentid] = await OrgAdminmailcheckget1(localStorage.getItem('UserID'));
+            let [check, tenentid] = await OrgAdminmailcheckget1(localStorage.getItem('UserID'),"AddUser");
             console.log("tenetid",tenentid.roleType);
             setRoleId(tenentid.roleType);
         }catch(err){
@@ -96,10 +96,10 @@ function AddUser() {
               else if (role === null || role === "" || role === undefined) {
                 toast.error("Please select a Role!");
               }else{
-                let [check, tenentid] = await OrgAdminmailcheckget1(localStorage.getItem('UserID'));
+                let [check, tenentid] = await OrgAdminmailcheckget1(localStorage.getItem('UserID'),"AddUser");
                 // setRoleId(tenentid.roleType);
                 console.log("tenetid",tenentid);
-                let orguser = await CreateOrguserrolepost(emailid, name, role, tenentid.tennantId);            
+                let orguser = await CreateOrguserrolepost(emailid, name, role, tenentid.tennantId,"AddUser");            
                 // console.log("----------Orguser",emailid, name, role);
                 toast.success("User added successfully");
                 await sleep(5000);
