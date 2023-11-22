@@ -121,25 +121,20 @@ const DocumentDetailsSingle= (props)=>{
             // Handle the error if needed
           });
       };
-      const getNftdetails = async() => {
-        try{
-          const url = 'https://avalanche-fuji.infura.io/v3/7591ca9e4ccc415faf028b9dff4c7ce2';
-          const provider = new ethers.providers.JsonRpcProvider(url);
-          const privateKey = '8c8a822798b85b2401632b75804655cc6be30495f03518f057279b4e8083b2b9';
-          const signer = new ethers.Wallet(privateKey, provider);
-          
-          const contractInstance = new ethers.Contract(contractAddress, contractABI, signer);
-          console.log("Contract check:",provider,signer,contractInstance)
-          const nftdetails1 = await contractInstance.getNFT(documentDetails?.uuid);
-
-          setNftdetails(nftdetails1);
-          console.log("Contract details:",nftdetails1);
-        }catch(e){
-          console.error("error:",e);
+      const getNftdetails = async () => {
+        try {
+            const url = 'https://avalanche-fuji.infura.io/v3/7591ca9e4ccc415faf028b9dff4c7ce2';
+            const provider = new ethers.providers.JsonRpcProvider(url);
+    
+            const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);
+            const nftdetails1 = await contractInstance.getNFT(documentDetails.uuid);
+            
+            setNftdetails(nftdetails1);
+            console.log("Contract details:", nftdetails1);
+        } catch (error) {
+            console.error("Error fetching NFT details:", error.message);
         }
-       
-        
-      }
+    }
       useEffect(() =>{
         if(documentDetails){
         getNftdetails();
