@@ -138,19 +138,20 @@ const DocumentDetailsSingle= (props)=>{
           });
       };
 
-      const getNftdetails = async() => {
-
-        const url = 'https://virulent-fittest-season.base-mainnet.discover.quiknode.pro/7aa96935d524aa2148386a41e4cf89165e336b99/';
-        const provider = new ethers.providers.JsonRpcProvider(url);
-        const privateKey = 'a15c005a621f521fbcf03c3207534b9e84e913f2b1f7b0aed0e9f0ee072fba86';
-        const signer = new ethers.Wallet(privateKey, provider);
-
-        const contractInstance = new ethers.Contract(contractAddress, contractABI, signer);
-        const nftdetails1 = await contractInstance.getNFT(documentDetails.uuid);
-        setNftdetails(nftdetails1);
-        console.log("Contract details:",nftdetails1);
-        
-      }
+      const getNftdetails = async () => {
+        try {
+            const url = 'https://virulent-fittest-season.base-mainnet.discover.quiknode.pro/7aa96935d524aa2148386a41e4cf89165e336b99/';
+            const provider = new ethers.providers.JsonRpcProvider(url);
+    
+            const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);
+            const nftdetails1 = await contractInstance.getNFT(documentDetails.uuid);
+            
+            setNftdetails(nftdetails1);
+            console.log("Contract details:", nftdetails1);
+        } catch (error) {
+            console.error("Error fetching NFT details:", error.message);
+        }
+    }
       useEffect(() =>{
         if(documentDetails){
         getNftdetails();
