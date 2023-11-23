@@ -2144,7 +2144,7 @@ export const getAllTxInputAlgorand = async () => {
 
 export const getAlgorandBlocks = async (blockNumber) => {
   try {
-    let response2 = await fetch(`https://testnet-idx.algonode.cloud/v2/blocks/${blockNumber}`);
+    let response2 = await fetch(`https://mainnet-idx.algonode.cloud/v2/blocks/${blockNumber}`);
     if (!response2.ok) {
       throw new Error(`Request failed with status: ${response2.status}`);
     }
@@ -2160,7 +2160,7 @@ export const getAlgorandBlocks = async (blockNumber) => {
 
 export const getAlgorandAsset = async (assetid) => {
   try {
-    let response2 = await fetch(`https://testnet-idx.algonode.cloud/v2/assets/${assetid}/transactions`);
+    let response2 = await fetch(`https://mainnet-idx.algonode.cloud/v2/assets/${assetid}/transactions`);
     if (!response2.ok) {
       throw new Error(`Request failed with status: ${response2.status}`);
     }
