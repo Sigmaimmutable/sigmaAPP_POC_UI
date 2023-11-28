@@ -9,6 +9,7 @@ import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
 import {CreateOrganizationPost,CreateOrguserrolepost,createUserVisits} from '../apifunction';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout"; 
+import ButtonLoad from 'react-bootstrap-button-loader';
 
 function UserManagement(props) {
     const [userRole, setUserRole] = useState(''); // Initialize with an empty string
@@ -40,6 +41,9 @@ function UserManagement(props) {
     const [selectedCheckboxId, setSelectedCheckboxId] = useState(null);
     const [selectedDeleteCheckboxId, setSelectedDeleteCheckboxId] = useState(null);
     const [selectedDeleteEmail, setSelectedDeleteEmail] = useState(null);
+    const[loaderVerify, setLoaderVerify] = useState(false);
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false);
     
     const checkedUpdateButton = (userId) => {
         console.log("setemailcheck",userId);
@@ -183,6 +187,7 @@ function UserManagement(props) {
 
         const Deleteorguser = async (emailid) => {
             try{
+                handleShowLoadVerify();
                 console.log("emailconsole",emailid);
                 let orguserdelete=await DeleteOrgUser(emailid);            
                 console.log("deleteOrguser",orguserdelete);
@@ -197,6 +202,9 @@ function UserManagement(props) {
             }catch(err){
                 toast.error(err);
             }
+        finally{
+            handleHideLoadVerify();
+        }
             }
 
 //         const Updateuser = async (emailId, roleType) => {
@@ -207,7 +215,9 @@ function UserManagement(props) {
 // }
       
 const Updateuser = async (emailId, roleType) => {
-    await updateuser(emailId, roleType); 
+    try{
+        handleShowLoadVerify();
+        await updateuser(emailId, roleType); 
     // Close the popup
     handlePopupClose();
     // Optionally, you can update the user's role in the UI.
@@ -221,6 +231,12 @@ const Updateuser = async (emailId, roleType) => {
     });
     setUserManage(updatedUserList); // Update the state to reflect the change
     toast.success("User role updated successfully"); // Show a success toast
+    }catch(e){
+        console.log("error",e);
+    }finally{
+        handleHideLoadVerify();
+    }
+    
 };
 
 const Updateuser1 = async (emailId,roleType,start) => {
@@ -371,14 +387,15 @@ const handlePopupShow = () => {
       </select>
 
         <div className="d-flex">
-          <Button
+          <ButtonLoad
+          loading={loaderVerify}
             type="submit"
             variant="dark"
             className="btn-button btn-sm"
             onClick={() => Updateuser(deleteEmail1, email)}
           >
             Update
-          </Button>
+          </ButtonLoad>
           <Button
             variant="dark"
             className="btn-button btn-sm"
@@ -481,7 +498,7 @@ const handlePopupShow = () => {
                     
                     <div className="d-flex pt-4 align-items-center justify-content-center">
                   
-                        <Button type="submit" variant="dark" className="btn-button btn-sm" onClick={() => Deleteorguser(updateUserEmail)}>Yes</Button>
+                        <ButtonLoad type="submit" variant="dark" className="btn-button btn-sm" loading={loaderVerify}  onClick={() => Deleteorguser(updateUserEmail)}>Yes</ButtonLoad>
                         <Button type="reset" variant="outline-dark" className="btn-button btn-sm ms-3" onClick={handleClose}>No</Button>
                     </div>
                 </Modal.Body>

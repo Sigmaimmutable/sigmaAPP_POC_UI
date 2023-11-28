@@ -7,6 +7,7 @@ import Check from '../asserts/images/check_icon.svg';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
 import axios from 'axios';
+
 function BlockTransactionsReport() {
     const [search, setSearch] = useState(false);
     const [reachedLastPage, setReachedLastPage] = useState(false);
@@ -40,6 +41,7 @@ function BlockTransactionsReport() {
        logout()
        setOpenModal(false)
    } 
+
    const logout3 = async () =>
    {  
        
@@ -57,9 +59,9 @@ function BlockTransactionsReport() {
        localStorage.removeItem('rememberMe');
      }
      history('/');
-
-
-
+      
+     
+      
    } 
     // const getTransc = async() =>{
     //     if(limit == 10){
@@ -77,6 +79,7 @@ function BlockTransactionsReport() {
         
     // }
     // useEffect(() =>{getTransc()},[])
+
 //     const getTranscAvalanche = async(value) => {
 //         blockBuffer = [];
 //         CountsBuffer = [];
@@ -84,6 +87,7 @@ function BlockTransactionsReport() {
 //         // Define the API endpoint URL
 //     const apiUrl =
 //     `https://api.basescan.org/api?module=account&action=tokennfttx&contractaddress=0xe57A6865Ee306143bCC2d30807cF3571A0655934&address=0xdc61dE4fED82E2CDbC5E31156c4dA41389Ae1e22&page=${value}&offset=10&startblock=0&endblock=99999999&sort=desc&apikey=AHSJCJMCVE468EJBIJ9KC1X4ZR7JVHKJE9`;
+
 //   // Make the GET request to the API
 //   await axios
 //     .get(apiUrl)
@@ -138,6 +142,7 @@ function BlockTransactionsReport() {
     //       console.error('Error making API request:', error);
     //     }
     //   };
+
     // const makeApiRequestWithDelay = async (blockNo) => {
         
     //     let blockNum1 = parseInt(blockNo,10);
@@ -158,6 +163,7 @@ function BlockTransactionsReport() {
     //       await new Promise((resolve) => setTimeout(resolve, 200));
     //     }
     //   };
+
       const makeMultipleBlockApiCalls = async(blockNo) => {
         let blockNum1 = parseInt(blockNo,10);
         let blockNum = blockNum1.toString(16);
@@ -176,9 +182,9 @@ function BlockTransactionsReport() {
         let trans = tempr;
         console.log("check 5",transactions);
         console.log("Trans Ckeck : ",trans);
-        if (Array.isArray(trans) && trans.length >= count) {
-        for (let i = 0; i < count; i++) {
-          await makeMultipleBlockApiCalls(trans[i].blockNumber);
+        if (Array.isArray(trans) && trans.length !== 0) {
+        for (let i = 0; i < trans.length; i++) {
+          await makeMultipleBlockApiCalls(parseInt(trans[i].blockNumber));
         //   await new Promise((resolve) => setTimeout(resolve, 2000));
         //   await makeApiRequestWithDelay2(trans[i].blockNumber);
           // Adjust the delay time (in milliseconds) as needed
@@ -205,8 +211,10 @@ function BlockTransactionsReport() {
             console.error("Invalid or insufficient transaction data.");
         }
       };
+
     const formatTime = (time) =>{
         let date = new Date(time);
+
         // Format the date and time using the toLocaleString method
         let formatted = date.toLocaleString("en-US", {
         year: "numeric",
@@ -217,10 +225,12 @@ function BlockTransactionsReport() {
         second: "numeric",
         timeZoneName: "short"
         });
+
         // Display the formatted date and time
         // console.log(formatted);
         return formatted;
     }
+
     const pagination = async(value) =>{
         setStartValue(value);
         // let tnId = await getTennantId();
@@ -236,13 +246,16 @@ function BlockTransactionsReport() {
             setReachedLastPage(false);
         }
     }
+
     // const selectrow = async(value) =>{
     //     let tx = await getTransaction(StartValue,value,"543609ec-58ba-4f50-9757-aaf149e5f187");
     //     // console.log("txhistory",tx)
     //     setTxh(tx);
     //     // setlimit(value);
     //     selectrow(true);
+
     // }
+
         const calculateTimeAgo = (timestamp1) => {
         const timestamp = parseInt(timestamp1) * 1000;
           const currentTime = new Date();
@@ -268,6 +281,7 @@ function BlockTransactionsReport() {
             return `${years} year${years !== 1 ? 's' : ''} ago`;
           }
         };
+
     return ( 
         <div>
             <Row className="mb-20">
@@ -275,6 +289,7 @@ function BlockTransactionsReport() {
                     <h4 className="page-title mb-0">Block Transactions Report</h4>
                 </Col>
             </Row>
+
             <Row className="mb-3 align-items-center" style={{minHeight: '40px'}}>
                 <Col xs={10} md={4} lg={3}>
                     {search && (
@@ -378,6 +393,7 @@ function BlockTransactionsReport() {
                                             </div>
                                         </Dropdown.Menu>
                                     </Dropdown>
+
                                     <Form.Check
                                         className="mb-0 check-single"
                                         type='checkbox'
@@ -390,7 +406,7 @@ function BlockTransactionsReport() {
                             <th className="text-center">Mined By</th>
                             <th className="text-center">Tx Count</th>
                             <th className="text-center">Date Mined</th>
-
+                         
                         </tr>
                     </thead>
                     <tbody>
@@ -437,6 +453,7 @@ function BlockTransactionsReport() {
                         
                     </tbody>
                 </Table>
+
                 <Row className="mt-4">
                     <Col md={4} className="mb-md-0 mb-3 d-flex align-items-center">
                         {/* <h6 className="me-2 mb-0 text-muted">Showing 10 of 10:</h6>
@@ -498,4 +515,5 @@ function BlockTransactionsReport() {
         </div>
      );
 }
+
 export default BlockTransactionsReport;

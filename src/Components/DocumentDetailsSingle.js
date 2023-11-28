@@ -121,11 +121,27 @@ const DocumentDetailsSingle= (props)=>{
             // Handle the error if needed
           });
       };
+      const handleCopyClick1 = () => {
+        navigator.clipboard.writeText(nftdetails.fVar10)
+          .then(() => {
+            toggleShowA();
+            toast.success('Copied successfully!', {
+              position: 'bottom-right',
+              autoClose: 4000,
+              closeButton: false,
+              draggable: false,
+            });
+          })
+          .catch((error) => {
+            console.error('Error copying text: ', error);
+            // Handle the error if needed
+          });
+      };
     
 
       const getNftdetails = async () => {
         try {
-            const url = 'https://opbnb-testnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3';
+            const url = 'https://opbnb-mainnet.nodereal.io/v1/64a9df0874fb4a93b9d0a3849de012d3';
             const provider = new ethers.providers.JsonRpcProvider(url);
     
             const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);
@@ -294,7 +310,11 @@ const DocumentDetailsSingle= (props)=>{
   <tr>
     <th>IPFS Hash</th>
      <td>    {nftdetails? (nftdetails.fVar10).substring(0, 5) : ''}...{(nftdetails? (nftdetails.fVar10).substring((nftdetails.fVar10).length - 5) : '')} </td> 
-     <td></td>
+     <td>
+     <Button variant="reset" onClick={handleCopyClick1}>
+    <img src={CopyIcon} alt="CopyIcon" />
+  </Button>
+  </td>
     {/* <td>{(nftproperties.fVar10).substring(0, 5)}...{(nftproperties.fVar10).substring((nftproperties.fVar10).length - 5)}</td> */}
   </tr>
   </thead>

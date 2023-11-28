@@ -1,11 +1,11 @@
 export const nodeDetails = {
     Provider: "OPBNB",
     NetworkType: "OPBNB PRIVATE",
-    ChainId: "5611",
-    RPC:"https://opbnb-testnet.nodereal.io/v1/<API-KEY>",
+    ChainId: "204",
+    RPC:"https://opbnb-mainnet.nodereal.io/v1/1cce0ce661274ff9ae11a6a3560ea9ed",
     Owner:"NodeReal",
     NodeType:"PRIVATE",
-    SmartContract:"0xBc0d6D21B33B96fc4ae34a9C7690Fb94dB2477A2",
-    HttpEnpoint:"https://opbnb-testnet.nodereal.io/v1/<API-KEY>",
-    WebSocketEndpoint:"wss://opbnb-testnet.nodereal.io/ws/v1/<API-KEY>",
+    SmartContract:"0xCA13bDA916F974fE46865DdA52Bb376689908Ca2",
+    HttpEnpoint:"https://opbnb-mainnet.nodereal.io/v1/1cce0ce661274ff9ae11a6a3560ea9ed",
+    WebSocketEndpoint:"wss://opbnb-mainnet.nodereal.io/ws/v1/1cce0ce661274ff9ae11a6a3560ea9ed",
 };
