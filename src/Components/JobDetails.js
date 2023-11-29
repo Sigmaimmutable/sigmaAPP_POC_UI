@@ -187,9 +187,11 @@ const[originalList,setOriginalList] = useState([""]);
                     setErrorPopupMessage(errorMessage);
                     setErrorPopupVisible(true); // Show error popup
                 } else {
+                    setjobList(filteredJobs);
                     setErrorPopupVisible(false); // Hide error popup
                 }
             } else {
+                setjobList(originalList);
                 setFilteredJobs(jobLists); // Show all jobs
                 setErrorPopupVisible(false); // Hide error popup
             }

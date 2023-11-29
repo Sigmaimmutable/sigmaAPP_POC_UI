@@ -112,7 +112,7 @@ function BlockTransactionsReport() {
             console.log("Api aws tx 1:",transactionactivity.result);
             setTransactions(transactionactivity.result);
 
-            await makeMultipleApiRequests(10,transactionactivity.result);
+            await makeMultipleApiRequests((transactionactivity.result.length < 10)? transactionactivity.result.length : 10,transactionactivity.result);
         }
         catch(e){
             console.log("Api ERROR:",e);
@@ -167,8 +167,9 @@ function BlockTransactionsReport() {
     const makeMultipleBlockApiCalls = async(blockNo) => {
         let blockNum1 = parseInt(blockNo,10);
         let blockNum = blockNum1.toString(16);
+        console.log("Block Hex:",blockNum);
         try{
-            let [istrue, blockTx] = await getBlocksTxAvalanche(blockNum);
+            let [istrue, blockTx] = await getBlocksTxAvalanche(`0x${blockNum}`);
             console.log("Api aws blocks 1:",blockTx.result);
             blockBuffer = [...blockBuffer,blockTx.result];
         }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Col, Form, InputGroup, Row, Table } from "react-bootstrap";
+import { Button, Col, Form, InputGroup, Row, Table, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Sessionstatusget1, uservisitrecords,userByTenantIdAll,getTennantId } from "../apifunction";
 import ButtonLoad from 'react-bootstrap-button-loader';
@@ -74,6 +74,7 @@ function Audit(props) {
     
       console.log("output",output)
       console.log("outputss",output.slice(0,10));
+      console.log("outputssd",output.slice(start,start+10));
       
       
     } catch (error) {
@@ -139,6 +140,7 @@ const ticketTableFetch = async () => {
     }
   }
   const pagination = async (start) => {
+    setUserOutput([]);
     setstartvalue(start);
     await Users(start);
   }
@@ -305,10 +307,10 @@ const ticketTableFetch = async () => {
             ))
            
           )} */}
-        {outputManage[0] !== null && outputManage[0] !== "" && outputManage[0] !== undefined && outputManage[0] !== "undefined"?(
+        {outputManage[0] !== null && outputManage[0] !== "" && outputManage[0] !== undefined && outputManage[0] !== "undefined" ?(
           outputManage.map((x,i) => (
             <tr key={startvalue+i}>
-            <td className="text-center">{startvalue > 1 ? (parseInt(startvalue+1))+i : (startvalue+1)+i}</td>
+            <td className="text-center">{startvalue > 1 ? (parseInt(startvalue)+1)+i : (startvalue + 1)+i}</td>
               <td className="text-center">{x.mailId}</td>
               <td className="text-center">{x.roleType}</td>
               <td className="text-center">
@@ -336,7 +338,15 @@ const ticketTableFetch = async () => {
                 )}
               </td> */}
             </tr>
-          ))):(<></>)}
+          ))):(<>
+          <tr>
+            <td></td>
+            <td></td>
+            <td><div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height:'50px'}}>
+                        <Spinner animation="border" variant="dark" style={{ width: '50px', height: '50px',borderWidth:'5px' }}/>
+                      </div></td>
+          </tr>
+          </>)}
            {!searchQuery && !Array.isArray(userManage) && (
             <tr>
                 <td colSpan="6" className="text-center">
@@ -349,7 +359,7 @@ const ticketTableFetch = async () => {
        
  
         <Row className="mt-4">
-          <Col md={7} className="d-flex justify-content-md-end justify-content-center">
+          <Col md={8} className="d-flex justify-content-md-end justify-content-center">
             <ul className="d-flex pagination list-unstyled">
               <li>
                 <Link className={startvalue !== 0 ? 'next' : startvalue === 0 ? 'prev disabled' : ''} onClick={() => { pagination(startvalue - 10) }}>

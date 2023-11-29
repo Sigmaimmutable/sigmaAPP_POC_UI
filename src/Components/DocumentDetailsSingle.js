@@ -121,9 +121,25 @@ const DocumentDetailsSingle= (props)=>{
             // Handle the error if needed
           });
       };
+      const handleCopyClick1 = () => {
+        navigator.clipboard.writeText(nftdetails.fVar10)
+          .then(() => {
+            toggleShowA();
+            toast.success('Copied successfully!', {
+              position: 'bottom-right',
+              autoClose: 4000,
+              closeButton: false,
+              draggable: false,
+            });
+          })
+          .catch((error) => {
+            console.error('Error copying text: ', error);
+            // Handle the error if needed
+          });
+      };
       const getNftdetails = async () => {
         try {
-            const url = 'https://avalanche-fuji.infura.io/v3/7591ca9e4ccc415faf028b9dff4c7ce2';
+            const url = 'https://avalanche-mainnet.infura.io/v3/7591ca9e4ccc415faf028b9dff4c7ce2';
             const provider = new ethers.providers.JsonRpcProvider(url);
     
             const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);
@@ -229,7 +245,7 @@ const DocumentDetailsSingle= (props)=>{
                         {documentDetails?(<>
                           {documentDetails.uuid===""||documentDetails.uuid===undefined||documentDetails.uuid===null?(<>
                      </>):(<>
-                      {nftdetails.tokenOwner===""||nftdetails.tokenOwner===undefined||nftdetails.tokenOwner===null?(<>
+                      {nftdetails.tokenOwner===""||nftdetails.tokenOwner===undefined||nftdetails.tokenOwner===null||documentDetails.nftCreationStatus==="0"?(<>
                       
                       </>):(<>
                       
@@ -277,7 +293,11 @@ const DocumentDetailsSingle= (props)=>{
   <tr>
     <th>IPFS Hash</th>
      <td>    {nftdetails? (nftdetails.fVar10).substring(0, 5) : ''}...{(nftdetails? (nftdetails.fVar10).substring((nftdetails.fVar10).length - 5) : '')} </td> 
-     <td></td>
+     <td>
+     <Button variant="reset" onClick={handleCopyClick1}>
+    <img src={CopyIcon} alt="CopyIcon" />
+  </Button>
+  </td>
     {/* <td>{(nftproperties.fVar10).substring(0, 5)}...{(nftproperties.fVar10).substring((nftproperties.fVar10).length - 5)}</td> */}
   </tr>
   </thead>

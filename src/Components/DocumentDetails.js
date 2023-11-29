@@ -461,7 +461,7 @@ function DocumentDetails() {
                                     <DocumentDetailsSingle x={postt.sigmaId}/>) */}
               {/* <Link to={{ pathname: "/document-details/single", state: { allData: postt.sigmaid } }}><Button variant="blue" className='w-100'> {postt.status__v ? postt.status__v : ""}</Button></Link> */}
         </td>
-        <td className="text-center"> {postt.uuid ? "Created" : "Pending"} </td>
+        <td className="text-center"> {postt.nftCreationStatus === "1" ? "Created" : "Pending"} </td>
       </tr>
     );
   }

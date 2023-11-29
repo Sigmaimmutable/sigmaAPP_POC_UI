@@ -127,7 +127,9 @@ const getTranscInputAvalanche = async() =>{
 }
     useEffect(() =>{
         console.log(txnHash);
+        if(transInput.input == null || transInput.input == "" || transInput.input == undefined){
         txnHash && getTranscInputAvalanche();
+        }
         console.log("check Input",transInput.input);
     },[txnHash,transInput])
 
@@ -157,7 +159,7 @@ const getTranscInputAvalanche = async() =>{
                 <Col xs={12} className="mb-3">
                     <div className="info-card d-flex flex-column justify-content-between">
                         <h6 className="d-flex align-items-center">Transaction</h6>
-                        <p style={{color: "white"}} className="mb-0 text-break"><a href={`https://testnet.snowtrace.io/tx/${txnHash.hash}`} target="_blank"  
+                        <p style={{color: "white"}} className="mb-0 text-break"><a href={`https://avascan.info/blockchain/c/tx/${txnHash.hash}`} target="_blank"  
                                         style={{color: 'inherit', cursor: 'pointer', }}>{txnHash?.hash}</a></p>
                     </div>
                 </Col>
