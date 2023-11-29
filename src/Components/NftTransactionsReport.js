@@ -342,7 +342,7 @@ function NftTransactionsReport() {
                                      <td onClick={() => NftTransactionPage(i)} className="text-center txn_hash txn_hash_hover" style={{color: "#3366CC "}}>{r.transaction_id}</td>
                                      <td className="text-center"><Badge pill bg="success"><img src={Check} alt="success badge" />success</Badge></td>
                                     {/* <td className="text-center text-truncate"> {(r.blockHash).substring(0, 5)}...{(r.blockHash).substring((r.blockHash).length - 5)}</td> */}
-                                    <td className="text-center txn_hash txn_hash_hover" style={{color: "#3366CC "}}><a href="https://hashscan.io/testnet/account/0.0.5701067" target="_blank" rel="noreferrer">0.0.5701067</a></td>
+                                    <td className="text-center txn_hash txn_hash_hover" style={{color: "#3366CC "}}><a href="https://hashscan.io/mainnet/account/0.0.4062061" target="_blank" rel="noreferrer">0.0.4062061</a></td>
                                     <td className="text-center"><HederaBlockNumber timestamp = {r['consensus_timestamp']}/></td>
                                     <td className="text-center">{calculateTimeAgo(Math.floor(r['consensus_timestamp']))}</td>
                                     {/* <td>{r.logs[0].data}</td> */}

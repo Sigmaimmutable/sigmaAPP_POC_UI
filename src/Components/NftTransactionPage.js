@@ -215,9 +215,9 @@ function NftTransactionPage({}) {
                                 </tr>
                                 <tr>
                                     <td>From</td>
-                                    <td><Badge pill bg="secondary" className="text-truncate"><img src={Wallet} alt="Wallet" /> Default | { txnHash ? "0.0.5701067" : ""}</Badge></td>
+                                    <td><Badge pill bg="secondary" className="text-truncate"><img src={Wallet} alt="Wallet" /> Default | { txnHash ? "0.0.4062061" : ""}</Badge></td>
                                     <td>
-                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText("0.0.5701067"); toggleShowA();}}>
+                                        <Button variant="reset" onClick={() => {navigator.clipboard.writeText("0.0.4062061"); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
                                         </Button>
                                     </td>
