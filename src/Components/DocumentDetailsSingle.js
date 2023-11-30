@@ -139,7 +139,7 @@ const DocumentDetailsSingle= (props)=>{
       };
       const getNftdetails = async () => {
         try {
-            const url = 'https://rpc.ankr.com/polygon_zkevm_testnet/884b91b8a3ec3998cb7798d59c398843cef32fdbd73f839d8013e369341b81a1';
+            const url = 'https://rpc.ankr.com/polygon_zkevm/884b91b8a3ec3998cb7798d59c398843cef32fdbd73f839d8013e369341b81a1';
             const provider = new ethers.providers.JsonRpcProvider(url);
     
             const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);

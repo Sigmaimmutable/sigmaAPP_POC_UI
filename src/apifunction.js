@@ -2069,7 +2069,7 @@ export const getNFTTxBase = async (id) => {
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   //Get method start
   try {
-    let response2 = await fetch(`/platform/v1/nfttxbase/${id}`,
+    let response2 = await fetch(`/platform/v1/nfttxavalanche/${id}`,
       {
         headers: {
           'x-api-key': `${key}`
@@ -2091,7 +2091,7 @@ export const getBlocksTxBase = async (id) => {
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   //Get method start
   try {
-    let response2 = await fetch(`/platform/v1/blockstxbase/${id}`,
+    let response2 = await fetch(`/platform/v1/blockstxavalanche/${id}`,
       {
         headers: {
           'x-api-key': `${key}`
