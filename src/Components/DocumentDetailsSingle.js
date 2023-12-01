@@ -159,7 +159,7 @@ const DocumentDetailsSingle= (props)=>{
 
        const getNftdetails = async () => {
         try {
-            const url = 'https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78';
+            const url = 'https://polygon-mainnet.infura.io/v3/7591ca9e4ccc415faf028b9dff4c7ce2';
             const provider = new ethers.providers.JsonRpcProvider(url);
     
             const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);

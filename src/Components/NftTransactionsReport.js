@@ -62,8 +62,8 @@ function NftTransactionsReport() {
    } 
     const getTransc = async() =>{
         if(limit == 10){
-            let tnId = await getTennantId("NftTransactionsReport");
-            let tx = await getTransaction(StartValue,limit,tnId,"NftTransactionsReport");
+            let tnId = await getTennantId();
+            let tx = await getTransaction(StartValue,limit,tnId);
             // console.log("txhistory",tx)
             setTxh(tx);
             if (tx.length === 0) {
@@ -95,7 +95,7 @@ function NftTransactionsReport() {
 
     const getTransactionsBase = async(value) =>{
         try{
-            let [istrue, transactionactivity] = await getNFTTxPolygon(value,"NftTransactionsReport");
+            let [istrue, transactionactivity] = await getNFTTxPolygon(value);
             console.log("Api aws tx 1:",transactionactivity.result);
             setTransactions(transactionactivity.result);
         }
