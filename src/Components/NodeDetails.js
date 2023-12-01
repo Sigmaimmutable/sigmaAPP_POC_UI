@@ -1,11 +1,11 @@
 export const nodeDetails = {
     Provider: "Polygon",
-    NetworkType: "Polygon Testnet",
-    ChainId: "80001",
-    RPC:"https://rpc-mumbai.maticvigil.com/",
+    NetworkType: "Polygon Mainnet",
+    ChainId: "137",
+    RPC:"https://polygon-mainnet.infura.io/v3/SIWCPNMWY7BVFJT5IX7216Q6FGAZJY3NZV",
     Owner:"POLYGON ORG",
     NodeType:"Public",
-    SmartContract:"0xBc0d6D21B33B96fc4ae34a9C7690Fb94dB2477A2",
-    HttpEnpoint:"https://rpc-mumbai.maticvigil.com/",
-    WebSocketEndpoint:"wss://polygon-mumbai.infura.io/ws/v3/<API-KEY>",
+    SmartContract:"0x432a3b31e68e8ad66d0ecfbdd9b7de4c52d444f6",
+    HttpEnpoint:"https://polygon-mainnet.infura.io/v3/SIWCPNMWY7BVFJT5IX7216Q6FGAZJY3NZV",
+    WebSocketEndpoint:"wss://polygon-mainnet.infura.io/v3/SIWCPNMWY7BVFJT5IX7216Q6FGAZJY3NZV",
 };
