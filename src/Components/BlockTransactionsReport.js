@@ -108,7 +108,7 @@ function BlockTransactionsReport() {
             console.log("Api aws tx 1:",transactionactivity.result);
             setTransactions(transactionactivity.result);
 
-            await makeMultipleApiRequests(10,transactionactivity.result);
+            await makeMultipleApiRequests((transactionactivity.result.length < 10) ? transactionactivity.result.length : 10,transactionactivity.result);
         }
         catch(e){
             console.log("Api ERROR:",e);
