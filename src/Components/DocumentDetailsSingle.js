@@ -260,7 +260,11 @@ const DocumentDetailsSingle= (props)=>{
   <tr>
     <th>IPFS Hash</th>
      <td>    {nftproperties? (nftproperties.fVar10).substring(0, 5) : ''}...{(nftproperties? (nftproperties.fVar10).substring((nftproperties.fVar10).length - 5) : '')} </td> 
-     <td></td>
+     <td>
+     <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nftproperties.fVar10); toggleShowA();}}>
+         <img src={CopyIcon} alt="CopyIcon" />
+     </Button>
+                                        </td> 
     {/* <td>{(nftproperties.fVar10).substring(0, 5)}...{(nftproperties.fVar10).substring((nftproperties.fVar10).length - 5)}</td> */}
   </tr>
   </thead>
