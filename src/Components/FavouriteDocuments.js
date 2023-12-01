@@ -99,7 +99,8 @@ const FavouriteDocuments= (props)=>{
         const emailId = localStorage.getItem("UserID")
         const [check1, data] = await fetchFavoriteDetails(emailId,limit);
         console.log("valid2", data);
-        setFavoriteData(data);
+        let data2 = data.filter(item => item.docStatus === "Compliance")
+        setFavoriteData(data2);
     };
     
     useEffect(() => {

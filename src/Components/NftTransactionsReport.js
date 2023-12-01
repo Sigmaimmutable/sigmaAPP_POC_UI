@@ -1,4 +1,4 @@
-import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal, Spinner } from "react-bootstrap";
+import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal, Spinner} from "react-bootstrap";
 import Eye from '../asserts/images/eye-icon.svg'
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
@@ -6,6 +6,7 @@ import { getTennantId, getTransaction, getNFTTxPolygon } from "../apifunction";
 import Check from '../asserts/images/check_icon.svg';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
+import axios from 'axios';
 
 function NftTransactionsReport() {
     const [search, setSearch] = useState(false);
@@ -38,7 +39,6 @@ function NftTransactionsReport() {
        logout()
        setOpenModal(false)
    } 
-
    const logout3 = async () =>
    {  
        
@@ -56,28 +56,46 @@ function NftTransactionsReport() {
        localStorage.removeItem('rememberMe');
      }
      history('/');
-      
-     
-      
+
+
+
    } 
-    // const getTransc = async() =>{
-    //     if(limit == 10){
-    //         let tnId = await getTennantId();
-    //         // let tx = await getTransaction(StartValue,limit,tnId);
-    //         let tx = await getNFTTxPolygon(1);
-    //         // console.log("txhistory",tx)
-    //         setTxh(tx);
-    //         if (tx.length === 0) {
-    //             setReachedLastPage(true);
-    //         } else {
-    //             setReachedLastPage(false);
-    //         }
-    //     }
+    const getTransc = async() =>{
+        if(limit == 10){
+            let tnId = await getTennantId("NftTransactionsReport");
+            let tx = await getTransaction(StartValue,limit,tnId,"NftTransactionsReport");
+            // console.log("txhistory",tx)
+            setTxh(tx);
+            if (tx.length === 0) {
+                setReachedLastPage(true);
+            } else {
+                setReachedLastPage(false);
+            }
+        }
         
-    // }
-    const getTransactionsPolygon = async(value) =>{
+    }
+//     const getTranscAvalanche = async(value) => {
+//         // Define the API endpoint URL
+//     const apiUrl =
+//     `https://api.basescan.org/api?module=account&action=tokennfttx&contractaddress=0xe57A6865Ee306143bCC2d30807cF3571A0655934&address=0xdc61dE4fED82E2CDbC5E31156c4dA41389Ae1e22&page=${value}&offset=10&startblock=0&endblock=99999999&sort=desc&apikey=AHSJCJMCVE468EJBIJ9KC1X4ZR7JVHKJE9`;
+//   // Make the GET request to the API
+//   axios
+//     .get(apiUrl)
+//     .then((response) => {
+//       // Handle the response data here
+//       console.log("Avalanche Nft transaction",response.data); // This will be the ERC-721 transactions data
+//       setTransactions(response.data.result); // Assuming 'result' contains the transaction data
+//     })
+//     .catch((error) => {
+//       // Handle errors
+//       console.error('Error fetching data:', error);
+//       getTranscAvalanche(value);
+//     });
+//     }
+
+    const getTransactionsBase = async(value) =>{
         try{
-            let [istrue, transactionactivity] = await getNFTTxPolygon(value);
+            let [istrue, transactionactivity] = await getNFTTxPolygon(value,"NftTransactionsReport");
             console.log("Api aws tx 1:",transactionactivity.result);
             setTransactions(transactionactivity.result);
         }
@@ -86,15 +104,12 @@ function NftTransactionsReport() {
         }
     }
     useEffect(() =>{
-        getTransactionsPolygon(1);
+        getTransactionsBase(1);
         // getTranscAvalanche(1);
     },[])
-    // useEffect(() =>{getTransc()},[])
-
 
     const formatTime = (time) =>{
         let date = new Date(time);
-
         // Format the date and time using the toLocaleString method
         let formatted = date.toLocaleString("en-US", {
         year: "numeric",
@@ -105,15 +120,16 @@ function NftTransactionsReport() {
         second: "numeric",
         timeZoneName: "short"
         });
-
         // Display the formatted date and time
         // console.log(formatted);
         return formatted;
     }
-
     const pagination = async(value) =>{
         setStartValue(value);
-        await getTransactionsPolygon(value);
+        // let tnId = await getTennantId();
+        // let tx = await getTransaction(value,limit,tnId);
+        await getTransactionsBase(value);
+
         // console.log("txhistory",tx)
         // setTxh(tx);
         if (transactions.length === 0) {
@@ -122,16 +138,13 @@ function NftTransactionsReport() {
             setReachedLastPage(false);
         }
     }
-
     // const selectrow = async(value) =>{
     //     let tx = await getTransaction(StartValue,value,"543609ec-58ba-4f50-9757-aaf149e5f187");
     //     // console.log("txhistory",tx)
     //     setTxh(tx);
     //     // setlimit(value);
     //     selectrow(true);
-
     // }
-
         const calculateTimeAgo = (timestamp1) => {
             const timestamp = parseInt(timestamp1) * 1000;
           const currentTime = new Date();
@@ -157,21 +170,18 @@ function NftTransactionsReport() {
             return `${years} year${years !== 1 ? 's' : ''} ago`;
           }
         };
-
         const NftTransactionPage = (index) => {
             // console.log("nftTransactionPage", txh[index]);
             let txnHash = transactions[index];
             navigate("/admin/nft-transactions-report/single-transaction/", { state: { object: txnHash } });
         }
-
     return ( 
         <div>
             <Row className="mb-20">
                 <Col md={6} xl={4} xxl={3}>
-                    <h4 className="page-title mb-0">Nft Transactions Report</h4>
+                    <h4 className="page-title mb-0">NFT Transactions Report</h4>
                 </Col>
             </Row>
-
             <Row className="mb-3 align-items-center" style={{minHeight: '40px'}}>
                 <Col xs={10} md={4} lg={3}>
                     {search && (
@@ -275,7 +285,6 @@ function NftTransactionsReport() {
                                             </div>
                                         </Dropdown.Menu>
                                     </Dropdown>
-
                                     <Form.Check
                                         className="mb-0 check-single"
                                         type='checkbox'
@@ -291,7 +300,7 @@ function NftTransactionsReport() {
                         </tr>
                     </thead>
                     <tbody>
-                        {transactions[0] === null || transactions[0] === "" || transactions[0] === undefined || transactions[0] === "undefined"  ?
+                        {transactions[0] === null || transactions[0] === "" || transactions[0] === undefined || transactions[0] === "undefined" ?
                         (<>
                         <tr>
                             <td></td>
@@ -299,7 +308,8 @@ function NftTransactionsReport() {
                             <td><div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height:'50px'}}>
                         <Spinner animation="border" variant="dark" style={{ width: '50px', height: '50px',borderWidth:'5px' }}/>
                       </div></td>
-                            </tr></>) :
+                            </tr>
+                        </>) :
                         (<>
                         {transactions.map((r,i)=>{
                             return(<>
@@ -330,7 +340,6 @@ function NftTransactionsReport() {
                         
                     </tbody>
                 </Table>
-
                 <Row className="mt-4">
                     <Col md={4} className="mb-md-0 mb-3 d-flex align-items-center">
                         {/* <h6 className="me-2 mb-0 text-muted">Showing 10 of 10:</h6>
@@ -392,5 +401,4 @@ function NftTransactionsReport() {
         </div>
      );
 }
-
 export default NftTransactionsReport;

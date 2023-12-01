@@ -461,7 +461,7 @@ function DocumentDetails() {
         <td className="text-center">
           
         <Favourite
-        sigmaid= {postt.sigmaId} name__v = {postt.fileName} filename__v ={postt.fileName} status__v ={postt.nftCreationStatus}
+        sigmaid= {postt.sigmaId} name__v = {postt.fileName} filename__v ={postt.fileName} status__v ={"Compliance"}
         />
           {/* <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill={isFavorite ? 'currentColor' : 'none'} viewBox="0 0 16 16"
           style={{ cursor: 'pointer', transition: 'fill 0.3s' }}

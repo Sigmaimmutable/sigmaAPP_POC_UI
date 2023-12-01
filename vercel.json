@@ -286,12 +286,12 @@
             "destination": "https://testpolygon.stasisonline.in/platform/v1/singlefileupload/id*/id1*/id2*"
         },
         {
-            "source": "/platform/v1/nfttxbase/:id",
-            "destination": "https://testpolygon.stasisonline.in/platform/v1/nfttxbase/id*"
+            "source": "/platform/v1/nfttxcompliance/:id",
+            "destination": "https://testpolygon.stasisonline.in/platform/v1/nfttxcompliance/id*"
         },
         {
-            "source": "/platform/v1/blockstxbase/:id",
-            "destination": "https://testpolygon.stasisonline.in/platform/v1/blockstxbase/id*"
+            "source": "/platform/v1/blockstxavalanche/:id",
+            "destination": "https://testpolygon.stasisonline.in/platform/v1/blockstxavalanche/id*"
         },
         {
             "source": "/platform/v1/txinput/:id",
