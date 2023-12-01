@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { Button, Form } from 'react-bootstrap';
+import ButtonLoad from 'react-bootstrap-button-loader';
 import Logo from '../asserts/images/logo.svg';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { forgetPasswordMailVerification } from "../apifunction";
@@ -10,6 +11,9 @@ import { Link } from 'react-router-dom';
 function ResetPassword() {
     const [email, setEmail] = useState();
     const [captcha, setCaptcha] = useState();
+    const[loaderVerify, setLoaderVerify] = useState(false);
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false);
 
     const navigate = useNavigate()
     function onChange(value) {
@@ -18,6 +22,8 @@ function ResetPassword() {
     }
     const verifyMail = async() =>
     {
+        try{
+            handleShowLoadVerify();
         if(captcha)
         {
         let result = await forgetPasswordMailVerification(email);
@@ -30,6 +36,12 @@ function ResetPassword() {
         else{
             toast.error("Please verify with captcha");
         }
+    }catch(e){
+        console.log(e);
+        
+    }finally{
+        handleHideLoadVerify();
+    }
     }
     return ( 
         <div className="vh-100 d-flex py-md-4 py-2 w-100">
@@ -54,7 +66,7 @@ function ResetPassword() {
                         />
                     </div>
                     {/* mb-4 */}
-                    <Button className='btn-button w-100' variant="dark" onClick={() => verifyMail()}>Continue</Button>
+                    <ButtonLoad className='btn-button w-100' variant="dark" loading={loaderVerify} onClick={() => verifyMail()}>Continue</ButtonLoad>
                     <br/><center><Link to="/">Go to sign-in</Link></center>
                 </div>
             </div>

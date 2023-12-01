@@ -1,36 +1,66 @@
 import axios from "axios";
 import { saveAs } from 'file-saver';
+// export const singleFileUpload = async (binaryData, tid, mail, filename) => {
+//   try {
+//     const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
+//     // You can include any additional headers as needed
+
+//     // // Define the request data
+//     // const requestData = {
+//     //   name: filename, // Use 'filename' as 'name' in the request
+//     //   createdBy: mail, // Use 'mail' as 'createdBy' in the request
+//     // };
+
+//     // Send a POST request to the API
+//     const response = await axios.post(`/platform/v1/singlefileupload/${tid}/${mail}/${filename}`, binaryData, {
+//       headers: {
+//         'x-api-key': key,
+//         'Content-Type': 'application/octet-stream',
+//       },
+//       // You can include additional request data here if needed
+//       // data: requestData,
+//     });
+
+//     // Process the response
+//     const responseData = response.data;
+//     console.log('Response SingleFile:', responseData);
+
+//     return responseData; // You can return the response data or handle it as needed
+//   } catch (error) {
+//     console.error('Error:', error);
+//     throw error; // You can handle or re-throw the error as needed
+//   }
+// };
 export const singleFileUpload = async (binaryData, tid, mail, filename) => {
   try {
     const key = 'BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5';
-    // You can include any additional headers as needed
 
-    // // Define the request data
-    // const requestData = {
-    //   name: filename, // Use 'filename' as 'name' in the request
-    //   createdBy: mail, // Use 'mail' as 'createdBy' in the request
-    // };
-
-    // Send a POST request to the API
-    const response = await axios.post(`/platform/v1/singlefileupload/${tid}/${mail}/${filename}`, binaryData, {
+    // Set up the request options
+    const options = {
+      method: 'POST',
+      url: `/platform/v1/singlefileupload/${tid}/${mail}/${filename}`,
       headers: {
         'x-api-key': key,
         'Content-Type': 'application/octet-stream',
       },
-      // You can include additional request data here if needed
-      // data: requestData,
-    });
+      data: binaryData,
+    };
+
+    // Send the POST request
+    const response = await axios(options);
 
     // Process the response
     const responseData = response.data;
     console.log('Response SingleFile:', responseData);
 
-    return responseData; // You can return the response data or handle it as needed
+    return true;
   } catch (error) {
     console.error('Error:', error);
-    throw error; // You can handle or re-throw the error as needed
+    // throw error;
+    return false;
   }
 };
+
 export const OrgAdminmailcheckget = async (id) => {
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   //Get method start
@@ -1213,7 +1243,7 @@ export const createUserVisits = async(emailid,type,page) =>{
     let datas = {
          "ipAddress":(k).toString(),
         "algoAddress":emailid,
-        "networkType":type,
+        "networkType":"Compliance",
         "walletType":page
         
         }
@@ -2161,7 +2191,7 @@ export const getNFTTxPolygon = async (id) => {
   //Get method start
   axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
   try {
-    let response2 = await fetch(`/platform/v1/nfttxbase/${id}`,
+    let response2 = await fetch(`/platform/v1/nfttxcompliance/${id}`,
       {
         headers: {
           'x-api-key': `${key}`
@@ -2183,7 +2213,7 @@ export const getBlocksTxPolygon = async (id) => {
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   //Get method start
   try {
-    let response2 = await fetch(`/platform/v1/blockstxbase/${id}`,
+    let response2 = await fetch(`/platform/v1/blockstxavalanche/${id}`,
       {
         headers: {
           'x-api-key': `${key}`

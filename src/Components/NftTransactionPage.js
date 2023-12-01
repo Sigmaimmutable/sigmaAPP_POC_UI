@@ -108,7 +108,9 @@ function NftTransactionPage({}) {
     }
         useEffect(() =>{
             console.log(txnHash);
+            if(transInput.input === null || transInput.input === "" || transInput.input === undefined){
             txnHash && getTranscInputPolygon();
+        }
             console.log("check Input",transInput.input);
         },[txnHash,transInput])
 

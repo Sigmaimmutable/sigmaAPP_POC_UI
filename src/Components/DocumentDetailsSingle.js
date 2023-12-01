@@ -157,25 +157,26 @@ const DocumentDetailsSingle= (props)=>{
           });
       };
 
-      const getNftdetails = async() => {
-
-        const url = 'https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78';
-        const provider = new ethers.providers.JsonRpcProvider(url);
-        const privateKey = '8c8a822798b85b2401632b75804655cc6be30495f03518f057279b4e8083b2b9';
-        const signer = new ethers.Wallet(privateKey, provider);
-
-        const contractInstance = new ethers.Contract(contractAddress, contractABI, signer);
-        const nftdetails1 = await contractInstance.getNFT(postt?.uuid);
-        setNftdetails(nftdetails1);
-        console.log("Contract details:",nftdetails1);
-        
-      }
+       const getNftdetails = async () => {
+        try {
+            const url = 'https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78';
+            const provider = new ethers.providers.JsonRpcProvider(url);
+    
+            const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);
+            const nftdetails1 = await contractInstance.getNFT(postt?.uuid);
+            
+            setNftdetails(nftdetails1);
+            console.log("Contract details:", nftdetails1);
+        } catch (error) {
+            console.error("Error fetching NFT details:", error.message);
+        }
+    }
       useEffect(() =>{
         getNftdetails();
        }, [])
        const handleDownload = () => {
         // Create the download URL by combining the gateway URL and CID
-        const downloadUrl = `http://13.58.159.144:8080/ipfs/${postt.docChecksum}?download=true&filename=${postt.fileName}`;
+        const downloadUrl = `http://3.147.54.45:8080/ipfs/${postt.docChecksum}?download=true&filename=${postt.fileName}`;
       
         // Create an anchor element and trigger a click to download the document
         const downloadLink = document.createElement('a');

@@ -1,4 +1,5 @@
 import { Button, Col, Dropdown, Form, InputGroup, Row, Tab, Tabs } from "react-bootstrap";
+import ButtonLoad from 'react-bootstrap-button-loader';
 import Avatar from "../../asserts/images/avartar.png"
 import { Link,useHistory,useNavigate,Redirect,Navigate} from 'react-router-dom';
 // import { Link } from "react-router-dom";
@@ -17,6 +18,9 @@ const Header = ({getIProfile}) => {
     const [UserName,setUserName] = useState(""); 
     const [lastname,setlastname] = useState("");
     const [allNotification, setAllNotification] = useState([]);
+    const[loaderVerify, setLoaderVerify] = useState(false);
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false);
     // const[getIProfile,setgetIProfile]=useState("");  
     const navigate = useNavigate()
 
@@ -85,10 +89,15 @@ const Header = ({getIProfile}) => {
 
     const allRead = async (mailid) => {
         try{
+            handleShowLoadVerify();
             await NotificationAll(mailid);
             await notification();
+            
         }catch(err){
             console.error(err);
+            
+        }finally{
+            handleHideLoadVerify();
         }
     }
 
@@ -170,9 +179,10 @@ const Header = ({getIProfile}) => {
            let k =[
             {path:"/home" ,name : "Dashboard"},
            {path:"/document-details",name :"Documents"},
-           {path:"/job/job-details" ,name : "All jobs"},
-           {path:"/job/immutable-record-jobs",name : 'NFT minter jobs'},
-           {path:"/health-check",name : 'Health check up'},
+        //    {path:"/job/job-details" ,name : "All jobs"},
+        //    {path:"/job/immutable-record-jobs",name : 'NFT minter jobs'},
+        //    {path:"/health-check",name : 'Health check up'},
+        {path:"/user-management",name : 'User Management'},
             {path:"/favourite-documents",name : 'favourites'},
             {path:"/help-support" ,name :'Help and support'}
         ]
@@ -289,7 +299,7 @@ const Header = ({getIProfile}) => {
                                     </Tabs>
                                 </div>
                                 <div className="dropdown-bell-footer d-flex align-items-center justify-content-between">
-                                    <Button onClick={() => allRead(localStorage.getItem("UserID"))} variant="dark" className="btn-button btn-sm">Mark all as read</Button>
+                                    <ButtonLoad loading={loaderVerify} onClick={() => allRead(localStorage.getItem("UserID"))} variant="dark" className="btn-button btn-sm">Mark all as read</ButtonLoad>
                                     {/* <Button variant="link" className="p-0">View all notifications</Button> */}
                                 </div>
                             </Dropdown.Menu>
