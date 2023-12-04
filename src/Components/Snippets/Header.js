@@ -122,7 +122,7 @@ const Header = ({getIProfile}) => {
       } else {
         localStorage.removeItem('rememberMe');
       }
-      await logout();
+      await logout({ returnTo: window.location.origin });
       navigate('/');
        
       

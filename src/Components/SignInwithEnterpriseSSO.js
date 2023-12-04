@@ -18,11 +18,13 @@ function SignInwithEnterpriseSSO() {
   const handleShowLoadVerify = () => setLoaderVerify(true);
   const handleHideLoadVerify = () => setLoaderVerify(false);
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const handleLogin = async () => {
     handleShowLoadVerify();
+    
     try {
+      // Ensure that loginWithPopup() sets isAuthenticated correctly.
       await loginWithPopup();
+      console.log("user", user);
       if (isAuthenticated) {
         const [emailValid, data2] = await OrgAdminmailcheckget1(user.name);
         console.log("emailValid", emailValid);
@@ -33,17 +35,19 @@ function SignInwithEnterpriseSSO() {
         if (emailValid === true) {
           localStorage.setItem("Login", true);
           localStorage.setItem("UserID", user.name);
-          let [check,rolecheck] = await  OrgAdminmailcheckget1(user.name);
-          let [data,userprofiledetail]=await userprofileget(user.name);
-          localStorage.setItem("UserName",userprofiledetail.firstName);
-          let sessionlogin= await Sessionloginpost("","","Login",rolecheck.tennantId,rolecheck.roleType,user.name);
+  
+          // Ensure userprofileget() and Sessionloginpost() return expected data.
+          let [data, userprofiledetail] = await userprofileget(user.name);
+          localStorage.setItem("UserName", userprofiledetail.firstName);
+  
+          let sessionlogin = await Sessionloginpost("", "", "Login", data2.tennantId, data2.roleType, user.name);
           
           // Code to execute after the login information is stored successfully
           handleHideLoadVerify();
           history(`/home`);
           setTimeout(() => {
             window.location.reload();
-          }, 1000); 
+          }, 1000);
         } else {
           toast.error("User not found in Sigma");
           handleHideLoadVerify();
@@ -55,10 +59,10 @@ function SignInwithEnterpriseSSO() {
     } catch (error) {
       // Handle error
       console.error(error);
+      toast.error("An error occurred during login");
       handleHideLoadVerify();
     }
   };
-  
 
   return (
     <div className="vh-100 d-flex py-md-4 py-2 w-100">
