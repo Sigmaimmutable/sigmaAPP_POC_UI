@@ -201,7 +201,7 @@ const ticketTableFetch = async () => {
     <div className="container-fluid">
       <Row className="mb-20">
         <Col md={6} xl={4} xxl={3}>
-          <h4 className="page-title mb-0">Activity Details</h4>
+          <h4 className="page-title mb-0">Activity Log</h4>
         </Col>
       </Row>
     
