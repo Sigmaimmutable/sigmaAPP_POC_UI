@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "https://testbase.stasisonline.in",
   "dependencies": {
+    "@auth0/auth0-react": "^2.2.3",
     "@okta/okta-auth-js": "^7.3.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

@@ -1,22 +1,27 @@
 import { Button, Col, Dropdown, Form, InputGroup, Row, Tab, Tabs } from "react-bootstrap";
+import ButtonLoad from 'react-bootstrap-button-loader';
 import Avatar from "../../asserts/images/avartar.png"
 import { Link,useHistory,useNavigate,Redirect,Navigate} from 'react-router-dom';
 // import { Link } from "react-router-dom";
 import LogoutIcon from "../../asserts/images/logout-icon.svg"
 import { useEffect, useState } from "react";
-
+import { useAuth0 } from '@auth0/auth0-react';
 
 import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget,Sessionstatusupdate,userprofileget, getNotificationById, NotificationSingle, NotificationAll} from '../../apifunction';
 const Header = ({getIProfile}) => {
+    const { logout } = useAuth0();
     const [search, setSearch] = useState(false);
     const [menu, setMenu] = useState(false);
     const [loginstatus, setLoginstatus] = useState("")
     const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
     const [Logtime, setLogtime] = useState("")
-    const [logout, setLogout] = useState("")
+    // const [logout, setLogout] = useState("")
     const [UserName,setUserName] = useState(""); 
     const [lastname,setlastname] = useState("");
     const [allNotification, setAllNotification] = useState([]);
+    const[loaderVerify, setLoaderVerify] = useState(false);
+    const handleShowLoadVerify = () => setLoaderVerify(true);
+    const handleHideLoadVerify = () => setLoaderVerify(false);
     // const[getIProfile,setgetIProfile]=useState("");  
     const navigate = useNavigate()
 
@@ -85,10 +90,15 @@ const Header = ({getIProfile}) => {
 
     const allRead = async (mailid) => {
         try{
+            handleShowLoadVerify();
             await NotificationAll(mailid);
             await notification();
+            
         }catch(err){
             console.error(err);
+            
+        }finally{
+            handleHideLoadVerify();
         }
     }
 
@@ -112,6 +122,7 @@ const Header = ({getIProfile}) => {
       } else {
         localStorage.removeItem('rememberMe');
       }
+      await logout({ returnTo: window.location.origin });
       navigate('/');
        
       
@@ -289,7 +300,7 @@ const Header = ({getIProfile}) => {
                                     </Tabs>
                                 </div>
                                 <div className="dropdown-bell-footer d-flex align-items-center justify-content-between">
-                                    <Button onClick={() => allRead(localStorage.getItem("UserID"))} variant="dark" className="btn-button btn-sm">Mark all as read</Button>
+                                    <ButtonLoad loading={loaderVerify} onClick={() => allRead(localStorage.getItem("UserID"))} variant="dark" className="btn-button btn-sm">Mark all as read</ButtonLoad>
                                     {/* <Button variant="link" className="p-0">View all notifications</Button> */}
                                 </div>
                             </Dropdown.Menu>
