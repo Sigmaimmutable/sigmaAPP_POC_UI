@@ -1,18 +1,19 @@
 import { Button, Col, Dropdown, Row, Tab, Tabs } from "react-bootstrap";
 import Avatar from "../../asserts/images/avartar.png"
 import { Link,useHistory,useNavigate,Redirect,Navigate} from 'react-router-dom';
-
+import { useAuth0 } from '@auth0/auth0-react';
 import LogoutIcon from "../../asserts/images/logout-icon.svg"
 import React, { useEffect,useState, useMemo } from 'react'
 import {userprofileget,Sessionstatusget,Sessionstatusupdate, getNotificationById, NotificationSingle, NotificationAll} from '../../apifunction';
 function ProfileHeader() {
+    const { logout } = useAuth0();
     const[getIProfile,setgetIProfile]=useState("");  
     const [loginstatus, setLoginstatus] = useState("")
     const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
     const [allNotification, setAllNotification] = useState([]);
     const navigate = useNavigate()
     const getprofiledetails = async() =>{
-        let [data,userprofiledetail]=await userprofileget(localStorage.getItem("UserID"),"ProfileHeader");
+        let [data,userprofiledetail]=await userprofileget(localStorage.getItem("UserID"));
         setgetIProfile(userprofiledetail);
         console.log("userdetail1",userprofiledetail,userprofiledetail.emailId);
         console.log("userdetail11",getIProfile.emailId,getIProfile.firstName);
@@ -26,10 +27,10 @@ function ProfileHeader() {
            console.log("Logtime12",currentDateTime);
            let email=localStorage.getItem('UserID')
            console.log("emailid",email)
-           let [checklogin,loginstauscheck] = await  Sessionstatusget(email,"ProfileHeader");
+           let [checklogin,loginstauscheck] = await  Sessionstatusget(email);
           setLoginstatus(loginstauscheck);
           console.log("logincheck",loginstatus);
-          let sessionlogin= await Sessionstatusupdate("","","Logout",email,"ProfileHeader");
+          let sessionlogin= await Sessionstatusupdate("","","Logout",email);
           console.log("sessionstatus",sessionlogin);
           localStorage.setItem("Login",false)
           localStorage.removeItem('Login');
@@ -41,12 +42,13 @@ function ProfileHeader() {
          } else {
            localStorage.removeItem('rememberMe');
          }
+         await logout({ returnTo: window.location.origin });
          navigate('/');
        }
 
        const notification = async () => {
         try{
-        let [value, allNotificationFetch] = await getNotificationById(localStorage.getItem("UserID"),"ProfileHeader");
+        let [value, allNotificationFetch] = await getNotificationById(localStorage.getItem("UserID"));
         if(value)
         {
             let r=[];
@@ -94,7 +96,7 @@ function ProfileHeader() {
 
     const singleRead = async (id, mailid, status) => {
         try{
-            await NotificationSingle(id, mailid, status, "ProfileHeader");
+            await NotificationSingle(id, mailid, status);
             await notification();
         }catch(err){
             console.error(err);
@@ -103,7 +105,7 @@ function ProfileHeader() {
 
     const allRead = async (mailid) => {
         try{
-            await NotificationAll(mailid,"ProfileHeader");
+            await NotificationAll(mailid);
             await notification();
         }catch(err){
             console.error(err);
