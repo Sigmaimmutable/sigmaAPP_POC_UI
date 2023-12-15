@@ -1,11 +1,12 @@
 import { Button, Col, Dropdown, Row, Tab, Tabs } from "react-bootstrap";
 import Avatar from "../../asserts/images/avartar.png"
 import { Link,useHistory,useNavigate,Redirect,Navigate} from 'react-router-dom';
-
+import { useAuth0 } from '@auth0/auth0-react';
 import LogoutIcon from "../../asserts/images/logout-icon.svg"
 import React, { useEffect,useState, useMemo } from 'react'
 import {userprofileget,Sessionstatusget,Sessionstatusupdate, getNotificationById, NotificationSingle, NotificationAll} from '../../apifunction';
 function ProfileHeader() {
+    const { logout } = useAuth0();
     const[getIProfile,setgetIProfile]=useState("");  
     const [loginstatus, setLoginstatus] = useState("")
     const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
@@ -41,6 +42,7 @@ function ProfileHeader() {
          } else {
            localStorage.removeItem('rememberMe');
          }
+         await logout({ returnTo: window.location.origin });
          navigate('/');
        }
 
