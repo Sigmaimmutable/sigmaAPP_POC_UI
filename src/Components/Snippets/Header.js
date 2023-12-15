@@ -5,16 +5,17 @@ import { Link,useHistory,useNavigate,Redirect,Navigate} from 'react-router-dom';
 // import { Link } from "react-router-dom";
 import LogoutIcon from "../../asserts/images/logout-icon.svg"
 import { useEffect, useState } from "react";
-
+import { useAuth0 } from '@auth0/auth0-react';
 
 import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget,Sessionstatusupdate,userprofileget, getNotificationById, NotificationSingle, NotificationAll} from '../../apifunction';
 const Header = ({getIProfile}) => {
+    const { logout } = useAuth0();
     const [search, setSearch] = useState(false);
     const [menu, setMenu] = useState(false);
     const [loginstatus, setLoginstatus] = useState("")
     const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
     const [Logtime, setLogtime] = useState("")
-    const [logout, setLogout] = useState("")
+    // const [logout, setLogout] = useState("")
     const [UserName,setUserName] = useState(""); 
     const [lastname,setlastname] = useState("");
     const [allNotification, setAllNotification] = useState([]);
@@ -92,8 +93,10 @@ const Header = ({getIProfile}) => {
             handleShowLoadVerify();
             await NotificationAll(mailid);
             await notification();
+            
         }catch(err){
             console.error(err);
+            
         }finally{
             handleHideLoadVerify();
         }
@@ -119,6 +122,7 @@ const Header = ({getIProfile}) => {
       } else {
         localStorage.removeItem('rememberMe');
       }
+      await logout({ returnTo: window.location.origin });
       navigate('/');
        
       
