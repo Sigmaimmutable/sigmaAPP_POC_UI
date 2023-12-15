@@ -5,16 +5,17 @@ import { Link,useHistory,useNavigate,Redirect,Navigate} from 'react-router-dom';
 // import { Link } from "react-router-dom";
 import LogoutIcon from "../../asserts/images/logout-icon.svg"
 import { useEffect, useState } from "react";
-
+import { useAuth0 } from '@auth0/auth0-react';
 
 import {Orguserlogincheck,Sessionloginpost,OrgAdminmailcheckget1,Sessionstatusget,Sessionstatusupdate,userprofileget, getNotificationById, NotificationSingle, NotificationAll} from '../../apifunction';
 const Header = ({getIProfile}) => {
+    const { logout } = useAuth0();
     const [search, setSearch] = useState(false);
     const [menu, setMenu] = useState(false);
     const [loginstatus, setLoginstatus] = useState("")
     const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
     const [Logtime, setLogtime] = useState("")
-    const [logout, setLogout] = useState("")
+    // const [logout, setLogout] = useState("")
     const [UserName,setUserName] = useState(""); 
     const [lastname,setlastname] = useState("");
     const [allNotification, setAllNotification] = useState([]);
@@ -32,7 +33,7 @@ const Header = ({getIProfile}) => {
 
     const notification = async () => {
         try{
-        let [value, allNotificationFetch] = await getNotificationById(localStorage.getItem("UserID"),"Header");
+        let [value, allNotificationFetch] = await getNotificationById(localStorage.getItem("UserID"));
         if(value)
         {
             let r=[];
@@ -80,7 +81,7 @@ const Header = ({getIProfile}) => {
 
     const singleRead = async (id, mailid, status) => {
         try{
-            await NotificationSingle(id, mailid, status,"Header");
+            await NotificationSingle(id, mailid, status);
             await notification();
         }catch(err){
             console.error(err);
@@ -90,7 +91,7 @@ const Header = ({getIProfile}) => {
     const allRead = async (mailid) => {
         try{
             handleShowLoadVerify();
-            await NotificationAll(mailid,"Header");
+            await NotificationAll(mailid);
             await notification();
             
         }catch(err){
@@ -106,10 +107,10 @@ const Header = ({getIProfile}) => {
         console.log("Logtime12",currentDateTime);
         let email=localStorage.getItem('UserID')
         console.log("emailid",email)
-        let [checklogin,loginstauscheck] = await  Sessionstatusget(email,"Header");
+        let [checklogin,loginstauscheck] = await  Sessionstatusget(email);
        setLoginstatus(loginstauscheck);
        console.log("logincheck",loginstatus);
-       let sessionlogin= await Sessionstatusupdate("","","Logout",email,"Header");
+       let sessionlogin= await Sessionstatusupdate("","","Logout",email);
        console.log("sessionstatus",sessionlogin);
        localStorage.setItem("Login",false)
        localStorage.removeItem('Login');
@@ -121,6 +122,7 @@ const Header = ({getIProfile}) => {
       } else {
         localStorage.removeItem('rememberMe');
       }
+      await logout({ returnTo: window.location.origin });
       navigate('/');
        
       
