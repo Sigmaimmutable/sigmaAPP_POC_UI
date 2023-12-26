@@ -97,10 +97,12 @@ function BlockTransactionsReport() {
     },[]);
 
     const makeMultipleBlockApiCalls = async(blockNo) => {
+        
         let blockNum1 = parseInt(blockNo,10);
         let blockNum = blockNum1.toString(16);
+        console.log("block check2",blockNum);
         try{
-            let [istrue, blockTx] = await getBlocksTxPolygon(blockNum);
+            let [istrue, blockTx] = await getBlocksTxPolygon(`0x${blockNum}`);
             console.log("Api aws blocks 1:",blockTx.result);
             blockBuffer = [...blockBuffer,blockTx.result];
         }

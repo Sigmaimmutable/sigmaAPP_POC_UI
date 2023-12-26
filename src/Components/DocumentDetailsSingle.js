@@ -159,7 +159,7 @@ const DocumentDetailsSingle= (props)=>{
 
        const getNftdetails = async () => {
         try {
-            const url = 'https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78';
+            const url = 'https://avalanche-fuji.infura.io/v3/7591ca9e4ccc415faf028b9dff4c7ce2';
             const provider = new ethers.providers.JsonRpcProvider(url);
     
             const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);
@@ -176,7 +176,7 @@ const DocumentDetailsSingle= (props)=>{
        }, [])
        const handleDownload = () => {
         // Create the download URL by combining the gateway URL and CID
-        const downloadUrl = `http://3.147.54.45:8080/ipfs/${postt.docChecksum}?download=true&filename=${postt.fileName}`;
+        const downloadUrl = `http://18.191.233.198:8080/ipfs/${postt.docChecksum}?download=true&filename=${postt.fileName}`;
       
         // Create an anchor element and trigger a click to download the document
         const downloadLink = document.createElement('a');
@@ -454,7 +454,7 @@ const DocumentDetailsSingle= (props)=>{
   </tr>
   <tr>
     <th>md5 Checksum</th>
-     <td>{nftdetails?.fVar11}</td> 
+     <td>{postt?.md5Checksum}</td> 
      <td>
     
      <Button variant="reset" onClick={handleCopyClick3}>
