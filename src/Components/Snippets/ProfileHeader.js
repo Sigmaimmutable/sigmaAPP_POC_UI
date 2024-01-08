@@ -42,7 +42,7 @@ function ProfileHeader() {
          } else {
            localStorage.removeItem('rememberMe');
          }
-         await logout({ returnTo: window.location.origin });
+         await logout({ returnTo: 'https://sigma-polygonmainnet.vercel.app/' });
          navigate('/');
        }
 
