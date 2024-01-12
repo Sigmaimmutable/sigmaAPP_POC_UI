@@ -106,7 +106,7 @@ const DocumentDetailsSingle= (props)=>{
       }
       }
       const handleCopyClick = () => {
-        navigator.clipboard.writeText(nftdetails.tokenOwner)
+        navigator.clipboard.writeText(nftdetails.fVar10)
           .then(() => {
             toggleShowA();
             toast.success('Copied successfully!', {
@@ -292,9 +292,17 @@ const DocumentDetailsSingle= (props)=>{
   </thead>
   <thead> 
   <tr>
-    <th>IPFS Hash</th>
-     <td>    {nftdetails? (nftdetails.fVar10).substring(0, 5) : ''}...{(nftdetails? (nftdetails.fVar10).substring((nftdetails.fVar10).length - 5) : '')} </td> 
-     <td></td>
+    <th>Greenfield URL</th>
+     {/* <td>    {nftdetails? (nftdetails.fVar10).substring(0, 5) : ''}...{(nftdetails? (nftdetails.fVar10).substring((nftdetails.fVar10).length - 5) : '')} </td>  */}
+     <td>    {nftdetails? (`https://gnfd-sp.4everland.org/view/greenfieldwork/${nftdetails.fVar10}`).substring(0, 5) : ''}...{(nftdetails? (`https://gnfd-sp.4everland.org/view/sigmaopbnbtest/${nftdetails.fVar10}`).substring((`https://gnfd-sp.4everland.org/view/sigmaopbnbtest/${nftdetails.fVar10}`).length - 5) : '')} </td> 
+     <td>
+     {/* <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nftproperties.tokenOwner); toggleShowA();}}>
+                                            <img src={CopyIcon} alt="CopyIcon" />
+                                        </Button> */}
+     <Button variant="reset" onClick={handleCopyClick}>
+    <img src={CopyIcon} alt="CopyIcon" />
+  </Button>
+                                        </td> 
     {/* <td>{(nftproperties.fVar10).substring(0, 5)}...{(nftproperties.fVar10).substring((nftproperties.fVar10).length - 5)}</td> */}
   </tr>
   </thead>
