@@ -106,7 +106,7 @@ const DocumentDetailsSingle= (props)=>{
       }
       }
       const handleCopyClick = () => {
-        navigator.clipboard.writeText(nftdetails.fVar10)
+        navigator.clipboard.writeText(`https://gnfd-testnet-sp-1.bnbchain.org/view/greenfieldwork/${nftdetails.fVar10}`)
           .then(() => {
             toggleShowA();
             toast.success('Copied successfully!', {
@@ -294,7 +294,13 @@ const DocumentDetailsSingle= (props)=>{
   <tr>
     <th>Greenfield URL</th>
      {/* <td>    {nftdetails? (nftdetails.fVar10).substring(0, 5) : ''}...{(nftdetails? (nftdetails.fVar10).substring((nftdetails.fVar10).length - 5) : '')} </td>  */}
-     <td>    {nftdetails? (`https://gnfd-sp.4everland.org/view/greenfieldwork/${nftdetails.fVar10}`).substring(0, 5) : ''}...{(nftdetails? (`https://gnfd-sp.4everland.org/view/sigmaopbnbtest/${nftdetails.fVar10}`).substring((`https://gnfd-sp.4everland.org/view/sigmaopbnbtest/${nftdetails.fVar10}`).length - 5) : '')} </td> 
+     <td>
+  <a href={nftdetails ? `https://gnfd-testnet-sp-1.bnbchain.org/view/greenfieldwork/${nftdetails.fVar10}` : ''} target="_blank">
+    {nftdetails ? (`https://gnfd-testnet-sp-1.bnbchain.org/view/greenfieldwork/${nftdetails.fVar10}`).substring(0, 5) : ''}
+  ...
+  {(nftdetails ? (`https://gnfd-testnet-sp-1.bnbchain.org/view/sigmaopbnbtest/${nftdetails.fVar10}`).substring((`https://gnfd-testnet-sp-1.bnbchain.org/view/sigmaopbnbtest/${nftdetails.fVar10}`).length - 5) : '')}
+  </a>
+</td>
      <td>
      {/* <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nftproperties.tokenOwner); toggleShowA();}}>
                                             <img src={CopyIcon} alt="CopyIcon" />
