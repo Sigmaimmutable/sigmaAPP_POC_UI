@@ -107,7 +107,7 @@ const DocumentDetailsSingle= (props)=>{
       }
       }
       const handleCopyClick = () => {
-        navigator.clipboard.writeText(nftdetails.tokenOwner)
+        navigator.clipboard.writeText(`https://gnfd-sp.4everland.org/view/sigmaopbnbtest/${nftdetails.fVar10}`)
           .then(() => {
             toggleShowA();
             toast.success('Copied successfully!', {
@@ -159,7 +159,7 @@ const DocumentDetailsSingle= (props)=>{
 
        const getNftdetails = async () => {
         try {
-            const url = 'https://avalanche-fuji.infura.io/v3/7591ca9e4ccc415faf028b9dff4c7ce2';
+            const url = 'https://opbnb-testnet.nodereal.io/v1/1cce0ce661274ff9ae11a6a3560ea9ed';
             const provider = new ethers.providers.JsonRpcProvider(url);
     
             const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);
@@ -443,14 +443,24 @@ const DocumentDetailsSingle= (props)=>{
 
   </tr>
   <tr>
-    <th>IPFS Hash</th>
-     <td>    {postt? (postt.docChecksum).substring(0, 5) : ''}...{(postt? (postt.docChecksum).substring((postt.docChecksum).length - 5) : '')} </td> 
+    <th>Greenfield URL</th>
+     {/* <td>    {nftdetails? (nftdetails.fVar10).substring(0, 5) : ''}...{(nftdetails? (nftdetails.fVar10).substring((nftdetails.fVar10).length - 5) : '')} </td>  */}
      <td>
-    
-     <Button variant="reset" onClick={handleCopyClick2}>
-     <img src={CopyIcon} alt="CopyIcon" />
-     </Button>
-  </td> 
+  <a href={nftdetails ? `https://gnfd-sp.4everland.org/view/sigmaopbnbtest/${postt?.fileName}` : ''} target="_blank" style={{color: 'inherit', cursor: 'pointer', }}>
+    {nftdetails ? (`https://gnfd-sp.4everland.org/view/sigmaopbnbtest/${postt?.fileName}`).substring(0, 15) : ''}
+  ...
+  {(nftdetails ? (`https://gnfd-sp.4everland.org/view/sigmaopbnbtest/${postt?.fileName}`).substring((`https://gnfd-sp.4everland.org/view/sigmaopbnbtest/${postt?.fileName}`).length - 15) : '')}
+  </a>
+</td>
+     <td>
+     {/* <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nftproperties.tokenOwner); toggleShowA();}}>
+                                            <img src={CopyIcon} alt="CopyIcon" />
+                                        </Button> */}
+     <Button variant="reset" onClick={handleCopyClick}>
+    <img src={CopyIcon} alt="CopyIcon" />
+  </Button>
+                                        </td> 
+    {/* <td>{(nftproperties.fVar10).substring(0, 5)}...{(nftproperties.fVar10).substring((nftproperties.fVar10).length - 5)}</td> */}
   </tr>
   <tr>
     <th>md5 Checksum</th>
