@@ -431,7 +431,7 @@ export const fetchSigmadocByTid = async (start, limit, tenantId) => {
   }
 };
 export const fetchSigmadocdetails = async (sigmaId) => {
-  console.log("id", sigmaId);
+  console.log("idssss", sigmaId);
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
   try {
     const response3 = await fetch(`/platform/v1/sigmadoc/${sigmaId}`, {
@@ -439,10 +439,10 @@ export const fetchSigmadocdetails = async (sigmaId) => {
         'x-api-key': `${key}`
       },
     });
-    console.log("response", response3);
+    console.log("responsenew", response3);
 
     const data = await response3.json();
-    console.log("Api inside", data);
+    console.log("Api insidenew", data);
     return [true, data];
   } catch (err) {
     console.log("Error fetching document details:", err);
@@ -2129,5 +2129,117 @@ export const getTxInputAvalanche = async (id) => {
   } catch (err) {
     console.log("vercelerrro", err);
     return [false, ""];
+  }
+};
+//For truebit integration:
+// export const fetchSigmadocdetailst1 = async (sigmaId) => {
+//   console.log("id", sigmaId);
+//   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+//   try {
+//     const response3 = await fetch(`/platform/v1/sigmadoc/${sigmaId}`, {
+//       headers: {
+//         'x-api-key': `${key}`
+//       },
+//     });
+//     console.log("response", response3);
+
+//     const data = await response3.json();
+//     const md5Checksum1 = data.md5Checksum;
+    
+//     console.log("Api inside", data);
+//     return [true, data];
+//   } catch (err) {
+//     console.log("Error fetching document details:", err);
+//     return [false, ""];
+//   }
+// };
+export const fetchSigmadocdetailst2 = async () => {
+  // console.log("id", sigmaId);
+  const sigmaId = 1057;
+  let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+  try {
+    const response3 = await fetch(`/platform/v1/sigmadoc/${sigmaId}`, {
+      headers: {
+        'x-api-key': `${key}`
+      },
+    });
+    console.log("response", response3);
+
+    const data = await response3.json();
+    const md5Checksum1 = data.md5Checksum;
+    
+    console.log("Api inside", data);
+    return [true, data];
+  } catch (err) {
+    console.log("Error fetching document details:", err);
+    return [false, ""];
+  }
+};
+export const executeTruebitTask = async (input1, input2) => {
+  try {
+    const url = `/platform/v1/truebitexecute?input1=${input1}&input2=${input2}`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to execute Truebit task');
+    }
+
+    const data = await response.json();
+    console.log("Api insidetruebit", data);
+    return [true, data];
+  } catch (error) {
+    console.error('Error executing Truebit task:', error);
+  }
+};
+export const executeTask = async (checksum1, checksum2) => {
+  console.log("Api insidetruebit");
+console.log("checksum1",checksum1);
+console.log("checksum2",checksum2);
+  // Construct the payload for task execution
+  // console.log("check5");
+  const payload = {
+    taskId: "js_52a6f258fdefc86dbd6d8f550d3e4740d2da0deba3aad5f229ef356f09a7a2c6/1.0.0",
+    input: `${checksum1},${checksum2}`,
+    reward: "15", // Ensure reward is a string if the schema requires it
+    executionTimeout: 6000,
+    totalSolutions: 1,
+    requiredSolutions: 1,
+    taskRequesterTimestamp: 1710262226,
+    limits: {
+      gas: "1099511627776", // Ensure limits values are strings if the schema requires it
+      call: "54032",
+      frame: "37222",
+      memory: "1255"
+    }
+  };
+
+  // Execute the task with the constructed payload
+  try {
+    const response = await fetch('/task/execute', { // Corrected URL
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Basic c2lnbWFsYWJzLXByb2Q6PVw5azApRHRFbjNZ'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+    console.log("checkexecute",data); // Handle the response data here
+    const outputd = data.clearTextSolution.output;
+    return [true, outputd];
+    
+   
+  } catch (error) {
+    console.error('There was a problem with your fetch operation:', error);
   }
 };

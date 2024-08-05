@@ -61,7 +61,7 @@ const DocumentDetailsSingle= (props)=>{
       const getNFTproperties= async() =>{
         const [success, data] = await fetchSigmadocdetails(id);
         setDocumentDetails(data);
-        console.log("docs",data);
+        console.log("docssingle",data);
             // let tnId = await getTennantId();
             // if(data.uuid){
             //   let tx = await getNFTProp(data.uuid,tnId);

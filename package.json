@@ -2,7 +2,6 @@
   "name": "sigma-web-app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://testavalanche.stasisonline.in",
   "dependencies": {
     "@auth0/auth0-react": "^2.2.3",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -68,6 +67,8 @@
     ]
   },
   "devDependencies": {
-    "sass": "^1.63.3"
+    "sass": "^1.63.3",
+    "http-proxy-middleware": "^3.0.0"
   }
+ 
 }

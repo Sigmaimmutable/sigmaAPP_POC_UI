@@ -3,7 +3,7 @@ import Eye from '../asserts/images/eye-icon.svg'
 import SiteLogo from '../asserts/images/site-logo-xxl.svg'
 import { Link,useParams,useLocation  } from "react-router-dom";
 import { useState,useEffect, useContext } from "react";
-import { fetchSigmadocdetails,getNFTProp,getTennantId,getoriginaldocprop,handleWriteToFile} from '../apifunction';
+import { fetchSigmadocdetails,getNFTProp,getTennantId,getoriginaldocprop,handleWriteToFile,fetchSigmadocdetailst1,fetchSigmadocdetailst2,executeTruebitTask,executeTask} from '../apifunction';
 import CopyIcon from '../asserts/images/copy-icon.svg'
 import { DataContext } from "../App";
 import { ToastContainer, Toast, Zoom, Bounce, toast} from 'react-toastify';
@@ -23,12 +23,9 @@ const DocumentVerification= (props)=>{
     const {sigmaId} = useParams();
     const [documentDetails, setDocumentDetails] = useState(null);
     const [vvdocumentDetails, setvvDocumentDetails] = useState(null);
-    
+    const [truebitresult, settruebitresult] = useState(null);
     const [nftproperties, setNftprop] = useState([]);
-    // const location = useLocation();  
-    // const [sigmaId, setSigmaId] = useState(''); // State variable for sigmaId
 
-    // const { sigmaId } = useParams();
 
 
     const [search, setSearch] = useState(false);
@@ -42,53 +39,98 @@ const DocumentVerification= (props)=>{
 
     
 
-    // useEffect(() => {
-    //     fetchSigmadocdetails(id)
-    //       .then(response => {
-    //         console.log("res",response)
-    //         const [success, data] = response;
-    //         if (success) {
-    //           setDocumentDetails(data);
-    //           console.log("data1", data);
-    //         } else {
 
-    //           console.error('Error fetching document details');
-    //         }
-    //       })
-    //       .catch(error => {
-    //         console.error('Error fetching document details:', error);
-    //       });
-    //   }, [id]);
 
-     
-      const getNFTproperties= async() =>{
-        const [success, data] = await fetchSigmadocdetails(id);
-        setDocumentDetails(data);
-        console.log("datasigma",data);
-            let tnId = await getTennantId();
-            if(data.uuid){
-              let tx = await getNFTProp(data.uuid,tnId);
-              // console.log("txhistory",tx)
-              setNftprop(tx.output);
-              console.log("nftprop",tx)
-            }
-           
-        
-        
-    }
-    useEffect(() =>{getNFTproperties()},[])
-
-    const getvvproperties= async() =>{
-      let tnId = await getTennantId();
-      const vvdocs = await getoriginaldocprop(tnId,docsid);
-      setvvDocumentDetails(vvdocs);
-      console.log("vvdocs",vvdocs)
-  
+    const getNFTproperties= async() =>{
+      const [success, data] = await fetchSigmadocdetails(id);
+      setDocumentDetails(data);
+      console.log("datasigma",data);
+          let tnId = await getTennantId();
+          if(data.uuid){
+            let tx = await getNFTProp(data.uuid,tnId);
+            // console.log("txhistory",tx)
+            setNftprop(tx.output);
+            console.log("nftprop",tx)
+          }
          
       
       
   }
+  useEffect(() =>{getNFTproperties()},[])
+ 
+  //   const getvvproperties= async() =>{
+  //     const [success, data] = await fetchSigmadocdetails(id);
+  //     setvvDocumentDetails(data);
+  //     console.log("datasigma",data);
+  //         let tnId = await getTennantId();
+  //         if(data.uuid){
+  //           let tx = await getNFTProp(data.uuid,tnId);
+  //           // console.log("txhistory",tx)
+  //           setNftprop(tx.output);
+  //           console.log("nftprop",tx)
+  //         }
+
+         
+      
+      
+  // }
   useEffect(() =>{getvvproperties()},[])
+  const getvvproperties= async() =>{
+    let tnId = await getTennantId();
+    const vvdocs = await getoriginaldocprop(tnId,docsid);
+    setvvDocumentDetails(vvdocs);
+    console.log("vvdocs",vvdocs)
+
+       
+}
+ 
+
+  
+
+  // useEffect(() => {
+  //   truebitcheck(id); // Call truebitcheck when the component mounts
+  // }, []);
+  
+  const truebitcheck = async (tnId,id) => {
+    try {
+      console.log("checkingre");
+      // Fetching data from fetchSigmadocdetailst1 and fetchSigmadocdetailst2
+      const [success1, data1] = await fetchSigmadocdetails(id);
+      const [success2, data2] = await getoriginaldocprop(tnId,id);
+      console.log("checkingre1",success1,success2);
+      // Checking if both fetch operations were successful
+      if (success1 && success2) {
+        // Extracting required inputs from the fetched data
+        const checksum1 = data1.md5Checksum;
+        const checksum2 = data2.md5Checksum;
+        console.log("veevachecksum",checksum2);
+        // Calling executeTruebitTask API with the extracted inputs
+        const [success3, data3] = await executeTask(checksum1, checksum2);
+        settruebitresult(data3); // Set truebitresult based on success3
+        
+        // Logging the result from executeTruebitTask
+        console.log("Result from executeTruebitTask:", data3, truebitresult);
+        
+        // Handle further processing as needed
+      } else {
+        console.log("Failed to fetch data from one or more sources.");
+      }
+    } catch (error) {
+      console.error('Error in getvvproperties:', error);
+    }
+  };
+ 
+  //   const getvvproperties= async() =>{
+  //     let tnId = await getTennantId();
+  //     const vvdocs = await getoriginaldocprop(tnId,docsid);
+  //     setvvDocumentDetails(vvdocs);
+  //     console.log("vvdocs",vvdocs)
+  
+         
+      
+      
+  // }
+  // useEffect(() =>{getvvproperties()},[])
    
     function timestampToEpoch(timestamp) {
       const epochTime = new Date(timestamp).getTime() ; // Divide by 1000 to convert to seconds
@@ -287,7 +329,7 @@ const DocumentVerification= (props)=>{
                         </Table>
                     </Col> */}
  {vvdocumentDetails?(<>
-                          {vvdocumentDetails.data[0]===""||vvdocumentDetails.data[0]===undefined||vvdocumentDetails.data[0]===null?(<>
+                          {vvdocumentDetails===""||vvdocumentDetails===undefined||vvdocumentDetails===null?(<>
 
                      </>):(<>
                      
@@ -309,9 +351,9 @@ const DocumentVerification= (props)=>{
                 
                                     <th>Document Name</th>
                                     <td>{documentDetails?.name__v}</td>
-                                   <td>{vvdocumentDetails.data[0]?.name__v}</td>
+                                   <td>{vvdocumentDetails?.name__v}</td>
                                    <td colSpan="4" ><div style={{marginLeft:"40px"}}>
-    {documentDetails?.name__v === vvdocumentDetails.data[0]?.name__v ? (
+    {documentDetails?.name__v === vvdocumentDetails?.name__v ? (
       <Badge bg="success">Pass</Badge>
     ) : (
       <Badge bg="danger">Fail</Badge>
@@ -323,9 +365,9 @@ const DocumentVerification= (props)=>{
   <tr>
     <th>Document ID</th>
     <td>{documentDetails?.id}</td>
-    <td>{vvdocumentDetails.data[0]?.id}</td>
+    <td>{vvdocumentDetails?.id}</td>
     <td colSpan="4"><div style={{marginLeft:"40px"}}>
-    {parseInt(documentDetails?.id) === parseInt(vvdocumentDetails.data[0]?.id) ? (
+    {parseInt(documentDetails?.id) === parseInt(vvdocumentDetails?.id) ? (
       <Badge bg="success">Pass</Badge>
     ) : (
       <Badge bg="danger">Fail</Badge>
@@ -336,9 +378,9 @@ const DocumentVerification= (props)=>{
   <tr>
     <th>Version ID</th>
     <td>{documentDetails?.version_id}</td>
-    <td>{vvdocumentDetails.data[0]?.version_id}</td>
+    <td>{vvdocumentDetails?.version_id}</td>
     <td colSpan="4"><div style={{marginLeft:"40px"}}>
-    {parseInt(documentDetails?.version_id) === parseInt(vvdocumentDetails.data[0]?.version_id) ? (
+    {parseInt(documentDetails?.version_id) === parseInt(vvdocumentDetails?.version_id) ? (
       <Badge bg="success">Pass</Badge>
     ) : (
       <Badge bg="danger">Fail</Badge>
@@ -348,9 +390,9 @@ const DocumentVerification= (props)=>{
   <tr>
     <th>Document Global Id</th>
     <td>{documentDetails?.global_id__sys}</td>
-    <td>{vvdocumentDetails.data[0]?.global_id__sys}</td>
+    <td>{vvdocumentDetails?.global_id__sys}</td>
     <td colSpan="4"><div style={{marginLeft:"40px"}}>
-    {documentDetails?.global_id__sys === vvdocumentDetails.data[0]?.global_id__sys
+    {documentDetails?.global_id__sys === vvdocumentDetails?.global_id__sys
  ? (
       <Badge bg="success">Pass</Badge>
     ) : (
@@ -363,20 +405,19 @@ const DocumentVerification= (props)=>{
     <td>{documentDetails?.md5Checksum}</td>
     <td>{vvdocumentDetails.md5Checksum}</td>
     <td colSpan="4"><div style={{marginLeft:"40px"}}>
-    {documentDetails?.global_id__sys === vvdocumentDetails.data[0]?.global_id__sys
- ? (
-      <Badge bg="success">Pass</Badge>
-    ) : (
-      <Badge bg="danger">Fail</Badge>
-    )}</div>
+    {truebitresult === true ? (
+        <Badge bg="success">Pass</Badge>
+      ) : (
+        <Badge bg="danger">Fail</Badge>
+      )}</div>
   </td>
   </tr>
   <tr>
     <th>File Modified Date</th>
     <td>{new Date(timestampToEpoch(documentDetails?.file_modified_date__v)).toLocaleString()}</td>
-    <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.file_modified_date__v)).toLocaleString()}</td>
+    <td>{new Date(timestampToEpoch(vvdocumentDetails?.file_modified_date__v)).toLocaleString()}</td>
     <td colSpan="4"><div style={{marginLeft:"40px"}}>
-    {documentDetails?.file_modified_date__v === vvdocumentDetails.data[0]?.file_modified_date__v
+    {documentDetails?.file_modified_date__v === vvdocumentDetails?.file_modified_date__v
  ? (
       <Badge bg="success">Pass</Badge>
     ) : (
@@ -387,9 +428,9 @@ const DocumentVerification= (props)=>{
   <tr>
     <th>File Created Date</th>
     <td>{new Date(timestampToEpoch(documentDetails?.file_created_date__v)).toLocaleString()}</td>
-    <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.file_created_date__v)).toLocaleString()}</td>
+    <td>{new Date(timestampToEpoch(vvdocumentDetails?.file_created_date__v)).toLocaleString()}</td>
     <td colSpan="4"><div style={{marginLeft:"40px"}}>
-    {documentDetails?.file_created_date__v === vvdocumentDetails.data[0]?.file_created_date__v
+    {documentDetails?.file_created_date__v === vvdocumentDetails?.file_created_date__v
  ? (
       <Badge bg="success">Pass</Badge>
     ) : (
@@ -400,9 +441,9 @@ const DocumentVerification= (props)=>{
   <tr>
     <th>Document Creation Date</th>
     <td>{new Date(timestampToEpoch(documentDetails?.document_creation_date__v)).toLocaleString()}</td>
-    <td>{new Date(timestampToEpoch(vvdocumentDetails.data[0]?.document_creation_date__v)).toLocaleString()}</td>
+    <td>{new Date(timestampToEpoch(vvdocumentDetails?.document_creation_date__v)).toLocaleString()}</td>
     <td colSpan="4"><div style={{marginLeft:"40px"}}>
-    {documentDetails?.document_creation_date__v === vvdocumentDetails.data[0]?.document_creation_date__v
+    {documentDetails?.document_creation_date__v === vvdocumentDetails?.document_creation_date__v
  ? (
       <Badge bg="success">Pass</Badge>
     ) : (
@@ -438,9 +479,9 @@ const DocumentVerification= (props)=>{
   <tr>
     <th>Title</th>
     <td>{documentDetails?.name__v}</td>
-    <td>{vvdocumentDetails.data[0]?.name__v}</td>
+    <td>{vvdocumentDetails?.name__v}</td>
     <td colSpan="4"><div style={{marginLeft:"40px"}}>
-    {documentDetails?.name__v === vvdocumentDetails.data[0]?.name__v
+    {documentDetails?.name__v === vvdocumentDetails?.name__v
  ? (
       <Badge bg="success">Pass</Badge>
     ) : (

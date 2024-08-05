@@ -280,6 +280,11 @@
         {
             "source": "/platform/v1/txinput/:tx*",
             "destination": "https://testavalanche.stasisonline.in/platform/v1/txinput/:tx*"
+        }, 
+        {
+            "source": "/task/execute",
+            "destination": "https://go.truebit.network/task/execute"
+
         }
 
 
