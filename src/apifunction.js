@@ -2198,29 +2198,27 @@ export const executeTruebitTask = async (input1, input2) => {
 };
 export const executeTask = async (checksum1, checksum2) => {
   console.log("Api insidetruebit");
-console.log("checksum1",checksum1);
-console.log("checksum2",checksum2);
-  // Construct the payload for task execution
-  // console.log("check5");
+  console.log("checksum1", checksum1);
+  console.log("checksum2", checksum2);
+
   const payload = {
     taskId: "js_52a6f258fdefc86dbd6d8f550d3e4740d2da0deba3aad5f229ef356f09a7a2c6/1.0.0",
     input: `${checksum1},${checksum2}`,
-    reward: "15", // Ensure reward is a string if the schema requires it
+    reward: "15",
     executionTimeout: 6000,
     totalSolutions: 1,
     requiredSolutions: 1,
     taskRequesterTimestamp: 1710262226,
     limits: {
-      gas: "1099511627776", // Ensure limits values are strings if the schema requires it
+      gas: "1099511627776",
       call: "54032",
       frame: "37222",
       memory: "1255"
     }
   };
 
-  // Execute the task with the constructed payload
   try {
-    const response = await fetch('/task/execute', { // Corrected URL
+    const response = await fetch('/task/execute', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -2234,12 +2232,77 @@ console.log("checksum2",checksum2);
     }
 
     const data = await response.json();
-    console.log("checkexecute",data); // Handle the response data here
+    console.log("checkexecute", data);
     const outputd = data.clearTextSolution.output;
-    return [true, outputd];
-    
-   
+    const executionId = data.executionId;
+    return { success: true, output: outputd, executionId };
+
   } catch (error) {
     console.error('There was a problem with your fetch operation:', error);
+    return { success: false, output: null, executionId: null }; // Ensure the function always returns a consistent type
   }
 };
+
+export const fetchTaskStatus = async (executionId) => {
+  try {
+    const response = await fetch(`/task/${executionId}/transcript`, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Basic c2lnbWFsYWJzLXByb2Q6PVw5azApRHRFbjNZ'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+    const transcript = data.transcript[3] || {}; // Ensure transcript[3] is defined
+    const message = data.transcript[0]?.message || {};
+    const details = {
+      executionId: data.executionId,
+      signerAddress: transcript.signerAddress || 'N/A',
+      timestamp: transcript.timestamp || null,
+      transcriptHash: transcript.transcriptHash || 'N/A',
+      type: transcript.type || 'N/A',
+      blockNumber:message.blockNumber || 'N/A',
+      chainId:message.chainId || 'N/A',
+      ledgerName:message.ledgerName || 'N/A'
+    };
+
+    console.log("details", details);
+    return details;
+
+  } catch (error) {
+    console.error('There was a problem with your fetch operation:', error);
+    return { success: false, data: null };
+  }
+};
+
+export const fetchExecutionStatus = async (executionId) => {
+  console.log("Fetching execution status for:", executionId);
+
+  try {
+    const response = await fetch(`/task/${executionId}/status`, {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Basic c2lnbWFsYWJzLXByb2Q6PVw5azApRHRFbjNZ' // Replace with actual base64 encoded authorization
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+    console.log("Fetched status data:", data);
+    return { success: true, data };
+
+  } catch (error) {
+    console.error('There was a problem with your fetch operation:', error);
+    return { success: false, data: null };
+  }
+};
+
+
+

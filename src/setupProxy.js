@@ -352,12 +352,17 @@ module.exports = function(app) {
   );
 
   app.use(
-    '/platform/v1/sigmadoc/:sigmaId*',
+    '/platform/v1/sigmadoc/:sigmaId',
     createProxyMiddleware({
-      target: 'https://testavalanche.stasisonline.in/platform/v1/sigmadoc/:sigmaId*',
+      target: 'https://testavalanche.stasisonline.in',
       changeOrigin: true,
+      pathRewrite: (path, req) => {
+        const sigmaId = req.params.sigmaId;
+        return `/platform/v1/sigmadoc/${sigmaId}`;
+      },
     })
   );
+
 
   app.use(
     '/platform/v1/notification/:emailid*',
@@ -514,10 +519,14 @@ module.exports = function(app) {
     })
   );
   app.use(
-    '/platform/v1/veevadocs/:tennat*/:type*/:docid*',
+    '/platform/v1/veevadocs/:tennat/:type/:docid',
     createProxyMiddleware({
-      target: 'https://testavalanche.stasisonline.in/platform/v1/veevadocs/:tennat*/:type*/:docid*',
+      target: 'https://testavalanche.stasisonline.in',
       changeOrigin: true,
+      pathRewrite: (path, req) => {
+        const { tenant, type, docid } = req.params;
+        return `/platform/v1/veevadocs/${tenant}/${type}/${docid}`;
+      },
     })
   );
   app.use(
@@ -551,7 +560,28 @@ app.use(
       changeOrigin: true,
     })
   );
-
+  app.use(
+    '/task/:executionId/transcript',
+    createProxyMiddleware({
+      target: 'https://go.truebit.network',
+      changeOrigin: true,
+      pathRewrite: (path, req) => {
+        const executionId = req.params.executionId;
+        return `/task/${executionId}/transcript`;
+      },
+    })
+  );
+  app.use(
+    '/task/:executionId/status',
+    createProxyMiddleware({
+      target: 'https://go.truebit.network',
+      changeOrigin: true,
+      pathRewrite: (path, req) => {
+        const executionId = req.params.executionId;
+        return `/task/${executionId}/status`;
+      },
+    })
+  );
  
 };
   

@@ -13,6 +13,7 @@ import Profile from './Components/Profile';
 import DocumentDetails from './Components/DocumentDetails';
 import DocumentDetailsSingle from './Components/DocumentDetailsSingle';
 import DocumentCheck from './Components/DocumentCheck';
+import Truebitdetails from './Components/Truebitproperties';
 import Document from './Components/Document';
 import ResourcePersistJob from './Components/ResourcePersistJob';
 import JobDetails from './Components/JobDetails';
@@ -134,7 +135,9 @@ function App () {
                 <Route index element={ <DocumentDetails /> } />
                 <Route path="/document-details/single" element={ <DocumentDetailsSingle /> } />
                 <Route path="/document-details/check" element={ <DocumentCheck /> } />
+         
               </Route>
+              <Route path="/truebit-properties" element={ <Truebitdetails /> } />
               <Route path="/job" element={<Job roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
                 <Route path="/job/job-details" element={ <JobDetails /> } />
@@ -177,7 +180,9 @@ function App () {
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
                 <Route path=":slug" element={ <DocumentCheck /> } />
+              
               </Route>
+              <Route path="/truebit-properties" element={ <Truebitdetails /> } />
               <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
               <Route path="/help-support" element={ <HelpSupport  roleType = {roleType} getIProfile={getIProfile}/> } />
               {/* <Route path="about" element={ <About/> } />
@@ -199,7 +204,9 @@ function App () {
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
                 <Route path=":slug" element={ <DocumentCheck /> } />
+              
               </Route>
+              <Route path="/truebit-properties" element={ <Truebitdetails /> } />
               <Route path="/job" element={<Job roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
                 <Route path="/job/job-details" element={ <JobDetails /> } />
@@ -237,7 +244,9 @@ function App () {
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
                 <Route path=":slug" element={ <DocumentCheck /> } />
+             
               </Route>
+              <Route path="/truebit-properties" element={ <Truebitdetails /> } />
               <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
               <Route path="/help-support" element={ <HelpSupport  roleType = {roleType} getIProfile={getIProfile}/> } />
               {/* <Route path="about" element={ <About/> } />
@@ -259,7 +268,9 @@ function App () {
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
                 <Route path=":slug" element={ <DocumentCheck /> } />
+                
               </Route>
+              <Route path="/truebit-properties" element={ <Truebitdetails /> } />
               <Route path="/favourite-documents" element={ <FavouriteDocuments roleType = {roleType} getIProfile={getIProfile}/> } />
               <Route path="/help-support" element={ <HelpSupport  roleType = {roleType} getIProfile={getIProfile}/> } />
               {/* <Route path="about" element={ <About/> } />
@@ -282,6 +293,7 @@ function App () {
                 <Route path="/document-details/single" element={ <DocumentDetailsSingle /> } />
                 <Route path="/document-details/check" element={ <DocumentCheck /> } />
               </Route>
+              <Route path="/truebit-properties" element={ <Truebitdetails /> } />
               <Route path="/job" element={<Job roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
                 <Route path="/job/job-details" element={ <JobDetails /> } />

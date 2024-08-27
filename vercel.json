@@ -285,6 +285,11 @@
             "source": "/task/execute",
             "destination": "https://go.truebit.network/task/execute"
 
+        },
+        {
+            "source": "task/:executionId*/transcript",
+            "destination": "https://go.truebit.network/task/:executionId*/transcript"
+
         }
 
 
