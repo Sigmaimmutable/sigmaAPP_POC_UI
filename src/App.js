@@ -12,7 +12,8 @@ import Dashboard from './Components/Dashboard';
 import Profile from './Components/Profile';
 import DocumentDetails from './Components/DocumentDetails';
 import DocumentDetailsSingle from './Components/DocumentDetailsSingle';
-import DocumentCheck from './Components/DocumentCheck';
+// import DocumentCheck from './Components/DocumentCheck';
+import DocumentVerification from './Components/DocumentVerification';
 import Truebitdetails from './Components/Truebitproperties';
 import Document from './Components/Document';
 import ResourcePersistJob from './Components/ResourcePersistJob';
@@ -95,7 +96,7 @@ function App () {
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
-                <Route path=":slug" element={ <DocumentCheck /> } />
+                <Route path=":slug" element={ <DocumentVerification /> } />
               </Route>
               <Route path="/job" element={<Job roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <ResourcePersistJob /> } />
@@ -134,7 +135,7 @@ function App () {
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path="/document-details/single" element={ <DocumentDetailsSingle /> } />
-                <Route path="/document-details/check" element={ <DocumentCheck /> } />
+                <Route path="/document-details/check" element={ <DocumentVerification /> } />
          
               </Route>
               <Route path="/truebit-properties" element={ <Truebitdetails /> } />
@@ -179,7 +180,7 @@ function App () {
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
-                <Route path=":slug" element={ <DocumentCheck /> } />
+                <Route path=":slug" element={ <DocumentVerification /> } />
               
               </Route>
               <Route path="/truebit-properties" element={ <Truebitdetails /> } />
@@ -203,7 +204,7 @@ function App () {
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
-                <Route path=":slug" element={ <DocumentCheck /> } />
+                <Route path=":slug" element={ <DocumentVerification /> } />
               
               </Route>
               <Route path="/truebit-properties" element={ <Truebitdetails /> } />
@@ -243,7 +244,7 @@ function App () {
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
-                <Route path=":slug" element={ <DocumentCheck /> } />
+                <Route path=":slug" element={ <DocumentVerification /> } />
              
               </Route>
               <Route path="/truebit-properties" element={ <Truebitdetails /> } />
@@ -267,7 +268,7 @@ function App () {
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
-                <Route path=":slug" element={ <DocumentCheck /> } />
+                <Route path=":slug" element={ <DocumentVerification /> } />
                 
               </Route>
               <Route path="/truebit-properties" element={ <Truebitdetails /> } />
@@ -291,7 +292,7 @@ function App () {
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path="/document-details/single" element={ <DocumentDetailsSingle /> } />
-                <Route path="/document-details/check" element={ <DocumentCheck /> } />
+                <Route path="/document-details/check" element={ <DocumentVerification /> } />
               </Route>
               <Route path="/truebit-properties" element={ <Truebitdetails /> } />
               <Route path="/job" element={<Job roleType = {roleType} getIProfile={getIProfile}/>}>

@@ -622,3 +622,48 @@
 
 
 /*# sourceMappingURL=ReactToastify.css.map */
+
+.custom-tabs .nav-link {
+  background-color: black; /* Background color when not selected */
+  color: white; /* Font color when not selected */
+}
+
+.custom-tabs .nav-link.active {
+  background-color: white !important; /* Background color when selected */
+  color: black !important; /* Font color when selected */
+  border-color: #dee2e6 #dee2e6 #fff !important; /* Optional: border style adjustments */
+}
+
+.fontcustom {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: var(--14);
+  font-weight: 400;
+  padding: 15px;
+  vertical-align: middle;
+}
+
+/* Media Queries for Responsive Font Size */
+@media screen and (max-width: 991px) {
+  .fontcustom {
+      font-size: var(--12);
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .fontcustom {
+      font-size: 11px;
+  }
+}
+
+/* Media Queries for Responsive Padding */
+@media screen and (max-width: 1199px) {
+  .fontcustom {
+      padding: 8px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .fontcustom {
+      padding: 8px 4px;
+  }
+}

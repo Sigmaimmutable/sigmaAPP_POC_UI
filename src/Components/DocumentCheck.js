@@ -13,7 +13,7 @@ import Check from '../asserts/images/check_icon.svg';
 import ButtonLoad from 'react-bootstrap-button-loader';
 import verify from '../asserts/images/compliant.png'
 import arrow from '../asserts/images/up-right-arrow.png'
-const DocumentVerification= (props)=>{
+const DocumentCheck = ({ selectedTab, veevaDetails, docDetails })=>{
     const location = useLocation();
     const [showA, setShowA] = useState(false);
     const toggleShowA = () => setShowA(!showA);
@@ -24,8 +24,8 @@ const DocumentVerification= (props)=>{
     //  const allData = location.state.allData;
     // const id = useContext(DataContext);
     const {sigmaId} = useParams();
-    const [documentDetails, setDocumentDetails] = useState(null);
-    const [vvdocumentDetails, setvvDocumentDetails] = useState(null);
+    const [documentDetails, setDocumentDetails] = useState(docDetails);
+    const [vvdocumentDetails, setvvDocumentDetails] = useState(veevaDetails);
     const [truebitresult, settruebitresult] = useState(null);
     const [nftproperties, setNftprop] = useState([]);
     const [taskStatus, setTaskStatus] = useState(null);
@@ -87,39 +87,39 @@ useEffect(() => {
   fetchData();
 }, [id, docsid]);
 
-useEffect(() => {
-  const truebitcheck = async () => {
-    try {
-      if (!documentDetails || !vvdocumentDetails) {
-        console.log('Document details are not available.');
-        return;
-      }
+// useEffect(() => {
+//   const truebitcheck = async () => {
+//     try {
+//       if (!documentDetails || !vvdocumentDetails) {
+//         console.log('Document details are not available.');
+//         return;
+//       }
 
-      console.log("checkingre", documentDetails.md5Checksum, vvdocumentDetails.md5Checksum);
+//       console.log("checkingre", documentDetails.md5Checksum, vvdocumentDetails.md5Checksum);
 
-      const checksum1 = documentDetails.md5Checksum;
-      const checksum2 = vvdocumentDetails.md5Checksum;
+//       const checksum1 = documentDetails.md5Checksum;
+//       const checksum2 = vvdocumentDetails.md5Checksum;
 
-      console.log("veevachecksum", checksum2);
+//       console.log("veevachecksum", checksum2);
 
-      const { success, output, executionId } = await executeTask(checksum1, checksum2);
-      settruebitresult(output);
-      setExecutionId(executionId);
+//       const { success, output, executionId } = await executeTask(checksum1, checksum2);
+//       settruebitresult(output);
+//       setExecutionId(executionId);
 
-      console.log("Result from executeTruebitTask:", output, executionId);
-    } catch (error) {
-      console.error('Error in truebitcheck:', error);
-    }
-  };
+//       console.log("Result from executeTruebitTask:", output, executionId);
+//     } catch (error) {
+//       console.error('Error in truebitcheck:', error);
+//     }
+//   };
 
-  if (documentDetails && vvdocumentDetails) {
-    truebitcheck();
-  }
-}, [documentDetails, vvdocumentDetails]);
+//   if (documentDetails && vvdocumentDetails) {
+//     truebitcheck();
+//   }
+// }, [documentDetails, vvdocumentDetails]);
 
-useEffect(() => {
-  console.log("truebitresult updated:", truebitresult);
-}, [truebitresult]);
+// useEffect(() => {
+//   console.log("truebitresult updated:", truebitresult);
+// }, [truebitresult]);
 
 
 // useEffect(() => {
@@ -177,14 +177,15 @@ useEffect(() => {
         <div>
                        <ToastContainer position='bottom-right' draggable = {false} transition={Zoom} autoClose={4000} closeOnClick = {false}/>
 
-            <div className="mb-20">
+            {/* <div className="mb-20">
                 <Link to="/document-details" className="d-inline-block btn-back align-items-center"> 
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="me-2" viewBox="0 0 16 16">
                         <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
                     </svg>
                     Back to Document List
                 </Link>
-            </div>
+            </div> */}
+            <br/><br/>
             <Row className="mb-2">
                 <Col md={6} xl={4} xxl={3}>
                     <h4 className="page-title mb-0">Document Verification</h4>
@@ -296,18 +297,13 @@ useEffect(() => {
   <td>{vvdocumentDetails.md5Checksum}</td>
   <td colSpan="4">
     <div style={{ marginLeft: "40px" }}>
-      {truebitresult !== null ? (
-        truebitresult === 'true' ? (
-          <Badge bg="success">Pass</Badge>
-        ) : (
-          <Badge bg="danger">Fail</Badge>
-        )
-      ) : (
-        <Badge bg="warning">Pending</Badge>
-      )}
-      <Link to={{ pathname: "/truebit-properties", search: `?executionId=${executionId}` }}>
-        <img src={arrow} style={{ fillColor: "#0000FF" }} alt="arrow" />
-      </Link>
+      {documentDetails?.md5Checksum == vvdocumentDetails.md5Checksum ? 
+          (
+            <Badge bg="success">Pass</Badge>
+          ) : ( 
+            <Badge bg="danger">Fail</Badge>
+          )
+        }
     </div>
   </td>
 </tr>
@@ -385,4 +381,4 @@ useEffect(() => {
      );
 }
 
-export default DocumentVerification;
+export default DocumentCheck;
