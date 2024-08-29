@@ -47,7 +47,7 @@ export const OrgAdminmailcheckget1 = async(email) =>{
       const data2 = await response2.json();
       console.log("Api inside", data2)
       // return {data2};
-      return [true,data2];
+      return [true,data2[0]];
     }catch(err){
       console.log("vercelerrro",err)
       return [false,""];
@@ -1064,7 +1064,7 @@ export const getTennantId = async () =>
     const data2 = await response2.json();
     console.log("getTennantId", data2)
     // return {data2};
-    return  data2.tennantId;
+    return  data2[0].tennantId;
   }catch(err){
     console.log("vercelerrro",err)
     return "";
