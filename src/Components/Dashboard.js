@@ -103,7 +103,7 @@ function Dashboard(props) {
           let tnId = await getTennantId();
           let id = tnId;
           let [check, data2] = await OrgAdminmailcheckget(id);
-          console.log("valid1", check);
+          console.log("valid1", check,data2);
     
           if (check) {
             const totalUploadedCount = data2.reduce((total, record) => total + record.rawDocs, 0);
