@@ -94,7 +94,7 @@ function App () {
               <Route path="/document-details" element={<Document roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <DocumentDetails /> } />
                 <Route path=":slug" element={ <DocumentDetailsSingle /> } />
-                <Route path=":slug" element={ <DocumentCheck /> } />
+                <Route path="/document-details/check" element={ <DocumentCheck /> } />
               </Route>
               <Route path="/job" element={<Job roleType = {roleType} getIProfile={getIProfile}/>}>
                 <Route index element={ <ResourcePersistJob /> } />

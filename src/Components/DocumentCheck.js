@@ -61,17 +61,35 @@ const DocumentVerification= (props)=>{
     //   }, [id]);
 
      
-      const getNFTproperties= async() =>{
-        const [success, data] = await fetchSigmadocdetails(id);
-        setDocumentDetails(data);
-        console.log("datasigma",data);
-            let tnId = await getTennantId();
-            if(data.uuid){
-              let tx = await getNFTProp(data.uuid,tnId);
-              // console.log("txhistory",tx)
-              setNftprop(tx.output);
-              console.log("nftprop",tx)
+    const getNFTproperties= async() =>{
+      const [success, data] = await fetchSigmadocdetails(id);
+      setDocumentDetails(data);
+      console.log("reference data",data);
+          // let tnId = await getTennantId();
+          if(data.uuid){
+            const apiEndpoint = `https://sigma-sui-api.vercel.app/fetch-object/${data.objectId}`;
+          
+            // Make the GET API call to fetch NFT properties
+            const response = await fetch(apiEndpoint, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            // Parse the API response
+            if (!response.ok) {
+                throw new Error(`API call failed with status: ${response.status}`);
             }
+            const apiResponse = await response.json();
+
+          // Extract the `fields` object
+          const data1 = apiResponse.objectDetails?.data?.content?.fields;
+          //   let tx = await getNFTProp(data.uuid,tnId);
+          //   // console.log("txhistory",tx)
+            setNftprop(data1);
+            console.log("nftprop",data1)
+          }
            
         
         

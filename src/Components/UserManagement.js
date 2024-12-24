@@ -365,6 +365,7 @@ const handlePopupShow = () => {
         <option value="">Select Role</option>
         <option value="Viewer">Viewer</option>
         <option value="Full User">Full User</option>
+        <option value="Super User">Super User</option>
         <option value="FDA Auditor">FDA Auditor</option>
         <option value="Vault Owner">Vault Owner</option>
         <option value="System Admin">System Admin</option>

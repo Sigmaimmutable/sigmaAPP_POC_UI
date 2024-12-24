@@ -1128,4 +1128,3 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
 }
 
 export default Sidebar;
-

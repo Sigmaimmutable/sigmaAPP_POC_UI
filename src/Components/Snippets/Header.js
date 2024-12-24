@@ -26,6 +26,8 @@ const Header = ({getIProfile}) => {
         setMenu(!menu)
     }
 
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
     const notification = async () => {
         try{
         let [value, allNotificationFetch] = await getNotificationById(localStorage.getItem("UserID"));
@@ -69,10 +71,17 @@ const Header = ({getIProfile}) => {
         }
     }
 
-    useEffect(()=>{
-        if(allNotification.length === 0)
-        notification();
-    })
+    useEffect(() => {
+        // Set up the interval
+        const interval = setInterval(() => {
+            if (allNotification.length === 0) {
+                notification();
+            }
+        }, 60000); // 60000ms = 1 minute
+
+        // Cleanup the interval on component unmount
+        return () => clearInterval(interval);
+    });
 
     const singleRead = async (id, mailid, status) => {
         try{
