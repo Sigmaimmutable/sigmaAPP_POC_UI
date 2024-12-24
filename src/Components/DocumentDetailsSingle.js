@@ -95,22 +95,64 @@ const DocumentDetailsSingle= (props)=>{
       const epochTime = new Date(timestamp).getTime() ; // Divide by 1000 to convert to seconds
       return epochTime;
     }
+    // const downloaddoc = async () => {
+    //   try{
+    //     handleShowLoadDownload();
+    //       let tnId = await getTennantId();
+    //       // let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
+    //       // console.log("app.js role", data.roleType);
+    //       // console.log("hoursvalue1", milliseconds);
+    //       console.log("tnId",tnId);
+    //       console.log("docdetails",documentDetails.docChecksum);
+    //       let downloadtapi=await handleWriteToFile(tnId,documentDetails.docChecksum);    
+                  
+    //       console.log("recheduldownloadtapiedtime",downloadtapi);
+    //       // console.log("hoursvalue2", milliseconds);
+          
+    //       // let Jobrecheduleruser=await jobschedulardetailpost();    
+    //       // console.log("Jobrecheduleruser",Jobrecheduleruser);
+    //       toast.success("Downloaded  successfully");
+    //       // await ticketTableFetch();
+    //       handleHideLoadDownload();
+      
+        
+    //   }catch(err){
+    //       toast.error(err);
+    //       handleHideLoadDownload();
+    //   }
+    //   }
     const downloaddoc = async () => {
       try{
-        handleShowLoadDownload();
-          let tnId = await getTennantId();
-          // let [value, data] = await userDetailWithEmail(localStorage.getItem("UserID"));
-          // console.log("app.js role", data.roleType);
-          // console.log("hoursvalue1", milliseconds);
-          console.log("tnId",tnId);
-          console.log("docdetails",documentDetails.docChecksum);
-          let downloadtapi=await handleWriteToFile(tnId,documentDetails.docChecksum);    
-                  
-          console.log("recheduldownloadtapiedtime",downloadtapi);
-          // console.log("hoursvalue2", milliseconds);
+          handleShowLoadDownload();
+          const filename = documentDetails?.name__v;
+          const extension = filename.split('.').pop().toLowerCase();
+          console.log(extension);
+          let content_type;
+          if (extension == 'pdf') {
+            content_type = 'application/pdf';
+          } else if(extension == 'json') {
+            content_type = 'application/json';
+          } else if(extension == 'txt') {
+            content_type = 'text/plain';
+          } else if(extension == 'html') {
+            content_type = 'text/html';
+          } else if(extension == 'xlsx' || extension == 'xls') {
+            content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+          } else {
+            content_type = 'application/octet-stream';
+          } 
+
+          const response = await fetch(`https://aggregator.walrus-testnet.walrus.space/v1/${documentDetails.docChecksum}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': content_type,
+            },
+          });
+    
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
           
-          // let Jobrecheduleruser=await jobschedulardetailpost();    
-          // console.log("Jobrecheduleruser",Jobrecheduleruser);
           toast.success("Downloaded  successfully");
           // await ticketTableFetch();
           handleHideLoadDownload();
