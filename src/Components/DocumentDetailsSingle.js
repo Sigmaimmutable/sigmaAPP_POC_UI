@@ -142,7 +142,7 @@ const DocumentDetailsSingle= (props)=>{
             content_type = 'application/octet-stream';
           } 
 
-          const response = await fetch(`https://aggregator.walrus-testnet.walrus.space/v1/${documentDetails.docChecksum}`, {
+          const response = await fetch(`https://aggregator.walrus-testnet.walrus.space/v1/blobs/${documentDetails.docChecksum}`, {
             method: 'GET',
             headers: {
               'Content-Type': content_type,
@@ -165,6 +165,23 @@ const DocumentDetailsSingle= (props)=>{
       }
       const handleCopyClick = () => {
         navigator.clipboard.writeText(nftproperties.tokenOwner)
+          .then(() => {
+            toggleShowA();
+            toast.success('Copied successfully!', {
+              position: 'bottom-right',
+              autoClose: 4000,
+              closeButton: false,
+              draggable: false,
+            });
+          })
+          .catch((error) => {
+            console.error('Error copying text: ', error);
+            // Handle the error if needed
+          });
+      };
+
+      const handleCopyClick2 = () => {
+        navigator.clipboard.writeText(nftproperties.fVar10)
           .then(() => {
             toggleShowA();
             toast.success('Copied successfully!', {
@@ -314,9 +331,16 @@ const DocumentDetailsSingle= (props)=>{
   </thead>
   <thead> 
   <tr>
-    <th>IPFS Hash</th>
+    <th>Walrus Hash</th>
      <td>    {nftproperties? (nftproperties.fVar10).substring(0, 5) : ''}...{(nftproperties? (nftproperties.fVar10).substring((nftproperties.fVar10).length - 5) : '')} </td> 
-     <td></td>
+     <td>
+     {/* <Button variant="reset" onClick={() => {navigator.clipboard.writeText(nftproperties.tokenOwner); toggleShowA();}}>
+                                            <img src={CopyIcon} alt="CopyIcon" />
+                                        </Button> */}
+     <Button variant="reset" onClick={handleCopyClick2}>
+    <img src={CopyIcon} alt="CopyIcon" />
+  </Button>
+                                        </td> 
     {/* <td>{(nftproperties.fVar10).substring(0, 5)}...{(nftproperties.fVar10).substring((nftproperties.fVar10).length - 5)}</td> */}
   </tr>
   </thead>
