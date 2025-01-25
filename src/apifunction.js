@@ -985,6 +985,96 @@ export const DeleteOrgUser = async (emailid) =>
       }
 }
 
+export const getSuiTransactions = async (cursor,limit) =>
+  {       
+    let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+    // let userID = localStorage.getItem('UserID');
+    // let connectAddress = localStorage.getItem("walletAddress");
+    // let network = "AB";
+    
+      axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+      //console.log("done1",response.data);
+        // console.log("date",date);
+        const options2 = {
+          method: 'POST',
+          url: `/platform/v1/sui/txns/${limit}/${cursor}`,
+          headers: {
+            'x-api-key': `${key}`    
+          },
+        };
+  
+       let txnList=[] ;
+        try {
+          const response = await axios(options2);
+          txnList = response.data;
+           
+          console.log('Response:', txnList);
+        }catch(error){
+          console.error("done2",error);
+        }
+      
+       
+        return txnList;
+      
+  }
+
+  export const getSuiTransaction = async (txnId) =>
+    {       
+      let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+      
+        axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+          const options2 = {
+            method: 'POST',
+            url: `/platform/v1/sui/txn/${txnId}`,
+            headers: {
+              'x-api-key': `${key}`    
+            },
+          };
+    
+         let jobsList=[] ;
+          try {
+            const response = await axios(options2);
+            jobsList = response.data;
+             
+            console.log('Response:', jobsList);
+          }catch(error){
+            console.error("done2",error);
+          }
+        
+         
+          return jobsList;
+        
+    }
+
+    export const getSuiTransactionblock = async (checkpoint) =>
+      {       
+        console.log("checkpoint:", checkpoint);
+        let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";
+        
+          axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+            const options2 = {
+              method: 'POST',
+              url: `/platform/v1/sui/blocks/${checkpoint}`,
+              headers: {
+                'x-api-key': `${key}`    
+              },
+            };
+      
+           let jobsList=[] ;
+            try {
+              const response = await axios(options2);
+              jobsList = response.data;
+               
+              console.log('Response block:', jobsList);
+            }catch(error){
+              console.error("done2",error);
+            }
+          
+           
+            return jobsList;
+          
+      }
+
 export const getTransaction = async (start,limit,tennatId) =>
 {       
   let key = "BvXlBA50Iw58XBSBZltS2H5P9IwS76f9hojA6aE5";

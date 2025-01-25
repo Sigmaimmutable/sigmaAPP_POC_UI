@@ -2,7 +2,7 @@ import { Button, Col, Dropdown, Form, InputGroup, Row, Table, Badge, Modal } fro
 import Eye from '../asserts/images/eye-icon.svg'
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
-import { getTennantId, getTransactionblock } from "../apifunction";
+import { getTennantId, getTransactionblock, getSuiTransactions, getSuiTransaction, getSuiTransactionblock } from "../apifunction";
 import Check from '../asserts/images/check_icon.svg';
 import AuthContext from "./AuthContext";
 import useIdle from "./useIdleTimeout";
@@ -13,6 +13,9 @@ function BlockTransactionsReport() {
     const [StartValue, setStartValue] = useState(10);
     const [limit, setlimit] = useState(10);
     const [txh, setTxh] = useState([]);
+    const [cursor, setCursor] = useState("null");
+    const [prevCursor, setPrevcursor] = useState([]);
+
     const history = useNavigate();
     const navigate = useNavigate()
    // console.log("selected",roleId);
@@ -57,22 +60,65 @@ function BlockTransactionsReport() {
      
       
    } 
-    const getTransc = async() =>{
-        if(limit == 10){
-            let tnId = await getTennantId();
-            let tx = await getTransactionblock(StartValue,limit,tnId);
-            console.log("blocktxn",tx)
-            setTxh(tx);
-            if (tx.length === 0) {
-                setReachedLastPage(true);
-            } else {
-                setReachedLastPage(false);
-            }
-            console.log("checktxh",txh)
+    const getTransc = async () => {
+        if (limit === 10) {
+            const updatedPrevCursor = [...prevCursor, cursor || "null"]; // Add the current cursor (or null)
+            setPrevcursor(updatedPrevCursor);
+    
+            const txnResult = await getSuiTransactions(cursor, limit);
+            const tx = txnResult.result?.data || [];
+            setCursor(txnResult.result?.nextCursor || null);
+            console.log("txhistory", tx[0], cursor);
+            const txDetailsList = await Promise.all(
+                tx.map(async (x) => {
+                  const txDetails = await getSuiTransaction(x.digest);
+                  const blockNumber1 = txDetails?.result?.checkpoint;
+                  const blockDet = await getSuiTransactionblock(blockNumber1); 
+                  let obj = {
+                    number: blockNumber1,
+                    digest: blockDet?.result?.digest,
+                    epoch: blockDet?.result?.epoch || "N/A",
+                    time: `${formatDateTime(blockDet.result?.timestampMs)} (${calculateTimeAgos(blockDet.result?.timestampMs)})`,
+                    mintedBy: blockDet?.result?.validatorSignature || "N/A",
+                    txnCount: (blockDet?.result?.transactions.length)
+                  };
+                  return obj;
+                })
+              );
+              
+            setTxh(txDetailsList);
+              console.log("tx detail prioirty: ", txDetailsList);
+    
+            setReachedLastPage(tx.length === 0); // Update last page status
         }
-        
-    }
-    useEffect(() =>{getTransc()},[])
+    };
+    useEffect(() =>{getTransc()},[]);
+
+    const formatDateTime = (timestamp) => {
+        const dateObj = new Date(Number(timestamp));
+        return dateObj.toLocaleString("en-US", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true,
+        });
+      };
+    
+      const calculateTimeAgos = (timestamp) => {
+        const currentTime = new Date();
+        const previousTime = new Date(Number(timestamp));
+        const timeDifference = Math.abs(currentTime - previousTime) / 1000;
+    
+        if (timeDifference < 60) return "a few seconds ago";
+        if (timeDifference < 3600) return `${Math.floor(timeDifference / 60)} minutes ago`;
+        if (timeDifference < 86400) return `${Math.floor(timeDifference / 3600)} hours ago`;
+        if (timeDifference < 2592000) return `${Math.floor(timeDifference / 86400)} days ago`;
+        if (timeDifference < 31536000) return `${Math.floor(timeDifference / 2592000)} months ago`;
+        return `${Math.floor(timeDifference / 31536000)} years ago`;
+      };
 
 
     const formatTime = (time) =>{
@@ -94,18 +140,82 @@ function BlockTransactionsReport() {
         return formatted;
     }
 
-    const pagination = async(value) =>{
-        setStartValue(value);
-        let tnId = await getTennantId();
-        let tx = await getTransactionblock(value,limit,tnId);
-        // console.log("txhistory",tx)
-        setTxh(tx);
-        // if (tx.length === 0) {
-        //     setReachedLastPage(true);
-        // } else {
-        //     setReachedLastPage(false);
-        // }
-    }
+    const pagination = async (value) => {
+        try {
+            let cursorBuffer = cursor; // Save the current cursor for potential fallback
+            if (value > StartValue) {
+                // Forward navigation
+                console.log("Forward navigation before:", cursor, prevCursor);
+    
+                // Update `prevCursor` to include the current cursor
+                const updatedPrevCursor = [...prevCursor, cursor || "null"];
+                setPrevcursor(updatedPrevCursor); // Save the updated cursor history
+    
+                const txnResult = await getSuiTransactions(cursor, limit);
+                const tx = txnResult.result?.data || []; // Fallback to empty array
+                setCursor(txnResult.result?.nextCursor || null); // Update cursor to next page
+                const txDetailsList = await Promise.all(
+                    tx.map(async (x) => {
+                      const txDetails = await getSuiTransaction(x.digest);
+                      const blockNumber1 = txDetails?.result?.checkpoint;
+                      const blockDet = await getSuiTransactionblock(blockNumber1); 
+                      let obj = {
+                        number: blockNumber1,
+                        digest: blockDet?.result?.digest,
+                        epoch: blockDet?.result?.epoch || "N/A",
+                        time: `${formatDateTime(blockDet.result?.timestampMs)} (${calculateTimeAgos(blockDet.result?.timestampMs)})`,
+                        mintedBy: blockDet?.result?.validatorSignature || "N/A",
+                        txnCount: (blockDet?.result?.transactions.length)
+                      };
+                      return obj;
+                    })
+                  );
+                  
+                setTxh(txDetailsList);
+    
+                console.log("Forward navigation after:", txnResult.result?.nextCursor, updatedPrevCursor);
+            } else if (value < StartValue && prevCursor.length > 0) {
+                // Backward navigation
+                console.log("Backward navigation before:", cursor, prevCursor);
+    
+                // Get the last cursor from `prevCursor`
+                const previousCursor = prevCursor[prevCursor.length - 2] === "null" ? null : prevCursor[prevCursor.length - 2];
+                const previousCursor2 = prevCursor[prevCursor.length - 1] === "null" ? null : prevCursor[prevCursor.length - 1];
+    
+                // Remove the last cursor from `prevCursor`
+                const updatedPrevCursor = prevCursor.slice(0, -1);
+                setPrevcursor(updatedPrevCursor); // Save the updated cursor history
+    
+                const txnResult = await getSuiTransactions(previousCursor, limit);
+                const tx = txnResult.result?.data || []; // Fallback to empty array
+                setCursor(previousCursor2); // Update cursor to the previous one
+                const txDetailsList = await Promise.all(
+                    tx.map(async (x) => {
+                      const txDetails = await getSuiTransaction(x.digest);
+                      const blockNumber1 = txDetails?.result?.checkpoint;
+                      const blockDet = await getSuiTransactionblock(blockNumber1); 
+                      let obj = {
+                        number: blockNumber1,
+                        digest: blockDet?.result?.digest,
+                        epoch: blockDet?.result?.epoch || "N/A",
+                        time: `${formatDateTime(blockDet.result?.timestampMs)} (${calculateTimeAgos(blockDet.result?.timestampMs)})`,
+                        mintedBy: blockDet?.result?.validatorSignature || "N/A",
+                        txnCount: (blockDet?.result?.transactions.length)
+                      };
+                      return obj;
+                    })
+                  );
+                  
+                setTxh(txDetailsList);
+    
+                console.log("Backward navigation after:", previousCursor, updatedPrevCursor);
+            }
+    
+            setStartValue(value); // Update the start value for pagination
+        } catch (error) {
+            console.error("Error during pagination:", error);
+        }
+    };
 
     // const selectrow = async(value) =>{
     //     let tx = await getTransaction(StartValue,value,"543609ec-58ba-4f50-9757-aaf149e5f187");
@@ -286,12 +396,12 @@ function BlockTransactionsReport() {
                             </td> */}
                             <td className="text-center">{(r.number)}</td>
 
-                             <td className="text-center">{(r.hash).substring(0, 5)}...{(r.hash).substring((r.hash).length - 5)}</td>
+                             <td className="text-center">{(r.digest).substring(0, 5)}...{(r.digest).substring((r.digest).length - 5)}</td>
                              {/* <td className="text-center"><Badge pill bg="success"><img src={Check} alt="success badge" />success</Badge></td> */}
                             {/* <td className="text-center text-truncate"> {(r.blockHash).substring(0, 5)}...{(r.blockHash).substring((r.blockHash).length - 5)}</td> */}
-                            <td className="text-center">{(r.miner).substring(0, 5)}...{(r.miner).substring((r.miner).length - 5)}</td>
-                            <td className="text-center">{(r.transactionCount)}</td>
-                            <td className="text-center">{calculateTimeAgo(r.timestamp)}</td>
+                            <td className="text-center">{(r.mintedBy).substring(0, 5)}...{(r.mintedBy).substring((r.mintedBy).length - 5)}</td>
+                            <td className="text-center">{(r.txnCount)}</td>
+                            <td className="text-center">{(r.time)}</td>
                             {/* <td>{r.logs[0].data}</td> */}
                             {/* <td className="text-center">{r.blockNumber}</td>
                             <td className="text-center">{r.index}</td> */}

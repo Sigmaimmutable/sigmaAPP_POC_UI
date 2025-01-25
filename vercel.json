@@ -268,6 +268,18 @@
         {
             "source": "/platform/v1/joblasttime",
             "destination": "https://sui2025.mercurylaunch.xyz/platform/v1/joblasttime"
+        },
+        {
+            "source": "/platform/v1/sui/blocks/:id*",
+            "destination": "https://sui2025.mercurylaunch.xyz/platform/v1/sui/blocks/:id*"
+        },
+        {
+            "source": "/platform/v1/sui/txn/:id*",
+            "destination": "https://sui2025.mercurylaunch.xyz/platform/v1/sui/txn/:id*"
+        },
+        {
+            "source": "/platform/v1/sui/txns/:id1*/:id2*",
+            "destination": "https://sui2025.mercurylaunch.xyz/platform/v1/sui/txns/:id1*/:id2*"
         }
 
 
