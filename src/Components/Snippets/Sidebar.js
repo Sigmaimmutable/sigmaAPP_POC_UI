@@ -30,6 +30,7 @@ import heathImg2 from '../../asserts/images/health-check-up.png';
 import userImg from '../../asserts/images/team-management.png';
 import adminimg from '../../asserts/images/admin.png';
 import adminimg1 from '../../asserts/images/report.png';
+import jobscheduler from '../../asserts/images/jobscheduler.png';
 import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 
@@ -167,8 +168,8 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                     </li>
                     <li>
                         <NavLink to="/schedlue/job-schedule">
-                            <img src={adminimg1} style ={{height:"24px"}}alt='NavIcon5' />
-                            <img src={adminimg1}style ={{height:"24px"}} alt='NavIcon5' />
+                            <img src={jobscheduler} style ={{height:"24px"}}alt='NavIcon5' />
+                            <img src={jobscheduler}style ={{height:"24px"}} alt='NavIcon5' />
 
                             <span>Job Schedule</span>
                         </NavLink>
@@ -947,8 +948,8 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                     </li>
                     <li>
                         <NavLink to="/schedlue/job-schedule">
-                            <img src={adminimg1} style ={{height:"24px"}}alt='NavIcon5' />
-                            <img src={adminimg1}style ={{height:"24px"}} alt='NavIcon5' />
+                            <img src={jobscheduler} style ={{height:"24px"}}alt='NavIcon5' />
+                            <img src={jobscheduler}style ={{height:"24px"}} alt='NavIcon5' />
 
                             <span>Job Schedule</span>
                         </NavLink>
