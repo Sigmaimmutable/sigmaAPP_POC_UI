@@ -174,19 +174,63 @@ const DocumentDetailsSingle= (props)=>{
       useEffect(() =>{
         getNftdetails();
        }, [])
-       const handleDownload = () => {
-        // Create the download URL by combining the gateway URL and CID
-        const downloadUrl = `http://18.191.233.198:8080/ipfs/${postt.docChecksum}?download=true&filename=${postt.fileName}`;
+      //  const handleDownload = () => {
+      //   // Create the download URL by combining the gateway URL and CID
+      //   // const downloadUrl = `http://3.21.159.115/ipfs/${postt.docChecksum}?download=true&filename=${postt.fileName}`;
+      //   const downloadUrl = `http://3.144.248.120:5001/api/v0/cat/${postt.docChecksum}`;
       
-        // Create an anchor element and trigger a click to download the document
-        const downloadLink = document.createElement('a');
-        downloadLink.href = downloadUrl;
+      //   // Create an anchor element and trigger a click to download the document
+      //   const downloadLink = document.createElement('a');
+      //   downloadLink.href = downloadUrl;
       
-        // Set the desired filename for the downloaded document
-        downloadLink.download = `${postt.fileName}`; // Specify the desired filename
+      //   // Set the desired filename for the downloaded document
+      //   downloadLink.download = `${postt.fileName}`; // Specify the desired filename
       
-        downloadLink.click();
-      }
+      //   downloadLink.click();
+      // }
+      
+      const handleDownload = async (retryCount = 3) => {
+        let attempts = 0;
+        handleShowLoadDownload();
+        while (attempts < retryCount) {
+          try {
+            const response = await fetch(`http://Sigma-loadbalancer-ipfs-1708551709.us-east-2.elb.amazonaws.com:5001/api/v0/cat/${postt.docChecksum}`, {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            });
+      
+            if (!response.ok) {
+              throw new Error(`Failed to fetch file from IPFS. Status: ${response.status}`);
+            }
+      
+            const blob = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(blob);
+      
+            // Create an anchor element and trigger a download
+            const downloadLink = document.createElement("a");
+            downloadLink.href = downloadUrl;
+            downloadLink.download = postt.fileName;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+      
+            // Free up the blob URL
+            window.URL.revokeObjectURL(downloadUrl);
+            return; // Exit function on success
+      
+          } catch (error) {
+            console.error(`Attempt ${attempts + 1} failed:`, error);
+            if (attempts === retryCount - 1) {
+              alert("Failed to download the file after multiple attempts.");
+            }
+            attempts++;
+            await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds before retrying
+          }
+          handleHideLoadDownload();
+        }
+      };
+      
+    
 
     return ( 
         <div>

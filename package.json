@@ -2,7 +2,7 @@
   "name": "sigma-web-app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://testavalanche.stasisonline.in",
+  "proxy": "https://avalanche2025.mercurylaunch.xyz",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.0",
     "@fortawesome/free-solid-svg-icons": "^6.5.0",
@@ -27,6 +27,7 @@
     "react-dom": "^18.2.0",
     "react-google-login": "^5.2.2",
     "react-google-recaptcha": "^3.1.0",
+    "react-icons": "^5.4.0",
     "react-idle-timer": "^5.7.2",
     "react-image-file-resizer": "^0.4.8",
     "react-router-dom": "^6.12.0",

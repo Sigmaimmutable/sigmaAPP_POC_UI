@@ -18,6 +18,8 @@ import NavIconAct6 from '../../asserts/images/nav-icon-active-6.svg';
 import NavIconAct7 from '../../asserts/images/nav-icon-active-7.svg';
 import NavIconAct8 from '../../asserts/images/nav-icon-active-8.svg';
 import NavIconAct9 from '../../asserts/images/nav-icon-active-9.svg';
+import NavIcon10 from '../../asserts/images/upload.png';
+import NavIcon11 from '../../asserts/images/docupload2.png';
 import SubIcon1 from '../../asserts/images/subnav-icon-1.svg';
 import SubIcon2 from '../../asserts/images/subnav-icon-2.svg';
 import SubIcon3 from '../../asserts/images/subnav-icon-3.svg';
@@ -879,7 +881,7 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                     </li>
                     <li>
                         <NavLink to="/document-details">
-                            <img src={NavIcon2} alt='NavIcon2' />
+                            <img src={NavIcon2} alt='NavIcon2'/>
                             <img src={NavIconAct2} alt='NavIcon2' />
 
                             <span>Documents</span>
@@ -887,8 +889,8 @@ function Sidebar({getTheme, getMenuOpt, roleType}) {
                     </li>
                     <li>
                         <NavLink to="/doc-upload">
-                            <img src={NavIcon2} alt='NavIcon2' />
-                            <img src={NavIconAct2} alt='NavIcon2' />
+                            <img src={NavIcon10} alt='NavIcon2' style={{ width: '20px', height: '20px' }}/>
+                            <img src={NavIcon10} alt='NavIcon2' style={{ width: '20px', height: '20px' }}/>
 
                             <span>Documents Uplaod</span>
                         </NavLink>
